@@ -1,0 +1,2915 @@
+# =============================================================================
+# DEFCON CITIES/COUNTRIES FILE
+#
+# Format:
+# stringId -> -> -> translation
+# (' -> -> -> ' represente 3 tabs)
+#
+# A hash at the start of a line indicates a comment
+# StringIDs MUST be left untouched during translation
+#
+# =============================================================================
+
+
+# =============================================================================
+# DEFCON CITIES
+# =============================================================================
+
+Cambridge			Кембридж
+Gloucester			Глостер
+Slough			Слоу
+Swindon			Суиндон
+Bobo Dioulasso			Бобо-Диулассо
+Ouagadougou			Уагадугу
+Bujumbura			Бужумбура
+Douala			Дуала
+Nkongsamba			Нконгсамба
+Bangui			Банги
+Moroni			Морони
+Brazzaville			Браззавиль
+Abidjan			Абиджан
+Alexandria			Александрия
+Asmara			Асмэра
+Libreville			Либревиль
+Banjul			Банжул
+Accra			Аккра
+Kumasi			Кумаси
+Bissau			Бисау
+Kisumu			Кисуму
+Nairobi			Найроби
+Maseru			Масеру
+Monrovia			Монровия
+Lilongwe			Лилонгве
+Bamako			Бамако
+Beira			Бейра
+Windhoek			Виндхук
+Niamey			Ниамей
+Aba			Аба
+Abeokuta			Абеокута
+Benin			Бенин
+Calabar			Калабар
+Ede			Эде
+Enugu			Энугу
+Ibadan			Ибадан
+Ife			Ифе
+Ila			Ила
+Ilesha			Илеша
+Iseyin			Исейин
+Iwo			Иво
+Kaduna			Кадуна
+Kano			Кано
+Lagos			Лагос
+Maiduguri			Маидугури
+Ogbomosho			Огбомошо
+Onitsha			Онича
+Oshogbo			Ошогбо
+Oyo			Ойо
+Port Harcourt			Порт-Харкорт
+Zaria			Зариа
+Kigali			Кигали
+Jamestown			Джеймстаун
+Kaolack			Каолак
+Benoni			Бенони
+Boksburg			Боксбург
+Durban			Дурбан
+Johannesburg			Йоханнесбург
+Port Elizabeth			Порт-Элизабет
+Pretoria			Претория
+Soweto			Совето
+Springs			Спрингс
+Tembisa			Тембиса
+Vereeniging			Веренигинг
+Khartoum			Хартум
+Wau			Вау
+Mbabane			Мбабане
+Tunis			Тунис
+Kampala			Кампала
+Dodoma			Додома
+Mbeya			Мбея
+Mwanza			Мванза
+Tabora			Табора
+Zanzibar			Занзибар
+Kananga			Кананга
+Kikwit			Киквит
+Kisangani			Кисангани
+Kolwezi			Колвези
+Likasi			Ликаси
+Lubumbashi			Лумумбаши
+Matadi			Матади
+Mbandaka			Мбандака
+Mbuji-Mayi			Мбужи-Майи
+Chingola			Чингола
+Kabwe			Кабве
+Luanshya			Луаншья
+Lusaka			Лусака
+Ndola			Ндола
+Bulawayo			Булавайо
+Chitungwiza			Читунгвиза
+Harare			Хараре
+Nassau			Нассау
+Bridgetown			Бриджтаун
+Hamilton			Гамильтон
+Road Town			Роуд-Таун
+Calgary			Калгари
+Edmonton			Эдмонтон
+Halifax			Галифакс
+Hamilton			Гамильтон
+Kitchener			Китченер
+Laval			Лаваль
+London			Лондон
+Oshawa			Ошава
+Ottawa			Оттава
+Regina			Реджина
+Saint John			Сент-Джон
+Saskatoon			Саскатун
+Scarborough			Скарборо
+Sudbury			Садбери
+Thunder Bay			Тьюндер-Бей
+Toronto			Торонто
+Windsor			Виндзор
+Winnipeg			Виннипег
+York			Йорк
+San Jose			Сан-Хосе
+Bayamo			Баямо
+Matanzas			Матансас
+Pinar del Rio			Пинар-дель-Рио
+Santa Clara			Санта-Клара
+Santiago de Cuba			Сантьяго-де-Куба
+Santo Domingo			Санто-Доминго
+San Salvador			Сан-Сальвадор
+Port-au-Prince			Порт-о-Пренс
+San Pedro Sula			Сан-Педро-Сула
+Tegucigalpa			Тегусигальпа
+Kingston			Кингстон
+Fort-de-France			Фор-де-Франс
+Acapulco			Акапулько
+Aguascalientes			Агуаскальентес
+Campeche			Кампече
+Celaya			Селайа
+Chihuahua			Чихуахуа
+Cuernavaca			Куэрнавака
+Durango			Дуранго
+Ecatepec			Экатепек
+Ensenada			Энсенада
+Guadalajara			Гвадалахара
+Guadalupe			Гвадалупе
+Hermosillo			Эрмосильо
+Irapuato			Ирапуато
+Jalapa			Халапа
+Los Mochis			Лос-Мочис
+Matamoros			Матаморос
+Mexicali			Мехикали
+Monterrey			Монтеррей
+Morelia			Морелия
+Naucalpan			Найкалпан
+Nuevo Laredo			Нуэво-Ларедо
+Orizaba			Орисаба
+Reynosa			Рейноса
+Salamanca			Саламанка
+Saltillo			Сальтильо
+Tampico			Тампико
+Tepic			Тепик
+Tijuana			Тихуана
+Tlaquepaque			Тлакепаке
+Toluca			Толука
+Uruapan			Уруапан
+Zapopan			Сапопан
+Plymouth			Плимут
+Managua			Манагуа
+Panama			Панама
+San Miguelito			Сан-Мигелито
+Aguadilla			Агуадилья
+Caguas			Кагуас
+Ponce			Понсе
+Kingstown			Кингстаун
+Abilene			Абилин
+Akron			Акрон
+Albuquerque			Альбукерке
+Allentown			Аллентаун
+Amarillo			Амарильо
+Anaheim			Анахайм
+Anchorage			Анкоридж
+Ann Arbor			Анн-Арбор
+Atlanta			Атланта
+Augusta			Аугуста
+Aurora			Аврора
+Austin			Остин
+Bakersfield			Бейкерсфилд
+Baltimore			Балтимор
+Baton Rouge			Батон-Руж
+Berkeley			Беркли
+Boise City			Бойсе-Сити
+Boston			Бостон
+Bridgeport			Бриджпорт
+Buffalo			Баффало
+Cedar Rapids			Седар-Рапидс
+Charlotte			Шарлот
+Chattanooga			Чаттануга
+Chesapeake			Чесапик
+Chicago			Чикаго
+Chula Vista			Чула-Виста
+Cincinnati			Цинцинатти
+Clarksville			Кларксвиль
+Cleveland			Кливленд
+Colorado Springs			Колорадо-Спрингс
+Concord			Конкорд
+Dallas			Даллас
+Dayton			Дейтон
+Denver			Денвер
+Des Moines			Дес-Муан
+Detroit			Детройт
+Durham			Дарем
+El Paso			Эль-Пасо
+Erie			Эри
+Eugene			Эужен
+Evansville			Эвансвиль
+Flint			Флинт
+Fort Collins			Форт-Коллинс
+Fort Lauderdale			Форт-Лоудердейл
+Fort Wayne			Форт-Уэйн
+Fort Worth			Форт-Ворт
+Fresno			Фресно
+Fullerton			Фаллертон
+Gainesville			Гейнсвиль
+Garden Grove			Гарден-Гроув
+Garland			Гарленд
+Gary			Гери
+Grand Rapids			Гренд-Рапидс
+Green Bay			Грин-Бей
+Greensboro			Гринсборо
+Greenville			Гринвиль
+Hampton			Хемптон
+Harrisburg			Херрисбург
+Hartford			Хартфорд
+Hayward			Хайвард
+Hialeah			Хайалиа
+Honolulu			Гонолулу
+Houston			Хьюстон
+Huntsville			Хантсвиль
+Independence			Индепенденс
+Indianapolis			Индианаполис
+Inglewood			Инглевуд
+Irving			Ирвинг
+Knoxville			Кноксвиль
+Lancaster			Ланкастер
+Lansing			Ленсинг
+Laredo			Ларедо
+Las Vegas			Лас-Вегас
+Lexington-Fayette			Лексингтон-Файет
+Lima			Лима
+Lincoln			Линкольн
+Little Rock			Литтл-Рок
+Livonia			Ливония
+Los Angeles			Лос-Анджелес
+Louisville			Луисвиль
+Lubbock			Лаббок
+Macon			Мейкон
+Madison			Мэдисон
+Manchester			Манчестер
+Memphis			Мемфис
+Mesa			Меса
+Miami			Майами
+Midland			Мидленд
+Milwaukee			Милуоки
+Minneapolis			Минеаполис
+Mobile			Мобайл
+Modesto			Модесто
+Montgomery			Монтгомери
+Naples			Неаполь
+Newark			Ньюарк
+New Haven			Нью-Хейвен
+New Orleans			Новый Орлеан
+Norfolk			Норфолк
+Oakland			Окленд
+Oklahoma City			Оклахома-Сити
+Olympia			Олимпия
+Omaha			Омаха
+Ontario			Онтарио
+Orlando			Орландо
+Oxnard			Окснард
+Paterson			Патерсон
+Peoria			Пеория
+Philadelphia			Филадельфия
+Phoenix			Финикс
+Plano			Плано
+Pomona			Помона
+Provo			Прово
+Pueblo			Пуэбло
+Raleigh			Роли
+Reading			Ридинг
+Reno			Рено
+Richmond			Ричмонд
+Riverside			Риверсайд
+Rochester			Рочестер
+Rockford			Рокфорд
+Sacramento			Сакраменто
+Salem			Сейлем
+Salinas			Салинас
+Salt Lake City			Солт-Лейк-Сити
+San Antonio			Сан-Антонио
+San Bernardino			Сан-Бернардино
+San Diego			Сан-Диего
+San Francisco			Сан-Франциско
+San Jose			Сан-Хосе
+Santa Ana			Санта-Ана
+Santa Fe			Санта-Фе
+Scottsdale			Скоттсдейл
+Seattle			Сиэтл
+Shreveport			Шривпорт
+Sioux Falls			Сиу-Фоллс
+Spokane			Спокан
+Stamford			Стемфорд
+Sterling Heights			Стирлинг-Хейтс
+Stockton			Стоктон
+Sunnyvale			Саннивейл
+Syracuse			Сиракузы
+Tallahassee			Таллахаси
+Tempe			Темп
+Topeka			Топека
+Torrance			Торранс
+Tucson			Таксон
+Tulsa			Талса
+Virginia Beach			Вирджиния-Бич
+Waco			Уако
+Warren			Уоррен
+Waterbury			Уотербери
+Wichita			Уичита
+Wichita Falls			Уичита-Фоллс
+Winston-Salem			Уинстон-Сейлем
+Worcester			Ворчестер
+Yonkers			Йонкерс
+York			Йорк
+Buenos Aires			Буэнос-Айрес
+Corrientes			Корриентес
+Mendoza			Мендоса
+Posadas			Посадас
+Resistencia			Ресистенсия
+Rosario			Росарио
+Salta			Сальта
+San Juan			Сан-Хуан
+Santa Fe			Санта-Фе
+Santiago del Estero			Сантьяго-дель-Эстеро
+Cochabamba			Кочабамба
+La Paz			Ла-Пас
+Oruro			Оруро
+Santa Cruz			Санта-Крус
+Sucre			Сукре
+Alagoinhas			Алагоиньяс
+Alvorada			Альворада
+Americana			Американа
+Aracaju			Аракажу
+Arapiraca			Арапирака
+Araraquara			Араракуара
+Barra Mansa			Барра-Манса
+Bauru			Бауру
+Belo Horizonte			Белу-Оризонти
+Campina Grande			Кампина-Гранде
+Campinas			Кампинас
+Campo Grande			Кампу-Гранде
+Campos			Кампус
+Cariacica			Кариасика
+Caruaru			Каруару
+Cascavel			Каскавель
+Caucaia			Каукайа
+Caxias			Кашиас
+Caxias do Sul			Кашиас-ду-Сул
+Contagem			Контагем
+Curitiba			Куритиба
+Diadema			Диадема
+Dourados			Доурадус
+Duque de Caxias			Дуке-ди-Кашиас
+Embu			Эмбу
+Feira de Santana			Фейра-ди-Сантана
+Fortaleza			Форталеза
+Franca			Франка
+Guarapuava			Гуарапуава
+Guarulhos			Гуарульюс
+Imperatriz			Императрис
+Ipatinga			Ипатинга
+Itabuna			Итабуна
+Itapetininga			Итапетининга
+Joinville			Жоинвили
+Juazeiro			Жуазейру
+Juazeiro do Norte			Жйазейру-ду-Норте
+Juiz de Fora			Жуис-ди-Фора
+Lages			Лагес
+Limeira			Лимейра
+Londrina			Лондрина
+Manaus			Манаус
+Natal			Натал
+Nova Friburgo			Нова-Фрибургу
+Olinda			Олинда
+Osasco			Осаску
+Passo Fundo			Пассу-Фунду
+Paulista			Паулиста
+Pelotas			Пелотас
+Petrolina			Петролина
+Piracicaba			Пирасикаба
+Ponta Grossa			Понта-Гросса
+Porto Alegre			Порту-Алегре
+Porto Velho			Порту-Велью
+Presidente Prudente			Пресиденте-Пруденте
+Rio Claro			Риу-Клару
+Rio de Janeiro			Риу-де-Жанейру
+Salvador			Сальвадор
+Santa Cruz do Sul			Санта-Крус-ду-Сул
+Santa Luzia			Санта-Лусиа
+Santa Maria			Санта-Мариа
+Serra			Серра
+Sete Lagoas			Сете-Лагоас
+Sobral			Собраль
+Sorocaba			Сорокаба
+Teresina			Тересина
+Uberaba			Убераба
+Uruguaiana			Уругвайана
+Vila Velha			Вила-Велья
+Vitoria			Витория
+Volta Redonda			Вольта-Редонда
+Antofagasta			Антофагаста
+Iquique			Икике
+Osorno			Осорно
+Puente Alto			Пуэнте-Альто
+Punta Arenas			Пунта-Аренас
+Rancagua			Ранкагуа
+San Bernardo			Сан-Бернардо
+Santiago			Сантьяго
+Talca			Талька
+Temuco			Темуко
+Valdivia			Вальдивия
+Armenia			Армения
+Barrancabermeja			Барранкабермеха
+Barranquilla			Барранкилья
+Bello			Бельо
+Bogota			Богота
+Bucaramanga			Букараманга
+Buenaventura			Буэнавентура
+Cali			Кали
+Cartago			Картаго
+Dos Quebradas			Дос-Кебрадас
+Floridablanca			Флоридабланка
+Manizales			Манисалес
+Neiva			Нейва
+Palmira			Пальмира
+Pasto			Пасто
+Pereira			Перейра
+Santa Marta			Санта-Марта
+Soacha			Соача
+Soledad			Соледад
+Valledupar			Вальедупар
+Villavicencio			Вильявисенсио
+Quito			Кито
+Georgetown			Джорджтаун
+Arequipa			Арекипа
+Chiclayo			Чиклайо
+Chimbote			Чимботе
+Cuzco			Куско
+Huancayo			Уанкайо
+Ica			Ика
+Iquitos			Икитос
+Juliaca			Хулиака
+Lima			Лима
+Piura			Пиура
+Pucallpa			Пукальпа
+Tacna			Такна
+Trujillo			Трухильо
+Paramaribo			Парамарибо
+Barinas			Баринас
+Barquisimeto			Баркисимето
+Cabimas			Кабимас
+Guarenas			Гуаренас
+Los Teques			Лос-Текес
+Maracay			Маракай
+Valencia			Валенсия
+Balkh			Балх
+Dacca			Дакка
+Anqing			Аньцинг
+Anshan			Аньшань
+Anshun			Аньшунь
+Baicheng			Байченг
+Baoding			Баодин
+Baoji			Баоцзи
+Beihai			Бейхай
+Bengbu			Бэнбу
+Benxi			Беньси
+Cangzhou			Кангчжоу
+Changchun			Чанчунь
+Changde			Чангде
+Changzhi			Чанчжи
+Changzhou			Чанчжоу
+Chaozhou			Чаочжоу
+Chengde			Чэндэ
+Chenzhou			Чэнчжоу
+Chifeng			Чифен
+Chongqing			Чонцин
+Dandong			Дандонг
+Datong			Датонг
+Daxian			Дасянь
+Dezhou			Дэчжоу
+Fengcheng			Фэнчен
+Fengshan			Фыньшань
+Foshan			Фошань
+Fuxin			Фусинь
+Fuyang			Фуянг
+Ganzhou			Ганьчжоу
+Gejiu			Гэцзю
+Guangzhou			Гуанчжоу
+Guilin			Гуйлинь
+Guiyang			Гуйян
+Handan			Хандан
+Hangzhou			Ханчжоу
+Hanzhong			Ханчжон
+Hebi			Хэби
+Hefei			Хэфэй
+Hegang			Хэганг
+Hengyang			Хэнъян
+Huaibei			Хуайбэй
+Huangshi			Хуангши
+Huizhou			Хуйчжоу
+Huzhou			Хучжоу
+Jiamusi			Цзямуси
+Jiaxing			Цзясин
+Jilin			Цзилинь
+Jinan			Цзинань
+Jingdezhen			Цзиньдэчжен
+Jinzhou			Цзиньчжоу
+Jiujiang			Цзюцзян
+Jixi			Цзиси
+Kaifeng			Кайфэн
+Kaiyuan			Кайюань
+Karamay			Карамай
+Korla			Корла
+Lanzhou			Ланьчжоу
+Laohekou			Лаохэкоу
+Lengshuijiang			Леншуйцзян
+Liaoyang			Льяоян
+Linchuan			Линьчуань
+Linfen			Линьфэнь
+Liupanshui			Люпаньшуй
+Liuzhou			Лючжоу
+Longyan			Лонгъянь
+Loudi			Лоуди
+Luohe			Луохэ
+Luzhou			Лучжоу
+Maoming			Маомин
+Meizhou			Мейчжоу
+Mianyang			Мяньян
+Mudanjiang			Муданцзян
+Nanchang			Наньчан
+Nanchong			Наньчон
+Nanning			Наньнин
+Nanping			Наньпин
+Nantong			Наньтон
+Nanyang			Наньян
+Neijiang			Нэйцзян
+Ningbo			Нинбо
+Pingdingshan			Пиндиншань
+Pingxiang			Пинсян
+Qingdao			Циндао
+Qinhuangdao			Циньхуандао
+Sanmenxia			Саньмэнься
+Sanming			Саньмин
+Shanghai			Шанхай
+Shangrao			Шанрао
+Shangqiu			Шанцю
+Shantou			Шантоу
+Shaoguan			Шаогуань
+Shaoyang			Шаоян
+Shashi			Шаши
+Shenyang			Шэньян
+Shenzhen			Шэньчжэнь
+Shiyan			Шиянь
+Shizuishan			Шизюйшань
+Siping			Сыпин
+Suizhou			Суйчжоу
+Suzhou			Сучжоу
+Taipei			Тайбэй
+Tangshan			Таншань
+Tianjin			Тяньцзинь
+Tieling			Тьелин
+Tongchuan			Тончуань
+Tongliao			Тонльяо
+Tongling			Тонлин
+Wanxian			Ваньсянь
+Weifang			Вэйфан
+Weihai			Вэйхай
+Wenzhou			Вэньчжоу
+Wuhan			Ухань
+Wuhu			Уху
+Wuxi			Уси
+Wuzhou			Учжоу
+Xiamen			Сямэнь
+Xiangfan			Сянфань
+Xiangtan			Сянтань
+Xianyang			Сяньян
+Xichang			Сычан
+Xining			Синин
+Xinxiang			Синьсян
+Xinyang			Синьян
+Xinzhou			Синьчжоу
+Xuchang			Сучан
+Yangquan			Янцянь
+Yangzhou			Янчжоу
+Yanji			Яньцзи
+Yantai			Яньтай
+Yibin			Йибинь
+Yichang			Йичан
+Yinchuan			Йиньчуань
+Yining			Йинин
+Yiyang			Йиян
+Yuci			Юцы
+Yueyang			Юеян
+Zaozhuang			Заочжуан
+Zhangjiakou			Чжанцзякоу
+Zhangzhou			Чжанчжоу
+Zhanjiang			Чжанцзян
+Zhaoqing			Чжаоцин
+Zhaotong			Чжаотон
+Zhengzhou			Чжэнчжоу
+Zhenjiang			Чжэнцзян
+Zhoukou			Чжоукоу
+Zhuhai			Чжухай
+Zhumadian			Чжумадянь
+Zhuzhou			Чжучжоу
+Zigong			Цигон
+Zunyi			Цуньйи
+Phnom Penh			Пномпень
+Agartala			Агартала
+Ajmer			Аджмер
+Akola			Акола
+Alwar			Алвар
+Amritsar			Амритсар
+Amroha			Амроха
+Anantapur			Анантапур
+Asansol			Асансол
+Baharampur			Бахарампур
+Bally			Бэлли
+Baranagar			Баранагар
+Batala			Батала
+Belgaum			Белгаум
+Bellary			Беллари
+Bharatpur			Бхаратпур
+Bhiwandi			Бхиванди
+Bhubaneswar			Бхубанешвар
+Bulandshahr			Буландшхахр
+Calcutta			Калькутта
+Chandrapur			Чандрапур
+Darbhanga			Дарбханга
+Davanagere			Даванагере
+Dhanbad			Дханбад
+Dindigul			Диндигул
+Erode			Эроде
+Gaya			Гая
+Gondiya			Гондия
+Gorakhpur			Горакхпур
+Gulbarga			Гулбарга
+Gurgaon			Гургаон
+Gwalior			Гвалиор
+Hospet			Хоспет
+Hubli			Хубли
+Indore			Индоре
+Jabalpur			Джабалпур
+Jammu			Джамму
+Jamshedpur			Джамсхедпур
+Jaunpur			Джаунпур
+Jodhpur			Джодхпур
+Khandwa			Кхандва
+Kharagpur			Кхарагпур
+Kumbakonam			Кумбаконам
+Madurai			Мадураи
+Mandya			Мандья
+Muzaffarnagar			Мужаффарнагар
+Muzaffarpur			Мужаффарпур
+Parbhani			Парбхани
+Porbandar			Порбандар
+Puri			Пури
+Raipur			Райпур
+Rohtak			Рохтак
+Salem			Сейлем
+Shillong			Шиллонг
+Shimoga			Шимога
+South Dum Dum			Саут Дум-Дум
+Tirunelveli			Тирунелвели
+Tirupati			Тирупати
+Tiruppur			Тируппур
+Udaipur			Удайпур
+Ujjain			Уджайн
+Visakhapatnam			Висакхапатнам
+Warangal			Варангал
+Ambon			Амбон
+Balikpapan			Баликпапан
+Bogor			Богор
+Cirebon			Чиребон
+Jakarta			Джакарта
+Kediri			Кедири
+Magelang			Магеланг
+Malang			Маланг
+Manado			Манадо
+Medan			Медан
+Padang			Паданг
+Pekalongan			Пекалонган
+Pekan Baru			Пекан-Бару
+Palembang			Палембанг
+Pematang Siantar			Пематанг-Сиантар
+Pontianak			Понтианак
+Probolinggo			Проболингго
+Samarinda			Самаринда
+Semarang			Семаранг
+Sukabumi			Сукабуми
+Surakarta			Суракарта
+Tegal			Тегал
+Yogyakarta			егйакарта
+Karaj			Кередж
+Qom			Кум
+Rasht			Решт
+Tabriz			Тебриз
+Yazd			Йезд
+Bat Yam			Бейт-Ям
+Be'er Sheva			Беэр-Шева
+Netanya			Нетанья
+Ramat Gan			Рамат-Ган
+Ageo			Агео
+Aizuwakamatsu			Аидзувакамацу
+Akashi			Акаси
+Akita			Акита
+Amagasaki			Амагасаки
+Aomori			Аомори
+Asahikawa			Асахикава
+Ashikaga			Асикага
+Atsugi			Ацуги
+Fuji			Фуджи
+Fujieda			Фуджеда
+Fujinomiya			Фуджиномия
+Fukui			Фукуи
+Fukuoka			Фукуока
+Fukushima			Фукусима
+Fukuyama			Фукуяма
+Funabashi			Фунабаси
+Gifu			Гифу
+Hachinohe			Хачинохе
+Hadano			Хадано
+Hakodate			Хакодате
+Hamamatsu			Хамамацу
+Himeji			Химеджи
+Hino			Хино
+Hirosaki			Хиросаки
+Hiroshima			Хиросима
+Ibaraki			Ибараки
+Ichihara			Ичихара
+Ichikawa			Ичикава
+Ichinomiya			Ичиномия
+Ise			Исе
+Ishinomaki			Исиномаки
+Itami			Итами
+Iwakuni			Ивакуни
+Iwatsuki			Ивацуки
+Kadoma			Кадома
+Kagoshima			Кагосима
+Kakamigahara			Какамигахара
+Kamakura			Камакура
+Kanazawa			Канадзава
+Kariya			Кария
+Kashihara			Касихара
+Kasugai			Касугаи
+Kasukabe			Касукабе
+Kawagoe			Кавагое
+Kawaguchi			Кавагучи
+Kawasaki			Кавасаки
+Kisarazu			Кисарадзю
+Kishiwada			Кисивада
+Kitakyushu			Китакюсю
+Kitami			Китами
+Kodaira			Кодаира
+Komaki			Комаки
+Komatsu			Комацу
+Kumamoto			Кумамото
+Kurashiki			Курасики
+Kurume			Куруме
+Kushiro			Кусиро
+Machida			Мачида
+Maebashi			Маэбаси
+Matsue			Мацуэ
+Matsumoto			Мацумото
+Matsusaka			Мацусака
+Matsuyama			Мацуяма
+Mishima			Мисима
+Mitaka			Митака
+Mito			Мито
+Miyazaki			Миядзаки
+Moriguchi			Моригучи
+Morioka			Мориока
+Muroran			Муроран
+Musashino			Мусасино
+Nagano			Нагано
+Nagaoka			Нагаока
+Nagareyama			Нагареяма
+Nagasaki			Нагасаки
+Nagoya			Нагоя
+Nara			Нара
+Narashino			Нарасино
+Nishinomiya			Нисиномия
+Nobeoka			Нобеока
+Numazu			Нумадзу
+Obihiro			Обихиро
+Oita			Оита
+Okayama			Окаяма
+Okazaki			Окадзаки
+Saga			Сага
+Sakata			Саката
+Sakura			Сакура
+Sapporo			Саппоро
+Sasebo			Сасебо
+Sendai			Сендаи
+Shimizu			Симидзу
+Shimonoseki			Симоносеки
+Shizuoka			Сидзуока
+Suita			Суита
+Suzuka			Судзука
+Tachikawa			Тачикава
+Takamatsu			Такамацу
+Takaoka			Такаока
+Takasaki			Такасаки
+Tokushima			Токусима
+Tokuyama			Токуяма
+Tokyo			Токио
+Tomakomai			Томакомаи
+Tondabayashi			Тондабаяси
+Tottori			Тоттори
+Toyama			Тояма
+Toyohashi			Тойохаси
+Toyokawa			Тойокава
+Toyonaka			Тойонака
+Toyota			Тойота
+Tsu			Цу
+Tsuruoka			Цуруока
+Ube			Убе
+Ueda			Уэда
+Uji			Уджи
+Utsunomiya			Уцуномия
+Wakayama			Вакаяма
+Yamagata			Ямагата
+Yamaguchi			Ямагучи
+Yamato			Ямато
+Yao			Яо
+Yatsushiro			Яцусиро
+Yokkaichi			Йоккайчи
+Yokohama			Йокогама
+Yonago			Йонаго
+Andong			Андон
+Anyang			Аньянг
+Chechon			Чечхон
+Chinju			Чинджу
+Chuncheon			Чхунчхон
+Kunsan			Кунсан
+Masan			Масан
+Pusan			Пусан
+Suncheon			Сунчхон
+Suweon			Сувон
+Taegu			Тэгу
+Ipoh			Ипох
+Klang			Кланг
+Kota Bahru			Кота-Бару
+Kuala Lumpur			Куала-Лумпур
+Kuala Terengganu			Куала-Теренггану
+Kuantan			Куантан
+Petaling Jaya			Петалинг-Джая
+Seremban			Серембан
+Taiping			Тайпинг
+Kuching			Кучинг
+Karachi			Карачи
+Lahore			Лахор
+Multan			Мултан
+Peshawar			Пешавар
+Quetta			Кветта
+Angeles			Анхелес
+Bacolod			Баколод
+Baguio			Багио
+Butuan			Бутуан
+Cabanatuan			Кабанатуан
+Calbayog			Калбайог
+Dagupan			Дагупан
+General Santos			Хенераль-Сантос
+Iloilo			Илоило
+Legaspi			Легаспи
+Naga			Нага
+Olongapo			Олонгапо
+San Carlos			Сан-Карлос
+San Pablo			Сан-Пабло
+Tacloban			Таклобан
+Zamboanga			Замбоанга
+Jeddah			Джедда
+Moratuwa			Моратува
+Bangkok			Бангкок
+Chiang Mai			Чиангмай
+Chon Buri			Чонбури
+Adana			Адана
+Adapazari			Адапазары
+Ankara			Анкара
+Antalya			Анталья
+Balikesir			Балыкесир
+Bursa			Бурса
+Denizli			Денизли
+Diyarbakir			Диярбакыр
+Elazig			Элязыг
+Erzurum			Эрзурум
+Eskisehir			Эскишехир
+Gaziantep			Газиантеп
+Isparta			Ыспарта
+Istanbul			Стамбул
+Izmir			Измир
+Kahramanmaras			Кахраманмарас
+Kayseri			Кайсери
+Konya			Конья
+Malatya			Малатья
+Manisa			Маниса
+Mersin			Мерсин
+Sivas			Сивас
+Urfa			Урфа
+Van			Ван
+Zonguldak			Зонгулдак
+Abu Dhabi			Абу-Даби
+Hanoi			Ханой
+Hue			Хюэ
+Qui Nhon			Куиньен
+Rach Gia			Ратьзя
+Tirana			Тирана
+Graz			Грац
+Innsbruck			Инсбрук
+Klagenfurt			Клагенфурт
+Linz			Линц
+Salzburg			Зальцбург
+Antwerpen			Антверпен
+Bruges			Брюгге
+Bruxelles			Брюссель
+Charleroi			Шарлеруа
+Namur			Намюр
+Plovdiv			Пловдив
+Sofia			София
+Stara Zagora			Стара-Загора
+Bratislava			Братислава
+Brno			Брно
+Kosice			Кошице
+Liberec			Либерец
+Olomouc			Оломоуц
+Ostrava			Острава
+Plzen			Пльзень
+Alborg			Ольборг
+Odense			Оденсе
+Espoo			Эспоо
+Tampere			Тампере
+Turku			Турку
+Vantaa			Ванта
+Aix-en-Provence			Экс-ан-Прованс
+Amiens			Амьен
+Annecy			Аннеси
+Avignon			Авиньон
+Bordeaux			Бордо
+Boulogne-Billancourt			Булонь-Бийянкур
+Clermont-Ferrand			Клермон-Ферран
+Dijon			Дижон
+Grenoble			Гренобль
+La Rochelle			Ля-Рошель
+Le Havre			Гавр
+Le Mans			Ман
+Lille			Лилль
+Limoges			Лимож
+Lyon			Лион
+Marseille			Марсель
+Metz			Метц
+Montpellier			Монпелье
+Mulhouse			Мюлуз
+Nancy			Нанси
+Nantes			Нант
+Nice			Ницца
+Paris			Париж
+Pau			По
+Reims			Реймс
+Rennes			Ренн
+Rouen			Руан
+Strasbourg			Страсбур
+Toulon			Тулон
+Toulouse			Тулуза
+Tours			Тур
+Valence			Валенсия
+Villeurbanne			Вилербан
+Cottbus			Котбус
+Dresden			Дрезден
+Halle			Галле
+Leipzig			Лейпциг
+Magdeburg			Магдебург
+Schwerin			Шверин
+Zwickau			Цвикау
+Aachen			Ахен
+Augsburg			Аугсбург
+Bergisch Gladbach			Бергиш Гладбах
+Bielefeld			Билефельд
+Bochum			Бохум
+Bonn			Бонн
+Braunschweig			Брауншвайг
+Bremen			Бремен
+Bremerhaven			Бремерхафен
+Dortmund			Дортмунд
+Duisburg			Дуйсбург
+Erlangen			Эрланген
+Essen			Эссен
+Gelsenkirchen			Гельзенкирхен
+Hagen			Хаген
+Hamburg			Гамбург
+Hamm			Хамм
+Hannover			Ганновер
+Heidelberg			Гейдельберг
+Herne			Херне
+Hildesheim			Хильдесхайм
+Karlsruhe			Карлсруэ
+Kassel			Кассель
+Kiel			Киль
+Koblenz			Кобленц
+Krefeld			Крефельд
+Leverkusen			Леверкузен
+Mainz			Майнц
+Mannheim			Мангейм
+Neuss			Нойс
+Oberhausen			Оберхаузен
+Oldenburg			Ольденбург
+Paderborn			Падерборн
+Pforzheim			Пфорцгейм
+Recklinghausen			Реклингхаузен
+Regensburg			Регенсбург
+Remscheid			Ремшайд
+Siegen			Зиген
+Solingen			Золинген
+Stuttgart			Штутгарт
+Ulm			Ульм
+Wiesbaden			Висбаден
+Witten			Виттен
+Wolfsburg			Вольфсбург
+Wuppertal			Вупперталь
+Berlin			Берлин
+Gibraltar			Гибралтар
+Budapest			Будапешт
+Debrecen			Дебрецен
+Miskolc			Мишкольц
+Szeged			Сегед
+Cork			Корк
+Bari			Бари
+Bologna			Болонья
+Brescia			Брешия
+Cagliari			Кальяри
+Foggia			Фоджа
+Livorno			Ливорно
+Monza			Монца
+Novara			Новара
+Perugia			Перуджа
+Pescara			Пескара
+Prato			Прато
+Reggio di Calabria			Реджио-ди-Калабрио
+Reggio nell'Emilia			Реджио-нель'Эмилиа
+Rimini			Римини
+Rome			Рим
+Salerno			Салерно
+Sassari			Сассари
+Terni			Тернана
+Trieste			Триест
+Vicenza			Виченца
+Vaduz			Вадуц
+Amsterdam			Амстердам
+Apeldoorn			Апелдорн
+Arnhem			Арнем
+Breda			Бреда
+Dordrecht			Дордрехт
+Eindhoven			Эйндховен
+Groningen			Гронинген
+Haarlem			Харлем
+Leiden			Лейден
+Maastricht			Маастрихт
+Nijmegen			Наймеген
+Rotterdam			Роттердам
+Tilburg			Тилбург
+Utrecht			Утрехт
+Zaanstad			Занстад
+Oslo			Осло
+Bialystok			Белосток
+Bielsko-Biala			Бельско-Бяла
+Bydgoszcz			Быдгощ
+Bytom			Бытом
+Czestochowa			Ченстохова
+Elblag			Эльблонг
+Gdansk			Гданьск
+Gdynia			Гдыня
+Gliwice			Гливице
+Kalisz			Калиш
+Katowice			Катовице
+Kielce			Кельце
+Koszalin			Кошалин
+Lublin			Люблин
+Plock			Плоцк
+Poznan			Познань
+Radom			Радом
+Ruda Slaska			Руда-Сленска
+Rybnik			Рыбник
+Sosnowiec			Сосновец
+Szczecin			Щецин
+Torun			Торунь
+Tychy			Тыхы
+Walbrzych			Валбжих
+Wloclawek			Влоцлавек
+Wroclaw			Вроцлав
+Zabrze			Забже
+Porto			Порту
+Arad			Арад
+Bacau			Бакэу
+Baia Mare			Бая-Маре
+Botosani			Ботошани
+Braila			Брэила
+Brasov			Брашов
+Buzau			Бузэу
+Cluj-Napoca			Клуж-Напока
+Craiova			Крайова
+Galati			Галац
+Iasi			Яссы
+Oradea			Орадя
+Piatra Neamt			Пьятра-Нямц
+Pitesti			Питешти
+Ploiesti			Плоешти
+Sibiu			Сибиу
+Timisoara			Тимишоара
+Albacete			Альбасете
+Badajoz			Бадахос
+Barcelona			Барселона
+Bilbao			Бильбао
+Burgos			Бургос
+Cartagena			Картахена
+Fuenlabrada			Фуэнлабрада
+Getafe			Хетафе
+Granada			Гранада
+Huelva			Уэльва
+Oviedo			Овьедо
+Sabadell			Сабадель
+Salamanca			Саламанка
+Tarragona			Таррагона
+Valencia			Валенсия
+Valladolid			Вальядолид
+Vitoria			Витория
+Zaragoza			Сарагоса
+Helsingborg			Хельсингборг
+Stockholm			Стокгольм
+Uppsala			Уппсала
+Berne			Берн
+Lausanne			Лозанна
+Zurich			Цюрих
+Novi Sad			Нови-Сад
+Osijek			Осиек
+Rijeka			Риека
+Sarajevo			Сараево
+Split			Сплит
+Subotica			Суботица
+Zagreb			Загреб
+Adelaide			Аделаида
+Brisbane			Брисбен
+Canberra			Канберра
+Geelong			Джелонг
+Gold Coast			Голд-Кост
+Hobart			Хобарт
+Melbourne			Мельбурн
+Newcastle			Ньюкасл
+Perth			Перт
+Sydney			Сидней
+Suva			Сува
+Agana			Аганья
+Christchurch			Крайстчерч
+Dunedin			Данидин
+Hamilton			Гамильтон
+Manukau			Манукау
+Wellington			Веллингтон
+Port Moresby			Порт-Морсби
+Adamstown			Адамстаун
+Honiara			Хониара
+Nuku'alofa			Нукуалофа
+Abakan			Абакан
+Achinsk			Ачинск
+Angarsk			Ангарск
+Angren			Ангрен
+Arzamas			Арзамас
+Baku			Баку
+Balakovo			Балаково
+Barnaul			Барнаул
+Belgorod			Белгород
+Berezniki			Березники
+Bratsk			Братск
+Brest			Брест
+Cheboksary			Чебоксары
+Cherkessk			Черкесск
+Chita			Чита
+Daugavpils			Даугавпилс
+Dushanbe			Душанбе
+Elektrostal			Электросталь
+Engels			Энгельс
+Erevan			Ереван
+Irkutsk			Иркутск
+Kaluga			Калуга
+Kamyshin			Камышин
+Kansk			Канск
+Karaganda			Караганда
+Kaunas			Каунас
+Kazan			Казань
+Kemerovo			Кемерово
+Kerch			Керчь
+Kherson			Херсон
+Kiev			Киев
+Kirov			Киров
+Kislovodsk			Кисловодск
+Klaipeda			Клайпеда
+Kolomna			Коломна
+Kolpino			Колпино
+Komsomolsk-na-Amure			Комсомольск-на-Амуре
+Kostroma			Кострома
+Kovrov			Ковров
+Krasnodar			Краснодар
+Kurgan			Курган
+Kursk			Курск
+Kutaisi			Кутаиси
+Magadan			Магадан
+Magnitogorsk			Магнитогорск
+Miass			Миасс
+Michurinsk			Мичуринск
+Minsk			Минск
+Murmansk			Мурманск
+Murom			Муром
+Mytishchi			Мытищи
+Nalchik			Нальчик
+Navoi			Навои
+Nevinnomyssk			Невинномысск
+Nizhnekamsk			Нижнекамск
+Noginsk			Ногинск
+Norilsk			Норильск
+Novocheboksarsk			Новочебоксарск
+Novocherkassk			Новочеркасск
+Novomoskovsk			Новомосковск
+Novosibirsk			Новосибирск
+Nukus			Нукус
+Omsk			Омск
+Orenburg			Оренбург
+Orsk			Орск
+Orsha			Орша
+Osh			Ош
+Pavlodar			Павлодар
+Penza			Пенза
+Perm			Пермь
+Pervouralsk			Первоуральск
+Petrozavodsk			Петрозаводск
+Pinsk			Пинск
+Podolsk			Подольск
+Poltava			Полтава
+Pskov			Псков
+Riga			Рига
+Rustavi			Рустави
+Salavat			Салават
+Samarkand			Самарканд
+Saransk			Саранск
+Sarapul			Сарапул
+Saratov			Саратов
+Smolensk			Смоленск
+Sochi			Сочи
+Solikamsk			Соликамск
+Stavropol			Ставрополь
+Sterlitamak			Стерлитамак
+Sumy			Сумы
+Surgut			Сургут
+Syzran			Сызрань
+Taganrog			Таганрог
+Tambov			Тамбов
+Tartu			Тарту
+Tomsk			Томск
+Tula			Тула
+Ufa			Уфа
+Ulan-Ude			Улан-Удэ
+Ust-Ilimsk			Усть-Илимск
+Volgodonsk			Волгодонск
+Volgograd			Волгоград
+Vologda			Вологда
+Votkinsk			Воткинск
+Zlatoust			Златоуст
+Madrid			Мадрид
+Dili			Дили
+Bukavu			Букаву
+Kitwe			Китве
+Cienfuegos			Сьенфуэгос
+Pachuca			Пачука
+Resende			Ресенде
+Rio Branco			Риу-Бранку
+Sincelejo			Синселехо
+Ambato			Амбато
+Cuenca			Куэнка
+Esmeraldas			Эсмеральдас
+Machala			Мачала
+Manta			Манта
+Portoviejo			Портовьехо
+Angers			Анжер
+Brest			Брест
+Erfurt			Эрфурт
+Gera			Гера
+Darmstadt			Дармштадт
+Salzgitter			Зальцгиттер
+Dublin			Дублин
+Ravenna			Равенна
+Enschede			Энсхеде
+Santa Cruz de Tenerife			Санта-Крус-де-Тенерифе
+Ivanovo			Иваново
+Mezhdurechensk			Междуреченск
+Elizabeth			Элизабет
+Toledo			Толедо
+Savannah			Саванна
+Melbourne			Мельбурн
+Tampa			Тампа
+Brownsville			Браунсвиль
+Misato			Мисато
+Odawara			Одавара
+Sakai			Сакаи
+Takatsuki			Такацуки
+Tokorozawa			Токородзава
+Urawa			Урава
+Amman			Амман
+Irbid			Ирбид
+Chiniot			Чиниот
+Islamabad			Исламабад
+Jhang			Джханг
+Sargodha			Саргодха
+Kumagaya			Кумагая
+Kochi			Кочи
+Kobe			Кобе
+Hiratsuka			Хирацука
+Fujisawa			Фуджисава
+Chigasaki			Чигасаки
+Kashi			Каси
+Kunming			Куньмин
+Langfang			Ланфан
+Shuangyashan			Шуаняшань
+Tainan			Тайнань
+Long Beach			Лонг-Бич
+Fremont			Фримонт
+Orange			Орандж
+Lakewood			Лейквуд
+Pittsburgh			Питтсбург
+Charlotte Amalie			Шарлот-Амали
+Mandalay			Мандалай
+Monywa			Моунъюа
+Taunggyi			Таунджи
+Changsha			Чанша
+Chaoyang			Чаоян
+Fushun			Фушунь
+Hailar			Хайлар
+Harbin			Харбин
+Hengshui			Хэншуй
+Urumqi			Урумчи
+Mathura			Матхура
+Patna			Патна
+Rewa			Рева
+Sambalpur			Самбалпур
+Saint-Denis			Сен-Дени
+Antananarivo			Антананариву
+Kinshasa			Киншаса
+Freetown			Фритаун
+Nouakchott			Нуакшот
+Tripoli			Триполи
+Casablanca			Касабланка
+Dakar			Дакар
+Conakry			Конакри
+Malabo			Малабо
+Maputo			Мапуту
+Dar es Salaam			Дар-эс-Салам
+Tanga			Танга
+Mombasa			Момбаса
+Djibouti			Джибути
+Apia			Апиа
+Papeete			Папеэте
+Vancouver			Ванкувер
+Tacoma			Такома
+Arica			Арика
+Talcahuano			Талькауано
+Mar del Plata			Мар-дель-Плата
+La Plata			Ла-Плата
+Montevideo			Монтевидео
+Rio Grande			Риу-Гранде
+Santos			Сантус
+Camaragibe			Камарагибе
+Recife			Ресифе
+Cayenne			Кайенна
+Caracas			Каракас
+Maracaibo			Маракаибо
+Cartagena			Картахена
+La Ceiba			Ла-Сейба
+Coatzacoalcos			Коатцакоалькос
+Newport News			Ньюпорт-Ньюс
+Jersey City			Джерси-Сити
+New York			Нью-Йорк
+Providence			Провиденс
+Arecibo			Аресибо
+Carolina			Каролина
+San Juan			Сан-Хуан
+Basse-Terre			Басс-Терр
+Roseau			Розо
+Castries			Кастри
+Willemstad			Виллемстад
+Georgetown			Джорджтаун
+Praia			Прая
+Guayaquil			Гуаякиль
+Bombay			Бомбей
+George Town			Джордж-Таун
+Bandung			Бандунг
+Kota Kinabalu			Кота-Кинабалу
+Davao			Давао
+Bago			Пегу
+Matsubara			Мацубара
+Cheju			Чеджу
+Haikou			Хайкоу
+Chinhae			Чинхэ
+Pohang			Пхохан
+Otaru			Отару
+Niigata			Ниигата
+Hitachi			Хитачи
+Yaizu			Яидзу
+Kakogawa			Какогава
+Niihama			Ниихама
+Imabari			Имабари
+Beppu			Беппу
+Cebu			Себу
+Lapu-Lapu			Лапу-Лапу
+Townsville			Таунсвилл
+Tripoli			Триполи
+Muscat			Мускат
+Doha			Доха
+Manama			Манама
+Okinawa			Окинава
+Zama			Дзама
+Rawalpindi			Равалпинди
+Mandaue			Мандауэ
+Colombo			Коломбу
+Monaco			Монако
+Ancona			Анкона
+Samsun			Самсун
+Trabzon			Трабзон
+Varna			Варна
+Constanta			Констанца
+Batumi			Батуми
+Vigo			Виго
+Santander			Сантандер
+Helsinki			Хельсинки
+Severodvinsk			Северодвинск
+Reykjavik			Рейкьявик
+Belfast			Белфаст
+Auckland			Окленд
+Namangan			Наманган
+Birmingham			Бирмингем
+Canoas			Каноас
+Chengdu			Чэнду
+Dalian			Дальянь
+Jinhua			Цзиньхуа
+Liaoyuan			Льяоюань
+Qiqihar			Цицихар
+Qitaihe			Цитайхэ
+Quanzhou			Цуаньчжоу
+Shaoxing			Шаосин
+Shihezi			Шихэзи
+Jaipur			Джайпур
+New Delhi			Дели
+Koganei			Коганеи
+Yokosuka			Йокосука
+Voronezh			Воронеж
+Huntington Beach			Хантингтон-Бич
+Naha			Наха
+Chiba			Чиба
+Higashimurayama			Хигасимураяма
+Koshigaya			Косигая
+Noda			Нода
+Oyama			Ояма
+Sagamihara			Сагамихара
+Seto			Сето
+Tama			Тама
+Yachiyo			Ячийо
+Ulsan			Ульсан
+Iwaki			Иваки
+Kure			Куре
+Khoy			Хой
+Abiko			Абико
+Ikeda			Икеда
+Kashiwa			Касива
+Changweon			Чханвон
+Cheonan			Чхонан
+Cheongju			Чхонджу
+Kumi			Куми
+Seongnam			Суннам
+Toledo			Толедо
+Dimitrovgrad			Димитровград
+Yeosu			Йосу
+Douglas			Дуглас
+Blackburn			Блэкберн
+Blackpool			Блэкпул
+Brighton			Брайтон
+Cardiff			Кардифф
+Coventry			Ковентри
+Derby			Дерби
+Edinburgh			Эдинбург
+Ipswich			Ипсвич
+Leicester			Лестер
+Liverpool			Ливерпуль
+London			Лондон
+Luton			Лутон
+Manchester			Манчестер
+Newport			Ньюпорт
+Northampton			Нортгемптон
+Norwich			Норвич
+Nottingham			Ноттингем
+Oxford			Оксфорд
+Peterborough			Питерборо
+Plymouth			Плимут
+Portsmouth			Портсмут
+Preston			Престон
+Reading			Ридинг
+Rotherham			Ротерхэм
+Sheffield			Шеффилд
+Southampton			Саутгемптон
+Sunderland			Сандерленд
+Swansea			Суонси
+Bristol			Бристоль
+York			Йорк
+Dundee			Данди
+Glasgow			Глазго
+Kingston upon Hull			Кингстон-апон-Халл
+Aberdeen			Абердин
+Poole			Пул
+Hastings/Bexhill			Гастингс
+Maraua			Марауа
+Yaounde			Яунде
+Ndjamena			Нджамена
+Point Noire			Пунт-Нуар
+Bouake			Буаке
+Assyut			Асьют
+Aswan			Асуан
+Beni-Suef		Бени-Суэйф	
+Cairo			Каир
+Damanhur			Даманхур
+El-Mahalla El-Kubra			Эль-Махалла-эль-Кубра
+Faiyum			Файюм
+Giza			Гиза
+Ismailia			Исмаилия
+Kafr-El-Dwar			Кафр-эль-Даввар
+Kena			Кена
+Mansura			Мансура
+Shebin-El-Kom			Шебин-эль-Ком
+Shubra-El-Khema			Шубра-эль-Кема
+Sohag			Сохаг
+Suez			Суэц
+Tanta			Танта
+Zagazig			Загазиг
+Addis Ababa			Аддис-Абеба
+Diredawa			Диредава
+Sekondi-Takoradi			Секонди-Такоради
+Bengazi			Бенгази
+Blantyre-Limbe			Блантайр-Лимбе
+Agadir			Агадир
+Beni-Mellal			Бени Меллал
+Fez			Фец
+Khemisset			Хемиссет
+Khouribga			Хурибга
+Marrakech			Марракеш
+Meknes			Мекнес
+Nador			Надор
+Rabit-Sale			Рабат-Сале
+Settat			Сеттат
+Taza			Таза
+Tetouan			Тетуан
+Napmpula			Напмпула
+Ado-Ekiti			Адо-Экити
+Ikere-Ekiti			Икерре-Экити
+Ilovin			Илорин
+Mushin			Мушин
+Sao Tome			Сан-Томе
+Thies			Тиес
+Port Victoria			Порт Виктория
+Bloemfrontein			Блумфонтейн
+Cape Town			Кейптаун
+Germiston			Гермистон
+Katlehong			Кейтлхонг
+Mamelodi			Мамелоди
+Nyanga			Нъянгу
+Pietermaritzburg			Питермарицбург
+Roodepoort			Рудепорт
+Sasolburg			Сасольбург
+Umlazi			Умлази
+W. Rand			Зап. Ранд
+El Obied			Эль-Обейд
+Juba			Джуба
+Kassala			Кассала
+Khartoum N.			Сев. Хартум
+Wad Medani			Вад-Медани
+Omdurman			Омдурман
+Port Sudan			Порт-Судан
+Lome			Ломе
+El Aaiun			Эль-Аюн
+Luluabourg			Лулуабург
+Mufulire			Муфулире
+St. John City			Сент-Джон Сити
+Burlington			Бурлингтон
+Burnaby			Бурнаби
+Chicoutimi-Jong			Чикоутими
+E. York			Вост. Йорк
+Etobicoke			Этобикоук
+Longueuil			Лонгуил
+Mississauga			Миссиссауга
+Montreal			Монреаль
+N. York			Сев. Йорк
+Quebec			Квебек
+St. Catherines			Сент-Кэтрин
+Surrey			Суррей
+Trois-Rivieres			Труа-Ривьер
+Hong Kong			Гонконг
+Camaguey			Камагуей
+Guantanamo			Гуантанамо
+Holguin			Холгуин
+La Habana			Гавана
+Santiago de Los Caballeros			Сантьяго-де-лос-Кабальерос
+Godthab			Годтаб
+St. George's			Сент-Джордж
+Ciudad de Guat			Сьюдад-Гуат
+Apatzingan			Апацинган
+Ciudad Juarez			Сьюдад-Хуарес
+Cuidad Madero			Сьюдад-Мадеро
+Cuidad Obregon			Сьюдад-Обрегон
+Cuidad Victoria			Сьюдад-Виктория
+Cordoba			Кордоба
+Culiacan			Кулиакан
+Gomez Palacio			Гомес-Палацио
+Leon			Леон
+Mazatlan			Масатлан
+Merida			Мерида
+Minatitlan			Минатитлан
+Monciova			Монклова
+Netzahualcoyoti			Нетцахуалькойоти
+Oaxaca de Juarez			Оахака-де-Хуарес
+Pozo Rica de Hidalgo			Поза-Рика-де-Идальго
+Puebla de Zaragoza			Пуэбла-де-Сарагоса
+Queretaro			Керетаро
+San Luis Potosi			Сан-Луис-Потози
+San Nicolas de LosGarza			Сан-Николас-де-лос-Гарса
+Tlanepantla			Тланепантла
+Torreon			Торреон
+Tuxtlan Gutierrez			Тучтлан Гутьеррес
+Veracruz Liave			Веракрус-Льяве
+Villa Hermosa			Вилла-Эрмоза
+Mayaguez			Майагес
+Port-of-Spain			Порт-оф-Спейн
+Grand Turk			Гранд Турк
+Albany (Ga.)			Албани (Джорджия)
+Albany (N.Y.)			Албани (Нью Йорк)
+Alexandria (La.)			Александрия (Луизиана)
+Alexandria (Va.)			Александрия (Вирджиния)
+Altoona			Альтуна
+Anderson (In.)			Андерсон (Индиана)
+Anderson (S.C.)			Андерсон (Юж. Каролина)
+Anniston			Аннистон
+Appleton			Эпплтон
+Arlington (Tx)			Арлингтон (Техас)
+Asheville			Эшвил
+Battle Creek			Бэтл-Крик
+Beaumout			Бьюмонт
+Bellingham			Беллингем
+Benton Harbor			Бентон Харбор
+Billings			Биллингс
+Biloxi			Билокси
+Binghamton			Бингемтон
+Bloomington (Il.)			Блумингтон (Иллинойс)
+Bloomington (In.)			Блумингтон (Индиана)
+Bradenton			Бредентон
+Bremerton			Бремертон
+Bryan			Брайан
+Burlington (N.C.)			Бурлингтон (Сев. Каролина)
+Burlington (Vt.)			Бурлингтон (Вермонт)
+Canton			Кантон
+Champaign			Шампань
+Charleston (W.Vg.)			Чарльстон (Зап. Вирджиния)
+Charlottesville			Шарлоттсвилль
+Chico			Чико
+Columbia (Mo.)			Колумбия (Миссури)
+Columbia (S.C.)			Колумбия (Юж. Каролина)
+Columbus (Ga.)			Коламбус (Джорджия)
+Columbus (Oh.)			Коламбус (Огайо)
+Cumberland			Кимберленд
+Danville			Дэнвил
+Davenport			Дэвенпорт
+Daytona Beach			Дайтона Бич
+Decatur (Il.)			Декатур (Иллинойс)
+Dothan			Дотан
+Eau Claire			О-Клер
+Fargo			Фарго
+Fayetteville (N.C.)			Фейетвилл (Сев. Каролина)
+Florence (Alab.)			Флоренс (Алабама)
+Florence (S.C.)			Флоренс (Юж. Каролина)
+Fort Myers			Форт Майерс
+Fort Smith			Форт Смит
+Fort Walton Beach			Форт Уолтон-Бич
+Gadsden			Гадсден
+Glendale (Az.)			Глендейл (Аризона)
+Glendale (Ca.)			Глендейл (Калифорния)
+Glens Falls			Гленн Фоллс
+Greely			Грили
+Hagerstown			Хагерстаун
+Hickory			Хикори
+Hollywood (Fl.)			Голливуд (Флорида)
+Houma			Хума
+Huntington			Хантингтон
+Jackson (Mich.)			Джексон (Мичиган)
+Jackson (Miss.)			Джексон (Миссиссипи)
+Jacksonville (Fl.)			Джексонвиль (Флорида)
+Jacksonville (N.C.)			Джексонвиль (Сев. Каролина)
+Janesville			Джейнсвиль
+Johnson City			Джонсон-Сити
+Johnstown			Джонстаун
+Joplin			Джоплин
+Kalamazoo			Каламазу
+Kansas City (Ka.)			Канзас-Сити (Канзас)	
+Kansas City (M0.)			Канзас-Сити (Миссури)
+Killeen			Киллин
+Kokomo			Кокомо
+Lafayette (Ind.)			Лафайет (Индиана)
+Lafayette (La.)			Лафайет (Луизиана)
+Lake Charles			Лейк-Чарльз
+Lakeland  61890			Лейкленд
+Las Cruces			Лас Крусес
+Lawton			Лоутон
+Longview			Лонгвью
+Lynchburg			Линчбург
+Mansfield			Мэнсфилд
+McAllen			Макаллен
+Medford			Медфорд
+Merced			Мерсед
+Monroe			Монро
+Muncie			Манси
+Muskegon			Маскигон
+Nashville-Davidson			Нэшвил-Дэвидсон
+New Bedford			Нью-Бедфорд
+New London			Нью-Лондон
+Ocala			Окала
+Odessa			Одесса
+Panama City (Fl.)			Панама-Сити (Флорида)
+Parkersburg			Паркерсбург
+Pasadena (Ca.)			Пасадена (Калифорния)
+Pasadena (Tx.)			Пасадена (Техас)
+Pascagoula			Паскагула
+Pensacola			Пенсакола
+Portland (Me.)			Портленд (Мейн)
+Portland (Or.)			Портланд (Орегон)
+Portsmouth (Nh.)			Портсмут (Нью-Хэмпшир)
+Portsmouth (Va.)			Портсмут (Вирджиния)
+Poughkeepsie			Пукипси
+Redding			Рединг
+Roanoke			Роаноук
+Saginaw			Сагино
+St. Cloud			Сент-Клауд
+St. Louis			Сент-Луис
+St. Paul			Сент-Пол
+Santa Barbara			Санта-Барбара
+Sarasota			Сарасота
+Scranton			Скрэнтон
+Sharon			Шерон
+Sheboygan			Шебойган
+Sioux City			Сью-Сити
+Springfield (Il.)			Спрингфилд (Иллинойс)
+Springfield (Ma.)			Спрингфилд (Массачусетс)
+Springfield (Mo.)			Спрингфилд (Миссури)
+State College			Стейт-Колледж
+Terre Haute			Терре-Хот
+Texarkana			Тексаркана
+Tuscaloosa			Тускалуза
+Tyler			Тайлер
+Utica			Ютика
+Visalia			Висалия
+Washington D.C.			Вашингтон (округ Колумбия)
+Waterloo			Ватерлоо
+Wausau			Ваусау
+W. Palm Beach			Зап. Палм-Бич
+Wheeling			Вилинг
+Williamsport			Вильямспорт
+Wilmington			Вилмингтон
+Yakima			Якима
+Youngstown			Янгстаун
+Yuba City			Юба-Сити
+Bahia Blanca			Баия-Бланка
+Cordoba			Кордоба
+Parana			Парана
+Rio Cuarto			Рио-Куарто
+San Miguel de Tucuman			Сан-Мигель-де-Тукуман
+San Salvador de Jujuy			Сан-Сальвадор-де-Хухуй
+Potosi			Потоси
+Anapolis			Анаполис
+Aracatuba			Аракатуба
+Ariquemes			Ариквемес
+Bage			Баге
+Belem			Белем
+Blumenou			Блуменау
+Braganca Paulista			Браганка Паулиста
+Brasilia DF			Бразилиа
+Cabo			Кабо
+Cacoeiro de Itapemirin			Кашуэйру-ди-Итапемирин
+Camacari			Камакари
+Carapicuiba			Карапикуиба
+Caratinga			Каратинга
+Chapeco			Чапеко
+Codo			Кодо
+Colatina			Колатина
+Criciuma			Крикьюма
+Cuiaba			Куяба
+Divinapolis			Дивинополис
+Florianopolis			Флорианополис
+Foz do Iguacu			Фос-ду-Игуасу
+Goiania			Гояния
+Governador Valedares			Говернадор-Валадарис
+Gravatai			Граватаи
+Ilheus			Ильхеус
+Irece			Иресе
+Itaborai			Итабораи
+Itaguai			Итагуаи
+Itajai			Итахаи
+Itapipoca			Итапипока
+Jaboatao			Жабоатан
+Jacarei			Жакареи
+Jacobina			Жакобина
+Jequie			Жекие
+Joao Pessoa			Жоан-Пессоа
+Jundiai			Жундиаи
+Linhares			Линьярес
+Luzianig			Луцианиг
+Macapa			Макапа
+Maraba			Мараба
+Marilia			Марилия
+Maringa			Маринга
+Maua			Мауа
+Mogi das Cruzes			Мохи дас Крусес
+Montes Caros			Монтес Кларос
+Mossoro			Моссоро
+Nilopolis			Нилополис
+Niteroi			Нитерои
+Nova Iguacu			Нова Игуаку
+Nova Hamburgo			Ново Гамбурго
+Parnaiba			Парнаиба
+Petropolis			Петрополис
+Pitanga			Питанга
+Pocos de Caldas			Покос-де-Кальдас
+Ribeirao Preto			Рибейран-Прето
+Rondonopolis			Рондонополис
+Santarem			Сантарем
+Santo Andre			Санту-Андре
+Santo Angelo			Санту-Анжелу
+Sao Bernardo do Campo			Сан-Бернарду-ду-Кампу
+Sao Carlo			Сан-Карлу
+Sao Goncalo			Сан-Гонсалу
+Sao Joao de Meriti			Сан-Жуан-ди-Мерити
+Sao Jose do Rio Preto			Сан-Хосе-ду-Рио-Прето
+Sao Jose dos Campos			Сан-Хосе-дос-Кампос
+Sao Leopoldo			Сан-Леопольду
+Sao Luis			Сан-Луис
+Sao Paolo			Сан-Паулу
+Sumare			Сумаре
+Susano			Сузану
+Taboao da Serra			Табоан-да-Серра
+Taubate			Таубате
+Teresopolis			Терезополис
+Uberlandia			Уберландия
+Varzea Grande			Варзеа Гранде
+Viamao			Виаман
+Vitoria da Conquista			Витория-Да-Конкиста
+Chillan			Чиллан
+Concepcion		Консепсьон
+Valparaiso			Вальпараисо
+Cienago			Чьенагу
+Cucuta			Кукута
+Ibague			Ибаге
+Itagui			Итаги
+Medellin			Меделлин
+Monteria			Монтериа
+Popayan			Попаян
+Asuncion			Асунсьон
+Callao			Каллао
+Barcelona Pto. La Cruz		Барселона-Пуэрто-ла-Круз
+Cuidad Bolivar			Куидад Боливар
+Cuidad Guayana			Куидад Гайана
+Maturin			Матурин
+Merida			Мерида
+San Cristobal			Сан-Кристобаль
+Herat			Герат
+Kandahar			Кандагар
+Bavisal			Бависал
+Chittagong			Читтагонг
+Comilla			Комилла
+Jessore			Джессор
+Khulna			Хулна
+Mymenshing			Маймансингх
+Pabna			Пабна
+Rajshahi			Раджшахи
+Rangpur			Рангпур
+Saidpur			Саидпур
+Sylhet			Сильхет
+Thimphu			Тимфу
+Bandar Seribegawan			Бандар-Сери-Бегаван
+Bassein			Бассейн
+Moulmein			Моулмейн
+Pegu			Пегу
+Rangoon			Рангун
+Beijing			Пекин
+Botou			Ботоу
+Chenghwa			Ченгуа
+Chongli			Чонгли
+Daqing			Дакин
+Dongshan			Доншан
+Dukou			Дукоу
+Duyun			Дуюн
+Echeng			Еченг
+Fuzhou (Fujian Sheng)			Фужоу (провинция Фуцзянь)
+Fuzhou (Jiangxi Sheng)			Фужоу (провинция Цзянси)
+Hohhoit			Хуххот
+Huainan			Хуайнань
+Hunjiang			Хундзян
+Llan			Ллан
+Linchang			Линчан
+Jiayi			Джай
+Jilong			Джилонг
+Jining (Shandong Sheng)			Джинин (провинция Шаньдун)
+Jining (Shanxi Sheng)			Джинин (провинция Шеньси)
+Lianyungang		Ляньюнган	
+Lu'an			Луянь
+Luoyana			Луояна
+Ma'anshan			Мааншань
+Najiang			Наджин
+Pingyang			Пиньян
+Qingjiang			Кинджан
+Quzhou			Кужоу
+Shanzhong			Санджон
+Shijianzhuang			Сиджанжуань
+Tai'an			Тайянь
+Taiyan			Таиян
+Taizhong			Тайжон
+Taizhou			Тайжоу
+Tansyuan			Тансюань
+Tianshui			Тяньшуй
+Tiefa			Тьефа
+Tonghua			Тонхуа
+Tunxi			Туньси
+Xi'an			Сиань
+Xiangtan (Hebei Sheng)			Сиантань (провинция Хэбэй)
+Xiaguan			Сиагуан
+Xuzhou (Jiangsu Sheng)			Сужоу (провинция Цзянсу)
+Xuzhou (Anhui Sheng)			Сужоу (провинция Аньхой)
+Yan'an			Янань
+Yichun (Heilongjiang Sheng)			Йичун (провинция Хэйлунцзян)
+Yichun (Jiangxi Sheng)			Йичун (провинция Цзянси)
+Yingkow			Йинкоу
+Zibo			Зибо
+Limasso			Лимассо
+Nicosia			Никозия
+Aden			Аден
+Adoni			Адони
+Agra			Агра
+Ahmedabad			Ахмедабад
+Ahmednagar			Ахмеднагар
+Aligarh			Алигарх
+Allahabad			Аллахабад
+Alleppey			Аллеппей
+Ambala			Амбала
+Amravati (Amraoti)			Амаравати (Амараоти)
+Arrah			Арра
+Aurangabad			Аурангабад
+Bangalore			Бангалор
+Bareilly			Барели
+Barrackpur			Барракпур
+Bhatinda			Бхатинда
+Berhampur			Берхампур
+Bermo			Бермо
+Bhadravati			Бхадравати
+Bhagalpur			Бхагалпур
+Bharuch			Бхарух
+Bhatpara			Бхатпара
+Bhavnagar			Бхавнагар
+Bheemavaram			Бхемаварам
+Bhilwara			Бхилвара
+Bhiwani			Бхивани
+Bhopal			Бхопал
+Bhusawal			Бхусавал
+Bihar			Бихар
+Bijapur			Биджапур
+Bikaner			Биканер
+Bokaro Steel City			Бокаро Стил Сити
+Burhanpur			Бурханпур
+Calicut			Каликут
+Cannanore			Каннур
+Chandan Nagar			Чанданнагар
+Chandigarh			Чандигар
+Chapra			Чапра
+Coimbatore			Коимбатор
+Cuddalore			Куддалор
+Cuddapaph			Куддапах
+Cuttack			Куттак
+Dehra Dun			Дерадун
+Delhi			Дели
+Durgapur			Дургапур
+Durg-Bhilai Nagar			Дург-Бхилаи Нагар
+Eluru (Ellore)			Элуру (Эллор)
+Etawah			Этавах
+Faizabad-Ayodhya			Фаизабад-Айодха
+Faridabad			Фаридабад
+Farrukhabad-Fategarh			Фаррухабад-Фатегарх
+Firozabad			Фирозабад
+Gadag-Betgeri			Гадаг-Бетгери
+Garden Reach			Гарден-Рич
+Ghaziabad			Газиабад
+Guntur			Гунтур
+Hapur			Хапур
+Hardwar			Хардвар
+Hisar			Хисар
+Houghly-Chinsura			Хугли-Чинсура
+Howrah			Ховра
+Hyderabad			Хидерабад
+Ichalakaranji			Ичалкаранджи
+Imphal			Имфал
+Jalgaon			Джалгаон
+Jalna			Джална
+Jamnagar			Джамангар
+Jhansi			Джханси
+Jullundur			Джуллундур
+Jungada			Жунгада
+Kamarhati			Камархати
+Kanchipuram			Канчипурам
+Kanpur			Канпур
+Karaikudi			Карайкуди
+Karnal			Карнал
+Kolar Gold Fields			Колар Голд Филдс
+Kolhapur			Колхапур
+Kotah			Кота
+Kurnool			Курнул
+Latur			Латур
+Lucknow			Лакнау
+Ludhiana			Лудиана
+Malegaon			Малегаон
+Mangalore			Мангалор
+Meerut			Мирут
+Mirzapur-cum-Vindhayachal			Мирзапур-Виндхьячал
+Moradabad			Морадабад
+Murwara			Мурвара
+Mysore			Мисор
+Nabadwip			Набадвип
+Nadiad			Надиад
+Nager Coil			Нагеркойл
+Nagpur			Нагпур
+Naihati			Найхати
+Nasik			Насик
+Navasari			Навасари
+Nellore			Неллор
+Nizamabad			Низамабад
+Onadal			Онадал
+Panihati			Панихати
+Panipat			Панипат
+Pathankot			Патанкот
+Patiala			Патьяла
+Pondicherri			Пондишери
+Poona			Пуна
+Proddatur			Проддатур
+Purnia			Пурния
+Quilon			Квилон
+Raichur			Райчур
+Rajkot			Раджкот
+Rourkela			Руркела
+Sambal			Самбал
+Serampore			Серампор
+Shahjahanpur			Шахджаханпур
+Sholapur			Шолапур
+Sikar			Сикар
+Siliguri			Силигури
+Sonipat			Сонипат
+South Suburban			Юж. Субурбан
+Srinagar			Сринагар
+Surat			Сурат
+Tenali			Тенали
+Thanjavur			Танджавур
+Thana			Тана
+Tiruchirapalli			Тиручирапали
+Titagarh			Титагарх
+Trichur			Тричур
+Trivandrum			Тривандрум
+Tumkur			Тумкур
+Tuticorin			Тутикорин
+Ulhasnagar			Улхаснагар
+Vadodara (Baroda)			Вадодара (Барода)
+Valparai			Валпарай
+Varanasi			Варанаси
+Vellore			Веллор
+Vijayawada			Виджаявада
+Vizianagarm			Визианагарм
+Wadhwan			Вадхван
+Yamunagar			Ямунагар
+Bandjarmasin			Банджармасин
+Djambi			Джамби
+Madium			Мадиум
+Surabaja			Сурабаджа
+Tanjung Karang			Танжун Каранг
+Ujung Pandang			Уджун-Панданг
+Abadan			Абадан
+Ahwaz			Ахваз
+Arak			Арак
+Ardabil			Ардабил
+Bakhtaran			Бахтаран
+Bandar-e-Abbas			Бандар-Аббас
+Borujerd			Боружерд
+Dezful			Дезфул
+Esfahan			Эсфахан
+Gorgan			Горган
+Hamadan			Хамадан
+Kashan			Кашан
+Kerman			Керман
+Kermanshah			Керманшах
+Khoramabad			Хорамабад
+Khoramshahr			Хорамшар
+Mashhad			Машхад
+Masjed Soleyman			Масджед Сулейман
+Najafabad			Наджафабад
+Qazvin			Казвин
+Rezaiyeh			Резайе
+Sabzewar			Сабзевар
+Sanandai			Санандай
+Sari			Сари
+Shiraz			Шираз
+Teheran			Тегеран
+Zahedan			Захедан
+Zanjan			Занджан
+Arbil			Арбил
+Baghdad			Багдад
+Basra			Басра
+Hilla			Хилла
+Kirkuk			Киркук
+Mosul			Мосул
+Najaf			Неджеф
+Ben Beraq			Бене Берак
+Haifa			Хайфа
+Jerusalem			Иерусалим
+Petah Tiqwa			Петах-Тиква
+Rishon Leziyyon			Ришон Лезион
+Tel Aviv-Yafo			Тель-Авив-Яффо
+Anjo			Анйо
+Chofu			Чофу
+Fuchu			Фуку
+Hachioji			Хачиожи
+Hofu			Хофу
+Irimi			Ирими
+Isezaki			Исезаки
+Katsuta			Катсута
+Kiryu			Кирью
+Kofu			Кофу
+Koriyama			Корияма
+Kyoto			Киото
+Miyakonoojo			Мияконойо
+Niizu			Ниицу
+Oggaki			Огаки
+Ome			Оме
+Omiya			Омия
+Omuta			Омута
+Ota			Ота
+Otsu			Оцу
+Soka			Сока
+Tsuchuira			Цучуира
+Chonchu			Чончу
+Chungiu			Чунджиу
+Iri			Ири
+Kwang myong		Кванмьон	
+Kwangchu			Кванчу
+Kyong ju			Кенджу
+Seoul			Сеул
+Taebaek			Тэбэк
+Kuwait City			Кувейт-Сити
+Vientaine			Вьентьян
+Beirut			Бейрут
+Johore Bharu			Джохор Бару
+Male			Мале
+Ulan Bator			Улан-Батор
+Kathmandu			Катманду
+Bahawalpur			Бахавалпур
+Faisalabad			Файзалабад
+Gujranwala			Гуйранвала
+Gujrat			Гуйрат
+Hyderabad			Хидерабад
+Kasur			Касур
+Mardan			Мардан
+Nawabshsh			Навабшах
+Okara			Окара
+Rahimyar Khan			Рахимьяр-Хан
+Sheikhu Pura			Шейхупура
+Sialkote			Сиалкот
+Batangas			Батангас
+Caloocan			Калукан
+Lipa			Липа
+Lucena City			Лусена-Сити
+Makati			Макати
+Malabon			Малабон
+Manila			Манила
+Marikina			Марикина
+Ormoc			Ормок
+Pasay			Пасай
+Quezon City			Квезон-Сити
+Valenzuela			Валенсуэла
+Dammam			Даммам
+Huful			Хуфул
+Riyadh			Рийяд
+Ta'if			Таиф
+Singapore			Сингапур
+Dehiwala-Mount Lavinig			Дехивала-Маунт-Лавиния
+Jaffna			Джаффна
+Kandy			Канди
+Aleppo			Алеппо
+Al-Kamishli			Аль-Камишли
+Al-Rakka			Аль-Ракка
+Damascus			Дамаск
+Deir El-Zar			Деир-эль-Зар
+Hama			Хама
+Homs			Хомс
+Lattakia			Латтакия
+Nakhonsi Thammarat			Нахон Си Таммарат
+Songkhia			Сонгкхла
+Hatay			Хатай
+Icel			Исел
+Kocaeli			Кокели
+Kutahya			Кутаия
+Sakarya			Сакария
+Ai-Ain			Аль Аин
+Dubai			Дубай
+Sharjah			Шарджах
+Buonmathuot			Буонматуот
+Bien Hao			Бьен Хао
+Cantho			Канто
+Da Nang			Дананг
+Haiphong			Хайфон
+Ho Chi Minh			Хо Ши Мин
+Hon Gai			Хон Гай
+Longxuyen			Лонгсуен
+Minh Hai			Мин Хай
+Mytho			Мито
+Namdinh			Намдинь
+Nhatrang			Нха Транг
+Quang Nghia			Кван Нгия
+Thanhhoa			Тан Хоа
+Viettri			Вьеттри
+Vinh			Винх
+Sana			Сана
+Andorra La Vella			Андорра ла Велла
+Wien			Вена
+Anderlecht			Андерлехт
+Gent			Гент
+La Louviere			Ла Лувьер
+Liege			Льеж
+Schaerbeek			Шарбеек
+Choumen			Шумен
+Plevene			Плевна
+Rousse			Русс
+Slivene			Сливен
+Tolboukhin			Толбухин
+St. Helier			Сент-Элье
+Praha			Прага
+Arhus			Архус
+Kobenhavn			Кобенхавн
+Angouleme			Ангулем
+Besancon			Бесанкон
+Bethune			Бетун
+Bruay-en-Artois			Брюай-ан-Артуа
+Calais			Кале
+Cannes			Канны
+Douai			Дуа
+Dunkerque			Дункерк
+Hagondange-Briey			Хагонданж-Брей
+Lens			Ланс
+Mantes-la-Jolie			Мант-ла-Жоли
+Montbeliard			Монбельярд
+Nimes			Ним
+Orleans			Орлеан
+Perpigan			Перпигнан
+Roubaix			Рубо
+Saint-Etienne			Сент-Этьен
+Saint-Nazaire			Сент-Назар
+Thionville			Тионвиль
+Trappes			Трап
+Trayes			Трайе
+Valenciennes			 Валенсин
+Dessau			Дессау
+Jena			Джена
+Karl-Marx-Stadt			Карл-Маркс-Штадт
+Potsdam			Потсдам
+Rotstock			Росток
+Bottrap			Боттроп
+Dusseldorf			Дюссельдорф
+Frankfurt am Main			Франкфурт-на-Майне
+Gottingen			Геттинген
+Heibronn			Хайлбронн
+Koln			Кельн
+Lubeck			Любек
+Ludwigshafen am Rhein			Людвигсхафен-на-Рейне
+Monchengladbach			Менхенгладбах
+Mulheim a.d. Ruhr			Мюльхайм-ан-дер-Рур
+Munchen			Мюнхен
+Munster (West f.)			Мюнстер (Вестфалия)
+Nurnberg			Нюрнберг
+Offenbach am Main			Оффенбах-на-Майне
+Osnabruck			Оснабрюк
+Saarbrucken			Саарбрюкен
+Wurzburg			Вюрцбург
+Athens			Афины
+Larissa			Ларисса
+Patrai			Патры
+Peristeri			Перистери
+Piraievs			Пиреус
+Thessaloniki			Салоники
+Holy See			Ватикан
+Gyor			Гийор
+Kecskemet	Кечкемет		
+Nyieregyhaza			Ньиредьхаза
+Pecs			Пекс
+Szekesfehervar			Секешфехервар
+Allessandria			Алессандрия
+Bergamo			Бергамо
+Bolzano			Больцано
+Catanzaro			Катандзаро
+Cosenza			Козенца
+Ferrara			Феррара
+Firenze			Фиренце
+Forli			Форли
+Genova			Генуя
+La Spezia			Ла-Специа
+Messina			Мессина
+Milano			Милан
+Modena			Модена
+Napoli			Неаполь
+Padova			Падуя
+Parma			Парма
+Piacenza			Пьяченца
+Pisa			Пиза
+Siracusa			Сиракузы
+Taranto			Таранто
+Torino			Турин
+Udine			Удине
+Verona			Верона
+Luxembourg-Ville			Люксембургвиль
+'S Gravenhage			Гаага
+Bergen			Берген
+Sor-Trondelg			Сор-Тронделаг
+Chorzow			Гожув
+Dabrowa Gormicza			Даброва Горница
+Gorzow Wielkopolski			Гожув-Велькопольски
+Jastrzebie			Ястржебе
+Krakow			Краков
+Lodz			Лодзь
+Olsztym			Ольштын
+Opale			Опале
+Rzeszow			Решев
+Tarnow			Тарнов
+Warszawa			Варшава
+Wodzislaw Slaski			Водзислав-Сленски
+Zielona Gora			Зелона Гора
+Lisboa			Лиссабон
+Bucaresti			Бухарест
+Satu-Mare			Сату-Маре
+Tirgus-Mures			Тиргу Мурес
+San Marino			Сан-Марино
+Alcala de Henares			Алькала-де-Хенарес
+Alcorcon			Алькоркон
+Alicante			Аликанте
+Almeria			Альмейра
+Badalona			Бадалона
+Baracaldo			Баракальдо
+Castellon			Кастеллон
+Cordoba			Кордоба
+Elche			Эльче
+Gijon			Хихон
+Hospitalet			Хоспиталет
+Jaen			Хаен
+Jerez de la Frontera			Херес-де-ла-Фронтейра
+La Coruna			Ла-Корунья
+La Laguna			Ла-Лагуна
+Leganes			Леганьес
+Leon			Леон
+Lerida			Лерида
+Logrono			Логроно
+Malaga			Малага
+Mataro			Матаро
+Mostoles			Мостолес
+Murcia			Мурсия
+Orense			Оренсе
+Palma de Mallorca			Пальма-де-Майорка
+Pamplona			Памплона
+San Sebastian			Сан-Себастиан
+Santa Coloma de Gramanet			Санта-Колома-де-Граманет
+Sevilla			Севилья
+Tarrasa			Тарраса
+Boras			Борас
+Goteborg			Гетеборг
+Jonkoping			Йончепинг
+Linkoping			Линчепинг
+Malmo			Мальме
+NorrKoping			Норчепинг
+Orebro			Оребро
+Vasteras			Вастерас
+Bale			Бале
+Geneve			Женева
+Beograd			Белград
+Ljubiana			Любляна
+Marebor			Марибор
+Nis			Нис
+Pistina			Приштина
+Skoplje			Скопье
+Greater Wollongong			Грейтер-Вуллонгонг
+Tarawa			Тарава
+Noumea			Нумея
+Vila			Вила
+Aktyubinsk			Актюбинск
+Alma-Ata			Алма-Ата
+Almalyk			Алмалык
+Almetevsk			Альметьевск
+Andizhan			Аниджан
+Andropov			Андропов
+Anzhero-Sudzhensk			Анжеро-Судженск
+Arkhanglsk			Архангельск
+Ashkhabad			Ашхабад
+Astrakhan			Астрахань
+Balashikha			Балашиха
+Baranovichi			Барановичи
+Belaya Tserkov			Белая Церковь
+Beltsy			Бельцы
+Bendery			Бендеры
+Berdyansk			Бердянск
+Biisk			Бийск
+Blagovershchensk			Благовещенск
+Bobruisk			Бобруйск
+Borisov			Борисов
+Breznev			Брежнев
+Bryansk			Брянск
+Bukhara			Бухара
+Chardzhou			Чарджоу
+Chelyabinsk			Челябинск
+Cherepovets			Череповец
+Cherkassy			Черкассы
+Chernigov			Чернигов
+Chernovtsy			Черновцы
+Chimkent			Чикмент
+Chirchik			Чирчик
+Dneprodzerzhinsk			Днепродзержинск
+Dnepropetrovsk			Днепропетровск
+Donetsk			Донецк
+Dzhambul			Джамбул
+Dzhezkazgan			Джезказган
+Elets			Елец
+Enakievo			Енакиево
+Evpatoriya			Евпатория
+Fergana			Фергана
+Frunze			Фрунзе
+Gomel			Гомель
+Gorky			Горький
+Gorlovka			Горловка
+Grodno			Гродно
+Grozny			Грозный
+Guryev			Гурьев
+Ivano-Frankovsk			Ивано-Франковск
+Kalinin			Калинин
+Kamensk-Uralsky			Каменск-Уральский
+Karshi			Карши
+Khabarovsk			Хабаровск
+Kharkov			Харьков
+Khimki			Химки
+Khmelnitsky			Хмельницкий
+Kineshma			Кинешма
+Kirovabad			Кировабад
+Kirovakan			Кировокан
+Kirovograd			Кировоград
+Kiselevsk			Киселевск
+Kishinev			Кишинев
+Kokand			Коканд
+Kokchetav			Кокчетав
+Kommunarsk			Коммунарск
+Konstantinovka			Константиновка
+Kramatorsk			Краматорск
+Krasni Luch			Красный Луч
+Krasnoyarsk			Красноярск
+Kremenchug			Кременчуг
+Krivoi Rog			Кривой Рог
+Kuibyshev			Куйбышев
+Kustanai			Кустанай
+Kzyl-Orda			Кызыл-Орда
+Leninabad			Ленинабад
+Leninakan			Ленинакан
+Leningrad			Ленинград
+Leninsk-Kuznetsky			Ленинск-Кузнецкий
+Lipetsk			Липецк
+Lisichansk			Лисичанск
+Lutsk			Луцк
+Lyubertsy			Люберцы
+Maikop			Майкоп
+Makeyevka			Макеевка
+Makhachkala			Махачкала
+Melitopol			Мелитополь
+Mogilev			Могилев
+Moscow			Москва
+Nikolaev			Николаев
+Nikopol			Никополь
+Nizenvartovsk			Нижневартовск
+Nizhny Tagil			Нижний Тагил
+Novgorod			Новгород
+Novokuibyshevsk			Новокуйбышевск
+Novokuznetsk			Новокузнецк
+Novorossiisk			Новороссийск
+Novoshakhinsk			Новошахтинск
+Odintsovo			Одинцово
+Oktyabrskii			Октябрьский
+Orekhovo-Zuevo			Орехово-Зуево
+Orel			Орел
+Panevezhis			Паневежис
+Pavlograd			Павлоград
+Petropavlovsk Kamchatsky			Петропавловск-Камчатский
+Petropavlovsk			Петропавловск
+Prokopyevsk			Прокопьевск
+Pyatigorsk			Пятигорск
+Rostov-na-Dona			Ростов-на-Дону
+Rovno			Ровно
+Rubtsovsk			Рубцовск
+Rudniy			Рудный
+Ryazan			Рязань
+Semipalatinsk			Семипалатинск
+Serov			Серов
+Serpukhov			Серпухов
+Sevastopol			Севастополь
+Severodonetsk			Северодонецк
+Shakhy			Шахы
+Shchelkovo			Щелково
+Shevchenko			Шевченко
+Simferopol			Симферополь
+Slavyansk			Славянск
+Stakhanov			Стаханов
+Stary Oskol			Старый Оскол
+Sukhumi			Сухуми
+Sumgait			Сумгаит
+Sverdlovsk			Свердловск
+Syktykar			Сыктывкар
+Taldi-Kurgan			Талды-Курган
+Tallin			Таллин
+Tashauz			Ташауз
+Tashkent			Ташкент
+Tbilisi			Тбилиси
+Temirtau			Тимертау
+Ternopol			Тернополь
+Tiraspol			Тирасполь
+Tolyatti			Тольятти
+Tselinograd			Целиноград
+Tyumen			Тюмень
+Uhta			Ухта
+Ulyanovsk			Ульяновск
+Uralsk			Уральск
+Urgench			Ургенч
+Usolye Sibirskoye			Усолье-Сибирское
+Ustinov			Устинов
+Ust-Kamenogorsk			Усть-Каменогорск
+Uzgorod			Ужгород
+Velikie Luky			Великие Луки
+Vilniius			Вильнюс
+Vinnitsa			Винница
+Vitebsk			Витебск
+Valdimir			Владимир
+Vladivosok		Владивосток	
+Volzhsky			Волжский
+Vorkuta			Воркута
+Voroshlovgrad			Ворошиловград
+Yakutsk			Якутск
+Yaroslavi			Ярославль
+Yoshkar-Ola			Йошкар-Ола
+Yuzhno-Sakhalinsk			Южно-Сахалинск
+Zagossk			Загорск
+Zaporozhye			Запорожье
+Zelenograd			Зеленоград
+Zhdanov			Жданов
+Zhitomir			Житомир
+Stanley			Стэнли
+Rarotonga			Раротонга
+Gaberone			Габороне
+Kenitra			Кенитра
+Brampton			Брамптон
+St. John's			Сент-Джонс
+Sao Caetano do Sul			Сан-Каэтану-ду-Сул
+Teofilo Otoni			Теофило Отони
+Tulua			Тулуа
+Holon			Голон
+Bayonne			Байон
+Trondheim			Тронхейм
+Palma de Gran Canaria			Лас-Пальмас-де-Гран-Канария
+Belovo			Белово
+Lvov			Львов
+Margelan			Маргелан
+Nakhodka			Находка
+Manila			Манила
+S. Bend			Саут-Бенд
+Elkhart			Элкхарт
+Athens			Афины
+Duluth			Дулут
+Richland			Ричленд
+Fayetteville (Ark.)			Файетвилль (Арканзас)
+CorpusChristi			Корпус-Кристи
+Onomichi			Ономичи
+Zarqu			Зарку
+Kangnung			Кангнун
+Taejon			Тэджон
+Mandaluyong			Мандалуйонг
+Pasig			Пасиг
+Makkah			Мекка
+Nguyen			Нгуен
+Ussuriisk			Уссурийск
+Lingmen			Лингмен
+Steubenville		Стойбенвиль	
+Ulanhot			Уланхот
+Yumen			Юмен
+Bilaspur			Биласпур
+Dhulia			Дхулия
+Ganganagar			Ганганагар
+Katihar			Катихар
+Nanded			Нандед
+Palghat			Палгат
+Patan			Патан
+Pollachi			Поллачи
+Rajahmundry			Раджахмундри
+Rajapalayam			Раджапалаям
+Raniganj			Ранигандж
+Saharanpur			Сахаранпур
+Sangli			Сангли
+Sitapur			Ситапур
+Port-Louis			Порт-Луис
+Sfax			Сфакс
+Mogadishu			Могадишо
+Oujda			Оуйда
+Misurata			Мисурата
+Port Said			Порт-Саид
+Burnley/Nelson			Барнли/Нельсон
+Aldershot urban area			Район Олдершот
+Crawley urban area			Район Кроли
+Grimsby/Cleethorpes		Район Гримсби/Клиторпс
+High Wycombe urbanarea			Район Хай-Викомб
+Tanger			Тангер
+El Jadida			Эль-Джадида
+Safi			Сафи
+Birkenhead urban ar			Район Биркенхед
+E. London			Вост. Лондон
+Paga Pago			Паго-Паго
+Vina del Mar			Вина дель Мар
+Guaruja			Гуаруха
+Maceio			Масейо
+Cumana			Кумана
+Belize City			Белиз-Сити
+St. Petersburg			Санкт-Петербург
+Fort Pierce			Форт-Пирс
+Charleston (S.C.)			Чарльстон (Юж. Каролина)
+Atlantic City			Атлантик-Сити
+St. John's			Сент-Джонс
+Baymon			Бэймон
+Point-a-Pitre			Поинте-а-Питре
+Sittwe			Ситтве
+Manzhouli			Манжоули
+Cochin			Кочин
+Galle			Галле
+Madras			Мадрас
+Masulipatnam			Масулипатнам
+Kakinada			Какинада
+Cadiz			Кадиз
+Iligan			Илиган
+Macau			Макау
+Inchon			Инчон
+Izumi (Osaka)			Изуми (Осака)
+Habra			Габра
+Cagayan de Oro			Кагаян-де-Оро
+Bushehr			Бушер
+Hawalli			Гавайи
+Kotte			Котте
+Cean			Сеан
+Cadiz			Кадиз
+Torre del Greco			Торре-дель-Греко
+Venezia			Венеция
+Iraclion			Ираклион
+Bourgas			Бургас
+Odessa			Одесса
+Ordzhonikidze			Орджоникидзе
+Catania			Катания
+Valletta			Валетта
+Palermo			Палермо
+Lorient			Лорьен
+Liepaya			Лиепая
+Thorshavn			Торсхавн
+Calithea			Калитеа
+Kaliningrad (Moskovskaya oblas			Калининград (Московская обл.)
+Kaliningrad (Kaliningradskaya			Калининград (Калининградская обл.)
+Mage			Маге
+Vitoria de Santo Antao			Витория де Санту Антау
+Kabul			Кабул
+Lhasa			Лхаса
+Balurghat			Балургат
+Munge			Мунге
+Rampur			Рампур
+Ranchi			Ранчи
+Ratlam			Ратлам
+Sagar			Сагар
+Salmiya			Салимия
+Freiburg im Breisgau			Фрайбург-в-Брайсгау
+Sao Vicente			Сан-Висенте
+Kastisima			Кастисима
+Sao Jose			Сан Хосе
+Liangmen			Лянмень
+Liaozuo			Ляозуо
+Kuytun			Куйтун
+Pingdong			Пиндон
+Minoo			Миноо
+Uijong			Уйджон
+Silay			Силай
+Banya Luka			Баня-Лука
+Paranque			Паранке
+Las Pinas			Лас-Пинас
+Muntilupa			Мунтилупа
+Gaoxiong			Гаосюн
+Menia			Менья
+E. Rand			Вост. Ранд
+Kayamnandi			Каяманди
+Shitajkonj			Шитайкондж
+Bangiao			Бангяо
+Uhai			Ухай
+Oroumich		Ороумич
+AlSulaimaniya			Аль-Сулеймания
+Higashiosaka			Хигашиосака
+Puchon			Пучон
+Weoju			Веоджу
+D.G.Khan		Хан	
+Taguig			Тагуиг
+Zhivastuz			Экибастуз
+Jiaojing			Джаожин
+Mogpo			Могпо
+Navotas			Навотас
+Campha			Камфа
+Doncaster		Донкастер	
+Mansfield			Мансфилд
+Tyneside			 Тайнсайд
+Teesside			Тиссайд
+The Medway towns			Медуэй-Таунс
+St. Albans/Hatfield			Сент-Албанс/Хетфилд
+St. Helens			Сент-Хеленс
+Southend on Sea			Саузенд-он-Си
+The Potteries			Поттерис
+Thanet			танет
+Warrington			Уоррингтон
+Wigan			Уиган
+Bournmouth			Борнмут
+Barnsley			Барнсли
+
+
+# =============================================================================
+# DEFCON COUNTRIES
+# =============================================================================
+
+
+United Kingdom			Великобритания
+Central African Republic			Центральноафриканская Республика
+Chad			Чад
+Comoros			Коморские о-ва
+Congo			Конго
+Cote d'lvoire			Кот-д'Ивуар
+Egypt			Египет
+Ethiopia			Эфиопия
+Guinea-Bissau			Гвинея-Биссау
+Kenya			Кения
+Lesotho			Лесото
+Libyan Arab			Ливия
+Morocco			Марокко
+Mozambique			Мозамбик
+Seychelles			Сейшельские о-ва
+S. Africa			Южноафриканская Республика
+S.Africa			Южноафриканская Республика
+Tunisia			Тунис
+W. Sahara			Зап. Сахара
+Zaire			Заир
+Bahamas			Багамские о-ва
+Bermuda			Бермуда
+Virgin Is.			Виргинские о-ва
+Canada			Канада
+Costa Rica			Коста Рика
+Cuba			Куба
+Dominican Rep			Доминиканская Респ.
+El Salvador			Сальвадор
+Greenland			Гренландия
+Guatemala			Гватемала
+Jamaica			Ямайка
+Martinique			о-в Мартиника
+Mexico			Мексика (Мехико)
+Nicaragua			Никарагуа
+Puerto Rico			Пуэрто-Рико
+St. Vincent and the Grenadines			Сент-Винсент и Гренадины
+Trinidad and Tobago			Тринидад и Тобаго
+Turks and Caicos Islands			О-ва Теркс и Кайкос
+Argentina			Аргентина
+Bolivia			Боливия
+Brazil			Бразилия
+Colombia			Колумбия
+Ecuador			Эквадор
+Paraguay			Парагвай
+Suriname			Суринам
+Venezuela			Венесуэла
+Afghanistan			Афганистан
+Bangladesh			Бангладеш
+Brunei Daruissalam			Бруней-Даруссалам
+China			Китай
+Cyprus			Кипр
+Democratic Kampuchea			Кампучия
+Democratic Yemen			Народная Демократическая Республика Йемен
+Indonesia			Индонезия
+Iraq			Ирак
+Israel			Израиль
+Japan			Япония
+Lao People's Dem. Rep.			Лаос
+Lebanon			Ливан
+Malaysia			Малайзия
+Maldives			Мальдивские о-ва
+Philippines			Филиппины
+Saudi Arabia			Саудовская Аравия
+# Already in the cities
+#Singapore			Сингапур
+Syrian Arab Republic			Сирия
+Thailand			Тайланд
+Turkey			Турция
+United Arab Emirates			ОАЭ
+Viet Nam			Вьетнам
+Yemen			Йемен
+Andorra			Андорра
+Belgium			Бельгия
+Czechoslovakia			Чехословакия
+Denmark			Дания
+Finland			Финляндия
+France			Франция
+German Democratic Republic			ГДР
+Germany			ФРГ
+Greece			Греция
+# Already in the cities
+#Holy See			Ватикан
+Hungary			Венгрия
+Ireland			Ирландия
+Italy			Италия
+Luxembourg			Люксембург
+Netherlands			Голландия
+Norway			Норвегия
+Poland			Польша
+Portugal			Португалия
+Romania			Румыния
+Spain			Испания
+Sweden			Швеция
+Switzerland			Швейцария
+Yugoslavia			Югославия
+Fiji			Фиджи
+New Caledonia			Новая Каледония
+New Zealand			Новая Зеландия
+Papua New Guinea			Папуа-Новая Гвинея
+Solomon Islands			Соломоновы о-ва
+USSR			СССР
+Falkland Islands			Фолклендские о-ва
+Cook Islands			О-ва Кука
+E. Timor			Вост. Тимор
+USAVirgin Islands			Американские Виргинские о-ва
+Madagascar			Мадагаскар
+Mauritania			Мавритания
+Guinea			Гвинея
+Djibouti			Джибути
+American Samoa			Американское Самоа
+French Polynesia			Французская Полинезия
+Uruguay			Уругвай
+French Guiana			Французская Гайяна
+Guadeloupe			Гваделупа
+Neths. Anttilles			Голландские Антильские о-ва
+Cayman Is			Каймановы о-ва
+Qatar			Катар
+Bahrain			Бахрейн
+Kuwait			Кувейт
+# Already in the cities
+Monaco			Монако
+Faeroe Islands			Фарерские о-ва
+Iceland			Исландия
+Northern Ireland			Сев. Ирландия
+Isle of Man			О-в Мэн
+Scotland			Шотландия
+Sierra leone			Сьерра-Леоне
+Uganda			Уганда
+Mali			Мали
+Ghana			Гана
+Nigeria			Нигерия
+Cameroon			Камерун
+Sudan			Судан
+Zambia			Замбия
+Namibia			Намибия
+Zimbabwe			Зимбабве
+Burkina faso			Буркина-Фасо
+Nigeria			Нигерия
+USA			США
+Peru			Перу
+Honduras			Гондурас
+Chile			Чили
+Burma			Бирма
+Korea			Корея
+Iran			Иран
+Austria			Австрия
+Bulgaria			Болгария
