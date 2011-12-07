@@ -136,14 +136,8 @@
 		27F9DA530BAA0BD200C120A6 /* splashscreen_renderer.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 27F9DA510BAA0BD200C120A6 /* splashscreen_renderer.h */; };
 		27F9DA540BAA0BD200C120A6 /* splashscreen_renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27F9DA520BAA0BD200C120A6 /* splashscreen_renderer.cpp */; };
 		27FE40DF0B8D034A005B88D4 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FE40DE0B8D034A005B88D4 /* IOKit.framework */; };
-		4918BD31135064B100DD4B2A /* achievement_tracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4918BD2F135064B100DD4B2A /* achievement_tracker.cpp */; };
-		4989F66B13565E6900BE16BD /* steamauth_window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989F66913565E6900BE16BD /* steamauth_window.cpp */; };
-		4989F67013565E7300BE16BD /* steamauth_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989F66C13565E7300BE16BD /* steamauth_client.cpp */; };
-		4989F67113565E7300BE16BD /* steamauth_server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989F66E13565E7300BE16BD /* steamauth_server.cpp */; };
 		49BC80E3136D572F00A3C3BE /* steam_appid.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49BC80E2136D572F00A3C3BE /* steam_appid.txt */; };
 		49BC80E5136D574200A3C3BE /* steam_appid.txt in Copy Steam */ = {isa = PBXBuildFile; fileRef = 49BC80E2136D572F00A3C3BE /* steam_appid.txt */; };
-		49C4326F1379C11800565587 /* libsteam_api.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C4326E1379C11800565587 /* libsteam_api.dylib */; };
-		49C432A31379C18A00565587 /* libsteam_api.dylib in Copy Steam */ = {isa = PBXBuildFile; fileRef = 49C4326E1379C11800565587 /* libsteam_api.dylib */; };
 		49E967AE1344C2D700746827 /* archive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E967AC1344C2D700746827 /* archive.cpp */; };
 		49E967B01344C2F100746827 /* arcread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E967AF1344C2F100746827 /* arcread.cpp */; };
 		49E967B41344C31800746827 /* cmddata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E967B21344C31800746827 /* cmddata.cpp */; };
@@ -288,7 +282,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				49C432A31379C18A00565587 /* libsteam_api.dylib in Copy Steam */,
 				49BC80E5136D574200A3C3BE /* steam_appid.txt in Copy Steam */,
 			);
 			name = "Copy Steam";
@@ -302,7 +295,7 @@
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		2122572C0A7AB0F70048560F /* language_table.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = language_table.cpp; sourceTree = "<group>"; };
-		212AD4110A769620001F627C /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../contrib/macosx/SDL.framework; sourceTree = SOURCE_ROOT; };
+		212AD4110A769620001F627C /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
 		219938290B8362E600DC54D7 /* airbase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = airbase.cpp; sourceTree = "<group>"; };
 		2199382A0B8362E600DC54D7 /* airbase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = airbase.h; sourceTree = "<group>"; };
 		2199382B0B8362E600DC54D7 /* battleship.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = battleship.cpp; sourceTree = "<group>"; };
@@ -505,18 +498,9 @@
 		27FE40DE0B8D034A005B88D4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		4918BD2F135064B100DD4B2A /* achievement_tracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = achievement_tracker.cpp; sourceTree = "<group>"; };
-		4918BD30135064B100DD4B2A /* achievement_tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = achievement_tracker.h; sourceTree = "<group>"; };
 		4983E73F13550B2400F4B269 /* net_lib_apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_lib_apple.h; sourceTree = "<group>"; };
 		4983E74013550B2400F4B269 /* net_lib_win32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net_lib_win32.h; sourceTree = "<group>"; };
-		4989F66913565E6900BE16BD /* steamauth_window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = steamauth_window.cpp; sourceTree = "<group>"; };
-		4989F66A13565E6900BE16BD /* steamauth_window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = steamauth_window.h; sourceTree = "<group>"; };
-		4989F66C13565E7300BE16BD /* steamauth_client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = steamauth_client.cpp; sourceTree = "<group>"; };
-		4989F66D13565E7300BE16BD /* steamauth_client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = steamauth_client.h; sourceTree = "<group>"; };
-		4989F66E13565E7300BE16BD /* steamauth_server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = steamauth_server.cpp; sourceTree = "<group>"; };
-		4989F66F13565E7300BE16BD /* steamauth_server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = steamauth_server.h; sourceTree = "<group>"; };
 		49BC80E2136D572F00A3C3BE /* steam_appid.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = steam_appid.txt; path = ../../resources/steam_appid.txt; sourceTree = SOURCE_ROOT; };
-		49C4326E1379C11800565587 /* libsteam_api.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsteam_api.dylib; path = ../../contrib/steam/redistributable_bin/osx32/libsteam_api.dylib; sourceTree = SOURCE_ROOT; };
 		49E967AC1344C2D700746827 /* archive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = archive.cpp; path = ../../contrib/systemIV/contrib/unrar/archive.cpp; sourceTree = SOURCE_ROOT; };
 		49E967AD1344C2D700746827 /* archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = archive.h; path = ../../contrib/systemIV/contrib/unrar/archive.h; sourceTree = SOURCE_ROOT; };
 		49E967AF1344C2F100746827 /* arcread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = arcread.cpp; path = ../../contrib/systemIV/contrib/unrar/arcread.cpp; sourceTree = SOURCE_ROOT; };
@@ -708,7 +692,6 @@
 				212AD4120A769620001F627C /* SDL.framework in Frameworks */,
 				27BE86580AC363B2008F67A7 /* Carbon.framework in Frameworks */,
 				27FE40DF0B8D034A005B88D4 /* IOKit.framework in Frameworks */,
-				49C4326F1379C11800565587 /* libsteam_api.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,7 +709,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				49C4326E1379C11800565587 /* libsteam_api.dylib */,
 				212AD4110A769620001F627C /* SDL.framework */,
 				27BE86570AC363B2008F67A7 /* Carbon.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
@@ -761,10 +743,6 @@
 				49E968781344C84600746827 /* authentication.cpp */,
 				49E968791344C84600746827 /* matchmaker.cpp */,
 				49E9687A1344C84600746827 /* metaserver.cpp */,
-				4989F66C13565E7300BE16BD /* steamauth_client.cpp */,
-				4989F66D13565E7300BE16BD /* steamauth_client.h */,
-				4989F66E13565E7300BE16BD /* steamauth_server.cpp */,
-				4989F66F13565E7300BE16BD /* steamauth_server.h */,
 			);
 			path = metaserver;
 			sourceTree = "<group>";
@@ -999,8 +977,6 @@
 				2199389D0B8362E700DC54D7 /* serverbrowser_window.h */,
 				2199389E0B8362E700DC54D7 /* serverdetails_window.cpp */,
 				2199389F0B8362E700DC54D7 /* serverdetails_window.h */,
-				4989F66913565E6900BE16BD /* steamauth_window.cpp */,
-				4989F66A13565E6900BE16BD /* steamauth_window.h */,
 				219938A00B8362E700DC54D7 /* side_panel.cpp */,
 				219938A10B8362E700DC54D7 /* side_panel.h */,
 				219938A40B8362E700DC54D7 /* toolbar.cpp */,
@@ -1023,8 +999,6 @@
 			children = (
 				219938B00B8362E700DC54D7 /* app.cpp */,
 				219938B10B8362E700DC54D7 /* app.h */,
-				4918BD2F135064B100DD4B2A /* achievement_tracker.cpp */,
-				4918BD30135064B100DD4B2A /* achievement_tracker.h */,
 				219938B20B8362E700DC54D7 /* defcon_soundinterface.cpp */,
 				219938B30B8362E700DC54D7 /* defcon_soundinterface.h */,
 				219938B40B8362E700DC54D7 /* dockicon.h */,
@@ -1562,7 +1536,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\ncd build/${BUILD_STYLE}/DEFCON.app/Contents/Resources\nln -sf ../../../../../../../data .\ncd ..\nperl ${SRCROOT}/../../tools/macosx/patch_version.pl ${SRCROOT}/../../source/lib/universal_include.h";
+			shellScript = "#!/bin/sh \nln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources ";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1799,10 +1773,6 @@
 				49E968D91344C98900746827 /* net_socket.cpp in Sources */,
 				49E968DA1344C98900746827 /* net_thread_linux.cpp in Sources */,
 				49E968DB1344C98900746827 /* net_udp_packet.cpp in Sources */,
-				4918BD31135064B100DD4B2A /* achievement_tracker.cpp in Sources */,
-				4989F66B13565E6900BE16BD /* steamauth_window.cpp in Sources */,
-				4989F67013565E7300BE16BD /* steamauth_client.cpp in Sources */,
-				4989F67113565E7300BE16BD /* steamauth_server.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1845,6 +1815,8 @@
 		21993A8A0B85DB2500DC54D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -1872,6 +1844,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../SystemIV/macosx/contrib/unrar\"";
 				PREBINDING = NO;
 				PRODUCT_NAME = SoundLibrary;
+				SDKROOT = macosx;
 				SDKROOT_i386 = /Developer/SDKs/MacOSX10.6.sdk/;
 				SDKROOT_ppc = /Developer/SDKs/MacOSX10.6.sdk/;
 				USER_HEADER_SEARCH_PATHS = "../../source ../../../../SystemIV/macosx";
@@ -1882,6 +1855,8 @@
 		21993A8B0B85DB2500DC54D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -1920,6 +1895,8 @@
 		21FBC3E20A79723400B47F25 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1929,6 +1906,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
 				PRODUCT_NAME = OggVorbis;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../contrib/macosx/libogg-1.1.3/include ../../contrib/macosx/libvorbis-1.1.2/include ../../contrib/macosx/libvorbis-1.1.2/lib";
 				ZERO_LINK = NO;
 			};
@@ -1937,6 +1915,8 @@
 		21FBC3E30A79723400B47F25 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -1946,6 +1926,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
 				PRODUCT_NAME = OggVorbis;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../contrib/macosx/libogg-1.1.3/include ../../contrib/macosx/libvorbis-1.1.2/include ../../contrib/macosx/libvorbis-1.1.2/lib";
 				ZERO_LINK = NO;
 			};
@@ -1983,7 +1964,8 @@
 		4989F6BC1357D82A00BE16BD /* Vanilla */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2020,6 +2002,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				PRODUCT_NAME = DEFCON;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../source ../../../../SystemIV";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2028,6 +2011,8 @@
 		4989F6BD1357D82A00BE16BD /* Vanilla */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -2037,6 +2022,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
 				PRODUCT_NAME = OggVorbis;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../contrib/macosx/libogg-1.1.3/include ../../contrib/macosx/libvorbis-1.1.2/include ../../contrib/macosx/libvorbis-1.1.2/lib";
 				ZERO_LINK = NO;
 			};
@@ -2045,6 +2031,8 @@
 		4989F6BE1357D82A00BE16BD /* Vanilla */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2112,7 +2100,8 @@
 		49BF3DBB13604978002A9503 /* MacSteam */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2150,6 +2139,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				PRODUCT_NAME = DEFCON;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../source ../../../../SystemIV";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2158,6 +2148,8 @@
 		49BF3DBC13604978002A9503 /* MacSteam */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -2167,6 +2159,7 @@
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
 				PRODUCT_NAME = OggVorbis;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../contrib/macosx/libogg-1.1.3/include ../../contrib/macosx/libvorbis-1.1.2/include ../../contrib/macosx/libvorbis-1.1.2/lib";
 				ZERO_LINK = NO;
 			};
@@ -2175,6 +2168,8 @@
 		49BF3DBD13604978002A9503 /* MacSteam */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2213,7 +2208,8 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2252,6 +2248,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				PRODUCT_NAME = DEFCON;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../source ../../../../SystemIV";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
@@ -2261,7 +2258,8 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2298,6 +2296,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../contrib/steam/redistributable_bin/osx32\"";
 				PRODUCT_NAME = DEFCON;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../source ../../../../SystemIV";
 				WRAPPER_EXTENSION = app;
 			};

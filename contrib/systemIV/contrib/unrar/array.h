@@ -3,7 +3,7 @@
 
 #include "errhnd.h"
 #include "rardefs.h"
-
+#import <strings.h>
 extern ErrorHandler ErrHandler;
 
 template <class T> class Array
