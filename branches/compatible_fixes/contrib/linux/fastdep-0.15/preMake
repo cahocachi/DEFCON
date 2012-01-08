@@ -1,2 +1,0 @@
-config/config.me:
-	sh configure
