@@ -205,7 +205,6 @@ void MapRenderer::Render()
         g_renderer->TextSimple( 150, 5, White, 12.0f, fps );
     }
 
-
     //
     // Render it!
 
@@ -3177,13 +3176,23 @@ void MapRenderer::UpdateCameraControl( float longitude, float latitude )
 
 
     float maxWidth = 360.0f;    
-    float aspect = (float) m_pixelH / (float) m_pixelW;
-    float maxHeight = (360.0f * aspect);
+    float maxHeight = 201;
 
     if( m_middleX > maxWidth/2 ) m_middleX = -maxWidth/2 + m_middleX-maxWidth/2;
     if( m_middleX < -maxWidth/2 ) m_middleX = 180 - m_middleX/-maxWidth/2;
-    if( m_middleY + height/2 < -maxHeight/2 ) m_middleY = -maxHeight/2 - height/2;
-    if( m_middleY - height/2 > maxHeight/2 ) m_middleY = maxHeight/2 + height/2;
+
+    // Ok, height is negative... See if clamping makes sense.
+    if( -height < maxHeight )
+    {
+        // clamp vertical scrolling to sensible map boundaries
+        if( m_middleY + height/2 < -maxHeight/2 ) m_middleY = -maxHeight/2 - height/2;
+        if( m_middleY - height/2 > maxHeight/2 ) m_middleY = maxHeight/2 + height/2;
+    }
+    else
+    {
+        // zoom too wide to clamp, center instead
+        m_middleY = 0;
+    }
 }
 
 
