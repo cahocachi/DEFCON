@@ -12,6 +12,7 @@ export APBUILD_CXX1 = g++-4.0
 CXX=apg++
 CC=apgcc
 CXXFLAGS=-w -g -O3 -pipe -fmessage-length=0 -fvisibility=hidden 
+CFLAGS=${CXXFLAGS} -DENABLE_BINRELOC
 
 #-D_DEBUG \
 
@@ -126,7 +127,7 @@ source/interface/worldstatus_window.cpp \
 source/interface/worldobject_window.cpp \
 source/interface/info_window.cpp \
 source/interface/placement_icon.cpp \
-$(SYSTEMIV_PATH)/contrib/binreloc/prefix.cpp \
+$(SYSTEMIV_PATH)/contrib/binreloc/binreloc.c \
 $(SYSTEMIV_PATH)/contrib/unrar/archive.cpp \
 $(SYSTEMIV_PATH)/contrib/unrar/arcread.cpp \
 $(SYSTEMIV_PATH)/contrib/unrar/cmddata.cpp \
@@ -244,7 +245,8 @@ $(SYSTEMIV_PATH)/lib/string_utils.cpp
 OBJDIR_BASE=.linux-objs
 FULL_OBJDIR=$(OBJDIR_BASE)/full
 
-ALL_OBJECTS=$(SOURCES:%.cpp=%.o)
+ALL_OBJECTS_1=$(SOURCES:%.cpp=%.o)
+ALL_OBJECTS=$(ALL_OBJECTS_1:%.c=%.o)
 FULL_OBJECTS=$(ALL_OBJECTS:%.o=$(FULL_OBJDIR)/%.o)
 
 all: defcon.full
@@ -253,6 +255,11 @@ all: defcon.full
 	@echo Compiling $<
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+.linux-objs/full/%.o: %.c
+	@echo Compiling $<
+	@mkdir -p $(dir $@)
+	@$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 defcon.full: $(FULL_OBJECTS)
 	@echo -n "Linking... "
