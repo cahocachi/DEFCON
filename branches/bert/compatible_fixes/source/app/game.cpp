@@ -54,7 +54,8 @@ Game::Game()
         option->m_max       = atof( in->GetNextToken() );
         option->m_default   = atof( in->GetNextToken() );
         option->m_change    = atoi( in->GetNextToken() );     
-        
+        option->m_syncedOnce = false;
+
         if( option->m_change == 0 )
         {
             // Drop down menu - so load the sub options
@@ -81,6 +82,16 @@ Game::Game()
             strcpy( option->m_currentString, in->GetRestOfLine() );
         }
     }
+
+    // check some critical options, they could be used for cheating and need to stay in place
+    // (Makes the data driven approach above a bit useless)
+    AppAssert( m_options.Size() >= 24 );
+    AppAssert( 0 == strcmp(m_options[22]->m_name, "TeamSwitching") );
+    AppAssert( 0 == strcmp(m_options[14]->m_name, "ScoreMode") );
+    AppAssert( 0 == strcmp(m_options[13]->m_name, "SlowestSpeed") );
+    AppAssert( 0 == strcmp(m_options[11]->m_name, "RadarSharing") );
+    AppAssert( 0 == strcmp(m_options[10]->m_name, "PermitDefection") );
+    AppAssert( 0 == strcmp(m_options[9]->m_name, "RandomTerritories") );
 
     delete in;
 
@@ -628,6 +639,7 @@ void GameOption::Copy( GameOption *_option )
     m_default = _option->m_default;
     m_change = _option->m_change;
     m_currentValue = _option->m_currentValue;
+    m_syncedOnce = false;
     memcpy( m_currentString, _option->m_currentString, sizeof(m_currentString) );
 
     m_subOptions.Empty();

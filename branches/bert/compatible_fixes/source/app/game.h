@@ -84,6 +84,7 @@ public:
     int     m_change;    
     int     m_currentValue;
     char    m_currentString[256];
+    bool    m_syncedOnce;
     
     LList   <char *> m_subOptions;
 
