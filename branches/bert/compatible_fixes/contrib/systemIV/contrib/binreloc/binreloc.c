@@ -764,7 +764,8 @@ br_strndup (const char *str, size_t size)
 char *
 br_dirname (const char *path)
 {
-	char *end, *result;
+	char const *end;
+	char *result;
 
 	if (path == (const char *) NULL)
 		return (char *) NULL;

@@ -5,6 +5,7 @@
 #ifdef FLOAT_NUMERICS
 
 #include <float.h>
+#include <iostream>
 
 #include "fixed_float.h"
 #include "lib/debug_utils.h"

@@ -6,7 +6,7 @@
 
 #include "version_manager.h"
 
-
+#include <cstring>
 
 float VersionManager::VersionStringToNumber( char *_version )
 {
