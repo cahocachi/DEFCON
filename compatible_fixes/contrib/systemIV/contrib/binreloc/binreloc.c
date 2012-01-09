@@ -14,6 +14,9 @@
 #define __BINRELOC_C__
 
 #ifdef ENABLE_BINRELOC
+    #ifndef _GNU_SOURCE
+      #define _GNU_SOURCE
+    #endif
 	#include <sys/types.h>
 	#include <sys/stat.h>
 	#include <unistd.h>
