@@ -261,9 +261,8 @@ defcon.full$(SUFFIX): $(FULL_OBJECTS)
 	@echo "Done."
 
 clean:
-	rm -f defcon.full
+	rm -f defcon.full$(SUFFIX)
 	rm -rf $(OBJDIR_BASE)
-	rm *.dep
 
 FASTDEP = contrib/linux/bin/fastdep
 
