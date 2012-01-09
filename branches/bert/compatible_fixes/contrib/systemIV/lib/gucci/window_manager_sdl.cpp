@@ -255,6 +255,13 @@ void WindowManagerSDL::Flip()
 	if (m_tryingToCaptureMouse) 
 		g_windowManager->CaptureMouse();
 	
+        // flush buffers before swap; this gives
+        // one frame input lag max and does not reduce
+        // throughput as much as doing it after the swap.
+        // Yes, some sources say glFinish never needs to be called.
+        // They're wrong.
+        glFinish();
+
 	SDL_GL_SwapBuffers();
 }
 
