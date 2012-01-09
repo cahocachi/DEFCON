@@ -621,6 +621,7 @@ void Game::ResetGame()
     m_lockVictoryTimer = false;
     m_winner = -1;
     m_victoryTimer = -1;
+    m_recalcTimer = 0;
     for( int i = 0; i < MAX_TEAMS; ++i )
     {
         m_score[i] = 0;

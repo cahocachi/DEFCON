@@ -895,6 +895,7 @@ void DefconMain()
                         {
                             AppDebugOut( "Client successfully began Resynchronising\n" );
                             g_app->GetClientToServer()->m_resynchronising = -1.0f;
+                            g_app->GetGame()->ResetGame();
                         }
 
                         unsigned char sync = GenerateSyncValue();
