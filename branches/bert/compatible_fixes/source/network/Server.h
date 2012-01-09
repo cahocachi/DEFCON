@@ -91,6 +91,7 @@ public:
     bool CanClientRejoin            ( Directory *_message );
     int  HandleClientRejoin         ( Directory *_message );
     void HandleSyncMessage          ( Directory *_message );
+    static bool CheckForTeamSwitchExploit ( Directory *_message );
     bool CheckForExploits           ( Directory *_message );
 
     bool GetIdentity        ( char *_ip, int *_port );

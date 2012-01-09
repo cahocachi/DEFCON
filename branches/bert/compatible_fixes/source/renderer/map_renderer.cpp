@@ -48,6 +48,18 @@
 #include "world/fleet.h"
 #include "world/whiteboard.h"
 
+static unsigned char GetOwner( int objectId )
+{
+    WorldObject * obj = g_app->GetWorld()->GetWorldObject(objectId);
+    if(obj)
+    {
+        return obj->m_teamId;
+    }
+    else
+    {
+        return -1;
+    }
+}
 
 MapRenderer::MapRenderer()
 :   m_middleX(0.0f),
@@ -3267,7 +3279,7 @@ void MapRenderer::HandleSelectObject( int _underMouseId )
 
             if( selectionLandable && underMouseLandable )
             {
-                g_app->GetClientToServer()->RequestSpecialAction( m_currentSelectionId, _underMouseId, World::SpecialActionLandingAircraft );
+                g_app->GetClientToServer()->RequestSpecialAction( GetOwner(m_currentSelectionId), m_currentSelectionId, _underMouseId, World::SpecialActionLandingAircraft );
                 CreateAnimation( AnimationTypeActionMarker, selection->m_objectId,
 								 undermouse->m_longitude.DoubleValue(), undermouse->m_latitude.DoubleValue() );
                 SetCurrentSelectionId(-1);
@@ -3322,14 +3334,14 @@ void MapRenderer::HandleClickStateMenu()
                     {
                         if( m_currentStateId == CLEARQUEUE_STATEID )
                         {
-                            g_app->GetClientToServer()->RequestClearActionQueue( thisObj->m_objectId );
+                            g_app->GetClientToServer()->RequestClearActionQueue( GetOwner(thisObj->m_objectId), thisObj->m_objectId );
                             g_soundSystem->TriggerEvent( "Interface", "SelectObjectState" );           
                         }
                         else
                         {
                             if( thisObj->CanSetState(m_currentStateId) )
                             {
-                                g_app->GetClientToServer()->RequestStateChange( thisObj->m_objectId, m_currentStateId );
+                                g_app->GetClientToServer()->RequestStateChange( GetOwner(thisObj->m_objectId), thisObj->m_objectId, m_currentStateId );
                                 g_soundSystem->TriggerEvent( "Interface", "SelectObjectState" );           
                             }
                             else
@@ -3348,12 +3360,12 @@ void MapRenderer::HandleClickStateMenu()
                 //
                 // Clear action queue clicked
 
-                g_app->GetClientToServer()->RequestClearActionQueue( m_currentHighlightId );
+                g_app->GetClientToServer()->RequestClearActionQueue( GetOwner(m_currentHighlightId), m_currentHighlightId );
                 g_soundSystem->TriggerEvent( "Interface", "SelectObjectState" );           
             }
             else
             {
-                g_app->GetClientToServer()->RequestStateChange( m_currentHighlightId, m_currentStateId );
+                g_app->GetClientToServer()->RequestStateChange( GetOwner(m_currentHighlightId), m_currentHighlightId, m_currentStateId );
 
                 //
                 // Select the object if it can spawn/do stuff
@@ -3468,10 +3480,10 @@ void MapRenderer::HandleObjectAction( float _mouseX, float _mouseY, int underMou
                 {
                     if( obj->SetWaypointOnAction() )
                     {
-                        g_app->GetClientToServer()->RequestSetWaypoint( m_currentSelectionId, targetLong,
+                        g_app->GetClientToServer()->RequestSetWaypoint( GetOwner(m_currentSelectionId), m_currentSelectionId, targetLong,
                                                                         targetLat );
                     }
-                    g_app->GetClientToServer()->RequestAction( m_currentSelectionId, underMouseId,
+                    g_app->GetClientToServer()->RequestAction( GetOwner(m_currentSelectionId), m_currentSelectionId, underMouseId,
                                                                targetLong, targetLat ); 
 
                     int animid = CreateAnimation( AnimationTypeActionMarker, m_currentSelectionId, targetLong.DoubleValue(), targetLat.DoubleValue() );
@@ -3577,7 +3589,7 @@ void MapRenderer::HandleSetWaypoint( float _mouseX, float _mouseY )
             //
             // Moving a single object
 
-            g_app->GetClientToServer()->RequestSetWaypoint( m_currentSelectionId,
+            g_app->GetClientToServer()->RequestSetWaypoint( GetOwner(m_currentSelectionId), m_currentSelectionId,
 															Fixed::FromDouble(_mouseX), Fixed::FromDouble(_mouseY) );
             int index = CreateAnimation( AnimationTypeActionMarker, m_currentSelectionId, _mouseX, _mouseY );  
             ActionMarker *marker = (ActionMarker *)m_animations[index];

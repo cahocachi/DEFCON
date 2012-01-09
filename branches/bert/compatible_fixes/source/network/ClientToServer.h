@@ -86,12 +86,12 @@ public:
     void RequestGameSpeed       ( unsigned char teamId, unsigned char gameSpeed );
     
     void RequestPlacement       ( unsigned char teamId, unsigned char unitType, Fixed longitude, Fixed latitude, unsigned char fleetId = 255 );
-    void RequestStateChange     ( int objId, unsigned char state );
-    void RequestAction          ( int objId, int targetObjectId, Fixed longitude, Fixed latitude );
-    void RequestSpecialAction   ( int objId, int targetObjectId, unsigned char specialActionType );
-    void RequestSetWaypoint     ( int objId, Fixed longitude, Fixed latitude );
-    void RequestClearActionQueue( int objId );
-    void RequestClearLastAction ( int objId );
+    void RequestStateChange     ( unsigned char teamId, int objId, unsigned char state );
+    void RequestAction          ( unsigned char teamId, int objId, int targetObjectId, Fixed longitude, Fixed latitude );
+    void RequestSpecialAction   ( unsigned char teamId, int objId, int targetObjectId, unsigned char specialActionType );
+    void RequestSetWaypoint     ( unsigned char teamId, int objId, Fixed longitude, Fixed latitude );
+    void RequestClearActionQueue( unsigned char teamId, int objId );
+    void RequestClearLastAction ( unsigned char teamId, int objId );
     void RequestFleet           ( unsigned char teamId );
     void RequestFleetMovement   ( unsigned char teamId, int fleetId, Fixed longitude, Fixed latitude );
     void RequestCeaseFire       ( unsigned char teamId, unsigned char targetTeam );
