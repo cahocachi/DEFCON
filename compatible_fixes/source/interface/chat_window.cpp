@@ -507,6 +507,10 @@ void ChatWindow::RenderMessages()
                 width -= teamW;
                 width -= playerNameTextWidth;
             }
+            else
+            {
+                width -= teamW;
+            }
             width -= 10;
             MultiLineText wrapped( newMsg, width, 12, true );
 
@@ -519,8 +523,8 @@ void ChatWindow::RenderMessages()
                 if( !action )
                 {
                     if( w == 0 ) xPos += playerNameTextWidth + 10;           
-                    xPos += teamW;
                 }
+                xPos += teamW;
                 
                 if( y >= 0 && y <= g_windowManager->WindowH() )
                 {
