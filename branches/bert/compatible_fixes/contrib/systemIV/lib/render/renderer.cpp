@@ -124,7 +124,6 @@ void Renderer::BeginScene()
     glDisable   ( GL_POLYGON_SMOOTH );
 
     bool smoothLines = g_preferences->GetInt( PREFS_GRAPHICS_SMOOTHLINES );
-	smoothLines = ( g_keys[KEY_J] );
 	
     if( smoothLines )
     {
