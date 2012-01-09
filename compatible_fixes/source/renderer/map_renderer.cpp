@@ -57,7 +57,7 @@ static unsigned char GetOwner( int objectId )
     }
     else
     {
-        return -1;
+        return 255;
     }
 }
 
