@@ -51,7 +51,10 @@ static NetSocketSession     *s_socketToLAN = NULL;
 static bool                 s_connectedToWAN = false;
 static bool                 s_registeringOverWAN = false;
 
+// server properties, once for metaserver, once for the LAN. The LAN version comes without
+// authkey, the mutex is for both.
 static Directory            *s_serverProperties = NULL;
+static Directory            *s_serverPropertiesLAN = NULL;
 static NetMutex             s_serverPropertiesMutex;
 
 static Directory            *s_clientProperties = NULL;
@@ -440,6 +443,11 @@ void MetaServer_SetServerProperties( Directory *_properties )
     Directory *propertiesCopy = new Directory();
     propertiesCopy->CopyData( _properties );
 
+    // remove authkey from LAN version
+    Directory *propertiesCopyLAN = new Directory();
+    propertiesCopyLAN->CopyData( _properties );
+    propertiesCopyLAN->RemoveData( NET_METASERVER_AUTHKEY );
+
     s_serverPropertiesMutex.Lock();
 
     if( s_serverProperties )
@@ -449,6 +457,14 @@ void MetaServer_SetServerProperties( Directory *_properties )
     }
 
     s_serverProperties = propertiesCopy;
+
+    if( s_serverPropertiesLAN )
+    {
+        delete s_serverPropertiesLAN;
+        s_serverPropertiesLAN = NULL;
+    }
+
+    s_serverPropertiesLAN = propertiesCopyLAN;
 
     s_serverPropertiesMutex.Unlock();
 }
@@ -592,12 +608,12 @@ static NetCallBackRetType ServerRegisterLANThread(void *ignored)
 
         s_serverPropertiesMutex.Lock();
 
-        if( s_serverProperties )
+        if( s_serverPropertiesLAN )
         {
-            s_serverProperties->SetName( NET_METASERVER_MESSAGE );
-            s_serverProperties->CreateData( NET_METASERVER_COMMAND, NET_METASERVER_REGISTER );
+            s_serverPropertiesLAN->SetName( NET_METASERVER_MESSAGE );
+            s_serverPropertiesLAN->CreateData( NET_METASERVER_COMMAND, NET_METASERVER_REGISTER );
 
-            success = MetaServer_SendDirectory( s_serverProperties, s_socketToLAN );
+            success = MetaServer_SendDirectory( s_serverPropertiesLAN, s_socketToLAN );
         }        
 
         s_serverPropertiesMutex.Unlock();
