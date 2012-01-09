@@ -7,8 +7,6 @@
 # or
 # make -f targets/linux/Makefile.debug
 
-CXX=apg++
-CC=apgcc
 CXXFLAGS=$(CXXFLAGS_BASE) -pipe -fmessage-length=0 -fvisibility=hidden 
 CFLAGS=${CXXFLAGS} -DENABLE_BINRELOC
 
