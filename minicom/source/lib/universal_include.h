@@ -3,10 +3,27 @@
 
 #define APP_NAME        "Defcon"
 
+// the base version; the version of the last DEFCON build this modification is
+// based on. This is interpreted as a floating point number, so 1.2 > 1.19999;
+// practical version numbers had two digits at most, so to keep the madness at bay,
+// we pad to that.
+#define BASE_VERSION "1.60"
+
+// branch. Change if you want to do something completely different
+#define BRANCH_VERSION "MINICOM"
+
+// Protocol version. When we make sync incompatible changes, we bump it
+#define PROTOCOL_VERSION "0"
+
+// patch level. Increased on all new builds that don't break sync compatibility
+#define PATCH_VERSION "0"
+
+// for all of the above, if you change one definition, you can reset everything below it.
+
 #if (defined TARGET_OS_MACOSX)
 	#define	APP_VERSION		"1.6 MAC"
 #else
-	#define APP_VERSION     "1.6 SOURCE"
+	#define APP_VERSION     BASE_VERSION "." PROTOCOL_VERSION "." PATCH_VERSION " " BRANCH_VERSION
 #endif
 //#define APP_VERSION     "1.5 fr rtl" // Defcon 1.5 Codemasters french build, use TARGET_RETAIL_MULTI_LANGUAGE_FRENCH
 //#define APP_VERSION     "1.5 de rtl" // Defcon 1.5 german build, use TARGET_RETAIL_MULTI_LANGUAGE_GERMAN

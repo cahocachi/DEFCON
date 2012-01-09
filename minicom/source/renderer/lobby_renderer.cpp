@@ -601,7 +601,7 @@ void LobbyRenderer::RenderVersionInfo()
     g_renderer->SetFont( "kremlin" );
 
     g_renderer->TextSimple( xPos, yPos, fontBold, 20, LANGUAGEPHRASE("dialog_lobby_version") );        
-    g_renderer->TextSimple( xPos + 100, yPos, fontNormal, 20, currentVersion );
+    g_renderer->TextSimple( xPos + 90, yPos, fontNormal, 20, currentVersion );
 
     g_renderer->SetFont();
 
