@@ -188,6 +188,48 @@ void RenderPlayerSlots( int _x, int _y, int _w, int _h, int _numTeams, int _numH
 
 }
 
+// checks whether this client is compatible with the given server.
+bool ProtocolMatch( Directory * server )
+{
+    if( server->HasData( NET_METASERVER_PROTOCOLMATCH, DIRECTORY_TYPE_INT ) )
+    {
+        int protocolMatch = server->GetDataInt( NET_METASERVER_PROTOCOLMATCH );
+        if( !protocolMatch )
+        {
+            return false;
+        }
+    }
+    
+    // the metaserver seems to think all versions not in its database are mutually
+    // compatible. Correct that, no community builds are going to be in the list.
+    // First check, the branch needs to match.
+    char *theirVersion = server->GetDataString( NET_METASERVER_GAMEVERSION );
+    if( !strstr( theirVersion, BRANCH_VERSION ) )
+    {
+        return false;
+    }
+
+    // second check, base and protocol version need to match. That's the version string up to the
+    // third non-digit.
+    char *myVersion = APP_VERSION;
+    int nonDigits = 0;
+    while( nonDigits < 3 && *myVersion && *theirVersion )
+    {
+        if( *myVersion != *theirVersion )
+        {
+            return false;
+        }
+        if( !isdigit( *myVersion ) )
+        {
+            nonDigits++;
+        }
+
+        myVersion++;
+        theirVersion++;
+    }
+
+    return true;
+}
 
 class GameServerButton : public EclButton
 {
@@ -262,12 +304,6 @@ public:
                 password = true;
             }
             
-            int protocolMatch = true;
-            if( server->HasData( NET_METASERVER_PROTOCOLMATCH, DIRECTORY_TYPE_INT ) )
-            {
-                protocolMatch = server->GetDataInt( NET_METASERVER_PROTOCOLMATCH );
-            }
-
             char netLocation[256];
             sprintf( netLocation, "%s:%d", serverIp, serverPort );
 
@@ -395,6 +431,7 @@ public:
 
             Colour col = White;
 
+            bool protocolMatch = ProtocolMatch( server );
             if( !protocolMatch )
             {
 				sprintf( serverNameFull, LANGUAGEPHRASE("dialog_server_name_incompatible") );
@@ -834,12 +871,7 @@ bool ServerBrowserWindow::ConnectToServer( Directory *_server, const char *_serv
     // Check the server can be joined first
     // Check the protocol numbers match up
 
-    int protocolMatch = true;
-    if( _server->HasData( NET_METASERVER_PROTOCOLMATCH, DIRECTORY_TYPE_INT ) )
-    {
-        protocolMatch = _server->GetDataInt( NET_METASERVER_PROTOCOLMATCH );
-    }
-
+    bool protocolMatch = ProtocolMatch( _server );
     if( !protocolMatch )
     {
         char *theirVersion = _server->GetDataString( NET_METASERVER_GAMEVERSION );
@@ -1379,11 +1411,7 @@ int ServerBrowserWindow::ScoreServer_Default( Directory *server )
     g_app->GetClientToServer()->GetIdentity( localIp, &localPort );
     if( stricmp( serverIp, localIp ) == 0 ) lanGame = true;
 
-    int protocolMatch = true;
-    if( server->HasData( NET_METASERVER_PROTOCOLMATCH, DIRECTORY_TYPE_INT ) )
-    {
-        protocolMatch = server->GetDataInt( NET_METASERVER_PROTOCOLMATCH );
-    }
+    bool protocolMatch = ProtocolMatch( server );
 
     int score = 0;
 
