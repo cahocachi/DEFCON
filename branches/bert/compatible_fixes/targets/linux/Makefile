@@ -3,20 +3,16 @@
 #
 # In the parent directory of source/ contrib/ targets/
 #
-# make -f targets/linux/Makefile
-# 
-
-export APBUILD_CC = g++-4.0
-export APBUILD_CXX1 = g++-4.0
+# make -f targets/linux/Makefile.release
+# or
+# make -f targets/linux/Makefile.debug
 
 CXX=apg++
 CC=apgcc
-CXXFLAGS=-w -g -O3 -pipe -fmessage-length=0 -fvisibility=hidden 
+CXXFLAGS=$(CXXFLAGS_BASE) -pipe -fmessage-length=0 -fvisibility=hidden 
 CFLAGS=${CXXFLAGS} -DENABLE_BINRELOC
 
-#-D_DEBUG \
-
-CPPFLAGS=\
+CPPFLAGS=$(CPPFLAGS_BASE)\
 -DTARGET_FULLGAME \
 -DTARGET_OS_LINUX \
 -DHAVE_SOCKET \
@@ -242,26 +238,26 @@ $(SYSTEMIV_PATH)/lib/string_utils.cpp
 
 # Building 
 
-OBJDIR_BASE=.linux-objs
+OBJDIR_BASE=.linux-objs$(SUFFIX)
 FULL_OBJDIR=$(OBJDIR_BASE)/full
 
 ALL_OBJECTS_1=$(SOURCES:%.cpp=%.o)
 ALL_OBJECTS=$(ALL_OBJECTS_1:%.c=%.o)
 FULL_OBJECTS=$(ALL_OBJECTS:%.o=$(FULL_OBJDIR)/%.o)
 
-all: defcon.full
+all: defcon.full$(SUFFIX)
 
-.linux-objs/full/%.o: %.cpp
+$(OBJDIR_BASE)/full/%.o: %.cpp
 	@echo Compiling $<
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-.linux-objs/full/%.o: %.c
+$(OBJDIR_BASE)/full/%.o: %.c
 	@echo Compiling $<
 	@mkdir -p $(dir $@)
 	@$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-defcon.full: $(FULL_OBJECTS)
+defcon.full$(SUFFIX): $(FULL_OBJECTS)
 	@echo -n "Linking... "
 	@$(LINK) -o $@ $+ $(LIBS) 
 	@echo "Done."
@@ -273,9 +269,10 @@ clean:
 
 FASTDEP = contrib/linux/bin/fastdep
 
-%.dep: TARGET=$(patsubst %.dep,%,$@)
+$(OBJDIR_BASE)/%.dep: TARGET=$(patsubst %.dep,%,$@)
 
-%.dep:
+$(OBJDIR_BASE)/%.dep:
+	@test -d $(OBJDIR_BASE) || mkdir $(OBJDIR_BASE)
 	@$(FASTDEP) -O $(OBJDIR_BASE)/$(TARGET)/1/1 $(INCLUDES:%=-I %) --remakedeptarget=$@ $(SOURCES) > $@
 
--include full.dep
+-include $(OBJDIR_BASE)/full.dep
