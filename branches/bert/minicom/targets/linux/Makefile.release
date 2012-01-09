@@ -1,0 +1,18 @@
+# -*- Makefile -*- for Defcon
+
+#
+# In the parent directory of source/ contrib/ targets/
+#
+# make -f targets/linux/Makefile.release
+# 
+
+export APBUILD_CC = g++-4.0
+export APBUILD_CXX1 = g++-4.0
+
+CXX=apg++
+CC=apgcc
+CXXFLAGS_BASE=-O3
+CPPFLAGS_BASE=
+SUFFIX=
+
+-include targets/linux/Makefile

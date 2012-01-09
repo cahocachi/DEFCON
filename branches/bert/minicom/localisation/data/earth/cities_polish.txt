@@ -1,0 +1,296 @@
+# =============================================================================
+# DEFCON CITIES/COUNTRIES FILE
+#
+# Format:
+# stringId -> -> -> translation
+# (' -> -> -> ' represente 3 tabs)
+#
+# A hash at the start of a line indicates a comment
+# StringIDs MUST be left untouched during translation
+#
+# =============================================================================
+
+
+# =============================================================================
+# DEFCON CITIES
+# =============================================================================
+
+Abidjan			Abidzan
+Cape Town			Kapsztad
+Khartoum			Chartum
+Khartoum N.			Pln. Chartum
+Cuidad Madero			Ciudad Madero
+Cuidad Obregon			Ciudad Obregon
+Cuidad Victoria			Ciudad Victoria
+Mexico			Meksyk
+Rangoon			Rangun
+Beijing			Pekin
+Taipei			Tajwan
+Jakarta			Dzakarta
+Baghdad			Bagdad
+Haifa			Hajfa
+Jerusalem			Jerozolima
+Petah Tiqwa			Petah Tikva
+Tel Aviv-Yafo			Tel Awiw-Yafo
+Tokyo			Tokio
+Singapore			Singapur
+Istanbul			Stambul
+Wien			Wieden
+Antwerpen			Antwerpia
+Bruxelles			Bruksela
+Plovdiv			Plowdiw
+Bratislava			Bratyslawa
+Ostrava			Ostrawa
+Plzen			Pilzno
+Praha			Praga
+Alborg			Aalborg
+Arhus			Aarhus
+Kobenhavn			Kopenhaga
+Dunkerque			Dunkierka
+Paris			Paryz
+Dresden			Drezno
+Leipzig			Lipsk
+Potsdam			Poczdam
+Rotstock			Rostock
+Frankfurt am Main			Frankfurt n. Menem
+Hannover			Hanower
+Koln			Kolonia
+Lubeck			Lubeka
+Monchengladbach			Moenchengladbach
+Athens			Ateny
+Holy See			Watykan
+Budapest			Budapeszt
+Milano			Mediolan
+Napoli			Neapol
+Padova			Padwa
+Rome			Rzym
+Torino			Turyn
+Trieste			Triest
+Verona			Werona
+Dabrowa Gormicza			Dabrowa Gornicza
+Olsztym			Olsztyn
+Opale			Opole
+Lisboa			Lizbona
+Bucaresti			Bukareszt
+NorrKoping			Norrkoping
+Orebro			Oerebro
+Stockholm			Sztokholm
+Geneve			Genewa
+Lausanne			Lozanna
+Zurich			Zurych
+Beograd			Belgrad
+Ljubiana			Lubljana
+Marebor			Maribor
+Pistina			Pristina
+Sarajevo			Sarajewo
+Skoplje			Skopje
+Zagreb			Zagrzeb
+Adelaide			Adelajda
+Achinsk			Aczinsk
+Aktyubinsk			Aktiubinsk
+Almetevsk			Almetewsk
+Andropov			Andropow
+Anzhero-Sudzhensk			Anzero-Sudiensk
+Arkhanglsk			Archangielsk
+Ashkhabad			Aszkabad
+Astrakhan			Astrachan
+Balakovo			Balakowo
+Balashikha			Balaszicha
+Baranovichi			Baranoviczi
+Belaya Tserkov			Bielaja Cerkow
+Belgorod			Bielgorod
+Beltsy			Belcy
+Berdyansk			Berduansk
+Blagovershchensk			Blagowerszczensk
+Bobruisk			Bobrujsk
+Borisov			Borisow
+Brest			Brzesc
+Breznev			Breznew
+Bryansk			Briansk
+Bukhara			Buchara
+Cheboksary			Czeboksary
+Chelyabinsk			Czeliabinsk
+Cherepovets			Czerepowiec
+Cherkassy			Czerkasy
+Cherkessk			Czerkiesk
+Chernigov			Czernigow
+Chernovtsy			Czernowce
+Chirchik			Czirczik
+Chita			Czita
+Dneprodzerzhinsk			Dnieprodzierzynsk
+Dnepropetrovsk			Dniepropietrowsk
+Donetsk			Donieck
+Dushanbe			Duszanbe
+Dzhambul			Dzambul
+Erevan			Erewan
+Gorky			Gorki
+Ivano-Frankovsk			Ivano-Frankowsk
+Kaunas			Kowno
+Khabarovsk			Chabarowsk
+Kharkov			Charkow
+Khimki			Chimki
+Khmelnitsky			Chmielnicki
+Kiev			Kijow
+Klaipeda			Klajpeda
+Lutsk			Luck
+Moscow			Moskwa
+Nizhnekamsk			Nizniekamsk
+Nizhny Tagil			Niznyj Tagil
+Riga			Ryga
+Rostov-na-Dona			Rostow-nad-Donem
+Saratov			Saratow
+Uhta			Uchta
+Vilniius			Wilno
+Vitebsk			Witebsk
+Vladivosok			Wladywostok
+Volgograd			Wolgograd
+Yaroslavi			Yaroslavl
+Zaporozhye			Zaporoze
+Madrid			Madryt
+Lvov			Lwow
+Aldershot urban area			Aldershot miasto
+Crawley urban area			Crawley miasto
+High Wycombe urbanarea			High Wycombe miasto
+Birkenhead urban ar			Birkenhead miasto
+New York			Nowy Jork
+Monaco			Monako
+Bourgas			Burgas
+Varna			Warna
+Constanta			Konstanca
+Kaliningrad (Moskovskaya oblas			Kaliningrad (Moskwa)
+Kaliningrad (Kaliningradskaya			Kaliningrad (Kaliningrad)
+Voronezh			Woronez
+London			Londyn
+
+
+# =============================================================================
+# DEFCON COUNTRIES
+# =============================================================================
+
+United Kingdom			Wlk. Brytania
+Central African Republic			Republika Srodk. Afryk.
+Chad			Czad
+Comoros			Komory
+Congo			Kongo
+Cote d'lvoire			WKS
+Egypt			Egipt
+Ethiopia			Etiopia
+Guinea-Bissau			Gwinea-Bissau
+Kenya			Kenia
+Lesotho			Lesoto
+Libyan Arab			Libia
+Morocco			Maroko
+Mozambique			Mozambik
+Seychelles			Seszele
+S. Africa			RPA
+S.Africa			RPA
+Tunisia			Tunezja
+W. Sahara			Sahara Zach.
+Zaire			Zair
+Bahamas			Bahamy
+Bermuda			Bermudy
+Virgin Is.			Wyspy Dziew.
+Canada			Kanada
+Costa Rica			Kostaryka
+Cuba			Kuba
+Dominican Rep			Dominikana
+El Salvador			Salwador
+Greenland			Grenlandia
+Guatemala			Gwatemala
+Jamaica			Jamajka
+Martinique			Martinika
+# Already in the cities
+#Mexico			Meksyk
+Nicaragua			Nikaragua
+Puerto Rico			Portoryko
+St. Vincent and the Grenadines			St. Vincent i Grenadyny
+Trinidad and Tobago			Trinidad i Tobago
+Turks and Caicos Islands			Wyspy Turks and Caicos
+Argentina			Argentyna
+Bolivia			Boliwia
+Brazil			Brazylia
+Colombia			Kolumbia
+Ecuador			Ekwador
+Paraguay			Paragwaj
+Suriname			Surinam
+Venezuela			Wenezuela
+Afghanistan			Afganistan
+Bangladesh			Bangladesz
+Brunei Daruissalam			Sultanat Brunei
+China			Chiny
+Cyprus			Cypr
+Democratic Kampuchea			Kampucza
+Democratic Yemen			LDR Jemenu
+Indonesia			Indonezja
+Iraq			Irak
+Israel			Izrael
+Japan			Japonia
+Lao People's Dem. Rep.			Laos
+Lebanon			Liban
+Malaysia			Malezja
+Maldives			Malediwy
+Philippines			Filipiny
+Saudi Arabia			Arabia Saud.
+# Already in the cities
+#Singapore			Singapur
+Syrian Arab Republic			Syria
+Thailand			Tajlandia
+Turkey			Turcja
+United Arab Emirates			ZEA
+Viet Nam			Wietnam
+Yemen			Jemen
+Andorra			Andora
+Belgium			Belgia
+Czechoslovakia			Czechoslowacja
+Denmark			Dania
+Finland			Finlandia
+France			Francja
+German Democratic Republic			NRD
+Germany			Niemcy
+Greece			Grecja
+# Already in the cities
+#Holy See			Watykan
+Hungary			Wegry
+Ireland			Irlandia
+Italy			Wlochy
+Luxembourg			Luksemburg
+Netherlands			Holandia
+Norway			Norwegia
+Poland			Polska
+Portugal			Portugalia
+Romania			Rumunia
+Spain			Hiszpania
+Sweden			Szwecja
+Switzerland			Szwajcaria
+Yugoslavia			Jugoslawia
+Fiji			Fidzi
+New Caledonia			Nowa Kaledonia
+New Zealand			Nowa Zelandia
+Papua New Guinea			Papua N. Gwinea
+Solomon Islands			Wyspy Solomona
+USSR			ZSRR
+Falkland Islands			Falklandy
+Cook Islands			Wyspy Cooka
+E. Timor			Wsch. Timor
+USAVirgin Islands			Amer. Wyspy Dziew.
+Madagascar			Madagaskar
+Mauritania			Mauretania
+Guinea			Gwinea
+Djibouti			Dzibuti
+American Samoa			Samoa Ameryk.
+French Polynesia			Polinezja Franc.
+Uruguay			Urugwaj
+French Guiana			Gujana Franc.
+Guadeloupe			Gwadelupa
+Neths. Anttilles			Antyle Holend.
+Cayman Is			Kajmany
+Qatar			Katar
+Bahrain			Bahrajn
+Kuwait			Kuwejt
+# Already in the cities
+#Monaco			Monako
+Faeroe Islands			Wyspy Owcze
+Iceland			Islandia
+Northern Ireland			Irlandia Pln.
+Isle of Man			Wyspa Man
+Scotland			Szkocja
