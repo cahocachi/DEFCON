@@ -1431,7 +1431,7 @@ bool Server::CheckForExploits( Directory *message )
         else if ( g_app->GetGame()->GetOptionValue("TeamSwitching") == 0 )
         {
             // teamId present and team switching disabled? Check for consistency.
-            if( teamId != message->GetDataUChar(NET_DEFCON_TEAMID) )
+            if( teamId != message->GetDataUChar(NET_DEFCON_TEAMID) && clientId != 0 )
             {
                 // team switch exploit
                 return true;
