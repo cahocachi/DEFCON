@@ -1,0 +1,1758 @@
+# =============================================================================
+# ФАЙЛ ОПИСАНИЯ DEFCON
+#
+# Формат:
+# stringId                  перевод
+#
+#
+# Символами в начале строки обозначаются комментарии
+# StringIDs должны остаться нетронутыми!#
+#
+# =============================================================================
+
+
+# =============================================================================
+# Название языка
+# =============================================================================
+lang                                                  Русский
+
+
+# =============================================================================
+# Интерфейсы и диалоги
+# =============================================================================
+
+#website_main                                          http://www.everybody-dies.com
+#website_main_retail                                   http://www.defconthegame.com
+#website_main_retail_uk                                http://www.defconvideogame.com
+website_main_retail_multi_language                    http://www.everybody-dies.com
+#website_buy                                           http://store.introversion.co.uk
+#website_buy_steam                                     steam://store/1520
+#website_buy_retail                                    http://www.defconthegame.com
+#website_buy_retail_uk                                 http://www.defconvideogame.com
+website_buy_retail_multi_language                     http://www.everybody-dies.com
+#website_buy_macosx                                    http://secure.ambrosiasw.com/add.php?action=add&item=3600
+#website_support                                       http://www.everybody-dies.com/support/
+#website_support_retail                                http://www.defconthegame.com/support/
+#website_support_retail_uk                             http://www.defconvideogame.com/support/
+website_support_retail_multi_language                 http://www.everybody-dies.com/support/
+#website_support_macosx                                http://www.ambrosiasw.com/support/
+#website_mods                                          http://www.everybody-dies.com/mods/
+#website_mods_retail                                   http://www.defconthegame.com/mods/
+#website_mods_retail_uk                                http://www.defconvideogame.com/mods/
+website_mods_retail_multi_language                    http://www.everybody-dies.com/mods/
+
+dialog_mainmenu                                       Главное меню
+dialog_newgame                                        Новая игра
+dialog_joingame                                       Присоединиться к игре
+dialog_leavegame                                      Покинуть игру
+dialog_manual                                         Руководство пользователя
+dialog_exit                                           Выйти из Defcon
+dialog_confirm_exit                                   Подтвердить выход
+dialog_preparing                                      Подготовка к запуску...
+dialog_game_starting                                  Запуск игры...
+dialog_tutorial_starting                              Запуск обучения...
+dialog_exit_defcon                                    Выйти из Defcon?
+dialog_leave_this_game                                Покинуть эту игру?
+dialog_chapter                                        Глава *C
+# C = Chapter
+dialog_tutorial                                       Обучение *T
+# T = Tutorial
+dialog_rolling_demo                                   Демонстрация
+dialog_tools                                          Инструменты
+dialog_otheroptions                                   Прочие настройки
+
+dialog_options                                        Параметры
+dialog_high                                           Высокий
+dialog_medium                                         Средний
+dialog_low                                            Низкий
+dialog_enabled                                        Включено
+dialog_disabled                                       Отключено
+
+dialog_apply                                          Применить
+dialog_close                                          Закрыть
+dialog_yes                                            Да
+dialog_yes_l                                          Да
+dialog_no                                             Нет
+dialog_no_l                                           Нет
+dialog_ok                                             Ок
+dialog_cancel                                         Отмена
+dialog_save                                           Сохранить
+dialog_abort                                          Отменить
+dialog_restore_default                                Настройки по умолчанию
+dialog_load                                           Загрузить
+
+dialog_increase                                       Увеличить
+dialog_decrease                                       Уменьшить
+
+dialog_time_am                                        am
+dialog_time_pm                                        pm
+
+dialog_playername                                     Имя Игрока
+dialog_teamname                                       Имя Команды
+dialog_setplayername                                  Задать Имя Игрока
+dialog_setteamname                                    Задать Имя Команды
+
+dialog_graphicsoptions                                Графика
+dialog_smoothlines                                    Сглаживание
+dialog_borders                                        Границы
+dialog_citynames                                      Города
+dialog_countrynames                                   Страны
+dialog_messages                                       Сообщения
+dialog_water                                          Вода
+dialog_radiation                                      Радиация
+dialog_lowdetailworld                                 Низк. дет-ия
+dialog_objecttrails                                   Следы объектов
+dialog_lobbyeffects                                   Эффекты фойе
+
+dialog_waternormal                                    Обычный
+dialog_watershaded                                    С тенью
+
+dialog_soundoptions                                   Звук
+dialog_unavailable                                    недоступно
+dialog_soundlibrary                                   Библиотека
+dialog_directsound                                    DirectSound
+dialog_softwaresound                                  Программный звук
+dialog_mixfrequency                                   Смеш. частоту
+dialog_11khz                                          11 кГц низк. кач-во
+dialog_22khz                                          22 кГц средн. кач-во
+dialog_44khz                                          44 кГц выс. кач-во
+dialog_numchannels                                    Число каналов
+dialog_8channels                                      8 каналов
+dialog_16channels                                     16 каналов
+dialog_32channels                                     32 канала
+dialog_64channels                                     64 канала
+dialog_memoryusage                                    Использование памяти
+dialog_swapstereo                                     Реверс стерео
+dialog_hw3dsound                                      Объемный звук
+dialog_realtimeeffects                                Эффекты в реальном времени
+dialog_mastervolume                                   Регулятор громкости
+dialog_cpuusage                                       Загрузка ЦП
+dialog_cpuusageunknown                                Загрузка ЦП не определена
+
+dialog_screenoptions                                  Экран
+dialog_refreshrate                                    Частота
+dialog_windowed                                       В окне
+dialog_windowedmode                                   (оконный режим)
+dialog_fullscreen                                     Полный экран
+dialog_resolution                                     Разрешение
+dialog_colourdepth                                    Глубина цвета
+dialog_colourdepth_16                                 16 бит
+dialog_colourdepth_24                                 24 бит
+dialog_colourdepth_32                                 32 бит
+dialog_colourdepth_X                                  *C bit
+# C = Color Depth
+dialog_zbufferdepth                                   Буфер глубины
+dialog_refreshrate_X                                  *R Гц
+# R = Refresh Rate
+dialog_resolution_W_H                                 *W x *H
+# W = Screen Width, H = Screen Height
+dialog_antialias                                      Сглаживание
+
+dialog_networkoptions                                 Сеть
+dialog_networkclientport                              Порт клиента
+dialog_networkserverport                              Порт сервера
+dialog_networkmetaserverport                          Порт МетаСервера
+dialog_networkuseportforwarding                       Переадр-я
+dialog_networktracksync                               Отслеживать ошибки синхронизации
+dialog_networktracksynctooltip                        Включите данную функцию для записи подробной информации о каждом кадре для отслеживания ошибок синхронизации\Существенно повлияет на производительность.
+dialog_networkportforwardtooltip                      Включите данную функцию в случае, если у вас проблемы с хостингом или подключением\nВы должны вручную включить переадресацию портов для входящих UDP-данных на указанных портах вашей точки подключения. 
+dialog_networkfailed                                  Сбой в сети
+dialog_networkfailedgamerunning                       Вы не можете изменить настройки сети,\пока игра запущена.
+dialog_networksuccess                                 Настройки изменены
+dialog_networksuccessfull                             Настройки сети\nбыли изменены.
+dialog_networkporttooltip                             Номер порта для подключения. Допустимы номера портов с 1024 по 65535.\nУкажите порт 0, и система сама выберет свободный порт. 
+dialog_troubleshooting                                Возникли проблемы? Обратитесь за помощью
+dialog_troubleshooting_tooltip                        Щелкните здесь для перехода на наш сайт с советами по устранению неисправностей и выявления проблем, связанных с подключением. 
+dialog_no_change_while_in_game_1                      Вы не можете изменить настройки сети
+dialog_no_change_while_in_game_2                      пока игра запущена
+
+dialog_authoptions                                    Регистрация
+dialog_paste                                          Вставить
+dialog_paste_tooltip                                  Вставить ключ из буфера обмена
+dialog_auth_failed                                    Регистрация НЕ УДАЛАСЬ
+dialog_bad_key_title                                  Регистрация НЕ УДАЛАСЬ
+dialog_authkey_not_found                              ключ аутентификации не найден
+dialog_meta_server_details                            \n\nПожалуйста, посетите данную ссылку для активации своего ключа:\nMETASERVER.INTROVERSION.CO.UK
+dialog_not_permitted_start_game                       Вы не можете начать новую игру,\nпоскольку нам не удалось идентифицировать ваш ключ.\n\n\nKEY  : *K\nОШИБКА: *E\n*M
+# K = Ключ, E = Сообщение об ошибке, M = Сообщение
+dialog_not_permitted_join_game                        Вы не можете присоединиться к игре,\nпоскольку нам не удалось идентифицировать ваш ключ.\n\nKEY  : *K\nОШИБКА: *E\n
+# K = Ключ, E = Сообщение об ошибке
+dialog_auth_error                                     Ошибка аутентификации\n*E\n\nКлюч: *K\n
+# K = Ключ, E = Сообщение об ошибке
+dialog_type_authkey_or_demo_1                         Пожалуйста, введите свой ключ
+dialog_type_authkey_or_demo_2                         или нажмите кнопку "Демоверсия"
+dialog_auth_status                                    СТАТУС
+dialog_auth_status_unknown                            Н\Д
+dialog_auth_status_checking                           ПРОВЕРКА...
+dialog_auth_status_demo_user                          ПОЛЬЗОВАТЕЛЬ ДЕМОВЕРСИИ
+dialog_may_play_as_demo_user                          При желании можно играть как ПОЛЬЗОВАТЕЛЬ ДЕМОВЕРСИИ.
+dialog_cannot_use_mac_key_on_pc                       Вы не можете использовать ключ для Mac в версии для ПК
+dialog_cannot_use_pc_key_on_mac                       Вы не можете использовать ключ для ПК в версии для Mac 
+
+
+dialog_auth_wrong_platform                            Неверная платформа
+dialog_auth_key_dead                                  Неверный ключ
+dialog_auth_version_not_found                         Версия не найдена
+dialog_auth_key_inactive                              Ключ неактивен
+dialog_auth_version_revoked                           Версия недействительна
+dialog_auth_key_not_found                             Ключ не найден
+dialog_auth_key_revoked                               Ключ недействителен
+dialog_auth_key_banned                                Ключ заблокирован
+dialog_auth_key_invalid                               Неправильный ключ
+dialog_auth_unknown                                   Неизвестно
+dialog_auth_accepted                                  ОК
+
+dialog_controloptions                                 Прочее
+dialog_sidescrolling                                  Прокрутка мыши
+dialog_zoomspeed                                      Увеличения
+dialog_camdragging                                    Перетаскивание
+dialog_tooltips                                       Подсказки
+dialog_popupscale                                     Размер окон
+dialog_panickey                                       Экстр. клавиша
+dialog_language                                       Язык
+dialog_restart_required_language                      Пожалуйста, перезапустите Defcon для обновления настроек\nязыка.
+dialog_keyboardlayout                                 Раскладка
+
+dialog_zoomnormal                                     Обычная
+dialog_zoomslow                                       Медленная
+
+dialog_lobby                                          ФОЙЕ
+dialog_lobby_team_options                             Настройки команды
+dialog_lobby_advanced_options                         Расш. настройки
+dialog_rename                                         Переименовать
+dialog_territories                                    Территории
+dialog_alliance                                       Союз
+dialog_requestai                                      Добавить компьютер
+dialog_chat                                           Окно сообщений
+dialog_ready                                          Готов к игре
+dialog_gamestart                                      Игра начнется через *X сек.
+# X = Обратный отсчет в секундах до начала игры
+dialog_gamestart_whenready                            Игра начнется, когда ВСЕ будут готовы
+dialog_gamestart_youready                             Игра начнется, когда ВЫ будете готовы
+dialog_kick                                           Исключить
+dialog_spectate                                       Наблюдать
+dialog_join_alliance                                  Присоединиться к *A
+# A = Имя союза
+dialog_closed                                         закрыто
+dialog_demo_user                                      ДЕМОВЕРСИЯ
+dialog_number_players_max                             *N игр. максимум
+# N = Максимальное число игроков
+dialog_click_to_open                                  открыть
+dialog_click_to_close                                 закрыть
+dialog_awaiting_player                                ожидание...
+dialog_cpu_team_name                                  [ЦП] *T
+# T = Имя команды
+dialog_joining                                        [Присоединение...]
+dialog_demo_team_name                                 [ДЕМО] *T
+# T = Имя команды 
+dialog_demo_too_many_players                          Данное количество игроков недопустимо в вашей игре,\nпоскольку у вас запущена ДЕМОВЕРСИЯ.\n\nЕсли вы хотите участвовать в многопользовательском сражении для шести игроков, вы должны приобрести полную версию игры.\n\nМаксимальный объем демоверсии = *N Игроков
+# N = Максимальный объем демоверсии
+
+dialog_edited                                         изменено
+dialog_locked                                         заблокировано
+
+dialog_click_select_territory                         ВЫБЕРИТЕ ТЕРРИТОРИЮ (*T/*M)
+# T = Количество территорий, M = Максимальное число территорий
+dialog_random_territories                             СЛУЧАЙНЫЕ ТЕРРИТОРИИ
+dialog_option_locked_demo_1                           ЗАБЛОКИРОВАНО
+dialog_option_locked_demo_2                           (демоверсия).
+dialog_option_locked_game_mode_1                      ЗАБЛОКИРОВАНО
+dialog_option_locked_game_mode_2                      из-за текущего режима игры.
+dialog_spectators_number                              ЗРИТЕЛИ     (*N макс.)
+# N = Максимальное число зрителей
+dialog_awaiting_spectators                            ожидание зрителей...
+dialog_internet_identity                              Данные польз-ля
+dialog_internet_identity_details                      *I : *P
+# I = Ip-адрес, P = порт
+dialog_lan_identity                                   Данные LAN
+dialog_server_identity                                Данные сервера
+dialog_lobby_defcon                                   DEFCON
+dialog_created_by_introversion                        РАЗРАБОТАН INTROVERSION  SOFTWARE
+dialog_lobby_version                                  ВЕРСИЯ:
+
+dialog_lobby_have_latest_version                      У вас установлена последняя версия.
+dialog_lobby_newer_version                            Доступна новая версия: *V
+# V = Новая версия
+dialog_lobby_click_to_download                        Щелкните для загрузки
+dialog_lobby_demo_limitations                         ОГРАНИЧЕНИЯ ДЕМОВЕРСИИ
+dialog_lobby_max_demo_game_size                       Макс. объем
+dialog_lobby_max_demo_players                         Макс. кол-во игроков
+dialog_lobby_demo_servers_permitted                   Серверы в демоверсии разрешены
+dialog_lobby_number_players                           *P игр.
+# P = количество игроков
+dialog_lobby_metaserver_time                          ВРЕМЯ МЕТАСЕРВЕРА
+dialog_lobby_time_gmt                                 *H:*M*A (GMT)
+# H = Часы, M = Минуты, A = am/pm
+dialog_lobby_test_hours_start_at                      ЗАПУСК ВАШЕГО ТЕСТА В
+dialog_lobby_scheduled_test_hour                      ЗАПЛАНИРОВАННОЕ ВРЕМЯ ТЕСТА
+dialog_lobby_occurring_now                            ЗАПУЩЕН
+dialog_lobby_next_test_hour_begins                    СЛЕДУЮЩИЙ ТЕСТ НАЧНЕТСЯ ЧЕРЕЗ
+dialog_lobby_minutes                                  *M МИНУТ
+# M = Минуты
+dialog_lobby_hours_minutes                            *H HOURS *M MINUTES
+
+# H = Часы, M = Минуты
+dialog_lobby_authentication                           ВХОД : *A
+# A = Состояние аутентификации
+dialog_lobby_client_ident                             ДАННЫЕ КЛИЕНТА : *I:*P
+# I = Ip-адрес, P = Порт
+dialog_lobby_client_ident_unknown                     ДАННЫЕ КЛИЕНТА : Неизвестны
+dialog_lobby_server_ident                             ДАННЫЕ СЕРВЕРА : *I:*P
+# I = Ip-адрес, P = Порт
+dialog_lobby_server_ident_unknown                     ДАННЫЕ СЕРВЕРА: неизвестны
+
+dialog_alliance_0                                     Красный
+dialog_alliance_1                                     Зеленый
+dialog_alliance_2                                     Синий
+dialog_alliance_3                                     Желтый
+dialog_alliance_4                                     Оранжевый
+dialog_alliance_5                                     Голубой
+
+dialog_alliances                                      Союзы
+dialog_declarewar                                     Война с *T?
+dialog_ceasefire                                      Перемирие с *T?
+dialog_ceasefire_title                                Прекратить огонь 
+dialog_shareradar                                     Совместно использовать радар
+dialog_alliance_leave                                 Покинуть союзника
+dialog_alliance_kick                                  Исключить этого игрока из союза
+dialog_alliance_join                                  Запрос на членство в союзе
+dialog_shareradarbegin                                Использовать радар совместно с *T?
+dialog_shareradarend                                  Прекратить совместное использование радара с *T?
+dialog_vote                                           Голосовать
+dialog_abstain                                        Воздержаться
+dialog_you_requested_alliance_1                       Вы отправили запрос на
+dialog_you_requested_alliance_2                       вступление в союз *A 
+# A = Союз
+dialog_requested_alliance_1                           *T просит
+# T = Имя команды
+dialog_requested_alliance_2                           членства в вашем союзе
+dialog_you_requested_kick_1                           Вы отправили запрос на
+dialog_you_requested_kick_2                           исключение *T
+# T = Имя команды 
+dialog_requested_kick_1                               *T просит
+# T = Имя команды 
+dialog_requested_kick_2                               исключить *T
+# T = Имя команды
+dialog_vote_yes                                       ЗА
+dialog_vote_no                                        ПРОТИВ
+dialog_vote_abstain                                   ВОЗД.
+dialog_vote_seconds_to_vote                           *S сек. до голосования
+# S = секунд до голосования 
+dialog_vote_number_votes_required                     Необходимо *V голосов
+# V = Необходимое число голосов
+dialog_vote_succeeded                                 УСПЕШНО
+dialog_vote_failed                                    НЕ УДАЛОСЬ
+dialog_alliance_player                                Игрок
+dialog_alliance_receiving                             Получ.
+dialog_alliance_radar                                 Радар
+dialog_alliance_sending                               Отправ.
+dialog_alliance_cease                                 Прекр.
+dialog_alliance_fire                                  Огонь
+
+dialog_placeunit                                      Размещение
+dialog_createfleet                                    Создать флот
+
+dialog_credits_1                                      *C кредитов
+dialog_credits_2                                      Осталось
+dialog_fleets                                         Флоты
+dialog_units                                          Боевые единицы
+dialog_place_fleet                                    Разместить флот
+
+dialog_paused                                         ПАУЗА
+dialog_gameover                                       ИГРА ОКОНЧЕНА
+dialog_saved_screenshot                               /me сохранить кадр 
+# /me будет заменено именем команды
+dialog_steam_authentication_failed                    Вход в Steam 
+ПРОВАЛИЛАСЬ\n\n
+dialog_steam_logged_in_elsewhere                      Для устранения данной проблемы вам необходимо снова войти в Steam.\nВыйдите из Defcon, щелкните на File Menu в Steam, затем щелкните на 'Change User'.\nВведите свое имя пользователя и пароль для входа.\n\n
+dialog_steam_error                                    Ошибка Steam
+dialog_synchronisation_error                          ОШИБКА СИНХРОНИЗАЦИИ
+dialog_connection_problem_seconds                     ОШИБКА СОЕДИНЕНИЯ (*S SECS)
+# S = Примерное время ожидания в секундах
+dialog_high_latency                                   Продолжительное время ожидания
+dialog_high_packet_loss                               Большая потеря пакетов
+dialog_defcon_x_in_x_time                             DEFCON *D Через *M:*S
+# D = Уровень Defcon, M = Минут, S = Секунд
+dialog_time_remaining                                 ОСТАЛОСЬ *M:*S
+# M = Минут, S = Секунд
+dialog_autocam                                        АВТОКАМЕРА
+dialog_non_playable_demo                              НЕПОДХОДЯЩАЯ ДЕМОВЕРСИЯ
+dialog_tracking_synchronisation                       ОТСЛЕЖИВАНИЕ СИНХРОНИЗАЦИИ
+
+dialog_steam_authentication                           Вход в Steam 
+dialog_steam_play_defcon                              Запуск Defcon
+dialog_steam_auth_status                              СОСТОЯНИЕ ВХОДА В STEAM 
+dialog_steam_welcome_to_defcon                        Добро пожаловать в Defcon!
+dialog_steam_may_play_demo                            Вы можете запустить ДЕМОВЕРСИЮ Defcon
+dialog_steam_unable_to_auth                           Нам не удалось вас идентифицировать.
+dialog_steam_auth_progress                            Вход в Steam: *P
+# P = Состояние аутентификации Steam
+
+dialog_steam_error_edenysteamvalidationstalled        Ошибка проверки паспорта пользователя STEAM (серверу не удалось соединиться с сервером аутентификации).\n
+dialog_steam_error_edenynotloggedon                   Неверный вход в Steam
+dialog_steam_error_edenyloggedinelsewhere             Данный аккаунт активирован с другого компьютера 
+dialog_steam_error_edenynolicense                     Данный аккаунт Steam не зарегистрирован в этой игре. \nПожалуйста, активируйте правильный аккаунт Steam.
+dialog_steam_error_edenyinvalidversion                Версия клиента несовместима с сервером. \nПожалуйста, выйдите и запустите заново
+dialog_steam_error_edenycheater                       Аккаунт заблокирован
+dialog_steam_error_edenyunknowntext                   Клиент выброшен с сервера
+dialog_steam_error_edenyincompatibleanticheat         У вас запущено внешнее приложение, несовместимое с защищенными серверами.
+dialog_steam_error_edenymemorycorruption              Обнаружена нехватка памяти.
+dialog_steam_error_edenyincompatiblesoftware          У вас запущено программное обеспечение, несовместимое с защищенными серверами.
+dialog_steam_error_edenygeneric                       Клиент выброшен с сервера 
+dialog_steam_error_unknown                            Н\Д
+
+dialog_steam_progress_not_started                     Не запущен
+dialog_steam_progress_started                         запущен
+dialog_steam_progress_starting_steam                  Запуск Steam
+dialog_steam_progress_starting_steam_api              Запуск интерфейса Steam
+dialog_steam_progress_logging_on_to_steam             Вход в Steam
+dialog_steam_progress_getting_steam_id                Получение идентификатора Steam
+dialog_steam_progress_getting_encryption_details      Получение деталей шифрования
+dialog_steam_progress_getting_steam2_auth             Вход в Steam2
+dialog_steam_progress_getting_steam3_auth             Вход в Steam3 dialog_steam_progress_requesting_authentication       Запрос аутентификации
+dialog_steam_progress_success                         Успешно
+dialog_steam_progress_success_demo                    Успешно (Демоверсия)
+dialog_steam_progress_failed                          Попытка провалилась
+
+dialog_warning                                        Предупреждение
+
+dialog_enterpassword                                  Введите пароль сервера
+dialog_setpassword                                    Задать пароль сервера (оставьте пустым, если нет пароля)
+
+dialog_resync_title                                   Повторная синхронизация
+dialog_resync_button                                  Ресинхрон.
+dialog_resync_caption                                 Синхронизация с другими игроками отсутствует.\n\nДля исправления данной ошибки щелкните кнопку Синхронизировать заново.\n\nМожет занять несколько минут.
+
+team_unassigned                                       Не определена
+team_ai                                               Компьютерный игрок
+team_local                                            Местный игрок
+team_remote                                           Удаленный игрок
+
+team_name_not_set                                     [имя-не-задано]
+
+dialog_metaserver_failedtitle                         Попытка подключения к метасерверу провалилась
+dialog_metaserver_failedconnect                       Defcon не сумел подключиться к метасерверу.\nЭто значит, что вы не сможете восстановить списки сервера\или внести свой сервер в список.\n\nПроверьте свое подключение к Интернету, попробуйте отключить \nбрандмауэры и прочие запущенные сетевые утилиты.\n\nИгре необходим доступ к следующим портам:\n5009 UDP (исходящий)\n5009 UDP (входящий)\n\nЗа более подробной помощью обратитесь к руководству по устранению неполадок:\n
+
+dialog_client_failedtitle                             ОШИБКА СЕТИ
+dialog_client_failedconnect                           Defcon не сумел открыть сетевой приемник.\nЭто значит, что вы не можете участвовать в уже имеющихся играх\или создавать собственные.\n\nПопробуйте отключить брандмауэры и прочие запущенные сетевые утилиты.\n\nЗа подробной помощью обратитесь к руководству по устранению неполадок:\n
+
+dialog_server_failedtitle                             НЕ УДАЛОСЬ ЗАПУСТИТЬ СЕРВЕР
+dialog_server_failedconnect                           Defcon не сумел создать сервер.\nЗапрашиваемые сетевые подключения недоступны.\n\nПопробуйте отключить брандмауэры и прочие запущенные сетевые утилиты.\n\nЗа подробной помощью обратитесь к руководству по устранению неполадок:\n
+
+dialog_ambxsupport                                    Поддержка amBX 
+dialog_ambxsupport_tooltip                            Включите данную функцию, если у вас имеется установленное оборудование AMBX.  Для более подробной информации посетите www.ambx.com.
+
+dialog_screen_error_title                             Ошибка экрана
+dialog_screen_error_caption                           Не удалось задать разрешение экрана\n*W x *H, *C цвета, *S.\n\nВключены безопасные настройки\n*w x *h, *c цвет, *s.
+# W = Ширина экрана, H = Высота экрана, C = Глубина цвета (т.е.: 24 бит), S = В окне/Полный экран
+# Остальные буквы – безопасные версии их прописных аналогов (т.е.: w, h ,c ,s)
+
+dialog_restart_required_title                         Требуется перезапуск
+dialog_restart_required_caption                       Пожалуйста, перезапустите Defcon для обновления параметров\nэкрана.
+
+dialog_connection_status                              Состояние подключения
+dialog_abort_current_connection                       Отменить текущую попытку подключения
+dialog_state_disconnected                             ОТКЛЮЧЕНО
+dialog_state_connecting                               ПОДКЛЮЧЕНИЕ...
+dialog_state_connected                                ПОДКЛЮЧЕНИЕ УСТАНОВЛЕНО
+dialog_state_attempts                                 ПОПЫТОК : *A
+# A = Количество попыток подключения
+dialog_state_receiving                                ЗАГРУЗКА...
+dialog_state_received                                 ЗАГРУЖЕНО
+dialog_state_synchronising                            СИНХРОНИЗАЦИЯ...
+dialog_state_synchronised                             СИНХРОНИЗИРОВАННО
+dialog_state_time_remaining                           ОСТАВШЕЕСЯ ВРЕМЯ : *M.*S
+# M = Минут, S = Секунд
+
+dialog_toolbar_units                                  единицы
+dialog_toolbar_allies                                 союзники
+dialog_toolbar_comms                                  команды
+dialog_toolbar_scores                                 очки
+dialog_toolbar_radar                                  радар
+dialog_toolbar_people                                 население
+dialog_toolbar_orders                                 приказы
+dialog_toolbar_territory                              территория
+dialog_toolbar_nukes                                  ракеты
+dialog_toolbar_white_board                            доска
+dialog_toolbar_info                                   информация
+
+dialog_mod                                            Модификации
+dialog_mod_commit_title                               ЗАГРУЗКА МОДОВ...
+dialog_mod_commit_mod_path                            Путь к моду...\n
+dialog_mod_commit_activating_mod                      Активация мода '*N *V'\n
+# N = имя мода, V = версия
+dialog_mod_commit_all_mods_off                        Все моды
+деактивированы 
+dialog_mod_error                                      ОШИБКА
+dialog_mod_no_arrangement_change                      Вы не можете изменить ОСНОВНЫЕ моды\nпока игра запущена.
+dialog_mod_not_installed                              (НЕ УСТАНОВЛЕНА)
+dialog_mod_active                                     активна
+dialog_mod_clear_all                                  Очистить все
+dialog_mod_deactivate                                 Деактивировать
+dialog_mod_activate                                   Активировать
+dialog_mod_click_download_mods                        Нажмите здесь для загрузки мода
+dialog_mod_click_here                                 Нажмите
+dialog_mod_move_up                                    Вверх
+dialog_mod_move_down                                  Вниз
+dialog_mod_no_mod_selected                            Мод не выбран
+dialog_mod_screenshot_not_found                       Кадр не найден      
+dialog_mod_install_dir                                Путь
+dialog_mod_author                                     Автор
+dialog_mod_website                                    Веб-сайт
+dialog_mod_required_all_players                       Обязательна для всех игроков
+dialog_error_mod_path_title                           Ошибка выбора директории для мода
+dialog_error_mod_path_caption                         Ошибка выбора директории для мода.\nНа данном сервере запущен мод, который не установлен на вашем компьютере.\n\nНа данном сервере запущены следующие моды:\n
+
+dialog_demo                                           Демоверсия
+dialog_welcome_to_demo                                ДОБРО ПОЖАЛОВАТЬ В ДЕМОВЕРСИЮ
+dialog_play_demo                                      Демоверсия
+dialog_buy_now                                        Купить
+dialog_buy_now_caps                                   КУПИТЬ
+dialog_exit_game_time                                 Выход из игры (*T)
+# T = Оставшееся время
+dialog_exit_game                                      Выйти из игры
+dialog_welcome_to_demo_defcon                         Добро пожаловать в демоверсию Defcon.
+dialog_demo_player_limited                            Вы можете создать многопользовательскую игру,\nоднако количество игроков будет ограничено до *P.\nВ ПОЛНОЙ ВЕРСИИ игры вам будет доступно до шести игроков.\n\n
+
+# P = Количество игроков
+dialog_demo_player_join_limited                       Вы можете присоединиться к существующей многопользовательской игре\nтолько если к ней подключено не более *P\nигроков.
+# P = Количество игроков
+dialog_demo_spectate_any_game                         \nВы можете наблюдать за любой игрой.
+
+dialog_server_browser                                 Браузер сервера
+dialog_server_password                                Пароль сервера
+dialog_enter_ip_manually                              Вручную ввести IP
+dialog_filters                                        Фильтры
+dialog_server_details                                 Сервер *I : *P
+# I = Ip-адрес, P = порт
+dialog_server_version_mismatch                        Вы не можете присоединиться к игровому серверу.\n\nНа сервере запущена другая версия.\nВаши версии несовместимы.\n\n\nВаша версия  : *V\nВерсия сервера : *T
+# V = Ваша версия, T = Версия сервера
+dialog_cannot_join_server                             Невозможно присоединиться к серверу
+dialog_no_join_mods_not_installed                     Вы не можете присоединиться к игровому серверу.\n\nНа сервере запущены моды, которых у вас нет.\nНеобходимы следующие моды:\n\n*R\n\nВы можете скачать моды с\n
+
+# R = Причина
+dialog_no_join_own_game                               Вы не можете присоединиться к игровому серверу.\n\nЭто ваш собственный сервер и\nвы к нему уже подключены.
+dialog_requesting                                     Запрос...
+dialog_refresh_number_server                          Обновить (*S)
+# S = Количество серверов
+dialog_server_demo_restricted                         Данный сервер закрыт для пользователей демоверсии.\n\nЭто значит, что на сервере уже присутствует допустимое количество игроков, либо игра запущена в продвинутом режиме.\n\nЕсли вы хотите участвовать в таких играх, вам необходимо будет приобрести полную версию игры.\n\nМаксимальное количество пользователей демоверсии в игре: *N
+# N = Допустимое количество игроков
+dialog_number_server_found                            Найдено серверов: *N
+# N = Количество найденных серверов
+dialog_retrieving_server_list                         Получение списка серверов...
+dialog_net_location_lan                               *I:*P [Локальная сеть]
+# I = Ip-адрес, P = порт
+dialog_game_ended                                     (окончена)
+dialog_demo_game_mode                                 демоверсия
+dialog_mod_base_number_more                           *M (*N осталось)
+# M = Поддержка модов, N = Количество оставшихся модов
+dialog_server_name_incompatible                       *S [НЕСОВМЕСТИМО]
+# S = Имя сервера
+dialog_server_name_mods_required                      *S [ТРЕБУЮТСЯ МОДЫ]
+# S = Имя сервера 
+dialog_server_name_your_server                        *S [ВАШ СЕРВЕР]
+# S = Имя сервера 
+dialog_server_name_demo_restricted                    *S [ЗАКРЫТ ДЛЯ ДЕМОВЕРСИИ]
+# S = Имя сервера 
+
+dialog_server_name_full                               *S [ПОЛНЫЙ]
+# S = Имя сервера 
+dialog_server_name_not_responding                     *S  [НЕ ОТВЕЧАЕТ]
+# S = Имя сервера 
+dialog_connected_recently                             (Недавно подключились)
+dialog_server_browser_teams                           Команды
+dialog_server_browser_specs                           Спецификации
+dialog_server_browser_time                            Время
+dialog_server_browser_mods                            Моды
+dialog_server_browser_game_mode                       Режим игры
+dialog_server_browser_server_name                     Имя сервера
+dialog_server_browser_list                            Список
+
+dialog_filter_all_games                               Все игры
+dialog_filter_games_in_lobby                          Игры в фойе
+dialog_filter_games_in_progress                       Запущенные игры
+dialog_filter_recent_servers                          Последние серверы
+dialog_filter_lan_games                               Игры локальной сети
+dialog_filter_enter_ip_manually                       Ручной ввод IP
+dialog_join                                           Присоединиться
+dialog_enter_ip                                       [введите ip]
+dialog_connect                                        Подключиться
+dialog_server_ip                                      IP-адрес сервера
+dialog_server_port                                    Порт сервера
+dialog_single_player_games                            Одиночные игры
+dialog_demo_games                                     Демоверсии
+dialog_default_named_servers                          Серверы с именем
+dialog_show_single_player_games                       Одиночные игры 
+dialog_show_demo_games                                Демоверсии
+dialog_show_default_named_games                       Названия по умолчанию
+dialog_server_name                                    Имя
+dialog_server_identity_address                        ID
+dialog_server_game_name                               Игра
+dialog_server_game_mode                               Режим игры
+dialog_server_score_mode                              Режим очков
+dialog_server_started                                 [началась]
+dialog_server_ended                                   [завершена]
+dialog_server_not_yet_started                         [еще не запущена]
+dialog_spectators                                     Зрители
+dialog_server_game_time                               Время игры
+dialog_server_scores                                  Очки
+dialog_retrieving_scores                              Получение данных об очках...
+
+dialog_disconnected                                   Отключен
+dialog_disconnect_client_leave                        Вы покинули игру 
+dialog_disconnect_server_shutdown                     Сервер отключился 
+dialog_disconnect_invalid_key                         Вы используете неверный ключ 
+dialog_disconnect_duplicate_key                       Вы используете чужой ключ 
+dialog_disconnect_key_auth_failed                     Аутентификация ключа провалилась
+dialog_disconnect_bad_password                        Введен неверный пароль
+dialog_disconnect_game_full                           В игре достаточно игроков 
+dialog_disconnect_kicked_from_game                    Выброшен с сервера
+dialog_disconnect_demo_full                           Слишком много игроков с демоверсией
+dialog_disconnect_unknown                             Н\Д
+
+dialog_chat_public                                    Общий
+dialog_chat_alliance                                  Союз
+dialog_chat_spectators                                Зрители
+dialog_chat_channel_public                            [общий]
+dialog_chat_channel_alliance                          [союз]
+dialog_chat_channel_spectators                        [зрители]
+dialog_chat_channel_private                           [приватный]
+dialog_chat_channel_to_team_name                      [на *T]
+# T = Имя команды
+
+dialog_white_board_draw_erase                         рисовать
+dialog_white_board_clear_all                          очистить все
+dialog_white_board_show_all                           показать все
+
+dialog_worldstatus_defcon                             DEFCON
+dialog_worldstatus_defcon_x                           DEFCON *D
+# D = Уровень Defcon 
+dialog_worldstatus_time_remain_hms                    Осталось : *Hh *Mm *Ss
+# H = Часов, M = Минут, S = Секунд
+dialog_worldstatus_time_remain_ms                     Осталось : *Mm *Ss
+# M = Минут, S = Секунд
+dialog_worldstatus_show_stats                         Показать статистику
+dialog_worldstatus_scoremode                          Режим очков
+dialog_worldstatus_cpu_team_name                      [ЦП]*T
+# T = Имя команды
+dialog_worldstatus_left_team_name                     [ОСТАЛОСЬ]*T
+# T = Имя команды 
+dialog_worldstatus_demo_team_name                     [ДЕМО]*T
+# T = Имя команды 
+dialog_worldstatus_out_of_sync                        Нет синхронизации
+dialog_worldstatus_out_of_sync_2                      Нет синхронизации 
+dialog_worldstatus_spectator_join                     Зритель (подключается...)
+dialog_worldstatus_superpower                         Сверхдержава
+dialog_worldstatus_kills                              Убито
+dialog_worldstatus_deaths                             Смерти
+dialog_worldstatus_survivors                          Выжившие
+dialog_worldstatus_collateral                         Косв. урон
+dialog_worldstatus_nukes                              Ракеты
+dialog_worldstatus_score                              Очки
+dialog_worldstatus_points_value                       Кол-во очков:
+dialog_worldstatus_pop_in_millions                    *P м
+# P = Население в миллионах
+dialog_worldstatus_classified                         [засекречено]
+dialog_stats                                          Статистика
+
+dialog_casualties_city                                Города
+dialog_casualties_strikes                             Удары
+dialog_casualties_deaths                              Смерти
+dialog_casualties_in_million                          *C млн.
+# C = Количество пострадавших в миллионах
+
+dialog_network_title                                  Сеть
+dialog_network_server_seqid                           Посл. ид-ии сервера       *S
+# S = Последовательность идентификации
+dialog_network_server_send                            Сервер отправляет        *R Кб/сек
+# R = Скорость отправки
+dialog_network_server_receive                         Сервер принимает     *R Kb/sec
+# R = Скорость приема
+dialog_network_id                                     Идентификация
+dialog_network_ip_port                                IP:Порт
+dialog_network_seqid                                  Посл. ид-ии 
+dialog_network_seqid_number                           Посл. ид-ии *S
+# S = Последовательность идентификации
+dialog_network_name                                   Имя
+dialog_network_status                                 Состояние
+dialog_network_lost_con                               Последнее соединение...*Ss
+# S = Секунд со времени разрыва соединения
+dialog_network_synching                               Синхронизация...*P
+# P = Процент выполненной синхронизации
+dialog_network_ping                                   Запрос отклика *Pms
+# M = Время отклика в миллисекундах
+dialog_network_spec                                   (укажите)
+dialog_network_empty                                  Пусто
+dialog_network_sequence_msg_queue                     Сообщений в очереди. Лучше 0 или 1, без пробелов.
+dialog_network_svr_known_seqid                        Посл-ть ид-ии сервера *S
+# S = Последовательность идентификации 
+dialog_network_svr_estimated_seqid                    Прим. посл-ть идент-ии сервера   *S
+# S = Последовательность идентификации 
+dialog_network_estimated_latency                      Примерное время ожидания : *L сек
+# L = Примерное время ожидания 
+
+
+dialog_network_client_seqid                           Посл-ть идент-ии клиента *S
+# S = Последовательность идентификации
+dialog_network_client_send                            Клиент отправляет        *R Кб/сек 
+# R = Скорость отправки
+dialog_network_client_receive                         Клиент принимает     *R Кб/сек 
+# R = скорость приема
+
+dialog_profile_title                                  Настройка профиля
+dialog_profile_toggle_glfinish                        Завершить
+dialog_profile_reset_history                          Сбросить историю
+dialog_profile_min                                    Минимум
+dialog_profile_avg                                    В среднем
+dialog_profile_max                                    Максимум
+
+dialog_c2s_team_renamed                               *T изменила имя на *N
+# T = Старое имя команды, N = Новое имя команды
+
+dialog_c2s_team_joined_game                           *T входит в игру
+# T = Имя команды
+
+dialog_c2s_default_name_spectator                     Зритель
+dialog_c2s_default_name_player                        Игрок *T
+# T = Имя команды
+
+dialog_world_new_spec_connecting                      Подключился новый зритель
+dialog_world_team_left_game                           *T покинул игру
+# T = Имя команды
+
+dialog_world_spec_left_game                           Зритель *T покинул игру
+# T = Имя команды
+
+dialog_world_rejoined                                 *T ВОЗВРАЩАЕТСЯ
+# T = Имя команды
+
+dialog_world_disconnected                             *T ОТСОЕДИНЯЕТСЯ
+# T = Имя команды
+
+dialog_world_dropped                                  *T ВЫБРОШЕНА
+# T = Имя команды
+
+dialog_world_kicked                                   *T ИСКЛЮЧЕНА
+# T = Имя команды
+
+dialog_mapr_fps                                       *F кадров в секунду
+# F = Кадров в секунду (fps)
+dialog_mapr_city_population                           МИЛЛИОНОВ НАСЕЛЕНИЯ : *P
+# P = Население города
+dialog_mapr_city_dead                                 ПОГИБЛО МИЛЛИОНОВ : *D
+# D = Погибшее население города
+dialog_mapr_mode                                      *M
+# M = Текущее состояние
+dialog_mapr_secs                                      *S СЕК.
+# S = Секунд
+dialog_mapr_empty                                     ПУСТО
+dialog_mapr_cancel_all_orders                         ОТМЕНИТЬ ВСЕ ПРИКАЗЫ
+dialog_mapr_not_before_defcon_x                       НЕДОПУСТИМО ДО DEFCON *D
+# D = Уровень Defcon
+dialog_mapr_defcon_x_required                         ТРЕБУЕТСЯ DEFCON *D
+# D = Уровень Defcon
+dialog_mapr_out_of_range                              ВНЕ ДОСЯГАЕМОСТИ
+dialog_mapr_combat_range                              РАДИУС ДЕЙСТВИЯ
+dialog_mapr_fuel_range                                ДАЛЬНОСТЬ ПОЛЕТА С ИМЕЮЩИМСЯ ТОПЛИВОМ
+dialog_mapr_nukes_in_queue                            *N В ОЧЕРЕДИ
+# N = Количество ракет
+dialog_mapr_nukes_in_flight                           *N В ПОЛЕТЕ
+# N = Количество ракет
+
+dialog_style                                          Стиль
+dialog_style_editor                                   Редактор стиля
+dialog_style_primary                                  основной
+dialog_style_secondary                                доп.
+dialog_style_red                                      Красный
+dialog_style_green                                    Зеленый
+dialog_style_blue                                     Голубой
+dialog_style_alpha                                    Альфа
+dialog_style_colour_editor                            Редактор цвета *I *P
+# I = Текущий индекс, P = Основной (0/1)
+dialog_style_failed_load_style                        Не удалось загрузить стиль\n
+dialog_style_style_saved                              Стиль сохранен в\n
+dialog_style_failed_save_style                        Не удалось сохранить стиль в\n
+dialog_style_col_primary                              Основной
+dialog_style_col_secondary                            Доп.
+dialog_style_col_horiz                                Гориз.
+dialog_style_col_ngtive                               Отриц.
+dialog_style_col_caps                                 Проп.
+dialog_style_col_size                                 Размер
+dialog_style_col_font                                 Шрифт
+
+
+# =============================================================================
+# Подсказки 
+# =============================================================================
+
+tooltip_timeaccel0                                    Приостановить игру
+tooltip_timeaccel1                                    Запустить в реальном времени
+tooltip_timeaccel2                                    Ускорить время\n(в 5 раз)
+tooltip_timeaccel3                                    Ускорить время\n(в 10 раз)
+tooltip_timeaccel4                                    Ускорить время\n(в 20 раз)
+
+tooltip_worldstatus_x_faster_realtime                 *Sx реальн. врем.
+# S = во столько раз ускоряется реальное время
+tooltip_worldstatus_key_shortcut_0                    \nгорячая клавиша: 0\n
+tooltip_worldstatus_key_shortcut_1                    \nгорячая клавиша: 1\n
+tooltip_worldstatus_key_shortcut_2                    \nгорячая клавиша: 2\n
+tooltip_worldstatus_key_shortcut_3                    \nгорячая клавиша: 3\n
+tooltip_worldstatus_key_shortcut_4                    \nгорячая клавиша: 4\n
+tooltip_worldstatus_players_request_speed             Запрашивают скорость:
+tooltip_worldstatus_no_team_request_speed             \nНет
+tooltip_worldstatus_cannot_request_speed              Вы не можете задать данную скорость
+
+tooltip_defcon5                                       DEFCON 5\nВраждебные действия запрещены\nВражеские единицы не отображаются на радаре 
+tooltip_defcon4                                       DEFCON 4\nВражеские единицы отображаются на радаре
+tooltip_defcon3                                       DEFCON 3\nМорские сражения разрешены\nВоздушные сражения разрешены
+tooltip_defcon2                                       DEFCON 2
+tooltip_defcon1                                       DEFCON 1\nЯдерные войны разрешены
+
+tooltip_toolbar_whiteboard                            Переключиться на белую доску
+tooltip_toolbar_whiteboard_disabled                   Белая доска отключена по причине устаревшей версии хоста 
+tooltip_toolbar_radar                                 Показать зону обзора
+tooltip_toolbar_pop                                   Показать плотность населения
+tooltip_toolbar_alliances                             Показать окно союзов
+tooltip_toolbar_units                                 Показать панель боевых единиц
+tooltip_toolbar_score                                 Показать окно счета
+tooltip_toolbar_comms                                 Показать окно коммуникаций
+tooltip_toolbar_orders                                Показать команды
+tooltip_toolbar_info                                  Показать окно информации о единице
+tooltip_toolbar_territory                             Показать территории
+tooltip_toolbar_nukes                                 Показать единицы с ядерным оружием
+
+tooltip_whiteboard_planning                           Включить рисование на Белой Доске. Щелчок левой кнопкой - рисовать, правой кнопкой - стирать.
+tooltip_whiteboard_eraseall                           Очистить Белую Доску.
+tooltip_whiteboard_showall                            Переключиться с досок союзников на свою белую доску.
+
+tooltip_gameoption_servername                         Введите имя игрового сервера, которое смогут увидеть другие игроки 
+tooltip_gameoption_advertiseoninternet                При включении о вашей игре станет известно на метасервере, и другие игроки смогут присоединиться к вашей игре. 
+tooltip_gameoption_advertiseonlan                     При включении ваша игра станет видимой для других игроков местной сети.
+tooltip_gameoption_maxteams                           Максимальное количество игроков, которые могут участвовать в вашей игре.
+tooltip_gameoption_territoriesperteam                 Количество территорий в собственности каждого игрока во время игры.
+tooltip_gameoption_citiesperterritory                 Количество городов, сгенерированных на территории каждого игрока.
+tooltip_gameoption_populationperterritory             Количество человек (в миллионах) на каждой территории.\nНаселение городов будет изменяться соответствующим образом
+tooltip_gameoption_citypopulations                    Настройки распределения вашего населения по городам.\n\n- По умолчанию: Население городов устанавливается в соответствии с реальными цифрами\n\n- Выровнено: Население всех городов одинаково\n\n- Случайный порядок: Население всех городов задается случайным образом, но стандартные города выбираются игрой, поэтому ваши города будут всегда находиться на одном и том же месте.\n\n- Полностью случайно: Население всех городов задается случайным образом. Кроме того, города из базы данных будут выбираться произвольно, поэтому и размещение ваших городов будет также случайным. 
+tooltip_gameoption_randomterritories                  При включении игрокам в начале игры будут приписываться случайно выбранные территории.\n\nУдобно при решении споров по поводу того, кто будет выступать за Европу. 
+tooltip_gameoption_maxspectators                      Максимальное число игроков, которые могут наблюдать за игрой.\nПредупреждение: каждый зритель создает дополнительную нагрузку на канал сервера.\n\n0=ни одного\n100=не ограничено.
+tooltip_gameoption_spectatorchatchannel               Определяет право игроков получать сообщения от зрителей. Вы можете сделать канал зрителей закрытым, и у них не будет возможности помогать игрокам.\n\n- Открытый: Все игроки могут читать сообщения от зрителей. (по умолчанию)\n\n- Закрытый: Сообщения на канале зрителей смогут читать только зрители. В этом режиме игрок и зритель не смогут обмениваться сообщениями. 
+tooltip_gameoption_teamswitching                      Если включено, игроки смогут менять команды во время игры, используя цифровые клавиши.\n\nНе рекомендуется для серьезной игры!
+tooltip_gameoption_permitdefection                    Если включено, игроки смогут менять союзников во время игры
+tooltip_gameoption_radarsharing                       Определяет право игроков на совместное использование радара с другими игроками.\n\n- Всегда отключено: Совместное использование радара запрещено.\n\n- Союз: Союзники автоматически используют радар совместно. (по умолчанию)\n\n- Выборочно: Каждый игрок может выбрать, с кем совместно использовать радар (с союзниками или нет).\n\n- Всегда включено: Совместное использование радара разрешено для всех. Это простой режим для новичков, так как он позволяет постоянно видеть все боевые единицы противника.
+tooltip_gameoption_gamespeed                          Настройки скорости для этой игры \nСамый медленный режим использует минимальную скорость, выбранную любым игроком. 
+tooltip_gameoption_slowestspeed                       Минимальная скорость, на которой может функционировать игра. Если выбрана Пауза, каждый игрок может приостановить игру, используя панель настройки скорости.
+tooltip_gameoption_enableworldevents                  Если включено, во время игры будут происходить случайные события 
+tooltip_gameoption_gamemode                           Устанавливает правила игры 
+tooltip_gameoption_scoremode                          Устанавливает количество очков за поражение противника/смерть/оставшееся ядерное оружие
+tooltip_gameoption_victorytrigger                     Определяет момент для запуска таймера победы. Значение параметра отражает процент, ниже которого должно упасть общее количество ядерного оружия в мире для запуска таймера победы.\n\nНапример: Если значение установлено на 20 (по умолчанию), общее количество ядерного оружия должно упасть ниже 20% от начальной цифры для активации таймера победы.
+tooltip_gameoption_victorytimer                       При запуске таймера победы до остановки игры останется следующее количество игровых минут.
+tooltip_gameoption_maxgamerealtime                    Максимальное реальное время для игры в минутах.\n\n0 = неограниченное реальное время – игра не остановится, пока таймер победы не закончит отсчет.
+tooltip_gameoption_variableunitcounts                 Включает режим кредитов\nКаждый игрок получает определенное количество кредитов для покупки боевых единиц, и может модифицировать свою армию по своему желанию 
+tooltip_gameoption_worldscale                         Примечание: Экспериментальный.\n\nДанная переменная расширяет границы мира, соответственно увеличивая продолжительность игры.\n\nНа уровне в 100 масштаб мира нормальный.\n\nНа максимальном уровне (200) у каждой команды в два раза больше единиц, но у каждой единицы ударная мощь и радиус обзора радара в два раза меньше.\n\nМаксимально экспериментальный.\nТребует мощного процессора.\nРекомендуем вам отключить рендеринг следов объектов для более четкой картины.
+tooltip_gameoption_permitpausing                      Если включено, игрок может включить паузу во время игры 
+tooltip_gameoption_serverpassword                     Воспользуйтесь этой функцией для разрешения доступа только тем игрокам, у которых есть пароль.\n\nПри отсутствии пароля оставьте пустым.
+
+tooltip_gamemode_default                              Унитожайте города противника ядерным оружием.\nDefcon будет идти на минимальной заданной скорости.
+tooltip_gamemode_office_mode                          Defcon запустится в окне в режиме без звука, и будет работать в реальном времени до 6 часов.\nПри появлении шефа дважды нажмите Esc, чтобы спрятать окно.
+tooltip_gamemode_speed_defcon                         Defcon запустится на полной скорости и проработает не более 15 минут. Пауза отключена. Инстинктивно и жестко.
+tooltip_gamemode_diplomacy                            Все игроки начнут игру в составе Зеленого союза с совместным использованием радара. Сколько продержится союз? (Желательно 3 и более игроков).
+tooltip_gamemode_bigworld                             Мир в два раза больше! У каждого игрока в два раза больше войск, но у них только половина силы, размера, скорости и зоны обзора.\nДля тех, кто любит играть долго.
+tooltip_gamemode_tournament                           Параметры по умолчанию, но зрители не могут обмениваться сообщениями с игроками, а территории игроков случайны.
+tooltip_gamemode_custom                               Определенных значений не установлено. Все параметры можно изменить.  
+
+tooltip_scoremode_default                             +2 очка за каждое поражение противника.\n -1 очко за то, что вы не сумели защитить.
+tooltip_scoremode_survivor                            +1 очко за каждого выжившего. В начале у всех 100 очков, они постепенно теряются.
+tooltip_scoremode_genocide                            +1 очко за убитого врага. Просто, но страшно.
+
+tooltip_defection_no                                  Предательство запрещено. Все союзы остаются неизменными в течение всей игры.\n\nВы автоматически переходите в режим «Прекратить огонь» при встрече с союзниками.
+tooltip_defection_yes                                 Предательство разрешено. Вы, как и любой другой игрок, можете сменить союз в любое время.\n\nВы можете включить или отключить режим «Прекратить огонь» при встрече с союзниками в любой момент.
+
+tooltip_radarsharing_alwaysoff                        Совместное использование радара запрещено.  Вы сможете увидеть зону обзора только своего радара.
+tooltip_radarsharing_alliance                         Совместное использование радара разрешено между членами союза. Это означает, что вы будете автоматически совместно использовать радар со всеми вашими союзниками.\n\nСоюзные подводные лодки не будут отображаться, пока не поднимутся на поверхность.
+tooltip_radarsharing_selective                        Выборочное совместное использование радара. Вы можете совместно использовать (или нет) свой радар с любым другим игроком.
+tooltip_radarsharing_alwayson                         Совместное использование радара разрешено для всех. Каждая боевая единица в игре отображается на радаре\n\nПримечание: Вы не сможете увидеть вражеские подводные лодки, если они не на поверхности.
+
+tooltip_ceasefire_enable                              Ваши боевые единицы автоматически прекратят атаку на эту команду.\nВсе ядерное оружие, направленное на эту команду, автоматически нейтрализуется. 
+tooltip_ceasefire_disable                             Ваши боевые единицы станут воспринимать эту команду как врага и автоматически откроют по ней огонь.
+tooltip_radarshare_enable                             Зона обзора вашего радара будет отправляться этой команде, и они смогут увидеть все, что отображается на вашем мониторе.\nПримечание: Ваши подводные лодки останутся скрытыми, находясь под водой.
+tooltip_radarshare_disable                            Вы прекратите отправлять зону обзора радара этой команде. Они больше не смогут обозревать ситуацию с вашей позиции. 
+
+tooltip_place_silo                                    Разместить ракетную шахту
+tooltip_place_radar                                   Разместить радарную станцию
+tooltip_place_airbase                                 Разместить авиабазу
+tooltip_place_battleship                              Добавить к флоту линкор 
+tooltip_place_sub                                     Добавить к флоту подводную лодку
+tooltip_place_carrier                                 Добавить к флоту авианосец
+
+tooltip_place_unit                                    Разместить единицу здесь
+tooltip_place_fleet                                   Разместить флот здесь
+tooltip_fleet_button                                  Построить флот
+tooltip_fleet_remove                                  Убрать эту единицу из флота
+tooltip_fleet_place                                   Разместить флот здесь
+
+tooltip_territory_northamerica                        Северная Америка
+tooltip_territory_southamerica                        Южная Америка
+tooltip_territory_europe                              Европа
+tooltip_territory_russia                              Россия
+tooltip_territory_southasia                           Южная Азия
+tooltip_territory_africa                              Африка
+
+tooltip_lobby_teamname                                Введите имя для своей команды
+tooltip_lobby_territories                             Выберите территорию для своей команды
+tooltip_lobby_alliance                                Выберите союз, к которому хотите присоединиться
+tooltip_lobby_requestteam                             Создать команду для игры
+tooltip_lobby_requestai                               Создать команду, управляемую компьютером
+tooltip_lobby_ready                                   Готов к игре. Игра начнется, когда все игроки будут готовы 
+tooltip_lobby_ready_disable                           Название игры недопустимо
+tooltip_lobby_chat                                    Открыть окно сообщений
+tooltip_lobby_aggression                              Изменяет агрессию компьютера, максимум - 10\n0 - агрессия проявляется случайным образом
+tooltip_lobby_demo_max_player                         У вас запущена демоверсия – в вашей игре недопустимо данное количество игроков. 
+tooltip_lobby_click_open_slot                         Щелкните для открытия слота и разрешения доступа для други игроков
+tooltip_lobby_click_close_slot                        Щелкните для закрытия слота и ограничения доступа для других игроков
+tooltip_lobby_address_port                            IP: *I\nПорт:*P
+# I = IP-адрес, P = Порт
+
+tooltip_chat_public                                   Общий канал. Сообщения могут видеть все игроки 
+tooltip_chat_alliance                                 Союзный канал. Только члены вашего союза могут видеть сообщения
+tooltip_chat_spectators                               Канал зрителей. Сообщения могут оставлять только зрители.
+
+tooltip_alliance_join                                 Отправить запрос на присоединение к союзу
+tooltip_alliance_leave                                Покинуть союз
+tooltip_alliance_kick                                 Начать голосование об исключении данного члена из союза 
+
+tooltip_vote_yes                                      Проголосовать ЗА
+tooltip_vote_no                                       Проголосовать ПРОТИВ
+tooltip_vote_abstain                                  Воздержаться от голосования
+
+tooltip_lmb                                           [ЛКМ]
+tooltip_rmb                                           [ПКМ]
+
+tooltip_placeobject                                   [ЛКМ] РАЗМЕСТИТЬ ЕДИНИЦУ
+tooltip_placefleet                                    [ЛКМ] РАЗМЕСТИТЬ ФЛОТ
+tooltip_invalidplacement                              НЕВЕРНОЕ РАЗМЕЩЕНИЕ
+tooltip_spacetocancel                                 НАЖМИТЕ ПРОБЕЛ ДЛЯ ОТМЕНЫ
+
+tooltip_selectobject                                  [ЛКМ] ВЫБРАТЬ ЕДИНИЦУ 
+tooltip_selectfleet                                   [ЛКМ] ВЫБРАТЬ ФЛОТ
+tooltip_setobjectstate                                [ПКМ] ИЗМЕНИТЬ СТАТУС
+tooltip_enemyunit                                     (ВРАЖЕСКАЯ ЕДИНИЦА)
+tooltip_attack                                        [ЛКМ] АТАКОВАТЬ ЕДИНИЦУ
+tooltip_moveobject                                    [ПКМ] ПЕРЕМЕСТИТЬ ЕДИНИЦУ
+tooltip_movefleet                                     [ПКМ] ПЕРЕМЕСТИТЬ ФЛОТ
+tooltip_cantmovehere                                  ПЕРЕМЕЩЕНИЕ НЕВОЗМОЖНО
+tooltip_spawnfighter                                  [ЛКМ] НАПРАВИТЬ ИСТРЕБИТЕЛЬ
+tooltip_spawnbomber                                   [ЛКМ] НАПРАВИТЬ БОМБАРДИРОВЩИК
+tooltip_spawnnuke                                     [ЛКМ] НАПРАВИТЬ ЯДЕРНУЮ РАКЕТУ
+tooltip_spacetodeselect                               ПРОБЕЛ - ОТМЕНА ВЫБОРА
+tooltip_landobject                                    [ЛКМ] ПОСАДИТЬ САМОЛЕТ
+
+tooltip_controls_sidescrolling                        Позволяет вам двигать камеру мышью по краю экрана
+tooltip_controls_zoomspeed                            Настраивает степень увеличения с помощью мыши и сенсорной панели.
+tooltip_controls_camdragging                          Позволяет перетаскивать камеру путем удержания средней кнопки мыши
+tooltip_controls_keyboardlayout                       Позволяет изменять режим ввода
+
+tooltip_close_window                                  Закрыть окно
+
+tooltip_demo_exit_the_game                            Выйти из игры
+
+tooltip_server_browser_game_time                      Время игры:
+tooltip_server_browser_game_has_ended                 \nИгра закончена
+tooltip_server_browser_game_started                   Запущена
+tooltip_server_browser_not_yet_started                Не запущена
+tooltip_server_browser_teams                          \nКоманды :
+tooltip_server_browser_spectator                      \nЗрители :
+tooltip_server_browser_game_mode                      \nРежим игры :
+tooltip_server_browser_score_mode                     \nРежим очков :
+tooltip_server_browser_mod                            \nМод:
+tooltip_server_browser_right_click_details            \n(Щелчок правой кнопкой для деталей)
+
+
+# =============================================================================
+# Параметры игры
+# =============================================================================
+
+gameoption_PlayerName                                 NewPlayer
+
+gameoption_ServerName                                 Имя сервера
+
+gameoption_New_Game_Server                            New Game Server
+gameoption_AdvertiseOnInternet                        Показывать в сети
+gameoption_Disabled                                   Отключено
+gameoption_Enabled                                    Включено
+gameoption_AdvertiseOnLAN                             Показывать в LAN
+gameoption_GameMode                                   Режим игры
+gameoption_Default                                    Обычный
+gameoption_Office_Mode                                Офисный режим
+gameoption_Speed_Defcon                               Быстрый Defcon
+gameoption_Diplomacy                                  Дипломатия
+gameoption_BigWorld                                   Огромный Мир
+gameoption_Tournament                                 Турнир
+gameoption_Custom                                     Собственный
+gameoption_MaxTeams                                   Максимальное количество команд
+gameoption_TerritoriesPerTeam                         Территорий на команду
+gameoption_CitiesPerTerritory                         Городов на территорию 
+gameoption_PopulationPerTerritory                     Население
+gameoption_CityPopulations                            Население городов
+gameoption_Equalised                                  Выровнено
+gameoption_Random                                     Случ. порядок
+gameoption_TotallyRandom                              Полн. случайно
+gameoption_RandomTerritories                          Случайные территории
+gameoption_PermitDefection                            Право предать
+gameoption_No                                         Нет
+gameoption_Yes                                        Да
+gameoption_RadarSharing                               Общий радар
+gameoption_AlwaysOff                                  Всегда отключено
+gameoption_Alliance                                   Союз
+gameoption_Selective                                  Выборочно
+gameoption_AlwaysOn                                   Всегда включено
+gameoption_GameSpeed                                  Скорость игры
+gameoption_Slowest_Requested                          Мин. заданная
+gameoption_Pause                                      Пауза
+gameoption_Real_Time                                  Реальн. врем.
+gameoption_5x_Real_Time                               5x реальн. врем.
+gameoption_10x_Real_Time                              10x реальн. врем.
+gameoption_20x_Real_Time                              20x реальн. врем.
+gameoption_SlowestSpeed                               Мин. скорость
+gameoption_ScoreMode                                  Режим очков
+gameoption_Survivor                                   Выживание
+gameoption_Genocide                                   Геноцид
+gameoption_VictoryTrigger                             Включение таймера победы
+gameoption_VictoryTimer                               Таймер победы
+gameoption_MaxGameRealTime                            Максимальное время игры 
+gameoption_VariableUnitCounts                         Покупка отрядов
+gameoption_WorldScale                                 Размер мира
+gameoption_MaxSpectators                              Макс. зрителей
+gameoption_SpectatorChatChannel                       Канал для зрителей
+gameoption_Private                                    Приватный
+gameoption_Public                                     Общий
+gameoption_TeamSwitching                              Смена команды
+gameoption_ServerPassword                             Пароль сервера
+
+
+# =============================================================================
+# Стили
+# =============================================================================
+
+style_WindowBackground                                Фон окна
+style_WindowTitleBar                                  Заголовок окна
+style_WindowOuterBorder                               Внешняя рамка окна
+style_WindowInnerBorder                               Внутренняя рамка окна
+style_ButtonBackground                                Фон кнопки
+style_ButtonHighlighted                               Выделенная кнопка
+style_ButtonClicked                                   Нажатая кнопка
+style_ButtonBorder                                    Рамка кнопки
+style_BoxBackground                                   Фон поля
+style_BoxBorder                                       Рамка поля
+style_InputBackground                                 Фон ввода
+style_InputBorder                                     Рамка ввода
+style_FontWindowTitle                                 Шрифт заголовка окна
+style_FontButton                                      Шрифт кнопки
+style_WorldCoastlines                                 Побережья мира
+style_WorldBorders                                    Границы мира
+style_WorldWater                                      Вода мира
+style_WorldLand                                       Суша мира
+style_TooltipBackground                               Фон подсказки 
+style_TooltipBorder                                   Рамка подсказки
+style_FontTooltip                                     Шрифт подсказки
+style_PopupBackground                                 Фон окна 
+style_PopupTitleBar                                   Строка заголовка окна
+style_PopupBorder                                     Рамка окна 
+style_PopupHighlight                                  Выделение окна 
+style_PopupSelection                                  Выбор окна 
+style_FontPopupTitle                                  Шрифт заголовка окна
+style_FontPopup                                       Шрифт окна
+
+
+# =============================================================================
+# Названия боевых единиц
+# =============================================================================
+
+unit_silo                                             ракетная шахта
+unit_nuke                                             ядерная бомба
+unit_city                                             город
+unit_sub                                              подлодка
+unit_radar                                            радар
+unit_battleship                                       линкор
+unit_airbase                                          авиабаза
+unit_fighter                                          истребитель
+unit_bomber                                           бомбардировщик
+unit_carrier                                          авианосец
+unit_tornado                                          торнадо
+unit_saucer                                           инопланетный корабль 
+unit_explosion                                        взрыв
+
+
+# =============================================================================
+# Состояния единиц
+# =============================================================================
+
+state_preparing                                       ГОТОВИТСЯ
+state_prepare                                         ПОДГОТОВИТЬ
+state_ready                                           ГОТОВ
+state_fighterlaunch                                   ИСТРЕБИТЕЛЬ
+state_bomberlaunch                                    БОМБАРДИРОВЩИК
+state_attack                                          АТАКА
+state_flight                                          В ПОЛЕТЕ
+state_bombernuke                                      ЗАПУСК БРБД
+state_airtoseamissile                                 АТАКА С МОРЯ
+state_antisub                                         ПРОТИВОЛОДОЧНЫЙ РЕЖИМ 
+state_ontarget                                        НАЦЕЛИТЬ НА
+state_disarm                                          ОБЕЗВРЕДИТЬ
+state_radar                                           СКАНИРОВАТЬ
+state_silonuke                                        ЗАПУСК МБР
+state_airdefense                                      ПРОТИВОВОЗДУШНАЯ ОБОРОНА
+state_passivesonar                                    ПАССИВНЫЙ ГИДРОЛОКАТОР
+state_activesonar                                     АКТИВНЫЙ ГИДРОЛОКАТОР
+state_subnuke                                         ЗАПУСК БРСД 
+
+
+# =============================================================================
+# Сообщения игры
+# =============================================================================
+
+message_fuel                                          Нехватка топлива
+message_tornadodeath                                  Торнадо рассеялся
+message_nukelaunch                                    Обнаружен запуск
+message_multilaunch                                   Обнаружено несколько запусков
+message_firstlaunch                                   Обнаружен запуск: *T 
+message_incursion                                     Вторжение на вражескую территорию невозможно
+message_destroyed                                     *U - уничтожено
+# V = пострадавшая команда, U = уничтоженная единица, T = атаковавшая команда, A = атаковавшая единица
+
+message_directhit                                     город *C поражен, *D млн. погибло
+message_fallout                                       над городом *C радиоактивные осадки *D млн. погибло
+# C = название города, D = количество убитых
+
+details_fuel                                          ТОПЛИВО
+
+message_victory                                       ПОБЕДА *T
+message_stalemate                                     НЕТ ОДНОЗНАЧНОГО ПОБЕДИТЕЛЯ
+message_spectators_chat_players                       Теперь зрители могут общаться с игроками
+message_placeunits                                    ВЫ ДОЛЖНЫ РАЗМЕСТИТЬ ВСЕ ЕДИНИЦЫ ДО НАЧАЛА DEFCON 3
+
+message_fleet_move                                    Нельзя поместить флот здесь
+message_disarmed                                      Снаряд обезврежен
+
+message_alliance_join                                 *P присоединяется к союзу *N 
+message_alliance_kicked                               *P исключается из союза *N
+message_alliance_leave                                *P покидает союз *N 
+# P = player name, N = alliance name
+
+message_invalid_action                                НЕВОЗМОЖНО ДО ЗАПУСКА DEFCON *D
+# D = Defcon level
+
+message_ten_minute_warning                            ПРЕДУПРЕЖДЕНИЕ: 10 МИНУТ
+message_victory_timer                                 ЗАПУСК ТАЙМЕРА ПОБЕДЫ
+
+tray_icon_caption                                     DEFCON
+tray_icon_ten_minute_warning                          Предупреждение: 10 минут
+tray_icon_victory_timer                               Запуск таймера победы
+tray_icon_nuke_launches_detected                      Обнаружен запуск ракет
+tray_icon_enemy_subs_detected                         Обнаружены вражеские подводные лодки
+
+
+# =============================================================================
+# Вероятность атаки
+
+# =============================================================================
+
+odds_zero                                             вероятность атаки: нулевая
+odds_vlow                                             вероятность атаки: оч. низ.
+odds_low                                              вероятность атаки: низкая
+odds_med                                              вероятность атаки: средняя
+odds_high                                             вероятность атаки: высокая
+odds_vhigh                                            вероятность атаки: оч. выс.
+
+
+# =============================================================================
+# Прочее
+# =============================================================================
+
+unknown                                               Н\Д
+
+officemode_1                                          выбранная скорость переключится на режим «в офисе» 
+officemode_2                                          настройки и параметры экрана.
+
+alien_attack                                          *C уничтожен инопланетным кораблем
+alien_invasion                                        ВТОРЖЕНИЕ ИНОПЛАНЕТЯН!
+tornado_warning                                       ПРЕДУПРЕЖДЕНИЕ О ТОРНАДО
+
+
+# =============================================================================
+# Руководство
+# =============================================================================
+
+tutorial                                              Обучение
+levelselect                                           Выбор уровня
+tutorial_clicknext                                    Нажмите Далее
+
+tutorial_restart_mission                              Рестарт
+tutorial_missioncomplete                              МИССИЯ ЗАВЕРШЕНА
+tutorial_missionfailed                                МИССИЯ ПРОВАЛЕНА
+tutorial_mission                                      МИССИЯ *X
+# X = Номер миссии
+tutorial_team_name_cpu                                Компьютер
+tutorial_team_name_player                             Игрок
+
+tutorial_restart                                      Перезапустить
+tutorial_next                                         Далее
+tutorial_chapter_desc                                 ГЛАВА *C из 7   -   *N
+# C = Номер главы, N = Имя главы
+tutorial_level                                        Уровень *L
+# L = Номер уровня
+
+tutorial_levelname_1                                  Запуск ядерного оружия
+tutorial_levelname_2                                  Противовоздушная оборона
+tutorial_levelname_3                                  Зона обзора радара
+tutorial_levelname_4                                  Разведка и бомбардировка
+tutorial_levelname_5                                  Военно-морской флот
+tutorial_levelname_6                                  Подводные лодки
+tutorial_levelname_7                                  Глобальная термоядерная война
+
+tutorial_popup                                        Всплывающее окно руководства
+tutorial_clicknext_popup                              Нажмите Далее для продолжения.
+
+# ==== МИССИЯ 1 =====
+
+tutorial_start                                        Добро пожаловать в руководство по Defcon.\n\nВ этом руководстве содержится вся необходимая информация о том, как эффективно управлять своей армией.\n\nНажмите Далее для продолжения.
+tutorial_movecamera                                   До того как начать, вам необходимо научиться управлять своей точкой обзора. \n\nПеремещайте точку обзора, двигая мышью по краю экрана в желаемом направлении.\n\nВ качестве альтернативы для изменения точки обзора вы можете использовать клавиши W,A,S,D.
+tutorial_zoomcamera                                   Прокручивайте колесо мыши для приближения и отдаления.\n\nС тем же успехом вы можете использовать клавиши Q и E.
+tutorial_movecamera2                                  Также вы можете удерживать среднюю кнопку мыши и перетаскивать картинку.\n\nКак только вы наиграетесь с управлением обзором, нажмите Далее, и мы перейдем к фейерверку. 
+tutorial_silofocus                                    Выделенный объект – ракетная шахта, у нее два режима:\n\n – в режиме запуска МБР осуществляется ядерный удар по вражеским целям.\n\n – В режиме ПВО производится обстрел вражеских ракет и авиации.\n\nДля уничтожения ближайшей вражеской радарной станции нам необходимо перевести ракетную шахту в режим запуска МБР.\n\nЩелкните правой кнопкой по шахте и переведите ее в режим запуска МБР.
+macosx_tutorial_silofocus                             Выделенный объект – ракетная шахта, у нее два режима:\n\n – в режиме запуска МБР осуществляется ядерный удар по вражеским целям.\n\n – В режиме противовоздушной обороны производится обстрел вражеских ракет и авиации.\n\nДля уничтожения ближайшей вражеской радарной станции нам необходимо перевести ракетную шахту в режим запуска МБР.\n\nЩелкните правой кнопкой мыши по ракетной шахте и переведите ее в режим запуска МБР.\n(Или щелкните, зажав ctrl, если у вас мышь с одной кнопкой).
+tutorial_mission1destroyradar                         Обратите внимание на то, как иконка ракетной шахты меняется на треугольник во время подготовки к запуску ракеты.\n\nИспользуйте свою ракетную шахту для уничтожения вражеской радарной станции.
+
+tutorial_mission1end                                  Миссия 1 завершена.\n\nНажмите Далее для перехода к Миссии 2.
+tutorial_mission1failed                               У вас закончились ракеты, и вы не уничтожили цель. Миссия провалена.\n\nНажмите Перезапустить и попробуйте еще раз.
+
+tutorial_silofocus_popup1                             Щелкните правой кнопкой мыши по ракетной шахте и переведите ее в режим запуска МБР.
+macosx_tutorial_silofocus_popup1                      Щелкните правой кнопкой мыши по ракетной шахте и переведите ее в режим запуска МБР.\n(Или щелкните, зажав ctrl, если у вас мышь с одной кнопкой).
+tutorial_silofocus_selectpopup                        Щелкните левой кнопкой мыши по ракетной шахте и выберите ее. 
+tutorial_mission1destroyradar_popup                   Щелкните левой кнопкой мыши по вражеской радарной станции для нанесения ракетного удара.
+#tutorial_mission1deselect_popup     Нажмите ПРОБЕЛ для отмены.
+tutorial_mission1deselect_popup                       Нажмите ПРОБЕЛ для отмены выделения.
+
+# ==== МИССИЯ 2 =====
+
+tutorial_mission2start                                Ваше первое задание в любой из игр Defcon состоит в размещении ваших боевых единиц.\n\nОткройте панель боевых единиц для начала развертывания.
+tutorial_m2selectsilo                                 Через эту панель вы сможете размещать все свои доступные единицы. В этой миссии у вас имеются только ракетные шахты.\n\nВы должны развернуть все свои единицы ДО начала Defcon 3.\n\nЩелкните по иконке ракетной шахты, чтобы начать развертывание.
+tutorial_m2placesilos                                 Зеленым цветом обозначена ваша территория.\n\n Вы можете размещать свои боевые единицы только в пределах своей территории. Наземные единицы нельзя перемещать после установки.\n\nНаземные единицы нельзя размещать слишком близко друг от друга.\n\nРазмещайте свои ракетные шахты возле городов для их защиты.
+tutorial_m2destroynukes                               Вражеские подводные лодки выпустили ядерные ракеты по вашим городам!\n\nВаши ракетные шахты уже переведены в режим противовоздушной обороны и будут сбивать приближающиеся ракеты.\n\nРакетные шахты в режиме противовоздушной обороны очень эффективны против вражеских ракет.
+
+tutorial_m2end                                        Миссия 2 завершена.\n\nНажмите Далее для перехода к Миссии 3.
+tutorial_mission2failed                               Ядерная ракета попала в один из ваших городов!\n\nВ следующий раз попробуйте расположить ракетные шахты возле городов. Так у ваших шахт будет больше времени для обстрела вражеских ракет.\n\nНажмите Перезапустить и попробуйте еще раз.
+
+tutorial_unitpanel_popup                              Щелкните по этой кнопке, чтобы открыть панель боевых единиц.
+tutorial_silo_popup                                   Щелкните по этой иконке, чтобы начать развертывание ракетных шахт.
+tutorial_silo_place                                   Щелкните левой кнопкой мыши по этой территории, чтобы разместить свои ракетные шахты возле главных городов.
+
+# ==== МИССИЯ 3 =====
+
+tutorial_mission3start                                Каждая боевая единица в Defcon имеет свою дальность действия радара, и вы сможете увидеть вражескую единицу только если она попадет в зону обзора вашего радара.\n\nВ России всего несколько вражеских единиц, которые необходимо обнаружить.\n\nДля определения местонахождения вражеских единиц установите радарные станции. 
+tutorial_m3radarplacement                             Разместите свои радарные станции как можно ближе к России.\n\n Расположив радарные станции, вы заметите, как видимость территории увеличивается. Вражеские единицы будут обнаружены.
+tutorial_m3siloplacement                              Теперь вы можете увидеть вражеские единицы.\n\nРазверните несколько ракетных шахт на вашей территории для уничтожения врага.
+tutorial_m3gamespeed                                  Для уничтожения вражеских строений нам необходимо использовать ядерное оружие, но мы не можем этого сделать до начала Defcon 1.\n\nДля перехода к Defcon 1 нам необходимо ускорить время. Щелкните по кнопке управления скоростью и ускорьте время до объявления Defcon 1.
+tutorial_m3defcon1                                    В сражении не может участвовать большое количество боевых единиц до достижения определенного уровня Defcon.\n\nМорские и Воздушные бои не могут начаться до Defcon 3.\n\nЯДЕРНОЕ ОРУЖИЕ МОЖЕТ БЫТЬ ИСПОЛЬЗОВАНО ТОЛЬКО ПОСЛЕ ОБЪЯВЛЕНИЯ DEFCON 1.\n\nУскорьте время до объявления Defcon 1.
+tutorial_m3destroyenemy                               Теперь вы можете использовать свои ракетные станции для уничтожения вражеских строений.\n\n У врага имеется собственная ракетная шахта в режиме Противовоздушной обороны, которая собьет ваши ракеты. Кроме того, вражеская ракетная шахта усилена против ядерных ракет и способна выдержать 3 прямых попадания.\n\nВы должны ударить по вражеской ракетной шахте всеми своими шахтами одновременно, чтобы добиться желаемого результата.
+tutorial_m3silostaketime                              Переход шахт из режима Противовоздушной обороны к режиму запуска МБР занимает много времени. Наведите курсор на шахту и посмотрите, сколько осталось ждать.\n\nЕсли хотите, можете ускорить время.\n\nПродолжайте выпускать все свои ракеты по вражеским строениям до тех пор, пока они не будут уничтожены.
+
+tutorial_m3end                                        Миссия 3 завершена.\n\nНажмите Далее для перехода к миссии 4.
+tutorial_mission3failed1                              Вы разместили все свои радарные станции, но не обнаружили всех вражеских единиц.\n\nМиссия провалена.\n\nНажмите Перезапустить и попробуйте еще раз.
+tutorial_mission3failed2                              У вас закончились ракеты, и вам не удалось уничтожить вражеские строения.\n\nНажмите Перезапустить и попробуйте еще раз.
+
+tutorial_radar_popup                                  Щелкните по этой единице и начните развертывание радарных станций.
+tutorial_radar_place                                  Щелкните по этому участку, чтобы разместить свои радарные станции возле вражеской территории.
+tutorial_acceltime_popup                              Щелкните по кнопке управления скоростью для ускорения времени и перехода к Defcon 1. 
+tutorial_silosnuke_popup                              Щелкните правой кнопкой мыши по этой ракетной шахте и переведите ее в режим запуска МБР.
+macosx_tutorial_silosnuke_popup                       Щелкните правой кнопкой мыши по ракетной шахте и переведите ее в режим запуска МБР.\nИли щелкните, зажав ctrl, если у вас мышь с одной кнопкой.
+tutorial_nukenemeysilo_popup                          Чтобы выпустить по шахте несколько ракет, щелкните по ней несколько раз левой кнопкой мыши. Шахта сможет сбить некоторые из ракет и выдержит 3 прямых попадания. 
+tutorial_nukeenemyairbase_popup                       Выпустите несколько ракет по вражеской авиабазе.
+tutorial_nukenemeycities_popup                        Оставшиеся ракеты можете выпустить по вражескому гражданскому населению.
+
+# ==== МИССИЯ 4 =====
+
+tutorial_mission4start                                Во многих случаях вражеские единицы будут находиться вне зоны обзора вашего радара. Для обнаружения вражеских единиц вам необходимо отправить на вражескую территорию разведывательные самолеты.\n\nРазместите несколько авиабаз на своей территории.
+tutorial_m4launchfighters                             Вы можете использовать авиабазы для выпуска двух типов самолетов:\n-Истребители: небольшой радиус действия/самолеты-разведчики\n-Бомбардировщики : самолет дальнего действия, вооруженный одной ядерной ракетой\n\nИстребители – это быстрые и эффективные на малой дистанции самолеты. Они с легкостью сбивают другие самолеты и прекрасно служат в качестве разведчиков.\n\nОтправьте своих истребителей в сторону вражеской территории для разведывания целей. 
+tutorial_m4radar                                      На каждом истребителе установлен радар небольшого радиуса обзора, который обнаружит вражеские строения, пролетев над ними достаточно низко.\n\nВключите обзор своего радара для получения изображения зоны обзора радарной станции.
+tutorial_m4launchbombers                              Ваши истребители обнаружили все вражеские строения.\n\nВы наверное заметили, что вражеские строения приобрели серый оттенок, оказавшись вне зоны вашего радара – этот эффект называется Призраком Радара.\n\nТеперь мы используем бомбардировщики для нанесения бомбового удара по вражеским целям.\n\nИспользуйте авиабазы для запуска бомбардировщиков в сторону вражеских строений. 
+tutorial_m4bomberinfo                                 Бомбардировщики могут перемещаться на очень большие расстояния, однако они должны вплотную подойти к своей цели – на их борту находится только одна ядерная бомба с небольшим радиусом действия.\n\nОказавшись в зоне местонахождения своей цели, бомбардировщики автоматически сбрасывают бомбу. 
+tutorial_m4nukeslaunched                              Как только бомбардировщик сбросит свою бомбу, он автоматически вернется на ближайшую авиабазу для посадки.\n\nПриземлившись, бомбардировщик будет загружен новой бомбой. Однако авиабазы располагают ограниченным количеством ядерных бомб для перевооружения бомбардировщиков.\n\nЕсли вы выделите авиабазу (наведя на нее курсор мыши), вы увидите доступное количество самолетов и бомб.
+
+tutorial_m4end                                        Миссия 4 завершена.\n\nНажмите Далее для перехода к Миссии 5.
+tutorial_mission4failed                               У вас закончились все бомбы, но вы не уничтожили врага. Миссия провалена.\n\nНажмите Перезапустить и попробуйте еще раз.
+
+tutorial_selectairbase_popup                          Щелкните по иконке единицы и начните развертывание авиабаз.
+tutorial_placeairbase_popup                           Щелкните левой кнопкой мыши по этой области для размещения авиабаз.
+tutorial_clickairbase_popup                           Щелкните левой кнопкой мыши по этой авиабазе для запуска истребителей.
+tutorial_scouthere_popup                              Щелкните левой кнопкой мыши по этой области несколько раз для запуска нескольких истребителей.
+tutorial_radartoolbar_popup                           Нажмите эту кнопку на панели для получения изображения зоны обзора вашего радара.
+tutorial_switchtobombers_popup                        Щелкните правой кнопкой мыши по авиабазе и переведите ее в режим запуска бомбардировщиков.
+macosx_tutorial_switchtobombers_popup                 Щелкните правой кнопкой мыши по авиабазе и переведите ее в режим запуска бомбардировщиков.\nИли щелкните, зажав ctrl, если у вас мышь с одной кнопкой.
+tutorial_clickairbasebomber_popup                     Щелкните левой кнопкой мыши по авиабазе для начала запуска бомбардировщиков.
+tutorial_nukebuilding_popup                           Направьте пару бомбардировщиков на это вражеское строение.
+
+# ==== МИССИЯ 5 =====
+
+tutorial_mission5start                                Значительная часть ваших мобильных войск будет состоять из судов, которые объединены во флоты.\n\nФлот состоит максимум из шести кораблей и передвигается как одна связанная боевая единица.\n\nОткройте панель единиц и щелкните по кнопке Флот для развертывания флота. 
+tutorial_m5createfleet                                Это строитель флота. Щелчок на кнопке единицы добавит этот корабль к флоту.\n\n-Линкоры эффективны против различных вражеских единиц, но уязвимы перед подводными лодками.\n-Авианосцы выступают в качестве мобильных авиабаз, позволяя осуществлять запуск истребителей и бомбардировщиков. Кроме того, они могут применять глубинные бомбы против вражеских подводных лодок.\n-Подводные лодки невидимы для традиционных радаров и несут на себе ядерное оружие среднего радиуса действия.\n\nПостройте флот из трех линкоров и трех авианосцев.
+tutorial_m5battleshipinfo                             Флот управляется как цельная боевая единица. Если отдать им приказ двигаться, движение они начнут вместе. Если приказать им атаковать вражеский флот, они сделают это как одна боевая единица, на пределе своих возможностей.\n\nВыберите один из своих флотов, щелкнув левой кнопкой мыши по одному из кораблей в этом флоте.\n\nЗатем передвиньте флот на юг, щелкнув правой кнопкой по месту их назначения. 
+macosx_tutorial_m5battleshipinfo                      Флот управляется как цельная боевая единица. Если отдать им приказ двигаться, движение они начнут вместе. Если приказать им атаковать вражеский флот, они сделают это как одна боевая единица, на пределе своих возможностей.\n\nВыберите один из своих флотов, щелкнув левой кнопкой мыши по одному из кораблей в этом флоте.\n\nЗатем передвиньте флот на юг, щелкнув правой кнопкой (или щелкнув, зажав ctrl) по месту их назначения.
+tutorial_m5destroyenemy                               Где-то в Атлантическом океане два вражеских флота – Для их поиска и уничтожения используйте свой флот.\n\n- Щелкните левой кнопкой мыши по любому из кораблей своего флота, чтобы выбрать весь флот.\n- Чтобы указать место назначения для выбранного флота, щелкните правой кнопкой мыши по нужной области.\n\nПри необходимости ускорьте время.
+macosx_tutorial_m5destroyenemy                        Где-то в Атлантическом океане два вражеских флота – используйте свой флот для их поиска и уничтожения.\n\n- Щелкните левой кнопкой мыши по любому из кораблей своего флота, чтобы выбрать весь флот.\n- Щелкните правой кнопкой мыши (или зажав ctrl), чтобы указать место назначения для выбранного флота.\n\nПри необходимости ускорьте время.
+tutorial_m5destroyenemy2                              Ваш флот автоматически начнет атаковать вражеские суда, как только они окажутся в радиусе действия. Линкоры откроют огонь, а авианосцы начнут запуск истребителей.\n\nПри желании вы можете управлять сражениями вручную – для примера, щелкните левой кнопкой мыши по одному из авианосцев, чтобы выбрать его, после чего щелкните левой кнопкой по вражескому судну, чтобы направить на него истребитель.\n\nНажмите кнопку Приказы на панели для просмотра текущего состояния приказов об атаке.
+
+tutorial_m5end                                        Миссия 5 завершена. Нажмите Далее для перехода к Миссии 6.
+tutorial_mission5failed                               Вы потеряли все свои корабли, не уничтожив врага. Миссия провалена.\n\nНажмите Перезапустить и попробуйте еще раз.
+
+tutorial_selectfleet_popup                            Щелкните по этой иконке, чтобы начать развертывание флота.
+tutorial_addbattleship_popup                          Щелкните по этой иконке единицы для добавления линкора к своему флоту.
+tutorial_addcarrier_popup                             Щелкните по этой иконке единицы для добавления авианосца к своему флоту.
+tutorial_deployfleet_popup                            Щелкните левой кнопкой мыши для размещения своего флота в этой области.
+tutorial_selectdeployedfleet_popup                    Щелкните левой кнопкой мыши по любому кораблю, чтобы выбрать весь флот.
+tutorial_movefleet_popup                              ЩЕЛКНИТЕ ПРАВОЙ КНОПКОЙ МЫШИ для перемещения флота в эту точку.
+macosx_tutorial_movefleet_popup                       ЩЕЛКНИТЕ ПРАВОЙ КНОПКОЙ МЫШИ для перемещения флота в эту точку. Щелкните, зажав Ctrl, если у вас мышь с одной кнопкой.
+tutorial_destroyfleet_popup                           Уничтожьте вражеский флот на этой территории.
+tutorial_orderstoolbar_popup                          Нажмите эту кнопку на панели для просмотра отданных приказов.
+
+# ==== МИССИЯ 6 =====
+
+tutorial_mission6start                                До этого момента мы действовали из Европы, противоборствуя Советскому Союзу. Но так будет не всегда.\n\nВ этой миссии вашей территорией станет Северная Америка, а врагом выступит Южная Азия.\n\nЩелкните по кнопке территории и посмотрите, кто какие части карты контролирует.
+tutorial_mission6subintro                             В данном случае, театром военных действий является Тихий Океан. Враг разместил несколько атомных подводных лодок у западного побережья Америки. Оттуда они смогут нанести удар по основным нашим городам.\n\nЛучшим оружием в борьбе против атомных подводных лодок является авианосец – обнаружив их под водой с помощью гидролокатора, он сможет сбросить глубинную бомбу и потопить их.\n\nРазверните флот авианосцев у Западного побережья.
+tutorial_mission6placesubs                            Мы собираемся использовать свои собственные подводные лодки для нанесения ответного сокрушительного удара по восточному берегу Китая.\n\nСоздайте флот из подводных лодок и разместите их как можно ближе к Восточному Китаю. 
+tutorial_m6subinfo                                    Подводные лодки несут приличное количество ядерных ракет среднего радиуса действия.\n\nВажно помнить, что подводные лодки не засекаются радаром, пока не всплывают на поверхность, что делает их невидимыми и неуязвимыми для обстрела из стандартных орудий.\n\nПереместите свои подводные лодки как можно ближе к вражеской береговой линии и отправьте пару миллионов к праотцам.
+tutorial_m6destroysubs                                Возле Западного побережья Америки находится 2 вражеских флота, скрытых под толщей воды.\n\nПереведите несколько своих авианосцев в противолодочный режим и взорвите вражеские подлодки глубинными бомбами.\n\nКоличество глубинных бомб на авианосце не ограничено.\nПри необходимости ускорьте время.
+tutorial_m6movesubs                                   Подводные лодки можно использовать для произведения разрушительного эффекта, так как они могут незаметно приблизиться к вражеской береговой линии и ударить без предупреждения.\n\nПереместите свои подводные лодки к Восточному Китаю на расстояние удара.
+tutorial_m6enemylaunch                                Враг выпустил ракеты по нашим городам из своих наземных шахт!\n\nДля уничтожения их шахт до того, как они смогут нанести значительный ущерб, мы используем наши ближайшие подводные лодки.\n\n Переведите свои подводные лодки в режим запуска БРСД и уничтожьте вражеские шахты! 
+tutorial_m6launchexplanation                          У нас нет радарного обзора данной местности, но мы можем увидеть вражеские шахты.\n\nДело в том, что шахты выдают свое местонахождение, когда запускают ракеты.\n\nШахты в режиме запуска не способны защитить себя, поэтому это идеальная возможность для удара.\n\n С разрушенными шахтами враг станет беззащитен – поэтому нацельте свои ракеты на их города и нанесите настоящий ущерб!
+tutorial_m6end                                        Миссия 6 завершена.  Нажмите Далее для перехода к последней тренировочной Миссии.
+
+tutorial_territorytoolbar_popup                       Чтобы увидеть территории каждого игрока, нажмите эту кнопку на панели.
+tutorial_addsub_popup                                 Щелкните по иконке этой единицы для добавления подводной лодки к своему флоту.
+tutorial_movesubs_popup                               ЩЕЛКНИТЕ ПРАВОЙ КНОПКОЙ МЫШИ здесь, чтобы переместить подводные лодки к Восточному Китаю на расстояние удара.
+macosx_tutorial_movesubs_popup                        ЩЕЛКНИТЕ ПРАВОЙ КНОПКОЙ МЫШИ здесь, чтобы переместить подводные лодки к Восточному Китаю на расстояние удара.\или щелкните, зажав Ctrl если у вас мышь с одной кнопкой.
+tutorial_switchtodepth_popup                          Щелкните правой кнопкой мыши по этому авианосцу и переведите его в противолодочный режим.
+macosx_tutorial_switchtodepth_popup                   Щелкните правой кнопкой мыши по этому авианосцу и переведите его в противолодочный режим.\или щелкните, зажав Ctrl, если у вас мышь с одной кнопкой.
+tutorial_destroysubs_popup                            Переместите свои авианосцы сюда и уничтожьте вражеские подводные лодки в этой зоне.
+tutorial_substonuke_popup                             Щелкните правой кнопкой мыши по этой подводной лодке и переведите ее в режим запуска БРСД.
+macosx_tutorial_substonuke_popup                      Щелкните правой кнопкой мыши по этой подводной лодке и переведите ее в режим запуска БРСД.\ или щелкните, зажав Ctrl, если у вас мышь с одной кнопкой 
+tutorial_nukesilo_popup                               Щелкните левой кнопкой мыши несколько раз по этой ракетной шахте, чтобы выпустить по ней множество ракет из своей шахты.
+
+
+# ==== МИССИЯ 7 =====
+
+tutorial_mission7start                                Это ваша последняя тренировочная миссия. Вам понадобятся все ваши знания в реальной битве против компьютерного противника.\n\n Чтобы одержать победу, вам необходимо набрать большее количество очков, чем у врага, взорвав его города. Вы получите 2 очка за каждого убитого врага, но потеряете 1 очко за каждого из своих погибших граждан.\n\nВ этой игре вы выступаете за Северную Америку и ваш враг – Южная Азия.  
+tutorial_mission7enemyattack                          Враг выпустил по вам ракеты!\n\nЕсли у вас есть подводные лодки у побережья Китая, используйте их для уничтожения вражеских шахт, пока они беззащитны.\n\nПереведите свои ракетные шахты в режим противовоздушной обороны для обстрела приближающихся ракет.
+tutorial_mission7retaliate                            Враг только что выпустил большую часть своих ракет.\n\nИспользуйте свои ракетные шахты и оставшиеся ракеты для полномасштабного ответа вражеским городам в Китае! 
+tutorial_m7victory                                    Поздравляем! Вы с успехом одержали победу над компьютерным противником и закончили вводное руководство Defcon!
+tutorial_mission7failed                               Вы проиграли компьютерному противнику и провалили миссию.\n\nПодсказки:\n-Попробуйте разместить свои подводные лодки вплотную к вражеской береговой линии: так вы сможете уничтожить их ракетные шахты до того, как они запустят все свои ракеты.\nИспользуйте свои авианосцы для обнаружения и уничтожения вражеских подводных лодок до того, как они начнут атаковать.\n\nНажмите Перезапустить и попробуйте еще раз.
+
+tutorial_showterritory_popup                          Щелкните по этой кнопке, чтобы увидеть расположение ваших врагов.
+tutorial_m7placeradar_popup                           Враг подойдет с Восточного берега Китая. Разверните свои радары вдоль западного берега для максимального обзора.
+tutorial_m7placesilos_popup                           Для защиты своих главных городов разверните ракетные шахты – города станут основной мишенью вашего врага. 
+tutorial_m7placeairbases_popup                        Разверните свои авиабазы вдоль западного побережья Америки. Мы используем их для обстрела и уничтожения любых кораблей, приблизившихся к нашему берегу.
+tutorial_placefleetspacific_popup                     Чтобы нас атаковать, враг направит свои суда через Тихий океан. Для их перехвата вы должны разместить большую часть своего флота в Тихом океане.
+tutorial_m7fleettarget_popup                          Постарайтесь перебросить свой флот к Восточному берегу Китая, чтобы ударить с близкого расстояния.\nЩЕЛКНИТЕ ЛЕВОЙ КНОПКОЙ МЫШИ, чтобы выбрать весь флот.\nЩЕЛКНИТЕ ПРАВОЙ КНОПКОЙ МЫШИ, чтобы передвинуть весь флот.
+macosx_tutorial_m7fleettarget_popup                   Постарайтесь перебросить свой флот к Восточному берегу Китая, чтобы ударить с близкого расстояния.\nЩЕЛКНИТЕ ЛЕВОЙ КНОПКОЙ МЫШИ, чтобы выбрать весь флот.\nЩЕЛКНИТЕ ПРАВОЙ КНОПКОЙ МЫШИ (или щелкните, зажав Ctrl) чтобы передвинуть весь флот.
+tutorial_m7scoutchina_popuup                          Направьте истребители с ближайших авианосцев разведать территорию на предмет вражеских наземных баз.
+tutorial_m7enemysubs_popup                            Вражеские подводные лодки выпустили ракеты по вашим городам! Запустите истребителей и бомбардировщиков с ближайших авиабаз и уничтожьте их! 
+
+
+# =============================================================================
+# Информация о единицах
+# =============================================================================
+
+unitinfo_title                                        Информация о единицах
+unitinfo_title2                                       (нет выбранных единиц)
+
+unitinfo_fighter                                      Быстрый самолет с небольшим радиусом действия.\n\n+  Эффективен против бомбардировщиков\n+ Успешно используется в качестве разведчика\n- Легко уничтожается линкорами или ракетными шахтами
+unitinfo_silo                                         Функционирует в качестве ракетной установки и противовоздушного комплекса.\n\n+  Поставка ядерных ракет дальнего действия в больших количествах. \n+  Мощные противовоздушные орудия\n+  Усилена против попаданий ракет\n-  Запуск ракет обнаруживает местонахождение\n-  Медленное переключение режимов
+unitinfo_radar                                        Обеспечивает радарный обзор территории.\n\n+  Наибольший доступный радиус обзора\n-  Легко уничтожается ударом ракеты 
+unitinfo_bomber                                       Универсальный самолет дальнего действия.\n\n+  Переносит одну бомбу малого радиуса действия\n+  Сброс бомбы не отражается на вражеских радарах\n+  Эффективен против судов\n-  Легко сбивается истребителями\n- Небольшая скорость передвижения
+unitinfo_battleship                                   Тяжелый корабль, вооруженный мощными и скорострельными орудиями.\n\n+  Эффективен против нескольких целей\n-  Уязвим для подводных лодок и бомбардировщиков 
+unitinfo_sub                                          Мощная ракетоносная боевая единица.\n\n+  Невидима для традиционных радаров\n+  Поставка ракет среднего радиуса действия в больших количествах\n-  Особенно уязвима, когда поднимается на поверхность\n-  Запуск ракет обнаруживает местонахождение\n-  Уязвима для глубинных бомб\n-  Нулевой радиус обзора радара
+unitinfo_carrier                                      Мобильный авианосец\n\n+  Обеспечивает запуск истребителей и бомбардировщиков\n+  Может использовать глубинные бомбы против подводных лодок \n-  Не может сам защитить себя
+unitinfo_nuke                                         Высокопродуктивная ядерная боеголовка.\n\n+  Невероятная разрушительная мощь\n-  Уязвима для противовоздушного огня
+unitinfo_airbase                                      Точка запуска истребителей и бомбардировщиков.\n\n+  Большое число бомбардировщиков \n+  Восстанавливает истребители спустя некоторое время\n-  Легко уничтожается ядерным ударом
+
+
+# =============================================================================
+# Экран демоверсии
+# =============================================================================
+
+demo_top1                                             Купите игру сейчас и играйте в Defcon без ограничений
+demo_middle1                                          Количество игроков не ограничено: 6 игроков устраивают геноцид!
+demo_middle2                                          Альтернативные режимы игры, включающие:
+demo_middle3                                          Офисный режим: Играй в Defcon в реальном времени весь день
+demo_middle4                                          Быстрый Defcon: Через 15 минут все кончено – инстинктивно и зверски
+demo_middle5                                          Дипломатия: Все игроки начинают в союзе – как долго он продержится? 
+demo_middle6                                          Огромный мир: Мир в два раза больше – для тех, кто любит играть долго 
+demo_bottom1                                          Мгновенная активация всего за
+
+demo_bottom2                                          Ј10     $17.50     Ђ14
+
+demo_bottom1_steam                                    Мгновенная активация всего за
+demo_bottom2_steam                                    14.95
+demo_bottom1_retail                                   КУПИТЬ ПОЛНУЮ ВЕРСИЮ DEFCON
+demo_bottom2_retail                                   ПОСЕТИТЕ САЙТ ПОСТАВЩИКА ЛЮБИМЫХ ИГР 
+
+demo_bottom1_retail_uk                                КУПИТЬ ПОЛНУЮ ВЕРСИЮ DEFCON
+demo_bottom2_retail_uk                                ПОСЕТИТЕ САЙТ ПОСТАВЩИКА ЛЮБИМЫХ ИГР
+
+demo_bottom1_macosx                                   Мгновенная активация всего за
+demo_bottom2_macosx                                   25
+
+
+# =============================================================================
+# Наложение фойе
+# =============================================================================
+
+overlay_0_1                                           --------------------------
+overlay_0_2                                           -       D E F C O N
+overlay_0_3                                           --------------------------
+overlay_0_4                                           -РАЗРАБОТКА 
+overlay_0_5                                           CHRIS DELAY
+overlay_0_6                                           GARY CHAMBERS\n
+overlay_0_7                                           -ЗВУК
+overlay_0_8                                           -И ПРОИЗВОДСТВО
+overlay_0_9                                           ALISTAIR LINDSAY
+
+overlay_0_10                                          MICHAEL MAIDMENT\n
+overlay_0_11                                          -ПРОИЗВЕДЕНО
+overlay_0_12                                          -INTROVERSION SOFTWARE
+overlay_0_13                                          MARK MORRIS
+overlay_0_14                                          THOMAS ARUNDEL
+overlay_0_15                                          CHRIS DELAY
+overlay_0_16                                          JOHN KNOTTENBELT\n
+overlay_0_17                                          -PR И МАРКЕТИНГ
+overlay_0_18                                          VICTORIA ARUNDEL\n
+overlay_0_19                                          -ДОПОЛНИТЕЛЬНЫЙ ГРАФИЧЕСКИЙ ДИЗАЙН
+overlay_0_20                                          MORTEN ELGAARD PEDERSEN\n
+overlay_0_21                                          -ОТГРУЗКА
+overlay_0_22                                          WILL MORRIS\n
+overlay_0_23                                          -ДОПОЛНИТЕЛЬНАЯ РАЗРАБОТКА
+overlay_0_24                                          FRANCOIS GAGNE
+
+overlay_1_1                                           ------------------------------------------
+overlay_1_2                                           -I N T R O V E R S I O N   S O F T W A R E
+overlay_1_3                                           ------------------------------------------\n
+overlay_1_4                                           MARK MORRIS                      РАЗРАБОТКА
+overlay_1_5                                           THOMAS ARUNDEL                   РАЗРАБОТКА 
+overlay_1_6                                           CHRIS DELAY                      РАЗРАБОТКА 
+overlay_1_7                                           JOHN KNOTTENBELT                 РАЗРАБОТКА \n
+overlay_1_8                                           GARY CHAMBERS                    РАЗРАБОТКА
+overlay_1_9                                           VICTORIA ARUNDEL                 PR И МАРКЕТИНГ
+overlay_1_10                                          WILL MORRIS                      ОТГРУЗКА
+
+overlay_2_1                                           ----------------------
+overlay_2_2                                           -ДОСТУПНЫЕ СИМУЛЯТОРЫ
+overlay_2_3                                           ----------------------\n
+overlay_2_4                                           FALKEN'S MAZE
+overlay_2_5                                           BLACK JACK
+overlay_2_6                                           GIN RUMMY
+overlay_2_7                                           HEARTS
+overlay_2_8                                           BRIDGE
+overlay_2_9                                           CHECKERS
+overlay_2_10                                          CHESS
+overlay_2_11                                          POKER
+overlay_2_12                                          FIGHTER COMBAT
+overlay_2_13                                          GUERRILLA ENGAGEMENT
+overlay_2_14                                          DESERT WARFARE
+overlay_2_15                                          AIR-TO-GROUND ACTIONS
+overlay_2_16                                          THEATREWIDE TACTICAL WARFARE
+overlay_2_17                                          THEATREWIDE BIOTOXIC AND CHEMICAL WARFARE\n
+overlay_2_18                                          GLOBAL THERMONUCLEAR WAR
+
+overlay_3_1                                           -----------------------------------
+overlay_3_2                                           - ГРАЖДАНСКИЕ МИШЕНИ В МИЛЛИОНАХ
+overlay_3_3                                           -----------------------------------\n
+overlay_3_4                                           ЛОС-АНДЖЕЛЕС                   3.3
+overlay_3_5                                           НЬЮ-ЙОРК                       7.3
+overlay_3_6                                           ЧИКАГО                         3.0
+overlay_3_7                                           ВАШИНГТОН                      4.0
+overlay_3_8                                           ДАЛЛАС                         1.0
+overlay_3_9                                           ДЕТРОЙТ                        1.1
+overlay_3_10                                          ПАРИЖ                          2.2
+overlay_3_11                                          БЕРЛИН                         1.9
+overlay_3_12                                          ЛОНДОН                         7.7
+overlay_3_13                                          ЛЕНИНГРАД                      4.9
+overlay_3_14                                          МОСКВА                         8.7
+overlay_3_15                                          РИМ                            2.8
+overlay_3_16                                          ТОКИО                          8.4
+overlay_3_17                                          СИНГАПУР                       2.6
+overlay_3_18                                          БАНГКОК                        4.7
+overlay_3_19                                          БОМБЕЙ                         8.2
+overlay_3_20                                          МЕХИКО                         8.8
+overlay_3_21                                          РИО-ДЕ-ЖАНЕЙРО                 5.6
+overlay_3_22                                          КАИР                           6.1
+overlay_3_23                                          СТАМБУЛ                        5.5
+overlay_3_24                                          ПЕКИН                          5.5
+overlay_3_25                                          ШАНХАЙ                         6.3
+overlay_3_26                                          ДЕЛИ                           4.9
+
+overlay_4_1                                           -----------------------------------------------
+overlay_4_2                                           ПРЕДПОЛАГАЕМЫЕ ПОТЕРИ ВОЗДУШНЫХ СИЛ США (В ПРОЦЕНТАХ)
+overlay_4_3                                           -----------------------------------------------\n
+overlay_4_4                                           КОМАНДОВАНИЕ КОСМИЧЕСКОЙ ОБОРОНЫ           23
+overlay_4_5                                           УПРАВЛЕНИЕ ВОЗДУШНЫМИ СРАЖЕНИЯМИ           76
+overlay_4_6                                           КОМАНДОВАНИЕ ПО ОБУЧЕНИЮ И ПОДГОТОВКЕ КАДРОВ ВВС 24
+overlay_4_7                                           УПРАВЛЕНИЕ КОММУНИКАЦИЯМИ ВВС              68
+overlay_4_8                                           УПРАВЛЕНИЕ РАЗВЕДОВАТЕЛЬНОЙ СЛУЖБЫ ВВС     58
+overlay_4_9                                           КОМАНДОВАНИЕ ТЫЛА ВВС                      78
+overlay_4_10                                          КОМАНДОВАНИЕ РЕЗЕРВА ВВС                   14
+overlay_4_11                                          КОМАНДОВАНИЕ ВОЕННО-КОСМИЧЕСКИХ СИЛ ВВС    12
+overlay_4_12                                          КОМАНДОВАНИЕ СПЕЦИАЛЬНЫХ ОПЕРАЦИЙ ВВС      56
+overlay_4_13                                          КОМАНДОВАНИЕ РАЗРАБОТОК СИСТЕМ ВООРУЖЕНИЯ ВВС 86
+overlay_4_14                                          КОМАНДОВАНИЕ ВОЗДУШНЫХ ПЕРЕБРОСОК          87
+overlay_4_15                                          КОМАНДОВАНИЕ ВВС НА АЛЯСКЕ                 92
+overlay_4_16                                          ШТАБНОЕ КОМАНДОВАНИЕ ВВС США               85
+overlay_4_17                                          КОМАНДОВАНИЕ ВВС НА СЕВЕРО-ВОСТОКЕ         75
+overlay_4_18                                          КОМАНДОВАНИЕ ВВС В ЗОНЕ ТИХОГО ОКЕАНА      91
+overlay_4_19                                          ВВС В ЗОНЕ ТИХОГО ОКЕАНА                   85
+overlay_4_20                                          КОМАНДОВАНИЕ СПЕЦИАЛЬНЫХ ВИДОВ ОРУЖИЯ      67
+overlay_4_21                                          СТРАТЕГИЧЕСКОЕ АВИАКОМАНДОВАНИЕ ВВС        85
+overlay_4_22                                          ТАКТИЧЕСКОЕ АВИАКОМАНДОВАНИЕ ВВС           91
+overlay_4_23                                          ПОДРАЗДЕЛЕНИЕ 3D AIR                       75
+overlay_4_24                                          ВВС США В ЕВРОПЕ                           79
+overlay_4_25                                          КОМАНДОВАНИЕ ВВС США НА ЮГЕ                65
+
+overlay_5_1                                           -----------------------------------------------------------------
+overlay_5_2                                           - ВЛИЯНИЕ РАДИОАКТИВНОГО ОБЛУЧЕНИЯ НА ЧЕЛОВЕЧЕСКУЮ ФИЗИОЛОГИЮ-
+overlay_5_3                                           -----------------------------------------------------------------\n
+overlay_5_4                                           -МЕНЕЕ ЧЕМ 1 Зв (5O–1OO бэр) 
+overlay_5_5                                           СЛАБАЯ ЛУЧЕВАЯ БОЛЕЗНЬ, СОПРОВОЖДАЕМАЯ ГОЛОВНЫМИ БОЛЯМИ И ПОВЫШЕННЫМ РИСКОМ\nИНФЕКЦИИ В РЕЗУЛЬТАТЕ РАЗРУШЕНИЯ ИММУНИТЕТА 
+overlay_5_6                                           ВОЗМОЖНО ВРЕМЕННОЕ МУЖСКОЕ
+overlay_5_7                                           БЕСПЛОДИЕ.\n
+overlay_5_8                                           1–2 Зв (1OO–2OO БЭР)       (ЛЕГКАЯ)     1O%% СМЕРТЕЛЬНЫЙ ИСХОД ЧЕРЕЗ 30 ДНЕЙ 
+overlay_5_9                                           2–3 Зв (2OO–3OO БЭР)       (УМЕРЕННАЯ)  35%% СМЕРТЕЛЬНЫЙ ИСХОД ЧЕРЕЗ 30 ДНЕЙ 
+overlay_5_10                                          3–4 Зв (3OO–4OO БЭР)       (ТЯЖЕЛАЯ)    5O%% СМЕРТЕЛЬНЫЙ ИСХОД ЧЕРЕЗ 30 ДНЕЙ 
+overlay_5_11                                          4–6 Зв (4OO–6OO БЭР)       (ОСТРАЯ)     6O%% СМЕРТЕЛЬНЫЙ ИСХОД ЧЕРЕЗ 30 ДНЕЙ 
+overlay_5_12                                          1O–5O Зв (1,OOO–5,OOO БЭР) (ОСТРАЯ)     1OO%% СМЕРТЕЛЬНЫЙ ИСХОД ЧЕРЕЗ 7 ДНЕЙ\n
+overlay_5_13                                          -5O–8O Зв (5,OOO–8,OOO БЭР) 
+overlay_5_14                                          НЕМЕДЛЕННАЯ ДИЗОРИЕНТАЦИЯ И НАСТУПЛЕНИЕ КОМЫ ЧЕРЕЗ НЕСКОЛЬКО СЕКУНД ИЛИ МИНУТ. 
+overlay_5_15                                          СМЕРТЬ НАСТУПАЕТ ЧЕРЕЗ НЕСКОЛЬКО ЧАСОВ ОТ ПОЛНОГО РАЗРУШЕНИЯ НЕРВНОЙ СИСТЕМЫ.\n 
+overlay_5_16                                          - БОЛЕЕ ЧЕМ 8O Зв (>8,OOO БЭР)         НЕМЕДЛЕННАЯ СМЕРТЬ.
+
+overlay_6_1                                           -----------------------------------------------
+overlay_6_2                                           -ЯДЕРНЫЕ БОМБЫ США – МОЩНОСТЬ ЗАРЯДА И МАССА 
+overlay_6_3                                           -----------------------------------------------\n 
+overlay_6_4                                           MK-1      5      15-16KT           8,900 Фунтов 
+overlay_6_5                                           MK-3    120      18-49KT          10,300 Фунтов 
+overlay_6_6                                           MK-4    550       1-32KT   10,800-10,900 Фунтов 
+overlay_6_7                                           MK-5    140      6-120KT     3,025-3,125 Фунтов 
+overlay_6_8                                           MK-6   1100      8-160KT     7,600-8,500 Фунтов 
+overlay_6_9                                           MK-7   1800       8-61KT     1,645-1,700 Фунтов 
+overlay_6_10                                          MK-8     40      25-30KT     3,230-3,280 Фунтов 
+overlay_6_11                                          MK-11    40      25-30KT     3,210-3,500 Фунтов 
+overlay_6_12                                          MK-12   250      12-14KT     1,000-1,200 Фунтов 
+overlay_6_13                                          MK-14     5        5-7MT   28,954-31,000 Фунтов 
+overlay_6_14                                          MK-15  1500    1.6-3.9MT           7,600 Фунтов 
+overlay_6_15                                          MK-16     5        6-8MT   39,000-42,000 Фунтов 
+overlay_6_16                                          MK-17   200      10-15MT   41,400-42,000 Фунтов 
+overlay_6_17                                          MK-18    90        500KT           8,600 Фунтов 
+overlay_6_18                                          MK-21   275        4-5MT   15,000-17,700 Фунтов 
+overlay_6_19                                          MK-24   105      10-15MT   41,400-42,000 Фунтов 
+overlay_6_20                                          MK-28  4500   70KT-1.1MT     1,700-2,320 Фунтов 
+overlay_6_21                                          MK-36   940      9-10 MT   17,500-17,700 Фунтов 
+overlay_6_22                                          MK-39   700       3-4 MT     6,650-6,750 Фунтов 
+overlay_6_23                                          MK-41   500        25 MT   10,500-10,670 Фунтов 
+overlay_6_24                                          MK-43  1000     70KT-1MT     2,060-2,125 Фунтов 
+overlay_6_25                                          MK-53   350         9 MT     8,850-8,900 Фунтов 
+overlay_6_26                                          MK-57  3100      5-20 KT         490-510 Фунтов 
+overlay_6_27                                          MK-61  3150    80-340 KT         695-716 Фунтов 
+overlay_6_28                                          MK-83   650  UP TO 1.2KT           2,400 Фунтов 
+
+overlay_7_1                                           -------------------------------------------------
+overlay_7_2                                           -     ЛУЧЕВАЯ БОЛЕЗНЬ: СИМПТОМЫ И ПРИЗНАКИ 
+overlay_7_3                                           -------------------------------------------------\n 
+overlay_7_4                                           ГОЛОВОКРУЖЕНИЕ И ТОШНОТА 
+overlay_7_5                                           ДИАРЕЯ 
+overlay_7_6                                           ОЖОГИ КОЖИ(ПОКРАСНЕНИЕ, ВОЛДЫРИ) 
+overlay_7_7                                           СЛАБОСТЬ, УСТАЛОСТЬ, ИСТОЩЕНИЕ, ОБМОРОКИ 
+overlay_7_8                                           ОБЕЗВОЖИВАНИЕ 
+overlay_7_9                                           ВОСПАЛЕНИЕ ОТКРЫТЫХ ЧАСТЕЙ КОЖИ
+overlay_7_10                                          ВЫПАДЕНИЕ ВОЛОС 
+overlay_7_11                                          ИЗЪЯЗВЛЕНИЕ СЛИЗИСТОЙ ОБОЛОЧКИ РТА 
+overlay_7_12                                          ИЗЪЯЗВЛЕНИЕ ПИЩЕВОДА 
+overlay_7_13                                          ИЗЪЯЗВЛЕНИЕ ЖЕЛУДКА 
+overlay_7_14                                          ИЗЪЯЗВЛЕНИЕ КИШЕЧНИКА 
+overlay_7_15                                          РВОТА КРОВЬЮ
+overlay_7_16                                          КРОВЯНИСТЫЙ СТУЛ
+overlay_7_17                                          КРОВОТЕЧЕНИЕ ИЗ НОСА, РТА, ДЕСЕН, И ПРЯМОЙ КИШКИ 
+overlay_7_18                                          ГЕМАТОМА
+overlay_7_19                                          ОТТОРЖЕНИЕ ОМЕРТВЕВШЕЙ КОЖИ
+overlay_7_20                                          ОТКРЫТЫЕ ЯЗВЫ НА КОЖЕ
+
+overlay_8_1                                           ---------------------------------------------------------------------- 
+overlay_8_2                                           -ИЗОТОП      NA   ПЕРИОД ПОЛУРАСПАДА (ЛЕТ)       ДM     DE(МЭВ)     ДМ 
+overlay_8_3                                           ----------------------------------------------------------------------\n 
+overlay_8_4                                           PU-238   СИНТЕТИЧЕСКИЙ               88          СД       -        - 
+overlay_8_5                                           PU-239   СИНТЕТИЧЕСКИЙ               24,110          СД       -        - 
+overlay_8_6                                           U-232    СИНТЕТИЧЕСКИЙ               68.9       a + СД    5.414   TH-228 
+overlay_8_7                                           U-233    СИНТЕТИЧЕСКИЙ               159,200       СД + a    4.909   TH-229 
+overlay_8_8                                           U-234      0.0058%%             245,500       СД + a    4.859   TH-230 
+overlay_8_9                                           U-235       0.72%%          703,800,000       СД + a    4.679   TH-231 
+overlay_8_10                                          U-236    СИНТЕТИЧЕСКИЙ               23,420,000       СД + a    4.572   TH-232 
+overlay_8_11                                          U-238      99.275%%       4,468,000,000       СД + a    4.270   TH-234
+
+overlay_9_1                                           КАК НАСЧЕТ ПАРТИИ В ШАХМАТЫ?
+
+overlay_10_1                                          ---------------------------------------------------
+overlay_10_2                                          -               СТРАТЕГИЧЕСКИЕ ТОЧКИ          
+overlay_10_3                                          ---------------------------------------------------\n
+overlay_10_4                                          Норад           38 44' 39.68" N     104 50' 48,18" W 
+overlay_10_5                                          Кефлавик        63 59' 07,71" N     22 36'20.06 W 
+overlay_10_6                                          Брюссель        50 50' 54.79" N     4 21' 36.66 " E 
+overlay_10_7                                          Неаполь         40 51' 14.64" N     14 17' 21.84 " E 
+overlay_10_8                                          Монс (Бельгия)  50 26' 32.55" N     3 57' 28.44 " E 
+overlay_10_9                                          Норфолк         36 56' 59.84" N     76 19' 48.57" W 
+overlay_10_10                                         Перл Харбор     21 21' 48.77" N     157 57' 39.31' W 
+overlay_10_11                                         Рамштайн        49 26' 13.33" N     7 35' 54.11" E 
+overlay_10_12                                         Кадена (Окинава)26 21' 28.86" N     127 46' 13.53" E 
+overlay_10_13                                         Рота (Испания)  36 38' 15.33" 6     21' 11.90" W 
+overlay_10_14                                         Владивосток     43 06' 41.86" N     131 53' 23.22" E 
+overlay_10_15                                         Севастополь     44 36' 56.88" N     33 34 46.83" E 
+overlay_10_16                                         Ленинград       59 57' 39.60" N     30 18' 41.85" E 
+overlay_10_17                                         Мурманск        68 58' 14,59" N     33 01 ' 11.20" E 
+overlay_10_18                                         Татищево        51 40' 37.79" N     45 36' 46.89 E 
+overlay_10_19                                         Барнаул         53 19' 39.80' N     83 45' 35.86" E
+
+overlay_11_1                                          --------------------------------------------------- 
+overlay_11_2                                          -           МОЩНЕЙШИЕ ЯДЕРНЫЕ ВЗРЫВЫ 
+overlay_11_3                                          --------------------------------------------------- 
+overlay_11_4                                          -ДАТА           НАЗВАНИЕ       МОЩНОСТЬ (KT)  СТРАНА\n 
+overlay_11_5                                          ИЮЛ 16 1945     TRINITY         19          США     
+overlay_11_6                                          АВГ 6 1945      LITTLE BOY      15          США     
+overlay_11_7                                          АВГ 9 1945      FAT MAN         21          США     
+overlay_11_8                                          АВГ 29 1949     JOE 1           22          СССР     
+overlay_11_9                                          ОКТ 3 1952      HURRICANE       25          ВЕЛИКОБРИТАНИЯ     
+overlay_11_10                                         НОЯБ 1 1952     IVY MIKE        10,200      США     
+overlay_11_11                                         АВГ 12 1953     JOE 4           400         СССР     
+overlay_11_12                                         МАРТ 1 1954     CASTLE BRAVO    15,000      США     
+overlay_11_13                                         НОЯБ 22 1955    RDS-37          1,600       СССР     
+overlay_11_14                                         НОЯБ 8 1957     GRAPPLE X       1,800       ВЕЛИКОБРИТАНИЯ     
+overlay_11_15                                         ФЕВ 13 1960     GERBOISE BLEUE  60          ФРАНЦИЯ     
+overlay_11_16                                         ОКТ 31 1961     TSAR BOMBA      50,000      СССР     
+overlay_11_17                                         ОКТ 16 1964     596             22          КИТАЙ         
+overlay_11_18                                         ИЮН 17 1967     ИСП №. 6        3,300       КИТАЙ         
+overlay_11_19                                         АВГ 24 1968     CANOPUS         2,600       ФРАНЦИЯ         
+overlay_11_20                                         МАЙ 18 1974     SMILING BUDDHA  12          ИНДИЯ     
+overlay_11_21                                         МАЙ 11 1998     SHAKTI I        43          ИНДИЯ     
+overlay_11_22                                         МАЙ 13 1998     SHAKTI II       12          ИНДИЯ     
+overlay_11_23                                         МАЙ 28 1998     CHAGAI-I        9           ПАКИСТАН
+
+overlay_12_1                                          -----------------------------------------
+overlay_12_2                                          -       БЕТА ТЕСТЕРЫ (СТР 1 из 2)
+overlay_12_3                                          -----------------------------------------\n
+overlay_12_4                                          ASHLEY ‘NEOTHERMIC’ PINNER
+overlay_12_5                                          ALESSANDRO ‘FIRESHIP4’ PEDRINA MCCARTHY
+overlay_12_6                                          BILL ‘BIPP5’ RASTELLO
+overlay_12_7                                          BRODY ‘LEONAKEN’ BROOKS
+overlay_12_8                                          CHARLES BROWN
+overlay_12_9                                          CHRIS BROWN
+overlay_12_10                                         CHRIS ‘SUVIR’ BOYD
+overlay_12_11                                         CHRISTOPH KOEHLER
+overlay_12_12                                         CORPORATESPECTRE
+overlay_12_13                                         DAMJAN ‘VIRUSEX’ BELAVIC
+overlay_12_14                                         DANIEL ‘DK’ KARLING
+overlay_12_15                                         DEREK ‘PUNISHER BASS’ SCHOTT
+overlay_12_16                                         FURRIES
+overlay_12_17                                         HENNING HORN
+overlay_12_18                                         HEWAT KENNEDY
+overlay_12_19                                         JASON ‘JAYSC’ TIEN
+overlay_12_20                                         JENS WIECHERS
+overlay_12_21                                         JO STANSFIELD
+overlay_12_22                                         JOHAN ‘ZARKOW’ MUNKESTAM
+overlay_12_23                                         JOSHUA ‘MIAH’ CLAYTON
+overlay_12_24                                         JUSTIN ‘ATELOPHOBIA’ GOTTULA
+overlay_12_25                                         JURGEN ‘DIRTY HARRY POTTER’ BERTHELSEN
+overlay_12_26                                         KASPER ‘AAARGH’ MEERTS
+overlay_12_27                                         LEANDER ‘ELDIABLO’ HAMBLEY
+overlay_12_28                                         LUKE HOSCHKE
+overlay_12_29                                         MARIUSZ ‘MANDI^ATO’ DANILEWICZ
+
+overlay_13_1                                          -----------------------------------------
+overlay_13_2                                          -       БЕТА ТЕСТЕРЫ (СТР 2 из 2)
+overlay_13_3                                          -----------------------------------------\n
+overlay_13_4                                          MARK ‘LLAMABOY’ VINE
+overlay_13_5                                          MICHAEL NICHOLLS
+overlay_13_6                                          MORTEN ‘NUTTER’ PEDERSEN
+overlay_13_7                                          MR. VIOLATOR
+overlay_13_8                                          NEIL ROSS
+overlay_13_9                                          NIGEL ‘MOUSE’ MORSE
+overlay_13_10                                         OLIVER ‘AGENTX 24’ GRUBIN
+overlay_13_11                                         PHYDAUX
+overlay_13_12                                         PIOTR ‘THEPIACHU’ PIASECKI
+overlay_13_13                                         PITBEAST
+overlay_13_14                                         PROZAK
+overlay_13_15                                         RICHARD ‘FALSE’ LA CHARIT? III
+overlay_13_16                                         SAM ‘MAS’ NORRIS
+overlay_13_17                                         SHAWN ‘TRICKFRED’ MACIVER
+overlay_13_18                                         SIMON ‘N3O77’ SPARKS
+overlay_13_19                                         STEVEN NOONAN
+overlay_13_20                                         SWIL232
+overlay_13_21                                         THE GOLDFISH
+overlay_13_22                                         THIERRY ‘BOLKA’ MARTIN
+overlay_13_23                                         TIM BAVERSTOCK
+overlay_13_24                                         TOBY ‘THE TUBSTAR’ INNOCENT
+overlay_13_25                                         TOUMAZ
+overlay_13_26                                         VIRGINIJUS ‘LEGIO’ PAMPIKAS
+overlay_13_27                                         WILL ‘MIZER’ NEW
+overlay_13_28                                         WOLFLORD
+overlay_13_29                                         ZACHARY ‘XYZYXX’ PARKER
+
+overlay_14_1                                          -----------------------------------------
+overlay_14_2                                          -     БЕТА ТЕСТЕРЫ ВЕРСИИ ДЛЯ MAC
+overlay_14_3                                          -----------------------------------------\n
+overlay_14_4                                          ALASTAIR ‘PROPHILE’ LYNN
+overlay_14_5                                          ALEC ‘HAMSTER’ INGULSRUD
+overlay_14_6                                          ANDREW ‘ANDCARNE’ CARNE
+overlay_14_7                                          BOLKO ‘KRAUTI’ MAASS
+overlay_14_8                                          BRIAN DICK
+overlay_14_9                                          BRYCE ‘ZOMBAT’ HOMICK
+overlay_14_10                                         CIAR?N ‘MONTYPHY’ EATON
+overlay_14_11                                         DOMINIC ‘REFRIDGERON’ WHITE
+overlay_14_12                                         JACK ‘DASH RANTIC’ CARLSON
+overlay_14_13                                         JAMES ‘CONSUL BOB’ GOOCH
+overlay_14_14                                         JAMES ‘LASTOF’ TITMUSS
+overlay_14_15                                         JONAS ‘FREQ245’ MIRWALD
+overlay_14_16                                         KIRK ‘KAUTHOR’ STALEY
+overlay_14_17                                         MARK ‘MRXAK’ PETCAVAGE
+overlay_14_18                                         MIKE ASH
+overlay_14_19                                         NATHANIEL ‘MACKILROY’ PORTER
+overlay_14_20                                         NICK ‘NFREADER’ FARLEY
+overlay_14_21                                         OWEN ‘MR ED209’ BILLCLIFFE
+overlay_14_22                                         PER ‘PV2B’ VON ZWEIGBERGK
+overlay_14_23                                         SOLRA BIZNA
+overlay_14_24                                         XANDER HENDERSON
+
+overlay_15_1                                          ----------------------------------------
+overlay_15_2                                          -     Версия для MAC от AMBROSIA SOFTWARE
+overlay_15_3                                          ----------------------------------------\n
+overlay_15_4                                          MIKE BLAGUSZEWSKI                ПЕРЕНОС
+overlay_15_5                                          MARCUS CONGE           ИКОНКА ПРИЛОЖЕНИЯ
+overlay_15_6                                          DAVID DUNHAM                ТЕСТИРОВАНИЕ
+overlay_15_7                                          EVAN ‘SULTAN’ SMITH         ТЕСТИРОВАНИЕ 
+overlay_15_8                                          -ADDITIONAL PORTING BY
+overlay_15_9                                          JOSHUA ‘MIAH’ CLAYTON
+overlay_15_10                                         STEVEN NOONAN\n
+overlay_15_11                                         ----------------------------------------
+overlay_15_12                                         -            Версия для LINUX
+overlay_15_13                                         ----------------------------------------\n
+overlay_15_14                                         STEVEN NOONAN
+overlay_15_15                                         JOHN KNOTTENBELT
+overlay_15_16                                         JOSHUA ‘MIAH’ CLAYTON
+overlay_15_17                                         ----------------------------------------\n
+overlay_15_18                                         Translation Services provided by Game Localization Network Ltd.
+
+overlay_16_1                                          ----------------------------------------
+overlay_16_2                                          -     Русская версия - компания "Бука"
+overlay_16_3                                          ----------------------------------------\n
+overlay_16_4                                          ЕВГЕНИЙ МЕТЛЯЕВ                  РУКОВОДИТЕЛЬ СЛУЖБЫ ЛОКАЛИЗАЦИИ
+overlay_16_5                                          ФЕДОР БОНЧ-ОСМОЛОВСКИЙ           МЕНЕДЖЕР ПО ЛОКАЛИЗАЦИИ
+overlay_16_6                                          АНДРЕЙ ЧЕМЛЕКЧИЕВ                МЕНЕДЖЕР ПО ЛИЦЕНЗИРОВАНИЮ
+overlay_16_7                                          НИКИТА 'GRAF SETH' ПОРТЯНКО      ТЕСТИРОВАНИЕ
+overlay_16_8                                          АЛЕКСАНДР 'RUSSIAN BEAR' КОНЯХИН ТЕСТИРОВАНИЕ
+overlay_16_9                                          ЮЛИЯ ГИЛЬМАНОВА                  ПЕРЕВОД ТЕКСТА
+overlay_16_10                                         СЕРГЕЙ КРУЖКО                    ПЕРЕВОД ТЕКСТА
+overlay_16_11                                         ФЕДОР МОНРОЙГ                    ЛОКАЛИЗАЦИЯ ШРИФТОВ
+overlay_16_12                                         ЮЛИЯ СОЛОВЬЕВА                   ОСОБАЯ БЛАГОДАРНОСТЬ

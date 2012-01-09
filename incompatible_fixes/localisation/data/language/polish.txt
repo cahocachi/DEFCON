@@ -1,0 +1,1732 @@
+# =============================================================================
+# DEFCON LANGUAGE FILE
+#
+# Format:
+# stringId                  translation
+#
+#
+# A hash at the start of a line indicates a comment
+# StringIDs MUST be left untouched during translation
+#
+# =============================================================================
+
+
+# =============================================================================
+# Name of the language in the language
+# =============================================================================
+
+lang                                Polski
+
+
+# =============================================================================
+# Interfaces and dialogs
+# =============================================================================
+
+#website_main                        http://www.everybody-dies.com
+#website_main_retail                 http://www.defconthegame.com
+#website_main_retail_uk              http://www.defconvideogame.com
+website_main_retail_multi_language  http://www.play.pl
+#website_buy                         http://store.introversion.co.uk
+#website_buy_steam                   steam://store/1520
+#website_buy_retail                  http://www.defconthegame.com
+#website_buy_retail_uk               http://www.defconvideogame.com
+website_buy_retail_multi_language   http://www.play.pl
+#website_buy_macosx                  http://secure.ambrosiasw.com/add.php?action=add&item=3600
+#website_support                     http://www.everybody-dies.com/support/
+#website_support_retail              http://www.defconthegame.com/support/
+#website_support_retail_uk           http://www.defconvideogame.com/support/
+website_support_retail_multi_language http://www.everybody-dies.com/support/
+#website_support_macosx              http://www.ambrosiasw.com/support/
+#website_mods                        http://www.everybody-dies.com/mods/
+#website_mods_retail                 http://www.defconthegame.com/mods/
+#website_mods_retail_uk              http://www.defconvideogame.com/mods/
+website_mods_retail_multi_language  http://www.everybody-dies.com/mods/
+
+dialog_mainmenu                     G³ówne menu
+dialog_newgame                      Nowa gra
+dialog_joingame                     Do³¹cz do gry
+dialog_leavegame                    WyjdŸ z gry
+dialog_manual                       Instrukcja
+dialog_exit                         WyjdŸ z Defcona
+dialog_confirm_exit                 PotwierdŸ wyjœcie
+dialog_preparing                    Przygotowujê grê...
+dialog_game_starting                Rozpoczynam grê...
+dialog_tutorial_starting            Rozpoczynam samouczek...
+dialog_exit_defcon                  Wyjœæ z Defcona?
+dialog_leave_this_game              Opuœciæ grê?
+dialog_chapter                      Rozdzia³ *C
+# C = Chapter
+dialog_tutorial                     Samouczek *T
+# T = Tutorial
+dialog_rolling_demo                 Obejrzyj demo
+dialog_tools                        Narzêdzia
+dialog_otheroptions                 Inne opcje
+
+dialog_options                      Opcje
+dialog_high                         Wys.
+dialog_medium                       Œr.
+dialog_low                          Nis.
+dialog_enabled                      W³.
+dialog_disabled                     Wy³.
+
+dialog_apply                        Zastosuj
+dialog_close                        Zamknij
+dialog_yes                          Tak
+dialog_yes_l                        tak
+dialog_no                           Nie
+dialog_no_l                         nie
+dialog_ok                           OK
+dialog_cancel                       Anuluj
+dialog_save                         Zachowaj
+dialog_abort                        Zatrzymaj
+dialog_restore_default              Wróæ do domyœlnych
+dialog_load                         Wczytaj
+
+dialog_increase                     Zwiêksz
+dialog_decrease                     Zmniejsz
+
+dialog_time_am                      am
+dialog_time_pm                      pm
+
+dialog_playername                   Nazwa gracza
+dialog_teamname                     Nazwa teamu
+dialog_setplayername                Ustaw imiê gracza
+dialog_setteamname                  Ustaw nazwê teamu
+
+dialog_graphicsoptions              Grafika
+dialog_smoothlines                  G³adkie linie
+dialog_borders                      Poka¿ granice
+dialog_citynames                    Nazwy miast
+dialog_countrynames                 Nazwy krajów
+dialog_messages                     Poka¿ komunikaty
+dialog_water                        Efekty wody
+dialog_radiation                    Poka¿ radiacjê
+dialog_lowdetailworld               Ma³e det. œwiata
+dialog_objecttrails                 Œlady obiektów
+dialog_lobbyeffects                 Efekty lobby
+
+dialog_waternormal					Normalna
+dialog_watershaded					Cieniowana
+
+dialog_soundoptions                 DŸwiêk
+dialog_unavailable                  Niedostêpne
+dialog_soundlibrary                 Bibl. dŸwiêków
+dialog_directsound                  DirectSound
+dialog_softwaresound                DŸwiêk programowy
+dialog_mixfrequency                 Jakoœæ dŸwiêku
+dialog_11khz                        11 Khz niska jakoœæ
+dialog_22khz                        22 Khz œrednia jakoœæ
+dialog_44khz                        44 Khz wysoka jakoœæ
+dialog_numchannels                  Iloœæ kana³ów
+dialog_8channels                    8 kana³ów
+dialog_16channels                   16 kana³ów
+dialog_32channels                   32 kana³y
+dialog_64channels                   64 kana³y
+dialog_memoryusage                  U¿ycie pamiêci
+dialog_swapstereo                   Zamieñ stereo
+dialog_hw3dsound                    Sprzêtowy dŸwiêk 3d
+dialog_realtimeeffects              Efekty w czasie rzecz.
+dialog_mastervolume                 G³oœnoœæ
+dialog_cpuusage                     U¿ycie CPU
+dialog_cpuusageunknown              U¿ycie CPU nieznane
+
+dialog_screenoptions                Opcje ekranu
+dialog_refreshrate                  Odœwie¿anie
+dialog_windowed                     W oknie
+dialog_windowedmode                 (tryb w oknie)
+dialog_fullscreen                   Pe³ny ekran
+dialog_resolution                   Rozdzielczoœæ
+dialog_colourdepth                  G³êbia kolorów
+dialog_colourdepth_16               16 bitów
+dialog_colourdepth_24               24 bitów
+dialog_colourdepth_32               32 bitów
+dialog_colourdepth_X                *C bitów
+# C = Color Depth
+dialog_zbufferdepth                 G³êb. buf. Z
+dialog_refreshrate_X                *R Hz
+# R = Refresh Rate
+dialog_resolution_W_H               *W x *H
+# W = Screen Width, H = Screen Height
+dialog_antialias                    Antyaliasing
+
+dialog_networkoptions               Sieæ
+dialog_networkclientport            Port klienta
+dialog_networkserverport            Port serwera
+dialog_networkmetaserverport        Port metaserwera
+dialog_networkuseportforwarding     Port Forwarding
+dialog_networktracksync             ŒledŸ b³êdy synchr.
+dialog_networktracksynctooltip      Wybierz tê opcjê, by logowaæ dok³. informacje do pomocy w œledzeniu b³êdów synchronizacji.\nZnacznie wp³ywa na wydajnoœæ.
+dialog_networkportforwardtooltip    Wybierz tê opcjê, jeœli masz problemy w hostowaniu lub pod³¹czaniu do gier.\nMusisz rêcznie ustawiæ przekazywanie przychodz¹cych danych UDP na powy¿sze porty.
+dialog_networkfailed                Nie uda³o siê
+dialog_networkfailedgamerunning     Nie mo¿esz zmieniaæ ustawieñ sieci\nw trakcie trwania gry.
+dialog_networksuccess               Uda³o siê
+dialog_networksuccessfull           Ustawienia Twojej sieci\nzosta³y zaktualizowane.
+dialog_networkporttooltip           Podaj nr portu do komunikacji (od 1024 do 65535).\nWpisz 0 jeœli system ma wybraæ port za Ciebie.
+dialog_troubleshooting              Problemy? Pomoc techniczna (ang.).
+dialog_troubleshooting_tooltip      Kliknij tu, by przejœæ do strony pomocy technicznej (ang.), która pomo¿e Ci zdiagnozowaæ problemy z sieci¹..
+dialog_no_change_while_in_game_1    Nie mo¿esz zmieniaæ ustawieñ
+dialog_no_change_while_in_game_2    sieci podczas trwania gry
+
+dialog_authoptions                  Wpisz kod
+dialog_paste                        Wklej
+dialog_paste_tooltip                Wklej klucz ze schowka
+dialog_auth_failed                  Uwierzytelnianie NIEUDANE
+dialog_bad_key_title                UWIERZYTELNIANIE NIEUDANE
+dialog_authkey_not_found            klucz nie znaleziony
+dialog_meta_server_details          \n\nWejdŸ na tê stronê, by aktywowaæ klucz:\nMETASERVER.INTROVERSION.CO.UK
+dialog_not_permitted_start_game     Nie mo¿esz rozpocz¹æ nowej gry\nbowiem nie mo¿na uwierzytelniæ Twojego klucza.\n\n\nKLUCZ : *K\nB£¥D: *E\n*M
+# K = Auth Key, E = Error Message, M = Message
+dialog_not_permitted_join_game      Nie mo¿esz do³¹czyæ do gry\nbowiem nie mo¿na uwierzytelniæ Twojego klucza.\n\n\nKLUCZ : *K\nB£¥D: *E\n*M
+# K = Auth Key, E = Error Message
+dialog_auth_error                   B³¹d uwierzytelnienia\n*E\n\nKlucz: *K\n
+# K = Auth Key, E = Error Message
+dialog_type_authkey_or_demo_1       Wpisz swój klucz uwierzytelniaj¹cy
+dialog_type_authkey_or_demo_2       lub kliknij Graj Demo
+dialog_auth_status                  STATUS UWIERZYTELNIENIA
+dialog_auth_status_unknown          NIEZNANY
+dialog_auth_status_checking         SPRAWDZAM...
+dialog_auth_status_demo_user        U¯YTKOWNIK DEMO
+dialog_may_play_as_demo_user        Mo¿esz graæ jako u¿ytkownik DEMO.
+dialog_cannot_use_mac_key_on_pc     Nie mo¿esz u¿ywaæ klucza z Maca w wersji PC
+dialog_cannot_use_pc_key_on_mac     Nie mo¿esz u¿ywaæ klucza z PC w wersji Mac
+
+dialog_auth_wrong_platform          Z³a platforma
+dialog_auth_key_dead                Klucz niewa¿ny
+dialog_auth_version_not_found       Nie ma takiej wersji
+dialog_auth_key_inactive            Klucz nieaktywny
+dialog_auth_version_revoked         Wersja uniewa¿niona
+dialog_auth_key_not_found           Klucz nie znaleziony
+dialog_auth_key_revoked             Klucz uniewa¿niony
+dialog_auth_key_banned              Klucz zablokowany
+dialog_auth_key_invalid             Z³y klucz
+dialog_auth_unknown                 Nieznany
+dialog_auth_accepted                Zaakceptowany
+
+dialog_controloptions               Inne
+dialog_sidescrolling                Przewij. mysz¹
+dialog_zoomspeed                    Szybkoœæ zoomu
+dialog_camdragging                  Przesuw. kamery
+dialog_tooltips                     Podpowiedzi
+dialog_popupscale                   Wielkoœæ pop-upów
+dialog_panickey                     Panic Key
+dialog_language                     Jêzyk
+dialog_restart_required_language    Zrestartuj Defcon, by dokoñczyæ\nzmianê jêzyka
+dialog_keyboardlayout               Ustaw. klawiatury
+
+dialog_zoomnormal                   Normalny
+dialog_zoomslow                     Wolny
+
+dialog_lobby                        LOBBY
+dialog_lobby_team_options           Opcje dru¿yn.
+dialog_lobby_advanced_options       Opcje zaawansowane
+dialog_rename                       Zmieñ nazwê
+dialog_territories                  Terytoria
+dialog_alliance                     Sojusz
+dialog_requestai                    Dodaj gracza AI
+dialog_chat                         Czat
+dialog_ready                        Gotów
+dialog_gamestart                    Pocz¹tek gry za *X sek.
+# X = Countdown in secondes before the game start
+dialog_gamestart_whenready          Gra rozpocznie siê, gdy wszyscy klikn¹ "Gotów"
+dialog_gamestart_youready           Gra rozpocznie siê, gdy TY klikniesz "Gotów"
+dialog_kick                         Wyrzuæ
+dialog_spectate                     Kibic
+dialog_join_alliance                Do³¹cz *A
+# A = Alliance Name
+dialog_closed                       zamkniête
+dialog_demo_user                    U¯YTKOWNIK DEMO
+dialog_number_players_max           Najwy¿ej *N graczy
+# N = Number Players Max
+dialog_click_to_open                kliknij, by otworzyæ
+dialog_click_to_close               kliknij, by zamkn¹æ
+dialog_awaiting_player              oczekujê na gracza...
+dialog_cpu_team_name                [CPU] *T
+# T = Team Name
+dialog_joining                      [Do³¹cza...]
+dialog_demo_team_name               [DEMO] *T
+# T = Team Name
+dialog_demo_too_many_players        Nie mo¿esz graæ w tyle osób,\nbo to tryb DEMO.\n\nJeœli chcesz graæ w szeœcioosobowy Ob³êd Multiplayer, wprowadŸ klucz produktu.\n\nMaks. rozmiar gry demo = *N graczy
+# N = Max Demo Game Size
+dialog_edited                       edycja
+dialog_locked                       zablokowany
+dialog_click_select_territory       KLIKNIJ I WYBIERZ TERYTORIUM (*T/*M)
+# T = Number of Territories, M = Maximum number of Territories
+dialog_random_territories           LOSOWE TERYTORIA
+dialog_option_locked_demo_1         Ta opcja jest ZABLOKOWANA
+dialog_option_locked_demo_2         (Gracz DEMO).
+dialog_option_locked_game_mode_1    Ta opcja jest ZABLOKOWANA
+dialog_option_locked_game_mode_2    z powodu aktualnego trybu gry.
+dialog_spectators_number            KIBICE     (*N MAKS.)
+# N = Maximum number of Spectators
+dialog_awaiting_spectators          czekam na kibiców...
+dialog_internet_identity            Sieæ
+dialog_internet_identity_details    *I : *P
+# I = Ip Address, P = port
+dialog_lan_identity                 Nazwa sieci
+dialog_server_identity              Nazwa serwera
+dialog_lobby_defcon                 DEFCON
+dialog_created_by_introversion      INTROVERSION SOFTWARE/PLAY SP. Z O.O.
+dialog_lobby_version                WERSJA:
+dialog_lobby_have_latest_version    Masz najnowsz¹ wersjê.
+dialog_lobby_newer_version          Dostêpna jest nowsza wersja : *V
+# V = Newer Version
+dialog_lobby_click_to_download      Kliknij, by œci¹gn¹æ patch
+dialog_lobby_demo_limitations       LIMIT DEMO
+dialog_lobby_max_demo_game_size     Maks. rozmiar gry Demo
+dialog_lobby_max_demo_players       Maks. graczy Demo w grze
+dialog_lobby_demo_servers_permitted Serwery demo dozwolone
+dialog_lobby_number_players         *P graczy
+# P = Number of Players
+dialog_lobby_metaserver_time        CZAS METASERVERA
+dialog_lobby_time_gmt               *H:*M*A (GMT)
+# H = Hours, M = Minutes, A = am/pm
+dialog_lobby_test_hours_start_at    TESTY ROZPOCZYNAJ¥ SIÊ O
+dialog_lobby_scheduled_test_hour    ZAPLANOWANA GODZINA TESTÓW
+dialog_lobby_occurring_now          TRWA TERAZ
+dialog_lobby_next_test_hour_begins  POCZ¥TEK NASTÊPNYCH TESTÓW ZA
+dialog_lobby_minutes                *M MINUT
+# M = Minutes
+dialog_lobby_hours_minutes          *H GODZIN *M MINUT
+# H = Hours, M = Minutes
+dialog_lobby_authentication         UWIERZYTELNIANIE : *A
+# A = Authentication Status
+dialog_lobby_client_ident           TO¯SAMOŒÆ KLIENTA : *I:*P
+# I = Ip Address, P = port
+dialog_lobby_client_ident_unknown   TO¯SAMOŒÆ KLIENTA : NIEZNANA
+dialog_lobby_server_ident           TO¯SAMOŒÆ SERWERA : *I:*P
+# I = Ip Address, P = port
+dialog_lobby_server_ident_unknown   TO¯SAMOŒÆ SERWERA : NIEZNANA
+
+dialog_alliance_0                   Czerw.
+dialog_alliance_1                   Ziel.
+dialog_alliance_2                   Nieb.
+dialog_alliance_3                   ¯ó³ty
+dialog_alliance_4                   Pom.
+dialog_alliance_5                   Turk.
+
+dialog_alliances                    Sojusze
+dialog_declarewar                   Koniec zaw. broni z *T?
+dialog_ceasefire                    Zawieszenie broni z *T?
+dialog_ceasefire_title              Zawieszenie broni
+dialog_shareradar                   Dzielenie radarów
+dialog_alliance_leave               Opuœæ sojusz
+dialog_alliance_kick                Wyrzuæ tego gracza ze swojego sojuszu
+dialog_alliance_join                Zg³oœ chêæ do³¹czenia do sojuszu
+dialog_shareradarbegin              Dzielisz radar z *T?
+dialog_shareradarend                Wstrzymaæ dzielenie radaru z *T?
+dialog_vote                         G³osuj
+dialog_abstain                      Wstrzymaj siê
+dialog_you_requested_alliance_1     Chcesz do³¹czyæ
+dialog_you_requested_alliance_2     do sojuszu *A
+# A = Alliance
+dialog_requested_alliance_1         *T chce do³¹czyæ
+# T = Team Name
+dialog_requested_alliance_2         do Twojego sojuszu
+dialog_you_requested_kick_1         Chcesz
+dialog_you_requested_kick_2         wyrzuciæ *T
+# T = Team Name
+dialog_requested_kick_1             *T poprosi³
+# T = Team Name
+dialog_requested_kick_2             o wyrzucenie *T
+# T = Team Name
+dialog_vote_yes                     TAK
+dialog_vote_no                      NIE
+dialog_vote_abstain                 WSTRZYM.
+dialog_vote_seconds_to_vote         *S sekund na g³os
+# S = Seconds to vote
+dialog_vote_number_votes_required   Potrzebne *V g³osów
+# V = Number of Vote Required
+dialog_vote_succeeded               UDA£O SIÊ
+dialog_vote_failed                  NIE UDA£O SIÊ
+dialog_alliance_player              Gracz
+dialog_alliance_receiving           Odbier.
+dialog_alliance_radar               Radar
+dialog_alliance_sending             Wysy³.
+dialog_alliance_cease               Wstrzymaj
+dialog_alliance_fire                Ogieñ
+
+dialog_placeunit                    Ustaw jednostkê
+dialog_createfleet                  Stwórz flotê
+
+dialog_credits_1                    *C kredytów
+dialog_credits_2                    Pozosta³o
+dialog_fleets                       Floty
+dialog_units                        Poprz. ekran
+dialog_place_fleet                  Ustaw flotê
+
+dialog_paused                       PAUZA
+dialog_gameover                     KONIEC GRY
+dialog_saved_screenshot             /me zachowa³ screenshot
+# /me will be replaced by the Team Name
+#dialog_steam_authentication_failed  Steam Authentication FAILED\n\n
+#dialog_steam_logged_in_elsewhere    To fix this problem you must log back into Steam.\nExit Defcon, click on the File Menu in Steam, then click on 'Change User'.\nEnter your username and password to log back in.\n\n
+#dialog_steam_error                  Steam Error
+dialog_synchronisation_error        B£¥D SYNCHRONIZACJI
+dialog_connection_problem_seconds   PROBLEM Z PO£¥CZENIEM (*S SEK)
+# S = Seconds of Estimated Latency
+dialog_high_latency                 Du¿e opóŸnienie
+dialog_high_packet_loss             Du¿a strata pakietów
+dialog_defcon_x_in_x_time           DEFCON *D ZA *M:*S
+# D = Defcon level, M = Minutes, S = Seconds
+dialog_time_remaining               POZOSTA£O *M:*S 
+# M = Minutes, S = Seconds
+dialog_autocam                      AUTOM. KAMERA
+dialog_non_playable_demo            NIEGRYWALNE DEMO
+dialog_tracking_synchronisation     SYNCHRONIZACJA ŒLEDZENIA
+
+#dialog_steam_authentication         Steam Authentication
+#dialog_steam_play_defcon            Play Defcon
+#dialog_steam_auth_status            STEAM AUTHENTICATION STATUS
+#dialog_steam_welcome_to_defcon      Welcome to Defcon!
+#dialog_steam_may_play_demo          You may play the DEMO of Defcon
+#dialog_steam_unable_to_auth         We have been unable to Authenticate you.
+#dialog_steam_auth_progress          Steam Authentication : *P
+# P = Steam Authentication Progress
+
+#dialog_steam_error_edenysteamvalidationstalled      Error verifying STEAM UserID Ticket(server was unable to contact the authentication server).\n
+#dialog_steam_error_edenynotloggedon                 Invalid Steam Logon
+#dialog_steam_error_edenyloggedinelsewhere           This account has been logged into in another location 
+#dialog_steam_error_edenynolicense                   This Steam account does not own this game. \nPlease login to the correct Steam account.
+#dialog_steam_error_edenyinvalidversion              Client version incompatible with server. \nPlease exit and restart
+#dialog_steam_error_edenycheater                     This account is banned
+#dialog_steam_error_edenyunknowntext                 Client dropped by server
+#dialog_steam_error_edenyincompatibleanticheat       You are running an external tool that is incompatible with Secure servers.
+#dialog_steam_error_edenymemorycorruption            Memory corruption detected.
+#dialog_steam_error_edenyincompatiblesoftware        You are running software that is not compatible with Secure servers.
+#dialog_steam_error_edenygeneric                     Client dropped by server
+#dialog_steam_error_unknown                          Unknown
+
+#dialog_steam_progress_not_started                   Not Started
+#dialog_steam_progress_started                       Started
+#dialog_steam_progress_starting_steam                Starting Steam
+#dialog_steam_progress_starting_steam_api            Starting Steam API
+#dialog_steam_progress_logging_on_to_steam           Logging On To Steam
+#dialog_steam_progress_getting_steam_id              Getting Steam Id
+#dialog_steam_progress_getting_encryption_details    Getting Encryption Details
+#dialog_steam_progress_getting_steam2_auth           Getting Steam2 Auth
+#dialog_steam_progress_getting_steam3_auth           Getting Steam3 Auth
+#dialog_steam_progress_requesting_authentication     Requesting Authentication
+#dialog_steam_progress_success                       Success
+#dialog_steam_progress_success_demo                  Success (Demo)
+#dialog_steam_progress_failed                        Failed
+
+dialog_warning                      Uwaga
+
+dialog_enterpassword                WprowadŸ has³o serwera
+dialog_setpassword                  Ustaw has³o serwera (puste, jeœli nie chcesz has³a)
+
+dialog_resync_title                 Resynchronizacja
+dialog_resync_button                Resynchr.
+dialog_resync_caption               Rozsynchronizowa³eœ siê z pozosta³ymi graczami.\n\nKliknij "Resynchr.", by spróbowaæ pozbyæ siê problemu.\n\nMo¿e to potrwaæ kilka minut.
+
+team_unassigned                     Nieprzydzielony
+team_ai                             Gracz AI
+team_local                          Gracz lokalny
+team_remote                         Gracz zdalny
+
+team_name_not_set                   [nazwa-nie-ustawiona]
+
+dialog_metaserver_failedtitle       NIE UDA£O SIÊ PO£¥CZYÆ Z METASERWEREM
+dialog_metaserver_failedconnect     Defcon nie móg³ po³¹czyæ siê z Metaserwerem.\nOznacza to, ¿e nie mo¿esz odczytaæ listy serwerów, \nani zobaczyæ w³asnego serwera.\n\nSprawdŸ, czy jesteœ po³¹czony z internetem, ew. wy³¹cz\nfirewalle i inne narzêdzia sieciowe.\n\nDefcon potrzebuje dostêpu do portów:\n5009 UDP (wychodz¹ce)\n5009 UDP (przychodz¹ce)\n\nWiêcej w naszym poradniku usuwania usterek:\n
+
+dialog_client_failedtitle           B£¥D SIECI
+dialog_client_failedconnect         Defcon nie móg³ otworzyæ Nas³uchu Sieci dla tego klienta.\nOznacza to, ¿e nie mo¿esz braæ udzia³u w ¿adnych grach,\nani tworzyæ w³asnych.\n\nSprawdŸ, czy jesteœ po³¹czony z internetem, ew. wy³¹cz\nfirewalle i inne narzêdzia sieciowe.\n\nWiêcej w naszym poradniku usuwania usterek:\n
+
+dialog_server_failedtitle           NIE MOGÊ WYSTARTOWAÆ SERWERA
+dialog_server_failedconnect         Defcon nie mo¿e wystartowaæ serwera.\nNiezbêdne do tego Po³¹czenia Sieciowe nie s¹ dostêpne.\n\nSpróbuj wy³¹czyæ firewalle i inne narzêdzia sieciowe.\n\nWiêcej w naszym poradniku usuwania usterek:\n
+
+dialog_ambxsupport                  Wsparcie amBX
+dialog_ambxsupport_tooltip          W³¹cz tê opcjê, tylko jeœli masz pod³¹czone urz¹dzenia standardu AMBX. Wiêcej informacji na www.ambx.com.
+
+dialog_screen_error_title           B³¹d ekranu
+dialog_screen_error_caption         Nie mog³em ustawiæ wymaganej rozdzielczoœci ekranu \n(*W x *H, *C kolorów, *S).\n\nWracam do bezpiecznych ustawieñ\n(*w x *h, *c kolorów, *s).
+# W = Screen Width, H = Screen Height, C = Color Depth (ie: 24 bit), S = Windowed/Fullscreen
+# The four other are the safe version of their capitalized counterparts (ie: w, h ,c ,s)
+
+dialog_restart_required_title       Wymagany restart
+dialog_restart_required_caption     Musisz zrestartowaæ Defcona, by korzystaæ\nz wprowadzonych zmian.
+
+dialog_connection_status            Status po³¹czenia
+dialog_abort_current_connection     Przerwij aktualn¹ próbê po³¹czenia
+dialog_state_disconnected           ROZ£¥CZONY
+dialog_state_connecting             £¥CZÊ...
+dialog_state_connected              PO£¥CZONY
+dialog_state_attempts               PRÓB : *A
+# A = Number of Connection Attempts
+dialog_state_receiving              ODBIERAM...
+dialog_state_received               ODEBRANE
+dialog_state_synchronising          SYNCHRONIZACJA...
+dialog_state_synchronised           ZSYNCHRONIZOWANE
+dialog_state_time_remaining         POZOSTA£O : *M.*S
+# M = Minutes, S = Seconds
+
+dialog_toolbar_units                jednostki
+dialog_toolbar_allies               sojusznicy
+dialog_toolbar_comms                komunikaty
+dialog_toolbar_scores               punktacja
+dialog_toolbar_radar                radar
+dialog_toolbar_people               ludzie
+dialog_toolbar_orders               rozkazy
+dialog_toolbar_territory            terytoria
+dialog_toolbar_nukes                atomówki
+dialog_toolbar_white_board          tablica
+dialog_toolbar_info                 info
+
+dialog_mod                          Mody
+dialog_mod_commit_title             WCZYTUJÊ MODY...
+dialog_mod_commit_mod_path          Ustawiam œcie¿kê do MODa...\n
+dialog_mod_commit_activating_mod    Aktywujê MODa '*N *V'\n
+# N = MOD name, V = version
+dialog_mod_commit_all_mods_off      Wszystkie MODy zdeaktywowane
+dialog_mod_error                    B£¥D
+dialog_mod_no_arrangement_change    Nie mo¿esz zmieniæ uk³adu MODów KRYTYCZNYCH \npodczas trwania gry.
+dialog_mod_not_installed            (NIE ZAINSTALOWANE)
+dialog_mod_active                   aktywne
+dialog_mod_clear_all                Wyczyœæ
+dialog_mod_deactivate               Deaktywuj
+dialog_mod_activate                 Aktywuj
+dialog_mod_click_download_mods      Kliknij, by œci¹gn¹æ wiêcej MODów
+dialog_mod_click_here               Kliknij
+dialog_mod_move_up                  W górê
+dialog_mod_move_down                W dó³
+dialog_mod_no_mod_selected          Nie wybrano MODa
+dialog_mod_screenshot_not_found     Nie znalaz³em screenshota
+dialog_mod_install_dir              Œcie¿ka instalacji
+dialog_mod_author                   Autor
+dialog_mod_website                  Strona WWW
+dialog_mod_required_all_players     Wymagany dla WSZYSTKICH GRACZY
+dialog_error_mod_path_title         B³¹d przy ustalaniu œcie¿ki MODa.
+dialog_error_mod_path_caption       B³¹d przy ustalaniu œcie¿ki MODa.\nNa tym serwerze dzia³a MOD, którego nie masz zainstalowanego.\n\nChodzi o:\n
+
+dialog_demo                         Demo
+dialog_welcome_to_demo              WITAM W TRYBIE DEMO
+dialog_play_demo                    Graj w demo
+dialog_buy_now                      Gra w trybie demo
+dialog_buy_now_caps                 GRA W TRYBIE DEMO
+dialog_exit_game_time               WyjdŸ z gry (*T)
+# T = Remaining time
+dialog_exit_game                    WyjdŸ z gry
+dialog_welcome_to_demo_defcon       Witam w DEMO gry Defcon.
+dialog_demo_player_limited          Mo¿esz stworzyæ grê multiplayer,\nale z limitem do *P graczy.\nW pe³nej wersji mo¿e graæ naraz 6 graczy.\n\n
+# P = Number of Players
+dialog_demo_player_join_limited     Mo¿esz do³¹czyæ do istniej¹cej gry multiplayer,\nale tylko jeœli gra mniej ni¿ *P\n graczy DEMO.
+# P = Number of Players
+dialog_demo_spectate_any_game       \n\nMo¿esz kibicowaæ w dowolnej grze.
+
+dialog_server_browser               Przegl¹darka serwerów
+dialog_server_password              Has³o serwera
+dialog_enter_ip_manually            Rêczne wpisywanie IP.
+dialog_filters                      Filtry
+dialog_server_details               Serwer  *I : *P
+# I = Ip Address, P = port
+dialog_server_version_mismatch      Nie mo¿esz do³¹czyæ do tego serwera,.\n\nponiewa¿ u¿ywa on innej wersji gry,\nniekompatybilnej z Twoj¹.\n\n\nTwoja wersja : *V\nIch wersja : *T
+# V = Your version, T = Their version
+dialog_cannot_join_server           Nie mo¿esz do³¹czyæ do serwera
+dialog_no_join_mods_not_installed   Nie mo¿esz do³¹czyæ do tego serwera.\n\nU¿ywa on niezainstalowanych u Ciebie MODów.\nPotrzebujesz tych MODów:\n\n*R\n\nMo¿esz je œci¹gn¹æ z\n
+# R = Reason
+dialog_no_join_own_game             Nie mo¿esz do³¹czyæ do tego serwera.\n\nTo Twój serwer i ju¿ jesteœ\nz nim po³¹czony.
+dialog_requesting                   Proœba wys³ana...
+dialog_refresh_number_server        Odœwie¿ (*S)
+# S = Number of Servers
+dialog_server_demo_restricted       Ten serwer ma OGRANICZENIA DEMO.\n\nTo oznacza, ¿e jest ju¿ na nim zbyt wielu graczy Demo, lub toczy siê gra w trybie zaawansowanym.\n\nWprowadŸ klucz, by uaktywniæ pe³n¹ wersjê gry.\n\nMaksymalna liczba graczy demo : *N
+# N = Max Demo Game Size
+dialog_number_server_found          Znaleziono *N serwerów
+# N = Number Server Found
+dialog_retrieving_server_list       Pobieranie listy serwerów...
+dialog_net_location_lan             *I:*P [LAN]
+# I = Ip Address, P = port
+dialog_game_ended                   (koniec)
+dialog_demo_game_mode               demo
+dialog_mod_base_number_more         *M (jeszcze *N)
+# M = Mod base, N = Number of Remaining Mods
+dialog_server_name_incompatible     *S [NIEKOMPATYBILNE]
+# S = Server Name
+dialog_server_name_mods_required    *S [POTRZEBNE MODY]
+# S = Server Name
+dialog_server_name_your_server      *S [TWÓJ SERWER]
+# S = Server Name
+dialog_server_name_demo_restricted  *S [OGRANICZENIA DEMO]
+# S = Server Name
+dialog_server_name_full             *S [PE£NY]
+# S = Server Name
+dialog_server_name_not_responding   *S  [NIE ODPOWIADA]
+# S = Server Name
+dialog_connected_recently           (ostatnio pod³¹czony)
+dialog_server_browser_teams         Dru¿yny
+dialog_server_browser_specs         Specyfikacja
+dialog_server_browser_time          Czas trwania
+dialog_server_browser_mods          MODy
+dialog_server_browser_game_mode     Tryb gry
+dialog_server_browser_server_name   Nazwa serwera
+dialog_server_browser_list          Lista
+dialog_filter_all_games             Wszystkie gry
+dialog_filter_games_in_lobby        Gry w lobby
+dialog_filter_games_in_progress     Trwaj¹ce gry
+dialog_filter_recent_servers        Ostatnie serwery
+dialog_filter_lan_games             Gry w sieci LAN
+dialog_filter_enter_ip_manually     Rêczne wpisywanie IP
+dialog_join                         Do³¹cz
+dialog_enter_ip                     [wpisz ip]
+dialog_connect                      Po³¹cz
+dialog_server_ip                    IP serwera
+dialog_server_port                  Port serwera
+dialog_single_player_games          Gry dla 1 gracza
+dialog_demo_games                   Gry demo
+dialog_default_named_servers        Serwery o nazwie domyœlnej
+dialog_show_single_player_games     Poka¿ gry dla 1 gracza
+dialog_show_demo_games              Poka¿ gry demo
+dialog_show_default_named_games     Poka¿ gry o nazw. dom.
+dialog_server_name                  Nazwa
+dialog_server_identity_address      To¿samoœæ
+dialog_server_game_name             Gra
+dialog_server_game_mode             Tryb gry
+dialog_server_score_mode            Tryb pkt.
+dialog_server_started               [rozpoczêta]
+dialog_server_ended                 [zakoñczona]
+dialog_server_not_yet_started       [jeszcze nie rozpoczêta]
+dialog_spectators                   Kibice
+dialog_server_game_time             Czas gry
+dialog_server_scores                Punktacja
+dialog_retrieving_scores            Odczytujê punktacjê...
+
+dialog_disconnected                 Roz³¹czony
+dialog_disconnect_client_leave      Opuœci³eœ grê
+dialog_disconnect_server_shutdown   Serwer wy³¹czony
+dialog_disconnect_invalid_key       U¿ywasz z³ego klucza
+dialog_disconnect_duplicate_key     Powtarzaj¹cy siê klucz
+dialog_disconnect_key_auth_failed   Uwierzytelnienie nieudane
+dialog_disconnect_bad_password      Z³e has³o
+dialog_disconnect_game_full         Gra jest ju¿ pe³na
+dialog_disconnect_kicked_from_game  Wyrzucony przez serwer
+dialog_disconnect_demo_full         Zbyt wielu graczy demo
+dialog_disconnect_unknown           Nieznany
+
+dialog_chat_public                  Publiczny
+dialog_chat_alliance                Sojuszniczy
+dialog_chat_spectators              Kibice
+dialog_chat_channel_public          [publiczny]
+dialog_chat_channel_alliance        [sojuszniczy]
+dialog_chat_channel_spectators      [kibicowski]
+dialog_chat_channel_private         [prywatny]
+dialog_chat_channel_to_team_name    [do *T]
+# T = Team Name
+
+dialog_white_board_draw_erase       rysuj/czyœæ
+dialog_white_board_clear_all        czyœæ ca³e
+dialog_white_board_show_all         poka¿ ca³e
+
+dialog_worldstatus_defcon           DEFCON
+dialog_worldstatus_defcon_x         DEFCON *D
+# D = Defcon level
+dialog_worldstatus_time_remain_hms  Pozosta³o : *Hh *Mm *Ss
+# H = Hours, M = Minutes, S = Seconds
+dialog_worldstatus_time_remain_ms   Pozosta³o : *Mm *Ss
+# M = Minutes, S = Seconds
+dialog_worldstatus_show_stats       Poka¿ statystyki
+dialog_worldstatus_scoremode        Tryb punktacji
+dialog_worldstatus_cpu_team_name    [CPU]*T
+# T = Team Name
+dialog_worldstatus_left_team_name   [WYSZED£]*T
+# T = Team Name
+dialog_worldstatus_demo_team_name   [DEMO]*T
+# T = Team Name
+dialog_worldstatus_out_of_sync      Rozsynchr.
+dialog_worldstatus_out_of_sync_2    rozsynchronizowan
+dialog_worldstatus_spectator_join   Kibic (do³¹cza...)
+dialog_worldstatus_superpower       Gracz
+dialog_worldstatus_kills            Zabi³
+dialog_worldstatus_deaths           Straci³
+dialog_worldstatus_survivors        Prze¿yli
+dialog_worldstatus_collateral       Uboczne
+dialog_worldstatus_nukes            Atomówki
+dialog_worldstatus_score            PUNKTY
+dialog_worldstatus_points_value     Punktacja:
+dialog_worldstatus_pop_in_millions  *P mln
+# P = Population in millions
+dialog_worldstatus_classified       [œciœle tajne]
+dialog_stats                        Statystyki
+
+dialog_casualties_city              Miasto
+dialog_casualties_strikes           Ataki
+dialog_casualties_deaths            ofiary
+dialog_casualties_in_million        *C milionów
+# C = Casualties in Million
+
+dialog_network_title                Serwer
+dialog_network_server_seqid         SeqID serwera       *S
+# S = Server sequence
+dialog_network_server_send          Prêdkoœæ wysy³.        *R Kb/sec
+# R = Send Rate
+dialog_network_server_receive       Prêdkoœæ odbioru     *R Kb/sec
+# R = Receive Rate
+dialog_network_id                   ID
+dialog_network_ip_port              IP:Port
+dialog_network_seqid                SeqID
+dialog_network_seqid_number         SeqID *S
+# S = Sequence Id
+dialog_network_name                 Nazwa
+dialog_network_status               Status
+dialog_network_lost_con             Zerwane...*Ss
+# S = Number of seconds since the connection was lost
+dialog_network_synching             Synchr...*P
+# P = Percentage done Synching
+dialog_network_ping                 Ping *Pms
+# M = Ping time in miniseconds
+dialog_network_spec                 (spec)
+dialog_network_empty                Pusty
+dialog_network_sequence_msg_queue   Komunikaty w kolejce.
+dialog_network_svr_known_seqid      Serwer znany za  SeqID   *S
+# S = Sequence Id
+dialog_network_svr_estimated_seqid  Serwer przewidywany za SeqID   *S
+# S = Sequence Id
+dialog_network_estimated_latency    Przewidywane opóŸnienie : *L sek.
+# L = Estimated Latency
+dialog_network_client_seqid         SEQID klient       *S
+# S = Sequence Id
+dialog_network_client_send          Klient wysy³a *R Kb/sec
+# R = Send Rate
+dialog_network_client_receive       Klient odbiera *R Kb/sec
+# R = Receive Rate
+
+dialog_profile_title                Profile
+dialog_profile_toggle_glfinish      Prze³¹cz  glFinish
+dialog_profile_reset_history        Wyzeruj  historiê
+dialog_profile_min                  Minimum
+dialog_profile_avg                  Œrednio
+dialog_profile_max                  Maksimum
+
+dialog_c2s_team_renamed             *T przemianowany na *N
+# T = Team Name Old, N = Team Name New
+dialog_c2s_team_joined_game         *T do³¹czy³ do gry
+# T = Team Name
+dialog_c2s_default_name_spectator   Kibic
+dialog_c2s_default_name_player      Gracz *T
+# T = Team Id
+
+dialog_world_new_spec_connecting    Pod³¹cza siê nowy kibic
+dialog_world_team_left_game         *T opuœci³ grê
+# T = Team Name
+dialog_world_spec_left_game         Kibic *T opuœci³ grê
+# T = Team Name
+dialog_world_rejoined               *T WRÓCI£
+# T = Team Name
+dialog_world_disconnected           *T ROZ£¥CZY£ SIÊ
+# T = Team Name
+dialog_world_dropped                *T ROZ£¥CZONY
+# T = Team Name
+dialog_world_kicked                 *T WYKOPANY
+# T = Team Name
+
+dialog_mapr_fps                     *Ffps
+# F = Frame per seconds (fps)
+dialog_mapr_city_population         POPULACJA : *P MLN LUDZI
+# P = City Population
+dialog_mapr_city_dead               OFIAR     : *D MLN LUDZI
+# D = City Dead Population
+dialog_mapr_mode                    TRYB *M
+# M = Current State
+dialog_mapr_secs                    *S SEKUND
+# S = Seconds
+dialog_mapr_empty                   PUSTO
+dialog_mapr_cancel_all_orders       ODWO£AJ ROZKAZY
+dialog_mapr_not_before_defcon_x     NIE PRZED DEFCON *D
+# D = Defcon level
+dialog_mapr_defcon_x_required       WYMAGANY DEFCON *D
+# D = Defcon level
+dialog_mapr_out_of_range            POZA ZASIÊGIEM
+dialog_mapr_combat_range            ZASIÊG BOJOWY
+dialog_mapr_fuel_range              ZASIÊG ZBIORNIKA PALIWA
+dialog_mapr_nukes_in_queue          *N W KOLEJCE
+# N = Number of Nukes
+dialog_mapr_nukes_in_flight         *N W LOCIE
+# N = Number of Nukes
+
+dialog_style                        Styl
+dialog_style_editor                 Edytorów stylów
+dialog_style_primary                1. plan
+dialog_style_secondary              2. plan
+dialog_style_red                    Czerwony
+dialog_style_green                  Zielony
+dialog_style_blue                   Niebieski
+dialog_style_alpha                  Alfa
+dialog_style_colour_editor          Edytor kolorów *I *P
+# I = Real Index, P = Primary (0/1)
+dialog_style_failed_load_style      Nie mogê wczytaæ stylu\n
+dialog_style_style_saved            Zachowano styl:\n
+dialog_style_failed_save_style      Nie mogê zachowaæ stylu:\n
+dialog_style_col_primary            1. plan
+dialog_style_col_secondary          2. plan
+dialog_style_col_horiz              Horyz.
+dialog_style_col_ngtive             Neg.
+dialog_style_col_caps               Du¿e
+dialog_style_col_size               Rozmiar
+dialog_style_col_font               Czcionka
+
+
+# =============================================================================
+# Tooltips
+# =============================================================================
+
+tooltip_timeaccel0                  Pauza
+tooltip_timeaccel1                  Graj w czasie rzeczyw.
+tooltip_timeaccel2                  Przyspiesz czas\n(x5)
+tooltip_timeaccel3                  Przyspiesz czas\n(x10)
+tooltip_timeaccel4                  Przyspiesz czas\n(x20)
+
+tooltip_worldstatus_x_faster_realtime       Przyspieszone x*S 
+# S = Number of time the game speed is faster than Realtime
+tooltip_worldstatus_key_shortcut_0          \nWciœnij: 0\n
+tooltip_worldstatus_key_shortcut_1          \nWciœnij: 1\n
+tooltip_worldstatus_key_shortcut_2          \nWciœnij: 2\n
+tooltip_worldstatus_key_shortcut_3          \nWciœnij: 3\n
+tooltip_worldstatus_key_shortcut_4          \nWciœnij: 4\n
+tooltip_worldstatus_players_request_speed   O tê prêdkoœæ prosi:
+tooltip_worldstatus_no_team_request_speed   \nNikt
+tooltip_worldstatus_cannot_request_speed    Nie mo¿esz prosiæ o tê prêdkoœæ
+
+tooltip_defcon5                     DEFCON 5\nZakaz akcji zbrojnych\nWrogie jednostki niewidoczne na radarach
+tooltip_defcon4                     DEFCON 4\nWrogie jednostki pojawiaj¹ siê na radarach
+tooltip_defcon3                     DEFCON 3\nWalki morskie autoryzowane\nWalki powietrzne autoryzowane
+tooltip_defcon2                     DEFCON 2
+tooltip_defcon1                     DEFCON 1\nBroñ nuklearna autoryzowana
+
+tooltip_toolbar_whiteboard          Prze³¹cz tablicê
+tooltip_toolbar_whiteboard_disabled Tablica jest wy³¹czona, gdy¿ host dzia³a na starszej wersji
+tooltip_toolbar_radar               Prze³¹cz pokrycie radarowe
+tooltip_toolbar_pop                 Prze³¹cz gêstoœæ populacji
+tooltip_toolbar_alliances           Prze³¹cz okno sojuszy
+tooltip_toolbar_units               Prze³¹cz okno jednostek
+tooltip_toolbar_score               Prze³¹cz okno punktacji
+tooltip_toolbar_comms               Prze³¹cz okno rozmów
+tooltip_toolbar_orders              Prze³¹cz rozkazy
+tooltip_toolbar_info                Prze³¹cz okno inf. o jednostce
+tooltip_toolbar_territory           Prze³¹cz pokazyw. terytoriów
+tooltip_toolbar_nukes               Prze³¹cz jednostki z atomówkami
+
+tooltip_whiteboard_planning         Prze³¹cz rysowanie na tablicy. LPM rysujesz, PPM wycierasz.
+tooltip_whiteboard_eraseall         Wytrzyj wszystkie rysunki z tablicy.
+tooltip_whiteboard_showall          Prze³¹czaj miêdzy tablicami sojuszników i swoj¹.
+
+tooltip_gameoption_servername               Wpisz nazwê serwera, która bêdzie widoczna dla innych graczy.
+tooltip_gameoption_advertiseoninternet      Jeœli w³¹czone, Twoja gra bêdzie og³aszana na Metaserwerze i inni internetowi gracze bêd¹ mogli do niej do³¹czyæ.
+tooltip_gameoption_advertiseonlan           Jeœli w³¹czone, Twoja gra bêdzie widoczna w sieci LAN.
+tooltip_gameoption_maxteams                 Maksymalna liczba graczy, mog¹ca uczestniczyæ w Twojej grze.
+tooltip_gameoption_territoriesperteam       Liczba terytoriów, które mo¿e kontrolowaæ jeden gracz.
+tooltip_gameoption_citiesperterritory       Liczba miast generowanych na terytorium gracza.
+tooltip_gameoption_populationperterritory   Liczba ludzi (w mln) na ka¿dym terytorium.\nPopulacja miast bêdzie odpowiednio roz³o¿ona.
+tooltip_gameoption_citypopulations          Rozk³ad populacji w Twoich miastach.\n\n- Domyœlne: Bazowane na prawdziwej populacji\n\n- Po równo: Ka¿de miasto na terytorium bêdzie mieæ tyle samo mieszkañców\n\n- Losowo: Ka¿de miasto ma losow¹ populacjê, ale wybierane s¹ prawdziwe miasta, wiêc zawsze bêd¹ w tym samym miejscu\n\n- Kompletnie losowo: Losowa populacja i losowo wybierane miasta danego terytorium.
+tooltip_gameoption_randomterritories        Jeœli w³¹czone, terytoria zostan¹ przydzielone graczom losowo.\n\nPrzydatne, jeœli k³ócicie siê, kto ma rz¹dziæ Europ¹.
+tooltip_gameoption_maxspectators            Maksymalna liczba kibiców.\nUwaga: Wiêcej kibiców=wolniejszy serwer!\n\n0=bez kibiców\n100=brak limitu.
+tooltip_gameoption_spectatorchatchannel     Decyduje, czy gracze widz¹ czaty kibiców. Mo¿esz ustawiæ czat kibicowski jako prywatny, by nie mogli podpowiadaæ zawodnikom.\n\n- Publiczny: Wszyscy gracze mog¹ widzieæ czat kibicowski (domyœlne),\n\n- Prywatny: Tylko kibice mog¹ rozmawiaæ na czacie kibicowskim. W tym trybie nie ma mo¿liwoœci rozmowy kibic-gracz.
+tooltip_gameoption_teamswitching            Jeœli w³¹czone, gracze mog¹ zmieniaæ zespo³y podczas gry, u¿ywaj¹c klawiszy numerycznych.\n\nPrzy powa¿nych grach - odradzamy!
+tooltip_gameoption_permitdefection          Jeœli w³¹czone, gracze mog¹ zmieniaæ sojusze podczas gry
+tooltip_gameoption_radarsharing             Wspó³dzielenie radarów.\n\n- Zawsze wy³.: Wspó³dzielenie zakazane.\n\n- Sojusz: Sojusznicy wspó³dziel¹ automatycznie (domyœlne).\n\n- Selektywne: Ka¿dy gracz mo¿e wybraæ, czy dzieliæ radar z innym (sojusznikiem, b¹dŸ nie).\n\n- Zawsze w³.: Wspó³dzielenie aktywne przez ca³¹ grê. Sposób dla naprawdê pocz¹tkuj¹cych, bowiem wtedy widzisz od pocz¹tku wszystkie jednostki wrogów.
+tooltip_gameoption_gamespeed                Ustawienia prêdkoœci\nNajwoln. U¿ywa najwolniejszej prêdkoœci wybranej przez dowolnego gracza.
+tooltip_gameoption_slowestspeed             Najwolniejsza prêdkoœæ dla tej gry. Przy wyborze pauzy, ka¿dy gracz mo¿e zatrzymaæ grê, u¿ywaj¹c paska prêdkoœci.
+tooltip_gameoption_enableworldevents        Jeœli w³¹czone, w trakcie gry mog¹ pojawiæ siê zdarzenia losowe
+tooltip_gameoption_gamemode                 Ustala zasady rz¹dz¹ce gr¹
+tooltip_gameoption_scoremode                Ustala punktacjê na bazie ofiar, ocala³ych oraz pozosta³ych atomówek
+tooltip_gameoption_victorytrigger           Ustala, kiedy startuje Victory Timer. Jest to procent poni¿ej którego musi spaœæ liczba atomówek w ca³ym œwiecie gry, by wystartowa³ Victory Timer.\n\nNp.: Jeœli jest to 20% (domyœlny), na œwiecie musi pozostaæ <20% niewystrzelonych atomówek, by wystartowa³ Victory Timer.
+tooltip_gameoption_victorytimer             Gdy Victory Timer wystartuje, do koñca gry pozostanie tyle czasu.
+tooltip_gameoption_maxgamerealtime          Najd³u¿szy mo¿liwy czas trwania gry w minutach.\n\n0 = czas nielimitowany - grê koñczy dopiero up³yw Victory Timera.
+tooltip_gameoption_variableunitcounts       Umo¿lwia tryb Kredytów\nKa¿dy gracz otrzymuje Kredyty do wydania na swoje jednostki. Dziêki temu mo¿na tworzyæ armiê np. z naciskiem na okrêty podw. zamiast pancerników.
+tooltip_gameoption_worldscale               UWAGA: Eksperymentalne.\n\nPrzy tej opcji œwiat robi siê wiêkszy, a w efekcie gra trwa d³u¿ej.\n\nPrzy "100" œwiat jest normalny.\n\nPrzy najwiêkszej wartoœci (200) ka¿da dru¿yna ma dwa razy wiêcej oddzia³ów, ale ka¿dy oddzia³ ma dwa razy mniejszy zasiêg radaru i zasiêg bojowy.\n\nOpcja eksperymentalna!\nWymaga wydajnego procesora.\nZalecamy wy³¹czenie Renderowania Œladów Obiektów (lepsza widocznoœæ).
+tooltip_gameoption_permitpausing            Jeœli w³¹czone, grê mo¿na zatrzymaæ
+tooltip_gameoption_serverpassword           Ustaw, jeœli chcesz zabezpieczyæ dostêp do serwera has³em.\n\nZostaw puste, jeœli nie chcesz has³a.
+
+tooltip_gamemode_default                    Zbieraj punkty za ataki atomowe na wrogie miasta.\nGra bêdzie siê toczyæ w najwolniejszym wybranym przez graczy trybie.
+tooltip_gamemode_office_mode                Gra bêdzie siê toczyæ w oknie, bez dŸwiêków, w czasie rzeczywistym przez nie wiêcej ni¿ 6 godzin.\nJeœli pojawi siê Twój szef, kliknij 2xESC, by zamkn¹æ okno.
+tooltip_gamemode_speed_defcon               Gra bêdzie siê toczyæ z maksymaln¹ szybkoœci¹, potrwa nie d³u¿ej ni¿ 15 minut. Nie bêdzie mo¿na jej zatrzymaæ. Tu liczy siê instynkt i brutalnoœæ.
+tooltip_gamemode_diplomacy                  Wszyscy gracze zaczynaj¹ w Sojuszu Zielonym, z w³¹czonym wspó³dzieleniem radarów. Jak d³ugo potrwa sojusz?\nRekomendowanych trzech lub wiêcej graczy "ludzkich".
+tooltip_gamemode_bigworld                   Œwiat jest dwa razy wiêkszy! Ka¿dy ma dwa razy wiêcej jednostek, ale ka¿da jest dwa razy mniejsza i ma dwa razy mniejszy zasiêg radaru i broni oraz prêdkoœæ.\nDla tych, którzy uwielbiaj¹ d³ugie granie.
+tooltip_gamemode_tournament                 Domyœlne zasady, dodatkowo kibice nie mog¹ komunikowaæ siê z graczami, a tym s¹ przydzielane losowe terytoria.
+tooltip_gamemode_custom                     Nie ma konkretnych zasad - po prostu gramy.  
+
+tooltip_scoremode_default                   +2 pkt za milion zabitych.\n-1 pkt za mln swoich mieszkañców, których nie zdo³asz ocaliæ.
+tooltip_scoremode_survivor                  +1 pkt za milion ocalonych mieszkañców. Wszyscy zaczynaj¹ za 100 punktami, punktacja mo¿e tylko spadaæ.
+tooltip_scoremode_genocide                  +1 pkt za milion zabitych. Proste i potworne.
+
+tooltip_defection_no                        Wycofanie z Sojuszu niemo¿liwe. Sojusze pozostaj¹ przez ca³¹ grê.\n\nZ sojusznikami jesteœ automatycznie w stanie zawieszenia broni.
+tooltip_defection_yes                       Wycofanie z Sojuszu mo¿liwe. Ka¿dy gracz mo¿e w dowolnej chwili zmieniæ Sojusz.\n\nMo¿esz nawi¹zywaæ i rozwi¹zywaæ zawieszenia broni.
+
+tooltip_radarsharing_alwaysoff              Wspó³dzielenie radarów niemo¿liwe. Bêdziesz widzieæ jedynie zasiêg w³asnych radarów.
+tooltip_radarsharing_alliance               Wspó³dzielenie radarów miêdzy cz³onkami sojuszu. Alianci widz¹ zasiêg radarów swoich i sojuszniczych .\n\nUwaga: Sojusznicze okrêty podw. bêd¹ niewidoczne do momentu wynurzenia.
+tooltip_radarsharing_selective              Selektywne wspó³dzielenie radarów. Sam wybierasz z kim chcesz wspó³dzieliæ radary.
+tooltip_radarsharing_alwayson               Wspó³dzielenie wszystkich radarów. Bêdziesz widzieæ ka¿d¹ jednostkê w grze.\n\nUwaga: Wrogie okrêty podw. bêd¹ niewidoczne do momentu wynurzenia.
+
+tooltip_ceasefire_enable                    Twoje oddzia³y natychmiast wstrzymaj¹ dzia³ania przeciw temu zespo³owi.\nLec¹ce w jego kierunku atomówki zostan¹ rozbrojone.
+tooltip_ceasefire_disable                   Twoje oddzia³y bêd¹ traktowaæ ten zespó³ jako wroga i automatycznie otwieraæ ogieñ.
+tooltip_radarshare_enable                   Dane z Twoich radarów zostan¹ przes³ane do tego zespo³u.\nUwaga: Twoje okrêty podw. pozostan¹ niewidoczne a¿ do wynurzenia.
+tooltip_radarshare_disable                  Przestaniesz wysy³aæ dane z radarów do tego zespo³u. Jego wojska nie bêd¹ ju¿ widzieæ tego, co ty.
+
+tooltip_place_silo                          Ustaw silos
+tooltip_place_radar                         Ustaw radar
+tooltip_place_airbase                       Ustaw lotnisko
+tooltip_place_battleship                    Dodaj pancernik do floty
+tooltip_place_sub                           Dodaj okrêt podw. do floty
+tooltip_place_carrier                       Dodaj lotniskowiec do floty
+tooltip_place_unit                          Ustaw jednostkê tutaj
+tooltip_place_fleet                         Ustaw flotê tutaj
+tooltip_fleet_button                        Stwórz flotê
+tooltip_fleet_remove                        Usuñ tê jednostkê z floty
+tooltip_fleet_place                         Ustaw flotê
+
+tooltip_territory_northamerica              Ameryka P³n.
+tooltip_territory_southamerica              Ameryka P³d.
+tooltip_territory_europe                    Europa
+tooltip_territory_russia                    Rosja
+tooltip_territory_southasia                 P³d. Azja
+tooltip_territory_africa                    Afryka
+
+tooltip_lobby_teamname                      Wpisz nazwê swojej dru¿yny
+tooltip_lobby_territories                   Wybierz wasze terytoria
+tooltip_lobby_alliance                      Wybierz sojusz do którego chcesz do³¹czyæ
+tooltip_lobby_requestteam                   Stwórz zespó³, którym bêdziesz gra³
+tooltip_lobby_requestai                     Stwórz zespó³, kierowany przez komputer
+tooltip_lobby_ready                         Gotów do gry. Rozpocznie siê ona, gdy wszyscy bêd¹ gotowi.
+tooltip_lobby_ready_disable                 Nieprawid³owa nazwa gry
+tooltip_lobby_chat                          Otwórz okno czatu
+tooltip_lobby_aggression                    Zmienia agresjê komputera, 10 to maksymalna\n0 - losowa
+tooltip_lobby_demo_max_player               Grasz w wersjê Demo - nie mo¿esz stworzyæ gry z tyloma uczestnikami.
+tooltip_lobby_click_open_slot               Kliknij, by otworzyæ ten slot i zezwoliæ na do³¹czenie nowego gracza
+tooltip_lobby_click_close_slot              Kliknij, by zamkn¹æ ten slot, by nikt nie do³¹czy³
+tooltip_lobby_address_port                  IP: *I\nPORT:*P
+# I = IP address, P = Port
+
+tooltip_chat_public                         Kana³ publiczny. Widoczny dla wszystkich.
+tooltip_chat_alliance                       Kana³ sojuszniczy. Widoczny dla cz³onków Twojego Sojuszu.
+tooltip_chat_spectators                     Kana³ kibiców. Kibice mog¹ pisaæ jedynie tutaj.
+
+tooltip_alliance_join                       Zg³oœ chêæ do³¹czenia do tego Sojuszu
+tooltip_alliance_leave                      Opuœæ ten Sojusz
+tooltip_alliance_kick                       Zacznij g³osowanie nad wyrzuceniem tego gracza z Sojuszu
+
+tooltip_vote_yes                            G³osuj Tak
+tooltip_vote_no                             G³osuj Nie
+tooltip_vote_abstain                        Wstrzymaj siê
+
+tooltip_lmb                         [LPM]
+tooltip_rmb                         [PPM]
+
+tooltip_placeobject                 [LPM] USTAW JEDNOSTKÊ
+tooltip_placefleet                  [LPM] USTAW FLOTÊ
+tooltip_invalidplacement            Z£E USTAWIENIE
+tooltip_spacetocancel               SPACJA, BY ZREZYGNOWAÆ
+
+tooltip_selectobject                [LPM] WYBIERZ JEDNOSTKÊ
+tooltip_selectfleet                 [LPM] WYBIERZ FLOTÊ
+tooltip_setobjectstate              [PPM] ZMIEÑ TRYB JEDNOSTKI
+tooltip_enemyunit                   (ODDZIA£ WROGA)
+tooltip_attack                      [LPM] ATAKUJ TÊ JEDNOSTKÊ
+tooltip_moveobject                  [PPM] PRZEMIEŒÆ TU JEDNOSTKÊ
+tooltip_movefleet                   [PPM] PRZEMIEŒÆ TU FLOTÊ
+tooltip_cantmovehere                NIEDOSTÊPNE DLA TEJ JEDN.
+tooltip_spawnfighter                [LPM] ATAKUJ MYŒLIWCEM
+tooltip_spawnbomber                 [LPM] ATAKUJ BOMBOWCEM
+tooltip_spawnnuke                   [LPM] ATAKUJ RAKIET¥ ATOMOW¥ ICBM
+tooltip_spacetodeselect             SPACJA, BY ODZNACZYÆ
+tooltip_landobject                  [LPM] WYL¥DUJ TUTAJ
+
+tooltip_controls_sidescrolling      Pozwala przesuwaæ kamerê przybli¿aj¹c mysz do brzegów ekranu
+tooltip_controls_zoomspeed          Ustawienia czu³oœæ myszy i przybli¿ania
+tooltip_controls_camdragging        Przesuwanie kamery po przytrzymaniu œrodkowego przycisku myszy
+tooltip_controls_keyboardlayout     Zmiana ustawieñ klawiatury
+
+tooltip_close_window                Zamknij okno
+
+tooltip_demo_exit_the_game          Zakoñcz tê grê
+
+tooltip_server_browser_game_time            Czas gry:
+tooltip_server_browser_game_has_ended       \nGra zakoñczona
+tooltip_server_browser_game_started         Rozpoczêta
+tooltip_server_browser_not_yet_started      Jeszcze nie rozpoczêta
+tooltip_server_browser_teams                \nZespo³y :
+tooltip_server_browser_spectator            \nKibice :
+tooltip_server_browser_game_mode            \nTryb gry :
+tooltip_server_browser_score_mode           \nTryb punktacji :
+tooltip_server_browser_mod                  \nMOD:
+tooltip_server_browser_right_click_details  \n(Kliknij PPM dla szczegó³ów)
+
+
+# =============================================================================
+# Game Options
+# =============================================================================
+
+gameoption_PlayerName               Nowy gracz
+
+gameoption_ServerName               Nazwa serwera
+gameoption_New_Game_Server          Nowy serwer
+gameoption_AdvertiseOnInternet      Og³. w sieci?
+gameoption_Disabled                 Wy³.
+gameoption_Enabled                  W³.
+gameoption_AdvertiseOnLAN           Og³. w LAN?
+gameoption_GameMode                 Tryb gry
+gameoption_Default                  Domyœlny
+gameoption_Office_Mode              Tryb biurowy
+gameoption_Speed_Defcon             Speed Defcon
+gameoption_Diplomacy                Dyplomacja
+gameoption_BigWorld                 Wielki Œwiat
+gameoption_Tournament               Turniej
+gameoption_Custom                   W³asny
+gameoption_MaxTeams                 Maks. liczba zespo³ów
+gameoption_TerritoriesPerTeam       Terytoriów na zespó³
+gameoption_CitiesPerTerritory       Miast na terytorium
+gameoption_PopulationPerTerritory   Populacja na terytorium
+gameoption_CityPopulations          Popul. miast
+gameoption_Equalised                Zrównana
+gameoption_Random                   Losowa
+gameoption_TotallyRandom            Zupe³nie losowa
+gameoption_RandomTerritories        Losowe teryt.
+gameoption_PermitDefection          Porzuc. soj.
+gameoption_No                       Nie
+gameoption_Yes                      Tak
+gameoption_RadarSharing             Wsp. radary
+gameoption_AlwaysOff                Zawsze wy³.
+gameoption_Alliance                 Sojusz
+gameoption_Selective                Selektyw.
+gameoption_AlwaysOn                 Zawsze w³.
+gameoption_GameSpeed                Prêdkoœæ gry
+gameoption_Slowest_Requested        Najwolniejsza z ¿¹d.
+gameoption_Pause                    Pause
+gameoption_Real_Time                Czas rzeczywisty
+gameoption_5x_Real_Time             Czas rzeczyw. x5
+gameoption_10x_Real_Time            Czas rzeczyw. x10
+gameoption_20x_Real_Time            Czas rzeczyw. x20
+gameoption_SlowestSpeed             Prêdkoœæ
+gameoption_ScoreMode                Tryb punktacji
+gameoption_Survivor                 Przetrwanie
+gameoption_Genocide                 Ludobójstwo
+gameoption_VictoryTrigger           Victory Trigger
+gameoption_VictoryTimer             Victory Timer
+gameoption_MaxGameRealTime          Najd³. gra, czas rzeczyw.
+gameoption_VariableUnitCounts       Zmienne oddz.
+gameoption_WorldScale               Skala œwiata
+gameoption_MaxSpectators            Maksymalnie kibiców
+gameoption_SpectatorChatChannel     Czat kibiców
+gameoption_Private                  Prywatny
+gameoption_Public                   Publiczny
+gameoption_TeamSwitching            Zmiana zesp.
+gameoption_ServerPassword           Has³o serwera
+
+
+# =============================================================================
+# Styles
+# =============================================================================
+
+style_WindowBackground              T³o okna
+style_WindowTitleBar                Tytu³owa belka okna
+style_WindowOuterBorder             Zewnêtrzne obram. okna
+style_WindowInnerBorder             Wewnêtrzne obram. okna
+style_ButtonBackground              T³o przycisku
+style_ButtonHighlighted             Podœwietl. przycisku
+style_ButtonClicked                 Przycisk wciœniêty
+style_ButtonBorder                  Obram. przycisku
+style_BoxBackground                 T³o boksu
+style_BoxBorder                     Obram. boksu
+style_InputBackground               T³o przy wprowadzaniu
+style_InputBorder                   Obram. przy wprowadz.
+style_FontWindowTitle               Czcionka tytu³u okna
+style_FontButton                    Czcionka przycisku
+style_WorldCoastlines               Œwiat-linie brzegowe
+style_WorldBorders                  Œwiat-granice
+style_WorldWater                    Œwiat-woda
+style_WorldLand                     Œwiat-l¹dy
+style_TooltipBackground             T³o podpowiedzi
+style_TooltipBorder                 Obram. podpowiedzi
+style_FontTooltip                   Czcionka podpowiedzi
+style_PopupBackground               T³o popupów
+style_PopupTitleBar                 Tytu³owa belka popupów
+style_PopupBorder                   Obram. popupów
+style_PopupHighlight                Podœwietlenie popupów
+style_PopupSelection                Wybór popupów
+style_FontPopupTitle                Czcionka tytu³ów popupów
+style_FontPopup                     Czcionka popupów
+
+
+# =============================================================================
+# Unit names
+# =============================================================================
+
+unit_silo                           silos
+unit_nuke                           rakieta nuklearna
+unit_city                           miasto
+unit_sub                            podwodny
+unit_radar                          radar
+unit_battleship                     pancernik
+unit_airbase                        lotnisko
+unit_fighter                        myœliwiec
+unit_bomber                         bombowiec
+unit_carrier                        lotniskowiec
+unit_tornado                        tornado
+unit_saucer                         lataj¹cy talerz
+unit_explosion                      eksplozja
+
+
+# =============================================================================
+# Unit States
+# =============================================================================
+
+state_preparing                     PRZYGOTOWUJÊ 
+state_prepare                       PRZYGOTUJ 
+state_ready                         GOTOWY DO 
+state_fighterlaunch                 START MYŒLIWCA
+state_bomberlaunch                  START BOMBOWCA
+state_attack                        ATAK
+state_flight                        LOT
+state_bombernuke                    ATAK ATOMOWY (SRBM)
+state_airtoseamissile               WALKA MORSKA
+state_antisub                       PRZECIWPODWODNY
+state_ontarget                      NA CELU
+state_disarm                        ROZBRÓJ
+state_radar                         SKANOWANIE
+state_silonuke                      ATAK ATOMOWY (ICBM)
+state_airdefense                    OBRONA P-LOT.
+state_passivesonar                  PASYWNY SONAR
+state_activesonar                   AKTYWNY SONAR
+state_subnuke                       ATAK ATOMOWY (MRBM)
+
+
+# =============================================================================
+# Game messages
+# =============================================================================
+
+message_fuel                        Koniec paliwa
+message_tornadodeath                Tornado rozproszone
+message_nukelaunch                  Odpalenie wykryte
+message_multilaunch                 Wykryto odpalenia
+message_firstlaunch                 *T odpali³ rakiety
+message_incursion                   Wtargniêcie na teren wroga zabronione
+message_destroyed                   *U - obiekt zniszczony
+# V = victim team, U = destroyed unit, T = attacking team, A = attacking unit
+
+message_directhit                   Trafienie w *C, *D mln ofiar
+message_fallout                     opad radioaktywny na *C, *D mln ofiar
+# C = city name, D = number of deaths
+
+details_fuel                        PALIWO
+
+message_victory                     ZWYCIÊSTWO DLA *T
+message_stalemate                   BRAK WYRANEGO ZWYCIÊZCY
+message_spectators_chat_players     Kibice mog¹ teraz czatowaæ z graczami
+message_placeunits                  MUSISZ USTAWIÆ WSZYSTKIE JEDNOSTKI PRZED DEFCON 3
+
+message_fleet_move                  Nie mo¿esz przesun¹æ tu floty
+message_disarmed                    Rakieta rozbrojona
+
+message_alliance_join               *P do³¹czy³ do Sojuszu *N
+message_alliance_kicked             *P wyrzucony z Sojuszu *N
+message_alliance_leave              *P opuœci³ SOjusz *N
+# P = player name, N = alliance name
+
+message_invalid_action              POCZEKAJ DO DEFCON *D
+# D = Defcon level
+
+message_ten_minute_warning          10 MINUT DO KOÑCA
+message_victory_timer               VICTORY TIMER RUSZY£
+
+tray_icon_caption                   DEFCON
+tray_icon_ten_minute_warning        10 minut do koñca
+tray_icon_victory_timer             Victory Timer ruszy³
+tray_icon_nuke_launches_detected    Wykryto odpalenia rakiet MRBM
+tray_icon_enemy_subs_detected       Wykryto wrogie okr. podwodne
+
+
+# =============================================================================
+# Combat Attack Odds
+# =============================================================================
+
+odds_zero                           szanse: ¿adne
+odds_vlow                           szanse: bardzo niskie
+odds_low                            szanse: niskie
+odds_med                            szanse: œrednie
+odds_high                           szanse: wysokie
+odds_vhigh                          szanse: bardzo wysokie
+
+
+# =============================================================================
+# Misc
+# =============================================================================
+
+unknown                             Nieznany
+
+officemode_1                        Tryb Biurowy ma priorytet nad wybran¹ prêdkoœci¹
+officemode_2                        i opcjami ekranu.
+
+alien_attack                        *C zniszczony przez atak obcych
+alien_invasion                      INWAZJA OBCYCH!
+tornado_warning                     UWAGA, TORNADO!
+
+
+# =============================================================================
+# Tutorial
+# =============================================================================
+
+tutorial                            Samouczek
+levelselect                         Wybierz poziom
+tutorial_clicknext                  Kliknij "Dalej"
+tutorial_restart_mission            Restart misji
+tutorial_missioncomplete            MISJA UKOÑCZONA
+tutorial_missionfailed              MISJA NIEUDANA
+tutorial_mission                    MISJA *X
+# X = mission number
+tutorial_team_name_cpu              Wróg - CPU
+tutorial_team_name_player           Gracz
+
+tutorial_restart                    Restart
+tutorial_next                       Dalej
+tutorial_chapter_desc               ROZDZIA£ *C Z 7   -   *N
+# C = Chapter Number, N = Chapter Name
+tutorial_level                      Poziom *L
+# L = Level Number
+
+tutorial_levelname_1                Atak broni¹ atomow¹
+tutorial_levelname_2                Obrona powietrzna
+tutorial_levelname_3                Pokrycie radarowe
+tutorial_levelname_4                Zwiad i bombardowanie
+tutorial_levelname_5                Si³y nawodne
+tutorial_levelname_6                Okrêty podwodne
+tutorial_levelname_7                Globalna Wojna Termonuklearna
+
+tutorial_popup                      Popup Samouczka
+tutorial_clicknext_popup            Kliknij "Dalej", by kontynuowaæ.
+
+# ==== MISSION 1 =====
+
+tutorial_start                      Witaj w Samouczku gry Defcon.\n\nNauczysz siê wszystkiego, co potrzebujesz, by efektywnie kontrolowaæ swoje wojska.\n\nKliknij "Dalej", by kontynuowaæ.
+tutorial_movecamera                 Zanim zaczniemy, musisz nauczyæ siê kontrolowaæ to, co widzisz.\n\nPunkt widzenia mo¿esz zmieniaæ, przesuwaj¹c mysz do odpowiedniego krañca ekranu.\n\nMo¿esz te¿ u¿ywaæ do tego klawiszy W-S-A-D.
+tutorial_zoomcamera                 Za pomoc¹ kó³ka myszy przybli¿asz i oddalasz widok.\n\nMo¿esz te¿ u¿ywaæ do tego przycisków Q i E.
+tutorial_movecamera2                Po wciœniêciu kó³ka myszy, mo¿esz po prostu przesuwaæ widok.\n\nKliknij "Dalej" jeœli nauczy³eœ siê kontrolowaæ widocznoœæ. Pora wysadziæ coœ w powietrze!
+tutorial_silofocus                  Ten podœwietlony obiekt to Silos Rakietowy. Ma dwa tryby:\n\n - przy Ataku ICBM mo¿e strzelaæ miêdzykontynentalnymi rakietami atomowymi we wrogie cele\n\n - przy Obronie P-lot Bêdzie strzelaæ do wrogich rakiet i samolotów.\n\nTeraz potrzebujemy trybu Atak ICBM, by zniszczyæ pobliskie radary wroga.\n\nKliknij PPM, by prze³¹czyæ w tryb Atak ICBM.
+#macosx_tutorial_silofocus           This highlighted object is a Missile Silo. It has two modes:\n\n - in ICBM Launch mode it can fire Nukes at enemy targets\n - in Air Defense mode it will shoot down enemy nukes and aircraft.\n\nWe need the Silo in ICBM Launch Mode so we can destroy the nearby enemy Radar Stations.\n\nRight Click on the Silo and change it into ICBM Launch Mode.\n(You can ctrl-click if you have a one-button mouse).
+tutorial_mission1destroyradar       Zauwa¿, ¿e gdy silos przygotowuje siê do wystrzelenia ICBM, jego ikona zmienia siê na trójk¹t.\n\nU¿yj Silosu, by zniszczyæ radary wroga.
+
+tutorial_mission1end                Misja 1 ukoñczona.\n\nKliknij "Dalej", by przejœæ do Misji 2.
+tutorial_mission1failed             Wyczerpa³eœ rakiety ICBM, nie niszcz¹c celu. Nie wykona³eœ misji.\n\nKliknij "Restart", by zacz¹æ od nowa.
+
+tutorial_silofocus_popup1           Kliknij PPM na Silos, by prze³¹czyæ go w tryb Atak ICBM.
+#macosx_tutorial_silofocus_popup1    Right click on this Silo and change it into ICBM Launch Mode.\n(Ctrl-click if you have a one-button mouse)
+tutorial_silofocus_selectpopup      Kliknij LPM na Silos, by go wybraæ.
+tutorial_mission1destroyradar_popup Kliknij LPM na ten wrogi radar, by zaatakowaæ go atomówk¹.
+#tutorial_mission1deselect_popup     Wciœnij spacjê, by odznaczyæ tê jednostkê.
+tutorial_mission1deselect_popup     Wciœnij spacjê, by odznaczyæ tê jednostkê.
+
+# ==== MISSION 2 =====
+
+tutorial_mission2start              Na pocz¹tku ka¿dej gry w Defcon musisz ustawiæ swoje jednostki.\n\nOtwórz panel jednostek, by rozpocz¹æ ustawianie.
+tutorial_m2selectsilo               Z tego panelu mo¿esz ustawiæ wszystkie dostêpne Ci jednostki. W tej misji s¹ to jedynie silosy.\n\nMusisz rozstawiæ wszystkie jednostki PRZED Defcon 3.\n\nKliknij ikonê silosu, by rozpocz¹æ ustawianie.
+tutorial_m2placesilos               Na zielono oznaczone jest Twoje terytorium.\n\nTylko na nim mo¿esz rozstawiaæ wojska, a jednostek naziemnych od momentu postawienia nie mo¿na poruszyæ.\n\nJednostki naziemne nie mog¹ byæ ustawione zbyt blisko siebie.\n\nRozstaw silosy blisko miast, by mog³y ich broniæ.
+tutorial_m2destroynukes             Wrogie okrêty podwodne wystrzeli³y rakiety nuklearne w kierunku Twoich miast!\n\nSilosy s¹ ju¿ w trybie Obrony P-lot i bêd¹ strzelaæ do lec¹cych rakiet.\n\nW trybie Obrony P-lot silosy s¹ b. efektywne przeciwko nadlatuj¹cym rakietom i samolotom.
+
+tutorial_m2end                      Misja 2 zakoñczona.\n\nKliknij "Dalej", by przejœæ do Misji 3.
+tutorial_mission2failed             Rakieta atomowa trafi³a Twoje miasto!\n\nSpróbuj jeszcze raz ustawiæ silosy przy miastach, by mia³y wystarczaj¹cy czas na zestrzelenie rakiet.\n\nKliknij "Restart", by zacz¹æ od nowa.
+
+tutorial_unitpanel_popup            Kliknij tu, by otworzyæ panel jednostek
+tutorial_silo_popup                 Kliknij tê ikonê, by zacz¹æ ustawianie silosów.
+tutorial_silo_place                 Kliknij LPM na tym terenie, by rozpocz¹æ ustawianie silosów w pobli¿u swoich najwiêkszych miast.
+
+# ==== MISSION 3 =====
+
+tutorial_mission3start              W Defconie ka¿da jednostka ma swój zasiêg radarowy, mo¿esz wiêc widzieæ tylko te jednostki wroga, które s¹ w zasiêgu Twoich radarów.\n\nNa terenie Rosji jest kilka jednostek, które trzeba odkryæ.\n\nUstaw odpowiednio swoje radary.
+tutorial_m3radarplacement           Ustaw swoje radary tak blisko Rosji, jak to mo¿liwe.\n\nPo ustawieniu ka¿dego z nich zobaczysz jak powiêksza siê zasiêg Twojej widocznoœci - pojawi¹ siê wrogie jednostki.
+tutorial_m3siloplacement            Teraz widzisz jednostki wroga.\n\nRozstaw kilka silosów, by zniszczyæ wojska przeciwnika.
+tutorial_m3gamespeed                By niszczyæ wrogie instalacje, potrzebujemy broni nuklearnej, ale nie mo¿na jej u¿ywaæ przed Defcon 1.\n\nMusimy wiêc przyspieszyæ czas. Kliknij na przyciski kontroli czasu, by przyspieszyæ a¿ zostanie og³oszony Defcon 1.
+tutorial_m3defcon1                  Wiele jednostek nie mo¿e w³¹czaæ siê do walki do momentu og³oszenia konkretnego poziomu Defcon.\n\nWalki morskie i powietrzne nie mog¹ nast¹piæ przed Defcon 3.\n\nBRONI NUKLEARNEJ MO¯NA U¯YWAÆ WY£¥CZNIE PO OG£OSZENIU DEFCON 1.\n\nPrzyspiesz czas a¿ do Defcon 1.
+tutorial_m3destroyenemy             Do niszczenia instalacji wroga mo¿esz u¿ywaæ rakiet z silosów.\n\nGdy silos wroga jest w trybie Obrona P-lot, zniszczy wiele Twoich nadlatuj¹cych rakiet. Na dodatek, silosy s¹ wzmocnione przeciw atakom nuklearnym i mog¹ przyj¹æ a¿ 3 bezpoœrednie uderzenia.\n\nMusisz uderzyæ na silos wroga ze wszystkich swoich silosów naraz, by zapewniæ sobie sukces.
+tutorial_m3silostaketime            Silosy prze³¹czaj¹ siê d³ugo miêdzy trybami Ataku i Obrony. Ustaw kursor nad silosem, by zobaczyæ ile jeszcze musisz czekaæ na zmianê trybu.\n\nPrzyspiesz czas jeœli chcesz.\n\nStrzelaj we wrogie instalacje, a¿ kompletnie je zniszczysz.
+
+tutorial_m3end                      Misja 3 zakoñczona.\n\nKliknij "Dalej", by przejœæ do Misji 4.
+tutorial_mission3failed1            Rozstawi³eœ wszystkie radary, ale nie odkry³eœ ¿adnych wrogich wojsk.\n\nMisja nieudana.\n\nKliknij "Restart", by zacz¹æ od nowa.
+tutorial_mission3failed2            Wyczerpa³eœ atomówki, nie niszcz¹c wszystkich wrogich instalacji.\n\nKliknij "Restart", by zacz¹æ od nowa.
+
+tutorial_radar_popup                Kliknij na tê ikonê jednostki, by zacz¹æ ustawiaæ radary.
+tutorial_radar_place                Kliknij LPM na ten teren, by zacz¹æ ustawiaæ radary w pobli¿u terytorium wroga.
+tutorial_acceltime_popup            Klikaj w przyciski czasu, by przyspieszyæ do Defcon 1. 
+tutorial_silosnuke_popup            Kliknij RPM na ten silos, by przestawiæ go w tryb Atak ICBM.
+#macosx_tutorial_silosnuke_popup     Right Click on this Silo and switch it into ICBM Launch mode.\nCtrl-click if you have a one-button mouse.
+tutorial_nukenemeysilo_popup        Kliknij LPM w ten silos kilka razy, by ustawiæ na nim kolejkê ataków nuklearnych. Mo¿e on przyj¹æ trzy bezpoœrednie uderzenia, a przed zniszczeniem zestrzeli sporo Twoich rakiet. 
+tutorial_nukeenemyairbase_popup     Wystrzel kilka atomówek na lotnisko wroga.
+tutorial_nukenemeycities_popup      Baw siê dobrze - pozosta³ych atomówek u¿yj na cywilach.
+
+# ==== MISSION 4 =====
+
+tutorial_mission4start              W wielu przypadkach jednostki wroga bêd¹ poza zasiêgiem Twojego radaru. By je odkryæ, musisz wys³a³ myœliwce na zwiad nad terytorium wroga.\n\nUstaw lotniska na swoim terytorium.
+tutorial_m4launchfighters           Z lotniska mog¹ startowaæ dwa rodzaje samolotów:\n-Myœliwce : samoloty myœliwsko-zwiadowcze krótkiego zasiêgu\n-Bombowce : samoloty dalekiego zasiêgu, uzbrojone w pojedyncz¹ rakietê nuklearn¹ krótkiego zasiêgu (SRBM)\n\nMyœliwce to szybkie samoloty krótkiego zasiêgu. Radz¹ sobie dobrze w walce z innymi samolotami, s¹ œwietne jako jednostki zwiadowcze.\n\nSkieruj myœliwce nad teren wroga, by poszukaæ celów.
+tutorial_m4radar                    Ka¿dy myœliwiec ma radar krótkiego zasiêgu i, gdy leci wystarczaj¹co blisko, wykrywa wrogie instalacje.\n\nW³¹cz widok Radarów, by zobaczyæ aktualne pokrycie radarowe.
+tutorial_m4launchbombers            Twoje myœliwce odkry³y wszystkie wrogie instalacje.\n\nZauwa¿, ¿e znaczniki instalacji robi¹ siê szare, gdy nie s¹ ju¿ w zasiêgu radarów - to tzw. duchy radarowe.\n\nTeraz u¿yjemy bombowców do ataku nuklearnego na te instalacje.\n\nU¿yj lotniska, by zaatakowaæ bombowcami wrogie instalacje.
+tutorial_m4bomberinfo               Bombowce maj¹ daleki zasiêg, ale do ataku nuklearnego musz¹ zbli¿yæ siê do celu - przenosz¹ bowiem rakiety bliskiego zasiêgu (SRBM).\n\nBombowce automatycznie wystrzel¹ atomówki, gdy cel znajdzie siê w ich zasiêgu.
+tutorial_m4nukeslaunched            Po wystrzeleniu rakiety SRBM bombowiec automatycznie wróci na najbli¿sze lotnisko lub lotniskowiec.\n\nPo wyl¹dowaniu zostanie uzbrojony w now¹ rakietê SRBM. Pamiêtaj jednak, ¿e lotniska i lotniskowce dysponuj¹ ograniczon¹ liczb¹ rakiet.\n\nGdy podœwietlisz jedno lub drugie (umieszczaj¹c nad nim kursor), zobaczysz iloma samolotami i rakietami SRBM aktualnie dysponuje.
+
+tutorial_m4end                      Misja 4 zakoñczona.\n\nKliknij "Dalej", by przejœæ do Misji 5.
+tutorial_mission4failed             Wyczerpa³eœ rakiety przez zniszczeniem wroga. Misja nieudana.\n\nKliknij "Restart", by zacz¹æ od nowa.
+
+tutorial_selectairbase_popup        Wciœnij tê ikonê, by zacz¹æ ustawiaæ Lotniska.
+tutorial_placeairbase_popup         Kliknij LPM w tym obszarze, by ustawiæ Lotnisko.
+tutorial_clickairbase_popup         Kliknij LPM na tym Lotnisku, by pos³aæ w bój myœliwce.
+tutorial_scouthere_popup            Kliknij wielokrotnie LPM na tym terenie, by skierowaæ tam wiêcej myœliwców.
+tutorial_radartoolbar_popup         Podœwietl ten przycisk, by zobaczyæ pokrycie radarowe.
+tutorial_switchtobombers_popup              Kliknij PPM na tym Lotnisku i przestaw je w tryb startu bombowców.
+#macosx_tutorial_switchtobombers_popup       Right Click on this AirBase and switch it into Bomber mode.\nCtrl-click if you have a one-button mouse.
+tutorial_clickairbasebomber_popup   Kliknij LPM na tym Lotnisku, by pos³aæ w bój bombowce.
+tutorial_nukebuilding_popup         Wystrzel kilka bombowców na tê wrog¹ instalacjê.
+
+# ==== MISSION 5 =====
+
+tutorial_mission5start              Wiêkszoœæ z twoich ruchomych jednostek to okrêty, zgrupowane we floty.\n\nW sk³ad floty mo¿e wchodziæ do szeœciu jednostek, poruszaj¹cych siê i dzia³aj¹cych wspólnie.\n\nOtwórz panel jednostek i kliknij "Floty", by zacz¹æ ustawiaæ flotê.
+tutorial_m5createfleet              Tutaj budujesz flotê. Gdy klikniesz na jednostkê, zostanie ona dodanado floty.\n\n-Pancerniki s¹ efektywne przeciwko wielu ró¿nym jednostkom, ale wra¿liwe na ataki okrêtów podwodnych.\n-Z lotniskowców mog¹ startowaæ myœliwce i bombowce, a one same mog¹ atakowaæ okrêty podwodne bombami g³êbinowymi.\n-Okrêty podwodne s¹ niewidzialne dla konwencjonalnych radarów, przenosz¹ rakiety nuklearne œredniego zasiêgu (MRBM).\n\nZbuduj flotê z szeœciu okrêtów - trzech pancerników i trzech lotniskowców.
+tutorial_m5battleshipinfo           Flota jest kontrolowana jak pojedyncza jednostka. Wszystkie nale¿¹ce do niej okrêty poruszaj¹ siê i atakuj¹ razem.\n\nWybierz jedn¹ ze swoich flot, klikaj¹c LPM na dowolnym jej okrêcie.\n\nPotem przesuñ j¹ na po³udnie, klikaj¹c PPM na celu podró¿y.
+#macosx_tutorial_m5battleshipinfo    Fleets are controlled as a single unit. If you ask them to move they will move together.  If you ask them to attack an enemy fleet they will do so as a single unit, to the best of their ability.\n\nSelect one of your fleets by Left Clicking on any ship in that fleet.\n\nThen move the fleet south by Right Clicking (or ctrl-clicking) on their destination.
+tutorial_m5destroyenemy             Gdzieœ na Atlantyku s¹ dwie wrogie floty - u¿yj swoich flot, by je znaleŸæ i zniszczyæ.\n\n- Kliknij LPM na dowolnym okrêcie, by wybraæ ca³¹ flotê.\n- Kliknij RPM na miejsce, w które chcesz j¹ skierowaæ.\n\nJeœli musisz, przyspiesz czas.
+#macosx_tutorial_m5destroyenemy      There are two enemy Fleets somewhere in the Atlantic Ocean - use your Fleets to find and destroy them.\n\n- Left Click on any ship in a fleet to select the entire fleet.\n- Right Click (or ctrl-click) to set a destination for a selected fleet.\n\nAccelerate time if you need to.
+tutorial_m5destroyenemy2            Twoje floty automatycznie nawi¹¿¹ walkê z wrogiem, gdy znajdzie siê w ich zasiêgu.  Pancerniki otworz¹ ogieñ z dzia³, a lotniskowce wystrzel¹ myœliwce.\n\nJeœli chcesz, mo¿e kontrolowaæ bitwê rêcznie - np. kliknij LPM na lotniskowcu, by go wybraæ, a potem LPM na wrogim okrêcie, by wys³aæ na niego lotniskowce.\n\nPodœwietl przycisk "Rozkazy" na pasku zadañ, by zobaczyæ aktualne rozkazy ataku dla floty.
+
+tutorial_m5end                      Misja 5 zakoñczona. Kliknij "Dalej", by przejœæ do Misji 6.
+tutorial_mission5failed             Straci³eœ wszystkie okrêty, nie niszcz¹c wroga. Misja nieudana.\n\nKliknij "Restart", by zacz¹æ od nowa.
+
+tutorial_selectfleet_popup          Kliknij w tê ikonê, by zacz¹æ rozstawiaæ flotê.
+tutorial_addbattleship_popup        Kliknij w tê ikonê jednostki, by dodaæ pancernik do floty.
+tutorial_addcarrier_popup           Kliknij w tê ikonê jednostki, by dodaæ lotniskowiec do floty.
+tutorial_deployfleet_popup          Kliknij LPM, by ustawiæ flotê w tym rejonie.
+tutorial_selectdeployedfleet_popup  By wybraæ flotê, kliknij LPM na dowolnym jej okrêcie.
+tutorial_movefleet_popup            KLIKNIJ PPM, by przemieœciæ tu ca³¹ zaznaczon¹ flotê.
+#macosx_tutorial_movefleet_popup     RIGHT CLICK to move your entire selected Fleet here.Ctrl-Click if you have a one-button mouse.
+tutorial_destroyfleet_popup         Zniszcz wrog¹ flotê na tym terenie.
+tutorial_orderstoolbar_popup        Podœwietl ten przycisk, by zobaczyæ rozkazy dla floty.
+
+# ==== MISSION 6 =====
+
+tutorial_mission6start              Do tej pory operowaliœmy w Europie, a wrogiem by³ Zwi¹zek Radziecki. Nie bêdzie tak jednak zawsze.\n\nW tej misji Twoim terytorium jest Ameryka P³n., a wrogiem Po³udniowa Azja.\n\nPodœwietl przycisk "Terytoria", by zobaczyæ, kto kontroluje któr¹ czêœæ œwiata.
+tutorial_mission6subintro           W tym przypadku Pacyfik jest kluczowym teatrem wojennym. Wróg rozstawi³ okrêty podwodne z rakietami MRBM w pobli¿u zachodniego wybrze¿a USA. Twoim najwiêkszym miastom grozi atak nuklearny!\n\nNajlepsz¹ broni¹ na okrêty podwodne jest lotniskowiec - mo¿e u¿ywaæ sonaru do zlokalizowania wroga pod wod¹, a potem zaatakowaæ go bombami g³êbinowymi.\n\nUstaw flotê lotniskowców w pobli¿u Zachodniego Wybrze¿a.
+tutorial_mission6placesubs          U¿yj równie¿ swoich okrêtów podwodnych, by w rewan¿u wymazaæ z mapy œwiata wschodnie wybrze¿e Chin.\n\nStwórz flotê okrêtów podwodnych i ustaw j¹ tak blisko wschodnich Chin, jak mo¿esz.  
+tutorial_m6subinfo                  Okrêty podw. przewo¿¹ spor¹ iloœæ rakiet nuklearnych œredniego zasiêgu (MRBM).\n\nPrzede wszystkim jednak, nie widaæ ich na wrogich radarach a¿ do momentu wynurzenia, nie mo¿na ich wiêc wczeœniej zaatakowaæ.\n\nPrzesuñ swoje okrêty podw. tak blisko brzegu wroga jak mo¿esz i poœlij parê milionów ludzi do piachu...
+tutorial_m6destroysubs              Przy Zachodnim Wybrze¿u USA s¹ ukryte dwie floty wrogich okrêtów podwodnych.\n\nPrze³¹cz czêœæ swoich lotniskowców na tryb przeciwpodwodny i wyci¹gnij parê "rybek" bombami g³êbinowymi.\n\nLotniskowce maj¹ nielimitowan¹ iloœæ bomb g³êbinowych.\nJeœli musisz, przyspiesz czas.
+tutorial_m6movesubs                 Okrêty podwodne mog¹ poczyniæ olbrzymie straty, bowiem mogê siê podkraœæ pod sam brzeg i zaatakowaæ tak, ¿e wróg nie zd¹¿y siê obroniæ.\n\nPrzesuñ swoje okrêty podw. na odpowiedni dystans, by zaatakowaæ Wschodnie Chiny.
+tutorial_m6enemylaunch              Wróg wystrzeli³ rakiety nuklearne z silosów!\n\nU¿yj okrêtów podwodnych, by zniszczyæ silosy, zanim narobi¹ zbyt du¿o szkód.\n\nPrze³¹cz okrêty podw. w tryb Ataku MRBM i zniszcz silosy!
+tutorial_m6launchexplanation        Choæ zasiêg naszych radarów nie obejmuje tego regionu, widzisz wrogie silosy.\n\nWróg zdradzi³ ich lokalizacjê w momencie wystrzelenia rakiet.\n\nSilosy w trybie Ataku ICBM nie mog¹ siê broniæ, masz wiêc idealn¹ okazjê do ataku.\n\nNiszcz¹c wrogowi silosy, pozbawi³eœ go obrony - w rewan¿u zaatakuj ich miasta i poka¿ co to znaczy siaæ PRAWDZIWE ZNISZCZENIE!
+tutorial_m6end                      Misja 6 zakoñczona. Kliknij "Dalej", by przejœæ do ostatniej misji samouczka.
+
+tutorial_territorytoolbar_popup     Podœwietl ten przycisk, bo pokazaæ terytoria graczy.
+tutorial_addsub_popup               Kliknij tê ikonê, by dodaæ okrêt podw. do floty.
+tutorial_movesubs_popup             KLIKNIJ PPM tu, by przesun¹æ okrêty podw. tak, by w zasiêgu ich ataku znalaz³y siê wschodnie Chiny.
+#macosx_tutorial_movesubs_popup      RIGHT CLICK here to move your Subs to within striking range of East China.\nCtrl-click if you have a one-button mouse.
+tutorial_switchtodepth_popup        Kliknij PPM na ten lotniskowiec, by prze³¹czyæ go w tryb przeciwpodwodny.
+#macosx_tutorial_switchtodepth_popup Right Click on this Carrier and switch it into Anti-Submarine mode.\nCtrl-click if you have a one-button mouse.
+tutorial_destroysubs_popup          Przesuñ tutaj swoje lotniskowce i zniszcz okrêty podwodne wroga.
+tutorial_substonuke_popup           Kliknij PPM na ten okrêt podwodny, by prze³¹czyæ go w tryb Ataku MRBM.
+#macosx_tutorial_substonuke_popup    Right Click on this Sub and switch it into MRBM Launch mode.\nCtrl-click if you have a one-button mouse.
+tutorial_nukesilo_popup             Kliknij kilkakrotnie LPM na ten silos, by zaatakowaæ go wieloma rakietami MRBM.
+
+
+# ==== MISSION 7 =====
+
+tutorial_mission7start              To Twoja ostatnia misja treningowa. Bêdziesz musia³ u¿yæ wszystkiego, czego siê nauczy³eœ, w walce z komputerowym rywalem.\n\nBy wygraæ, musisz zdobyæ wiêcej punktów od niego, spopielaj¹c jego miasta. Zyskasz 2 pkt za ka¿dy milion jego ofiar, ale stracisz 1 za ka¿dy milion ofiar wœród Twoich obywateli.\n\nTwój teren to Ameryka Pó³nocna, a wróg broni po³udniowej Azji.  
+tutorial_mission7enemyattack        Wróg wystrzeli³ w ciebie rakiety ICBM!\n\nJeœli masz okrêty podw. lub lotniskowce przy wschodnich brzegu Chin, u¿yj ich do ataku na bezbronne silosy wroga.\n\nSwoje silosy pozostaw w trybie Obrona P-lot, by zniszczy³y nadlatuj¹ce rakiety.
+tutorial_mission7retaliate          Wróg wystrzeli³ ju¿ wiêkszoœæ swoich rakiet ICBM.\n\nPora na Twoje silosy i odwetowy atak nuklearny na olbrzymi¹ skalê. Cel - miasta w Chinach!!
+tutorial_m7victory                  Gratulacje! Pokona³eœ wroga i ukoñczy³eœ Samouczek gry Defcon!
+tutorial_mission7failed             Zosta³eœ pokonany, misja nieudana.\n\nPorady:\n-Podp³yñ okrêtami podw. jak najbli¿ej wrogiego brzegu, by zniszczyæ jego silosy, zanim wystrzel¹ wszystkie rakiety.\nU¿yj lotniskowców, by znaleŸæ okrêty podw. wroga zanim zaatakuj¹.\n\nKliknij "Restart", by zacz¹æ od nowa.
+
+tutorial_showterritory_popup        Podœwietl ten przycisk, by zobaczyæ, gdzie s¹ widoczne jednostki wroga.
+tutorial_m7placeradar_popup         Wróg nadci¹gnie od strony wschodnich Chin. Najlepiej wiêc rozstaw radary na Zachodnim Wybrze¿u.
+tutorial_m7placesilos_popup         Ustaw silosy tak, by chroni³y g³ówne miasta - bêd¹ one g³ównymi celami wroga.
+tutorial_m7placeairbases_popup      Ustaw lotniska wzd³u¿ Wschodniego Wybrze¿a USA. U¿yjemy ich do wykrycia i powstrzymania wrogich okrêtów, zanim zbytnio siê zbli¿¹.
+tutorial_placefleetspacific_popup   Wróg wyœle okrêty przez Pacyfik, by nas zaatakowaæ. By je przechwyciæ, powinieneœ rozstawiæ wiêkszoœæ flot na Pacyfiku.
+tutorial_m7fleettarget_popup        Spróbuj podp³yn¹æ pod wschodnie wybrze¿e Chin, by zaatakowaæ naprawdê z bliska.\nKLINIJ LPM by wybraæ ca³¹ flotê.\nKLIKNIJ PPM, by przesun¹æ flotê.
+#macosx_tutorial_m7fleettarget_popup Try to get your fleets to the East Coast of China, in order to strike from close range.\nLEFT CLICK to select an entire fleet.\nRIGHT CLICK (or Ctrl-Click) to move an entire fleet.
+tutorial_m7scoutchina_popuup        Wyœlij myœliwce z pobliskich lotniskowców na poszukiwanie wrogich instalacji.
+tutorial_m7enemysubs_popup          Okrêty podw. wroga wystrzeli³y rakiety MRBM! Rusz myœliwce i bombowce z pobliskich lotnisk, by szybko zniszczyæ wroga!
+
+
+# =============================================================================
+# Unit Info
+# =============================================================================
+
+unitinfo_title                      INFO O JEDNOSTCE
+unitinfo_title2                     (nie wybrano jednostki)
+
+unitinfo_fighter                    Szybki samolot bojowy krótkiego zasiêgu.\n+  Efektywny przeciwko bombowcom.\n+  Dobry do zwiadu\n-  £atwo niszczony przez pancerniki i silosy.
+unitinfo_silo                       Ma tryb strzelania rakiet atomowych i obrony przeciwlotniczej.\n+  Du¿y zapas rakiet dalekiego zasiêgo\n+  Silne dzia³a przeciwlotnicze\n+  Wzmocniony przeciwko atakom nuklearnym\n-  Wystrzelenie rakiety zdradza lokalizacjê\n-  Powolne prze³¹czanie trybów.
+unitinfo_radar                      Zapewnia pokrycie radarowe.\n+  Najwiêkszy mo¿liwy zasiêg\n-  Nieodporny na atak nuklearny
+unitinfo_bomber                     Wszechstronny samolot dalekiego zasiêgu.\n+  Przenosi pojedyncz¹ rakietê nukl. bliskiego zasiêgu\n+  Wystrzelenie rakiety niewidoczne na radarze wroga\n+  Efektywny przeciwko okrêtom\n-  Podatny na ataki myœliwców\n-  Powolny
+unitinfo_battleship                 Potê¿ny okrêt z mocnymi szybkostrzelnymi dzia³ami.\n+  Efektywny przeciw wielu celom\n-  Podatny na ataki okr. podwodnych i bombowców.
+unitinfo_sub                        Zazwyczaj niewidoczna jednostka, uzbrojona w rakiety atomowe œredniego zasiêgo (MRBM).\n+  Niewidzialny dla konwencjonalnego radaru\n+  Du¿y zapas rakiet œredniego zasiêgu\n-  Po wynurzeniu bardzo podatny na ataki\n-  Wystrzelenie rakiety zdradza pozycjê\n-  Podatny na bomby g³êbinowe\n-  Brak radaru
+unitinfo_carrier                    Jednostka transportuj¹ca lotnictwo.\n+  Mo¿e wystrzeliwywaæ myœliwce i bombowce\n+  Mo¿e atakowaæ okrêty podwodne bombami g³êbinowymi\n-  Brak bezpoœredniej obrony
+unitinfo_nuke                       G³owica atomowa o du¿ym polu ra¿enia.\n+  Niesamowita si³a destrukcji\n-  Wra¿liwa na ogieñ przeciwlotniczy
+unitinfo_airbase                    Lotnisko dla myœliwców i bombowców.\n+  Du¿a liczba bombowców\n+  Regeneruje myœliwce\n-  Nieodporna na atak nuklearny
+
+
+# =============================================================================
+# Demo screen
+# =============================================================================
+
+demo_top1                           Polecamy równie¿ inne gry
+demo_middle1                        wydawane przez firmê Play.
+demo_middle2                        Chcesz przeczytaæ o naszych 
+demo_middle3                        najœwie¿szych planach wydawniczych?
+demo_middle4                        Dowiedzieæ siê wiêcej o naszych grach?
+demo_middle5                        Dokonaæ zakupu w sklepie internetowym?
+demo_middle6                        Zapraszamy - http://www.play.pl
+demo_bottom1                        Wersja polska
+demo_bottom2                        PLAY SP. Z O.O.
+
+#demo_bottom1_steam                  Immediate Activation for just
+#demo_bottom2_steam                  $14.95
+
+demo_bottom1_retail                 Wersja polska
+demo_bottom2_retail                 PLAY SP. Z O.O.
+
+#demo_bottom1_retail_uk              BUY THE FULL-VERSION OF DEFCON TODAY
+#demo_bottom2_retail_uk              VISIT YOUR FAVOURITE PC GAMES RETAILER
+
+#demo_bottom1_macosx                 Immediate Activation for just
+#demo_bottom2_macosx                 $25.00
+
+
+# =============================================================================
+# Lobby Overlays
+# =============================================================================
+
+overlay_0_1                         --------------------------
+overlay_0_2                         -       D E F C O N
+overlay_0_3                         --------------------------
+overlay_0_4                         -POMYS£
+overlay_0_5                         CHRIS DELAY
+overlay_0_6                         GARY CHAMBERS\n
+overlay_0_7                         -MUZYKA
+overlay_0_8                         ALISTAIR LINDSAY
+overlay_0_9                         MICHAEL MAIDMENT\n
+overlay_0_10                        -PRODUKCJA
+overlay_0_11                        -INTROVERSION SOFTWARE
+overlay_0_12                        MARK MORRIS
+overlay_0_13                        THOMAS ARUNDEL
+overlay_0_14                        CHRIS DELAY
+overlay_0_15                        JOHN KNOTTENBELT\n
+overlay_0_16                        -PR I MARKETING
+overlay_0_17                        VICTORIA ARUNDEL\n
+overlay_0_18                        -DODATKOWE PROJEKTY GRAFICZNE
+overlay_0_19                        MORTEN ELGAARD PEDERSEN\n
+overlay_0_20                        -EKSPEDYCJA
+overlay_0_21                        WILL MORRIS\n
+overlay_0_22                        -WSPÓ£PRACA PROGRAMISTYCZNA
+overlay_0_23                        FRANCOIS GAGNE
+overlay_0_24                        ***EMPTY***
+
+overlay_1_1                         ------------------------------------------
+overlay_1_2                         -I N T R O V E R S I O N   S O F T W A R E
+overlay_1_3                         ------------------------------------------\n
+overlay_1_4                         MARK MORRIS                      KIEROWNIK
+overlay_1_5                         THOMAS ARUNDEL                   KIEROWNIK
+overlay_1_6                         CHRIS DELAY                      KIEROWNIK
+overlay_1_7                         JOHN KNOTTENBELT                 KIEROWNIK\n
+overlay_1_8                         GARY CHAMBERS                    PRODUKCJA
+overlay_1_9                         VICTORIA ARUNDEL                 PR I MARKETING
+overlay_1_10                        WILL MORRIS                      EKSPEDYCJA
+
+overlay_2_1                         ----------------------
+overlay_2_2                         -DOSTÊPNE GRY
+overlay_2_3                         ----------------------\n
+overlay_2_4                         LABIRYNT FALKENA
+overlay_2_5                         BLACK JACK
+overlay_2_6                         REMIK
+overlay_2_7                         KIERKI
+overlay_2_8                         BRYD
+overlay_2_9                         WARCABY
+overlay_2_10                        SZACHY
+overlay_2_11                        POKER
+overlay_2_12                        WALKA MYŒLIWCÓW
+overlay_2_13                        WOJNA PARTYZANCKA
+overlay_2_14                        WOJNA PUSTYNNA
+overlay_2_15                        ATAKI Z POWIETRZA
+overlay_2_16                        KONTYNENTALNA WOJNA KONWENCJONALNA
+overlay_2_17                        KONTYNENTALNA WOJNA BIOLOGICZNO-CHEMICZNA
+overlay_2_18                        GLOBALNA WOJNA TERMONUKLEARNA
+
+overlay_3_1                         -----------------------------------
+overlay_3_2                         - OFIARY CYWILNE W MILIONACH
+overlay_3_3                         -----------------------------------\n
+overlay_3_4                         LOS ANGELES                    3.3
+overlay_3_5                         NOWY JORK                      7.3
+overlay_3_6                         CHICAGO                        3.0
+overlay_3_7                         WASZYNGTON                     4.0
+overlay_3_8                         DALLAS                         1.0
+overlay_3_9                         DETROIT                        1.1
+overlay_3_10                        PARY¯                          2.2
+overlay_3_11                        BERLIN                         1.9
+overlay_3_12                        LONDYN                         7.7
+overlay_3_13                        WARSZAWA                       1.8
+overlay_3_14                        MOSKWA                         8.7
+overlay_3_15                        RZYM                           2.8
+overlay_3_16                        TOKIO                          8.4
+overlay_3_17                        SINGAPUR                       2.6
+overlay_3_18                        BANGKOK                        4.7
+overlay_3_19                        BOMBAJ                         8.2
+overlay_3_20                        MEKSYK                         8.8
+overlay_3_21                        RIO DE JANEIRO                 5.6
+overlay_3_22                        KAIR                           6.1
+overlay_3_23                        ISTAMBU£                       5.5
+overlay_3_24                        PEKIN                          5.5
+overlay_3_25                        SZANGHAJ                       6.3
+overlay_3_26                        DELHI                          4.9
+
+overlay_4_1                         -----------------------------------------------
+overlay_4_2                         -   PRZEWIDYWANE STRATY US AIR FORCE (PROCENT)
+overlay_4_3                         -----------------------------------------------\n
+overlay_4_4                         DOWÓDZTWO OBRONY POWIETRZNEJ                23
+overlay_4_5                         DOWÓDZTWO WOJSK LOTNICZYCH                  76
+overlay_4_6                         SZKO£Y LOTNICZE                             24
+overlay_4_7                         DOWÓDZTWO £¥CZNOŒCI WOJSK LOTNICZYCH        68
+overlay_4_8                         DOWÓDZTWO WYWIADU WOJSK LOTNICZYCH          58
+overlay_4_9                         DOWÓDZTWO LOGISTYKI WOJSK LOTNICZYCH        78
+overlay_4_10                        DOWÓDZTWO REZERWY WOJSK LOTNICZYCH          14
+overlay_4_11                        DOWÓDZTWO SEKCJI KOSMICZNEJ LOTNICTWA       12
+overlay_4_12                        DOWÓDZTWO SPECJALNYCH OPERACJI LOTNICZYCH   56
+overlay_4_13                        CENTRALA SYSTEMÓW DOWODZENIA LOTNICTWA      86
+overlay_4_14                        DOWÓDZTWO LOTNICTWA TRANSPORTOWEGO          87
+overlay_4_15                        DOWÓDZTWO REGIONU ALASKI                    92
+overlay_4_16                        SZTAB US AIR FORCE                          85
+overlay_4_17                        DOWÓDZTWO REGIONU PÓ£NOCNOWSCHODNIEGO       75
+overlay_4_18                        DOWÓDZTWO REGIONU PACYFIKU                  91
+overlay_4_19                        DOWÓDZTWO LOTNICTWA SZTURMOWEGO PACYFIKU    85
+overlay_4_20                        DOWÓDZTWO BRONI SPECJALNYCH                 67
+overlay_4_21                        DOWÓDZTWO LOTNICTWA STRATEGICZNEGO          85
+overlay_4_22                        DOWÓDZTWO LOTNICTWA TAKTYCZNEGO             91
+overlay_4_23                        3. DYWIZJA LOTNICZA                         75
+overlay_4_24                        ODDZIA£Y US AIR FORCE W EUROPIE             79
+overlay_4_25                        DOWÓDZTWO OBSZARU PO£UDNIOWEGO US AIR FORCE 65
+
+overlay_5_1                         ---------------------------------------------------------
+overlay_5_2	                        -         WP£YW RADIACJI NA ORGANIZM CZ£OWIEKA
+overlay_5_3	                        ---------------------------------------------------------\n
+overlay_5_4                         -PONI¯EJ 1 SIVERTA (SV), CZYLI 5O–1OO REMÓW (REM) 
+overlay_5_5                           £AGODNA CHOROBA POPROMIENNA Z BÓLEM G£OWY I ZWIÊKSZONYM
+overlay_5_6                           RYZYKIEM INFEKCJI, ZE WZGLÊDU NA ROZERWANIE KOMÓREK 
+overlay_5_7                           ODPORN. ZDARZA SIÊ CZASOWA STERYLIZACJA U MÊ¯CZYZN.\n
+overlay_5_8                         1–2 SV (1OO–2OO REM)       (LEKKA)    1O% OFIAR W 30 DNI
+overlay_5_9                         2–3 SV (2OO–3OO REM)       (ŒREDNIA)  35% OFIAR W 30 DNI
+overlay_5_10                        3–4 SV (3OO–4OO REM)       (POWA¯NA)  5O% OFIAR W 30 DNI
+overlay_5_11                        4–6 SV (4OO–6OO REM)       (OSTRA)    6O% OFIAR W 30 DNI
+overlay_5_12                        1O–5O SV (1,OOO–5,OOO REM) (B. OSTRA) 1OO% OFIAR W 7 DNI\n
+overlay_5_13                        -5O–8O SV (5,OOO–8,OOO REM) 
+overlay_5_14                          DEZORIENTACJA I ŒPI¥CZKA W CI¥GU SEKUND LUB MINUT. 
+overlay_5_15                          ŒMIERÆ PO KILKU GODZ. I ZNISZCZENIU SYSTEMU NERWOWEGO.\n 
+overlay_5_16                        - PONAD 8O SV (>8,OOO REM)      NATYCHMIASTOWA ŒMIERÆ.
+
+overlay_6_1                         -----------------------------------------------
+overlay_6_2                         - BOMBY ATOM. WYPROD. W USA - ILOŒÆ, MOC, WAGA 
+overlay_6_3                         -----------------------------------------------\n 
+overlay_6_4                         MK-1      5      15-16 KILOTON (KT)4030 KG 
+overlay_6_5                         MK-3    120      18-49KT           4607 KG
+overlay_6_6                         MK-4    550       1-32KT   	       4900 KG
+overlay_6_7                         MK-5    140      6-120KT           1400 KG
+overlay_6_8                         MK-6   1100      8-160KT           3630 KG
+overlay_6_9                         MK-7   1800       8-61KT            771 KG 
+overlay_6_10                        MK-8     40      25-30KT           1487 KG
+overlay_6_11                        MK-11    40      25-30KT           1588 KG 
+overlay_6_12                        MK-12   250      12-14KT            544 KG 
+overlay_6_13                        MK-14     5       5-7 MEGATON (MT)14061 KG 
+overlay_6_14                        MK-15  1500    1.6-3.9MT           3447 KG
+overlay_6_15                        MK-16     5        6-8MT          19050 KG 
+overlay_6_16                        MK-17   200      10-15MT          19050 KG
+overlay_6_17                        MK-18    90        500KT           3900 KG
+overlay_6_18                        MK-21   275        4-5MT           8028 KG 
+overlay_6_19                        MK-24   105      10-15MT          19050 KG 
+overlay_6_20                        MK-28  4500   70KT-1.1MT           1052 KG
+overlay_6_21                        MK-36   940      9-10 MT           8028 KG 
+overlay_6_22                        MK-39   700       3-4 MT           3061 KG 
+overlay_6_23                        MK-41   500        25 MT           4840 KG 
+overlay_6_24                        MK-43  1000     70KT-1MT            964 KG
+overlay_6_25                        MK-53   350         9 MT           3946 KG 
+overlay_6_26                        MK-57  3100      5-20 KT            231 KG 
+overlay_6_27                        MK-61  3150    80-340 KT            324 KG 
+overlay_6_28                        MK-83   650     DO 1.2KT           1088 KG
+
+overlay_7_1                         -------------------------------------------------
+overlay_7_2                         -     SYMPTOMY I OZNAKI CHOROBY POPROMIENNEJ 
+overlay_7_3                         -------------------------------------------------\n 
+overlay_7_4                         ZAWROTY G£OWY I WYMIOTY 
+overlay_7_5                         ROZWOLNIENIE 
+overlay_7_6                         OPARZENIA SKÓRY 
+overlay_7_7                         S£ABOŒÆ, ZMÊCZENIE, WYCZERPANIE, OMDLENIE 
+overlay_7_8                         ODWODNIENIE 
+overlay_7_9                         ZAPALENIE ODS£ONIÊTYCH CZÊŒCI CIA£A 
+overlay_7_10                        WYPADANIE W£OSÓW 
+overlay_7_11                        OWRZODZENIE B£ONY ŒLUZOWEJ UST
+overlay_7_12                        OWRZODZENIE PRZE£YKU
+overlay_7_13                        OWRZODZENIE ¯O£¥DKA
+overlay_7_14                        OWRZODZENIE JELIT
+overlay_7_15                        KRWAWE WYMIOTY 
+overlay_7_16                        KRWAWE STOLCE 
+overlay_7_17                        KRWAWIENIE Z NOSA, UST, DZI¥SE£ I ODBYTU 
+overlay_7_18                        OBTARCIA 
+overlay_7_19                        ODPADANIE SKÓRY
+overlay_7_20                        OTWARTE RANY NA SKÓRZE
+
+overlay_8_1                         ------------------------------------------------------------- 
+overlay_8_2                         -IZOTOP WYSTÊPOWANIE PÓ£ROZPAD (LAT) TYP ROZP. ENERGIA POWST. 
+overlay_8_3                         -------------------------------------------------------------\n 
+overlay_8_4                         PU-238  SYNTETYCZNY              88     SF        -       - 
+overlay_8_5                         PU-239  SYNTETYCZNY          24,110     SF        -       - 
+overlay_8_6                         U-232   SYNTETYCZNY            68.9   a + SF    5.414  TH-228 
+overlay_8_7                         U-233   SYNTETYCZNY         159,200   SF + a    4.909  TH-229 
+overlay_8_8                         U-234       0.0058%         245,500   SF + a    4.859  TH-230 
+overlay_8_9                         U-235         0.72%     703,800,000   SF + a    4.679  TH-231 
+overlay_8_10                        U-236   SYNTETYCZNY      23,420,000   SF + a    4.572  TH-232 
+overlay_8_11                        U-238       99.275%   4,468,000,000   SF + a    4.270  TH-234
+
+overlay_9_1                         A CO POWIESZ NA PARTYJKÊ SZACHÓW?
+
+overlay_10_1                        ---------------------------------------------------
+overlay_10_2                        -             CELE STRATEGICZNE NA ŒWIECIE          
+overlay_10_3                        ---------------------------------------------------\n
+overlay_10_4                        Norad           38 44' 39.68" N     104 50' 48.18" W 
+overlay_10_5                        Keflavik        63 59' 07.71" N      22 36' 20.06" W 
+overlay_10_6                        Bruksela        50 50' 54.79" N       4 21' 36.66" E 
+overlay_10_7                        Neapol          40 51' 14.64" N      14 17' 21.84" E 
+overlay_10_8                        Mons (Belgia)   50 26' 32.55" N       3 57' 28.44" E 
+overlay_10_9                        Norfolk         36 56' 59.84" N      76 19' 48.57" W 
+overlay_10_10                       Pearl Harbour   21 21' 48.77" N     157 57' 39.31" W 
+overlay_10_11                       Rammstein       49 26' 13.33" N       7 35' 54.11" E 
+overlay_10_12                       Kadena (Okinawa)26 21' 28.86" N     127 46' 13.53" E 
+overlay_10_13                       Rota (Hiszpania)36 38' 15.33" N         21' 11.90" W 
+overlay_10_14                       W³adywostok     43 06' 41.86" N     131 53' 23.22" E 
+overlay_10_15                       Sewastopol      44 36' 56.88" N      33 34' 46.83" E 
+overlay_10_16                       Leningrad       59 57' 39.60" N      30 18' 41.85" E 
+overlay_10_17                       Murmañsk        68 58' 14.59" N      33 01' 11.20" E 
+overlay_10_18                       Tatiszczewo     51 40' 37.79" N      45 36' 46.89" E 
+overlay_10_19                       Barnau³         53 19' 39.80' N      83 45' 35.86" E
+
+overlay_11_1                        ----------------------------------------------------
+overlay_11_2                        -   ZNACZ¥CE WYBUCHY NUKLEARNE W HISTORII ŒWIATA 
+overlay_11_3                        ----------------------------------------------------
+overlay_11_4                        -DATA           NAZWA BOMBY     SI£A      KRAJ\n 
+overlay_11_5                        16.07.1945      TRINITY          19 KT     USA     
+overlay_11_6                        06.08.1945      LITTLE BOY       15 KT     USA     
+overlay_11_7                        09.08.1945      FAT MAN          21 KT     USA     
+overlay_11_8                        29.08.1949      JOE 1            22 KT     ZSRR     
+overlay_11_9                        03.10.1952      HURRICANE        25 KT     wLK. BRYT.    
+overlay_11_10                       01.11.1952      IVY MIKE       10.2 MT     USA     
+overlay_11_11                       12.08.1953      JOE 4           400 KT     ZSRR     
+overlay_11_12                       01.03.1954      CASTLE BRAVO     15 MT     USA     
+overlay_11_13                       22.11.1955      RDS-37          1.6 MT     ZSRR     
+overlay_11_14                       08.11.1957      GRAPPLE X       1.8 MT     wLK. BRYT. 
+overlay_11_15                       13.02.1960      GERBOISE BLEUE   60 KT     FRANCJA     
+overlay_11_16                       31.10.1961      CAR BOMBA        57 MT     ZSRR     
+overlay_11_17                       16.10.1964      596              22 KT     CHINY     
+overlay_11_18                       17.06.1967      TEST NO. 6      3.3 MT     CHINY     
+overlay_11_19                       24.08.1968      CANOPUS         2.6 MT     FRANCJA     
+overlay_11_20                       18.05.1974      SMILING BUDDHA   12 KT     INDIA     
+overlay_11_21                       11.05.1998      SHAKTI I         43 KT     INDIA     
+overlay_11_22                       13.05.1998      SHAKTI II        12 KT     INDIA     
+overlay_11_23                       28.05.1998      CHAGAI-I          9 KT     PAKISTAN
+
+overlay_12_1                        -----------------------------------------
+overlay_12_2                        -       BETA TESTERZY (STRONA 1 Z 2)
+overlay_12_3                        -----------------------------------------\n
+overlay_12_4                        ASHLEY ‘NEOTHERMIC’ PINNER
+overlay_12_5                        ALESSANDRO ‘FIRESHIP4’ PEDRINA MCCARTHY
+overlay_12_6                        BILL ‘BIPP5’ RASTELLO
+overlay_12_7                        BRODY ‘LEONAKEN’ BROOKS
+overlay_12_8                        CHARLES BROWN
+overlay_12_9                        CHRIS BROWN
+overlay_12_10                       CHRIS ‘SUVIR’ BOYD
+overlay_12_11                       CHRISTOPH KOEHLER
+overlay_12_12                       CORPORATESPECTRE
+overlay_12_13                       DAMJAN ‘VIRUSEX’ BELAVIC
+overlay_12_14                       DANIEL ‘DK’ KARLING
+overlay_12_15                       DEREK ‘PUNISHER BASS’ SCHOTT
+overlay_12_16                       FURRIES
+overlay_12_17                       HENNING HORN
+overlay_12_18                       HEWAT KENNEDY
+overlay_12_19                       JASON ‘JAYSC’ TIEN
+overlay_12_20                       JENS WIECHERS
+overlay_12_21                       JO STANSFIELD
+overlay_12_22                       JOHAN ‘ZARKOW’ MUNKESTAM
+overlay_12_23                       JOSHUA ‘MIAH’ CLAYTON
+overlay_12_24                       JUSTIN ‘ATELOPHOBIA’ GOTTULA
+overlay_12_25                       JØRGEN ‘DIRTY HARRY POTTER’ BERTHELSEN
+overlay_12_26                       KASPER ‘AAARGH’ MEERTS
+overlay_12_27                       LEANDER ‘ELDIABLO’ HAMBLEY
+overlay_12_28                       LUKE HOSCHKE
+overlay_12_29                       MARIUSZ ‘MANDI^ATO’ DANILEWICZ
+
+overlay_13_1                        -----------------------------------------
+overlay_13_2                        -       BETA TESTERZY (STRONA 2 Z 2)
+overlay_13_3                        -----------------------------------------\n
+overlay_13_4                        MARK ‘LLAMABOY’ VINE
+overlay_13_5                        MICHAEL NICHOLLS
+overlay_13_6                        MORTEN ‘NUTTER’ PEDERSEN
+overlay_13_7                        MR. VIOLATOR
+overlay_13_8                        NEIL ROSS
+overlay_13_9                        NIGEL ‘MOUSE’ MORSE
+overlay_13_10                       OLIVER ‘AGENTX 24’ GRUBIN
+overlay_13_11                       PHYDAUX
+overlay_13_12                       PIOTR ‘THEPIACHU’ PIASECKI
+overlay_13_13                       PITBEAST
+overlay_13_14                       PROZAK
+overlay_13_15                       RICHARD ‘FALSE’ LA CHARITÉ III
+overlay_13_16                       SAM ‘MAS’ NORRIS
+overlay_13_17                       SHAWN ‘TRICKFRED’ MACIVER
+overlay_13_18                       SIMON ‘N3O77’ SPARKS
+overlay_13_19                       STEVEN NOONAN
+overlay_13_20                       SWIL232
+overlay_13_21                       THE GOLDFISH
+overlay_13_22                       THIERRY ‘BOLKA’ MARTIN
+overlay_13_23                       TIM BAVERSTOCK
+overlay_13_24                       TOBY ‘THE TUBSTAR’ INNOCENT
+overlay_13_25                       TOUMAZ
+overlay_13_26                       VIRGINIJUS ‘LEGIO’ PAMPIKAS
+overlay_13_27                       WILL ‘MIZER’ NEW
+overlay_13_28                       WOLFLORD
+overlay_13_29                       ZACHARY ‘XYZYXX’ PARKER
+
+overlay_14_1                        -----------------------------------------
+overlay_14_2                        -       BETA TESTERZY WERSJI MAC
+overlay_14_3                        -----------------------------------------\n
+overlay_14_4                        ALASTAIR ‘PROPHILE’ LYNN
+overlay_14_5                        ALEC ‘HAMSTER’ INGULSRUD
+overlay_14_6                        ANDREW ‘ANDCARNE’ CARNE
+overlay_14_7                        BOLKO ‘KRAUTI’ MAASS
+overlay_14_8                        BRIAN DICK
+overlay_14_9                        BRYCE ‘ZOMBAT’ HOMICK
+overlay_14_10                       CIARÁN ‘MONTYPHY’ EATON
+overlay_14_11                       DOMINIC ‘REFRIDGERON’ WHITE
+overlay_14_12                       JACK ‘DASH RANTIC’ CARLSON
+overlay_14_13                       JAMES ‘CONSUL BOB’ GOOCH
+overlay_14_14                       JAMES ‘LASTOF’ TITMUSS
+overlay_14_15                       JONAS ‘FREQ245’ MIRWALD
+overlay_14_16                       KIRK ‘KAUTHOR’ STALEY
+overlay_14_17                       MARK ‘MRXAK’ PETCAVAGE
+overlay_14_18                       MIKE ASH
+overlay_14_19                       NATHANIEL ‘MACKILROY’ PORTER
+overlay_14_20                       NICK ‘NFREADER’ FARLEY
+overlay_14_21                       OWEN ‘MR ED209’ BILLCLIFFE
+overlay_14_22                       PER ‘PV2B’ VON ZWEIGBERGK
+overlay_14_23                       SOLRA BIZNA
+overlay_14_24                       XANDER HENDERSON
+
+overlay_15_1                        ----------------------------------------
+overlay_15_2                        - ADAPTACJA NA MACA /AMBROSIA SOFTWARE/
+overlay_15_3                        ----------------------------------------\n
+overlay_15_4                        MIKE BLAGUSZEWSKI              ADAPTACJA
+overlay_15_5                        MARCUS CONGE             IKONA APLIKACJI
+overlay_15_6                        DAVID DUNHAM                       TESTY
+overlay_15_7                        EVAN ‘SULTAN’ SMITH                TESTY
+overlay_15_8                        -POMOC W ADAPTACJI
+overlay_15_9                        JOSHUA ‘MIAH’ CLAYTON
+overlay_15_10                       STEVEN NOONAN\n
+overlay_15_11                       ----------------------------------------
+overlay_15_12                       -         ADAPTACJA NA LINUXA
+overlay_15_13                       ----------------------------------------\n
+overlay_15_14                       STEVEN NOONAN
+overlay_15_15                       JOHN KNOTTENBELT
+overlay_15_16                       JOSHUA ‘MIAH’ CLAYTON
+overlay_15_17                       ***EMPTY***
+overlay_15_18                       ***EMPTY***
+
+overlay_16_1                         -----------------------------------------------------
+overlay_16_2                         -     W Y D A W C A   W   P O L S C E - P L A Y
+overlay_16_3                         -----------------------------------------------------\n
+overlay_16_4                         POLSKA WERSJA JÊZYKOWA
+overlay_16_5                         KAPELUSZNIK MULTIMEDIA (WWW.KAPELUSZNIK.COM.PL)
+overlay_16_6                         JAROMIR MO¯D¯YÑSKI               KOORDYNACJA PROJEKTU
+overlay_16_7                         MICHA£ ROSIAK                    T£UMACZENIE I TESTY
+overlay_16_8                         KONRAD KURDZIEL                  TESTY
+overlay_16_9                         KRZYSZTOF DOMAÑSKI               TESTY
