@@ -1344,20 +1344,44 @@ void SetGameOptions( BoundedArray<GameOption *> &_options )
 {
     for( int i = 0; i < g_app->GetGame()->m_options.Size(); ++i )
     {        
-        if( _options[i] )
+        GameOption *option = _options[i];
+        GameOption *param = g_app->GetGame()->m_options[i];
+        bool synced = false;
+        if( option )
         {
-            GameOption *param = g_app->GetGame()->m_options[i];
-            if( _options[i]->m_currentValue != param->m_currentValue )
+            if( option->m_change != -1 )
             {
-                g_app->GetClientToServer()->RequestOptionChange( i, _options[i]->m_currentValue );
+                if( option->m_currentValue != param->m_currentValue )
+                {
+                    g_app->GetClientToServer()->RequestOptionChange( i, option->m_currentValue );
+                    synced = true;
+                }
             }
-
-            if( _options[i]->m_change == -1 &&
-                strcmp( _options[i]->m_currentString, param->m_currentString ) != 0 )
+            else 
             {
-                g_app->GetClientToServer()->RequestOptionChange( i, _options[i]->m_currentString );
+                if( strcmp( option->m_currentString, param->m_currentString ) != 0 )
+                {
+                    g_app->GetClientToServer()->RequestOptionChange( i, option->m_currentString );
+                    synced = true;
+                }
             }
         }
+
+        // make sure every option is synced at least once
+        if( !synced && !param->m_syncedOnce )
+        {
+            if( param->m_change != -1 )
+            {
+                g_app->GetClientToServer()->RequestOptionChange( i, param->m_currentValue );
+            }
+            else 
+            {
+                g_app->GetClientToServer()->RequestOptionChange( i, param->m_currentString );
+            }
+        }
+
+        // mark option as synced; from now on only changes need to be transmitted
+        param->m_syncedOnce = true;
     }
 }
 
