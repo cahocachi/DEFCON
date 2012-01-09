@@ -80,6 +80,12 @@ static NetCallBackRetType ListenThread(void *ignored)
     return 0;
 }
 
+// checks whether an update command is allowed; verifies the modified object is
+// indeed owned by the command issuer
+static bool UpdateAllowed( Directory *update )
+{
+    return !Server::CheckForTeamSwitchExploit( update );
+}
 
 ClientToServer::ClientToServer()
 :   m_sendSocket(NULL),
@@ -921,22 +927,24 @@ void ClientToServer::RequestAlliance( unsigned char teamId, unsigned char allian
 }
 
 
-void ClientToServer::RequestStateChange ( int objId, unsigned char state )
+void ClientToServer::RequestStateChange ( unsigned char teamId, int objId, unsigned char state )
 {
     Directory *letter = new Directory();
 
     letter->CreateData( NET_DEFCON_COMMAND,     NET_DEFCON_OBJSTATECHANGE );
+    letter->CreateData( NET_DEFCON_TEAMID,      teamId );
     letter->CreateData( NET_DEFCON_OBJECTID,    objId );
     letter->CreateData( NET_DEFCON_STATE,       state );
 
     SendLetter( letter );
 }
 
-void ClientToServer::RequestAction( int objId, int targetObjectId, Fixed longitude, Fixed latitude )
+void ClientToServer::RequestAction( unsigned char teamId, int objId, int targetObjectId, Fixed longitude, Fixed latitude )
 {
     Directory *letter = new Directory();
 
     letter->CreateData( NET_DEFCON_COMMAND,         NET_DEFCON_OBJACTION );
+    letter->CreateData( NET_DEFCON_TEAMID,          teamId );
     letter->CreateData( NET_DEFCON_OBJECTID,        objId );
     letter->CreateData( NET_DEFCON_TARGETOBJECTID,  targetObjectId );
     letter->CreateData( NET_DEFCON_LONGITUDE,       longitude );
@@ -961,11 +969,12 @@ void ClientToServer::RequestPlacement( unsigned char teamId, unsigned char unitT
 }
 
 
-void ClientToServer::RequestSpecialAction( int objId, int targetObjectId, unsigned char specialActionType )
+void ClientToServer::RequestSpecialAction( unsigned char teamId, int objId, int targetObjectId, unsigned char specialActionType )
 {
     Directory *letter = new Directory();
     
     letter->CreateData( NET_DEFCON_COMMAND,         NET_DEFCON_OBJSPECIALACTION );
+    letter->CreateData( NET_DEFCON_TEAMID,          teamId );
     letter->CreateData( NET_DEFCON_OBJECTID,        objId );
     letter->CreateData( NET_DEFCON_TARGETOBJECTID,  targetObjectId );
     letter->CreateData( NET_DEFCON_ACTIONTYPE,      specialActionType );
@@ -974,11 +983,12 @@ void ClientToServer::RequestSpecialAction( int objId, int targetObjectId, unsign
 }
 
 
-void ClientToServer::RequestSetWaypoint( int objId, Fixed longitude, Fixed latitude )
+void ClientToServer::RequestSetWaypoint( unsigned char teamId, int objId, Fixed longitude, Fixed latitude )
 {
     Directory *letter = new Directory();
 
     letter->CreateData( NET_DEFCON_COMMAND,     NET_DEFCON_OBJSETWAYPOINT );
+    letter->CreateData( NET_DEFCON_TEAMID,      teamId );
     letter->CreateData( NET_DEFCON_OBJECTID,    objId );
     letter->CreateData( NET_DEFCON_LONGITUDE,   longitude );
     letter->CreateData( NET_DEFCON_LATTITUDE,   latitude );
@@ -987,21 +997,23 @@ void ClientToServer::RequestSetWaypoint( int objId, Fixed longitude, Fixed latit
 }
 
 
-void ClientToServer::RequestClearActionQueue( int objId )
+void ClientToServer::RequestClearActionQueue( unsigned char teamId, int objId )
 {
     Directory *letter = new Directory();
 
     letter->CreateData( NET_DEFCON_COMMAND,     NET_DEFCON_OBJCLEARACTIONQUEUE );
+    letter->CreateData( NET_DEFCON_TEAMID,      teamId );
     letter->CreateData( NET_DEFCON_OBJECTID,    objId );
 
     SendLetter( letter );
 }
 
-void ClientToServer::RequestClearLastAction( int objId )
+void ClientToServer::RequestClearLastAction( unsigned char teamId, int objId )
 {
     Directory *letter = new Directory();
 
     letter->CreateData( NET_DEFCON_COMMAND,     NET_DEFCON_OBJCLEARLASTACTION );
+    letter->CreateData( NET_DEFCON_TEAMID,      teamId );
     letter->CreateData( NET_DEFCON_OBJECTID,    objId );
 
     SendLetter( letter );
@@ -1433,37 +1445,54 @@ void ClientToServer::ProcessServerUpdates( Directory *letter )
             }
             else if( strcmp( cmd, NET_DEFCON_OBJSTATECHANGE ) == 0 )
             {
-                g_app->GetWorld()->ObjectStateChange( update->GetDataInt(NET_DEFCON_OBJECTID), 
-                                                      update->GetDataUChar(NET_DEFCON_STATE) );
-
+                if( UpdateAllowed( update ) )
+                {
+                    g_app->GetWorld()->ObjectStateChange( update->GetDataInt(NET_DEFCON_OBJECTID), 
+                                                          update->GetDataUChar(NET_DEFCON_STATE) );
+                }
             }
             else if( strcmp( cmd, NET_DEFCON_OBJACTION ) == 0 )
             {
-                g_app->GetWorld()->ObjectAction( update->GetDataInt(NET_DEFCON_OBJECTID), 
-                                                 update->GetDataInt(NET_DEFCON_TARGETOBJECTID), 
-                                                 update->GetDataFixed(NET_DEFCON_LONGITUDE),
-                                                 update->GetDataFixed(NET_DEFCON_LATTITUDE), 
-                                                 true );
+                if( UpdateAllowed( update ) )
+                {
+                    g_app->GetWorld()->ObjectAction( update->GetDataInt(NET_DEFCON_OBJECTID), 
+                                                     update->GetDataInt(NET_DEFCON_TARGETOBJECTID), 
+                                                     update->GetDataFixed(NET_DEFCON_LONGITUDE),
+                                                     update->GetDataFixed(NET_DEFCON_LATTITUDE), 
+                                                     true );
+                }
             }
             else if( strcmp( cmd, NET_DEFCON_OBJSPECIALACTION ) == 0 )
             {
-                g_app->GetWorld()->ObjectSpecialAction( update->GetDataInt(NET_DEFCON_OBJECTID),
+                if( UpdateAllowed( update ) )
+                {
+                    g_app->GetWorld()->ObjectSpecialAction( update->GetDataInt(NET_DEFCON_OBJECTID),
                                                         update->GetDataInt(NET_DEFCON_TARGETOBJECTID),
                                                         update->GetDataUChar(NET_DEFCON_ACTIONTYPE) );
+                }
             }
             else if( strcmp( cmd, NET_DEFCON_OBJCLEARACTIONQUEUE ) == 0 )
             {
-                g_app->GetWorld()->ObjectClearActionQueue( update->GetDataInt(NET_DEFCON_OBJECTID) );
+                if( UpdateAllowed( update ) )
+                {
+                    g_app->GetWorld()->ObjectClearActionQueue( update->GetDataInt(NET_DEFCON_OBJECTID) );
+                }
             }
             else if( strcmp( cmd, NET_DEFCON_OBJCLEARLASTACTION ) == 0 )
             {
-                g_app->GetWorld()->ObjectClearLastAction( update->GetDataInt(NET_DEFCON_OBJECTID) );
+                if( UpdateAllowed( update ) )
+                {
+                    g_app->GetWorld()->ObjectClearLastAction( update->GetDataInt(NET_DEFCON_OBJECTID) );
+                }
             }
             else if( strcmp( cmd, NET_DEFCON_OBJSETWAYPOINT ) == 0 )
             {
-                g_app->GetWorld()->ObjectSetWaypoint( update->GetDataInt(NET_DEFCON_OBJECTID), 
-                                                      update->GetDataFixed(NET_DEFCON_LONGITUDE), 
-                                                      update->GetDataFixed(NET_DEFCON_LATTITUDE) );
+                if( UpdateAllowed( update ) )
+                {
+                    g_app->GetWorld()->ObjectSetWaypoint( update->GetDataInt(NET_DEFCON_OBJECTID), 
+                                                          update->GetDataFixed(NET_DEFCON_LONGITUDE), 
+                                                          update->GetDataFixed(NET_DEFCON_LATTITUDE) );
+                }
             }                
             else if( strcmp( cmd, NET_DEFCON_REQUEST_TERRITORY ) == 0 )
             {

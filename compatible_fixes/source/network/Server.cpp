@@ -1347,6 +1347,39 @@ void Server::SendModPath()
     SendLetter( letter );
 }
 
+bool Server::CheckForTeamSwitchExploit( Directory *message )
+{
+    /*
+      Team switch exploit: by messing with the source or just editing GameOptions.txt
+      it is possible to convince a client that team switching is enabled. This checks
+      whether the team giving orders indeed owns the object receiving them. Code higher
+      up on the server still needs to make sure any teamId transmitted belongs to the sender.
+    */
+
+    if( message->HasData(NET_DEFCON_TEAMID, DIRECTORY_TYPE_CHAR) )
+    {
+        unsigned char teamId = message->GetDataUChar(NET_DEFCON_TEAMID);
+        int objectId = message->GetDataInt(NET_DEFCON_OBJECTID);
+        WorldObject * obj = g_app->GetWorld()->GetWorldObject(objectId);
+        if(obj)
+        {
+            if( obj->m_teamId == teamId )
+            {
+                return false;
+            }
+            else 
+            {
+                // this check looks a bit expensive, so we do it last
+                return g_app->GetGame()->GetOptionValue("TeamSwitching") == 0;
+            }
+        }
+        return false;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 bool Server::CheckForExploits( Directory *message )
 {
@@ -1365,9 +1398,59 @@ bool Server::CheckForExploits( Directory *message )
 
         int nearestNode = g_app->GetWorld()->GetClosestNode( longitude, latitude );
 
-        return( nearestNode == -1 );
+        if( nearestNode == -1 )
+        {
+            return true;
+        }
     }
 
+    // make sure all messages with an objectId also have a fitting teamId;
+    // check that existing teamIds are valid.
+    bool hasTeamId = message->HasData(NET_DEFCON_TEAMID);
+    if( hasTeamId || message->HasData(NET_DEFCON_OBJECTID) )
+    {
+        unsigned char teamId = 255;
+        int clientId = GetClientId( message->GetDataString(NET_DEFCON_FROMIP), message->GetDataInt(NET_DEFCON_FROMPORT));
+        // find the team the client is on
+        LList<Team *> teams = g_app->GetWorld()->m_teams;
+        for( int i = 0; i <  teams.Size(); ++i )
+        {
+            Team *team = teams[i];
+            if( team && team->m_clientId == clientId )
+            {
+                teamId = team->m_teamId;
+                break;
+            }
+        }
+
+        if( !hasTeamId )
+        {
+            // teamId not yet present? Add it.
+            message->CreateData(NET_DEFCON_TEAMID, teamId);
+        }
+        else if ( g_app->GetGame()->GetOptionValue("TeamSwitching") == 0 )
+        {
+            // teamId present and team switching disabled? Check for consistency.
+            if( teamId != message->GetDataUChar(NET_DEFCON_TEAMID) )
+            {
+                // team switch exploit
+                return true;
+            }
+        }
+    }
+
+    // check team and object ID consistency for all but whiteboard messages.
+    // Note: a small problem here is that the world is not simulated far enough 
+    // to know about the object, or too far already so it has forgotten it existed.
+    // The check may then allow the message through even if it is an exploit. The
+    // clientside code will catch it later and cause a desync with the cheater.
+    if( strcmp( cmd, NET_DEFCON_WHITEBOARD ) != 0 && 
+        message->HasData(NET_DEFCON_OBJECTID) && 
+        message->HasData(NET_DEFCON_TEAMID) && 
+        CheckForTeamSwitchExploit( message ) )
+    {
+        return true;
+    }
 
     //
     // No known exploit in here
