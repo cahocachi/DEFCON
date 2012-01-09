@@ -1,6 +1,7 @@
 #ifndef _RAR_ARRAY_
 #define _RAR_ARRAY_
 
+#include <cstring>
 #include "errhnd.h"
 #include "rardefs.h"
 
