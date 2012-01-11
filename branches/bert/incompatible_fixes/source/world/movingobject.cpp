@@ -42,9 +42,7 @@ MovingObject::MovingObject()
     // m_targetLongitudeAcrossSeam(0),
     // m_targetLatitudeAcrossSeam(0),
     m_blockHistory(false),
-    m_isLanding(-1),
-    m_turning(false),
-    m_angleTurned(0)
+    m_isLanding(-1)
 {
 }
 
@@ -334,55 +332,55 @@ void FFClamp( Fixed &f, unsigned long long clamp )
 //}
 
 
-void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude, Fixed *newDistance )
+void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude )
 {
-    if( m_longitude > -180 && m_longitude < 0 && m_targetLongitude > 180 )
-    {
-        m_targetLongitude -= 360;
-    }
-    else if( m_longitude < 180 && m_longitude > 0 && m_targetLongitude < -180 )
-    {
-        m_targetLongitude += 360;
-    }
+    World::SanitizeTargetLongitude( m_longitude, m_targetLongitude );
 
     Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-                                Vector3<Fixed>( m_longitude, m_latitude, 0 )).Normalise();
-    Vector3<Fixed> originalTargetDir = targetDir;
-
+                                Vector3<Fixed>( m_longitude, m_latitude, 0 ));
+    
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
 
-    Fixed factor1 = m_turnRate * timePerUpdate / 10;
-    Fixed factor2 = 1 - factor1;
-
-    m_vel = ( targetDir * factor1 ) + ( m_vel * factor2 );
-    m_vel.Normalise();
-
-    Fixed dotProduct = originalTargetDir * m_vel;
-
-    if( dotProduct < Fixed::FromDouble(-0.98) )
+    if( targetDir.MagSquared() > 0 )
     {
-        m_turning = true;
-    }
+        targetDir.Normalise();
 
-    if( m_turning )
-    {
-        Fixed angle = acos( dotProduct );
-        Fixed turn = (angle / 50) * timePerUpdate;
-        m_vel.RotateAroundZ( turn );
-        m_vel.Normalise();
-        m_angleTurned += turn;
-        if( turn > Fixed::Hundredths(12) )
+        Fixed dotProduct = targetDir * m_vel;
+        Fixed factor1 = m_turnRate * timePerUpdate / 10;
+
+        if( dotProduct < 0 )
         {
-            m_turning = false;
-            m_angleTurned = 0;
+            // we're facing away from the target.
+            // make it so that targetDir is projected perpendicularly to
+            // m_vel.
+            targetDir -= m_vel * (dotProduct/m_vel.MagSquared());
+
+            if( targetDir.MagSquared() > 0 )
+            {
+                // normalize again for maximal turn speed
+                targetDir.Normalise();
+            }
+            else
+            {
+                // we're moving exactly away from the target. Do something random.
+                m_vel.RotateAroundZ(factor1);
+            }
         }
+
+        // use original code from here on.
+        if( factor1 > Fixed::Hundredths(80) )
+        {
+            factor1 = Fixed::Hundredths(80);
+        }
+        Fixed factor2 = 1 - factor1;
+
+        m_vel = ( targetDir * factor1 ) + ( m_vel * factor2 );
+        m_vel.Normalise();
+        m_vel *= m_speed;
     }
-
-    m_vel *= m_speed;
-
+        
     *newLongitude = m_longitude + m_vel.x * Fixed(timePerUpdate);
     *newLatitude = m_latitude + m_vel.y * Fixed(timePerUpdate);
-    *newDistance = g_app->GetWorld()->GetDistance( *newLongitude, *newLatitude, m_targetLongitude, m_targetLatitude );
 }
 
 
@@ -397,9 +395,8 @@ bool MovingObject::MoveToWaypoint()
 
         Fixed newLongitude;
         Fixed newLatitude;
-        Fixed newDistance;
 
-        CalculateNewPosition( &newLongitude, &newLatitude, &newDistance );
+        CalculateNewPosition( &newLongitude, &newLatitude );
 
         // if the unit has reached the edge of the map, move it to the other side and update all nessecery information
         if( newLongitude <= -180 ||
@@ -408,8 +405,12 @@ bool MovingObject::MoveToWaypoint()
             m_longitude = newLongitude;
             CrossSeam();
             newLongitude = m_longitude;
-            newDistance = g_app->GetWorld()->GetDistance( newLongitude, newLatitude, m_targetLongitude, m_targetLatitude );
         }
+
+        Fixed newDistance = g_app->GetWorld()->GetDistance( newLongitude, newLatitude, m_targetLongitude, m_targetLatitude );
+
+        m_longitude = newLongitude;
+        m_latitude = newLatitude;
 
         if( (newDistance < timePerUpdate * m_speed * Fixed::Hundredths(50)) ||
             (m_movementType == MovementTypeAir &&
@@ -434,8 +435,6 @@ bool MovingObject::MoveToWaypoint()
 				m_lastHitByTeamId = m_teamId;
                 g_app->GetWorld()->AddOutOfFueldMessage( m_objectId );
             }
-            m_longitude = newLongitude;
-            m_latitude = newLatitude;
         }
         return false;
     }
