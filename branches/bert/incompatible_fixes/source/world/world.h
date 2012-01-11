@@ -219,7 +219,7 @@ public:
     Fixed GetSailDistance           ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetSailDistanceSlow       ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     
-    void  GetSeamCrossLatitude  ( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude );
+    // void  GetSeamCrossLatitude  ( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude );
     int   GetTerritoryOwner     ( int territoryId );
 
     int  GetUnitValue( int _type );

@@ -2873,6 +2873,7 @@ Fixed World::GetSailDistance( Fixed const &fromLongitude, Fixed const &fromLatit
     return totalDistance;
 }
 
+/*
 void World::GetSeamCrossLatitude( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude )
 {
 //    y = mx + c
@@ -2917,7 +2918,7 @@ void World::GetSeamCrossLatitude( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixe
     // We should never ever get here
     AppAssert( false );
 }
-
+*/
 
 int World::GetTerritoryOwner( int territoryId )
 {
