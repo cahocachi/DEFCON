@@ -88,6 +88,20 @@ void Fleet::Update()
 
         bool validPersueTarget = false;
 
+        // the below code is well meaning, but practically never does anything sensible
+        // if the fleet contains carriers. Cut out this block once that's fixed.
+        if( m_pursueTarget )
+        {
+            for( int i = 0; i < m_fleetMembers.Size(); ++i )
+            {
+                WorldObject * obj = g_app->GetWorld()->GetWorldObject( m_fleetMembers[i] );
+                if( obj && obj->m_type == WorldObject::TypeCarrier )
+                {
+                    m_pursueTarget = false;
+                }
+            }
+        }
+
         if( m_pursueTarget )
         {
             Team *enemyTeam = g_app->GetWorld()->GetTeam( m_targetTeam );
