@@ -208,6 +208,10 @@ public:
     int   GetClosestNode            ( Fixed const &longitude, Fixed const &latitude );
     int   GetClosestNodeSlow        ( Fixed const &longitude, Fixed const &latitude );
 
+    // makes sure toLongitude is wrapped around the seam in such a way that the absolute difference
+    // between it and fromLongitude is minimal
+    static void SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
+
     Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetDistance               ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam = false );
