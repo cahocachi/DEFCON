@@ -340,8 +340,8 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
                                 Vector3<Fixed>( m_longitude, m_latitude, 0 ));
     
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
-
-    if( targetDir.MagSquared() > 0 )
+    Fixed distanceSquared = targetDir.MagSquared();
+    if( distanceSquared > 0 )
     {
         targetDir.Normalise();
 
@@ -350,20 +350,31 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
 
         if( dotProduct < 0 )
         {
-            // we're facing away from the target.
-            // make it so that targetDir is projected perpendicularly to
-            // m_vel.
-            targetDir -= m_vel * (dotProduct/m_vel.MagSquared());
-
-            if( targetDir.MagSquared() > 0 )
+            Fixed turnRadius = m_speed / m_turnRate;
+            if( distanceSquared < turnRadius * turnRadius )
             {
-                // normalize again for maximal turn speed
-                targetDir.Normalise();
+                // target is not too far behind us, go straight for a bit so we can
+                // actually make the turn.
+                targetDir.x = 0;
+                targetDir.y = 0;
             }
             else
             {
-                // we're moving exactly away from the target. Do something random.
-                m_vel.RotateAroundZ(factor1);
+                // we're facing away from the target.
+                // make it so that targetDir is projected perpendicularly to
+                // m_vel.
+                targetDir -= m_vel * (dotProduct/m_vel.MagSquared());
+
+                if( targetDir.MagSquared() > 0 )
+                {
+                    // normalize again for maximal turn speed
+                    targetDir.Normalise();
+                }
+                else
+                {
+                    // we're moving exactly away from the target. Do something random.
+                    m_vel.RotateAroundZ(factor1);
+                }
             }
         }
 
