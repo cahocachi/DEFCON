@@ -2432,6 +2432,14 @@ void World::GenerateWorldEvent()
     g_app->GetInterface()->ShowMessage( 0, 0, -1, msg, true );
 }
 
+// properly clip to* coordinates to the intersection of the from* - to* line with the vertical
+// line at finalLongitude
+static void ClipTarget( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed &toLongitude, Fixed &toLatitude, Fixed const &finalLongitude )
+{
+    Fixed factor = ( toLongitude - finalLongitude ) / ( toLongitude - fromLongitude );
+    toLatitude -= factor*( toLatitude - fromLatitude );
+    toLongitude = finalLongitude;
+}
 
 bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
@@ -2445,11 +2453,11 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
 
     if( actualToLongitude < -180 )
     {
-        actualToLongitude = -180;
+        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, -180 );
     }
     else if( actualToLongitude > 180 )
     {
-        actualToLongitude = 180;
+        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, 180 );
     }
    
 
