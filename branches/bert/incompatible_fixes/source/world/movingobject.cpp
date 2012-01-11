@@ -39,8 +39,8 @@ MovingObject::MovingObject()
     m_finalTargetLongitude(0),
     m_finalTargetLatitude(0),
     m_pathCalcTimer(1),
-    m_targetLongitudeAcrossSeam(0),
-    m_targetLatitudeAcrossSeam(0),
+    // m_targetLongitudeAcrossSeam(0),
+    // m_targetLatitudeAcrossSeam(0),
     m_blockHistory(false),
     m_isLanding(-1),
     m_turning(false),
@@ -677,8 +677,8 @@ void MovingObject::ClearWaypoints()
     m_targetLatitude = 0;
     m_finalTargetLongitude = 0;
     m_finalTargetLatitude = 0;
-    m_targetLongitudeAcrossSeam = 0;
-    m_targetLatitudeAcrossSeam = 0;
+    // m_targetLongitudeAcrossSeam = 0;
+    // m_targetLatitudeAcrossSeam = 0;
     m_targetNodeId = -1;
     m_isLanding = -1;
 //    m_movementBlips.EmptyAndDelete();

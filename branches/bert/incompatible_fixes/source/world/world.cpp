@@ -2657,6 +2657,7 @@ void World::SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongi
     }
 }
 
+/*
 Fixed World::GetDistanceAcrossSeamSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
     // sensibly move the longitudes around so one seam cross is added
@@ -2680,7 +2681,7 @@ Fixed World::GetDistanceAcrossSeam( Fixed const &fromLongitude, Fixed const &fro
     Fixed distSqd = GetDistanceAcrossSeamSqd( fromLongitude, fromLatitude, toLongitude, toLatitude );
     return sqrt( distSqd );
 }
-
+*/
 
 Fixed World::GetDistanceSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam )
 {

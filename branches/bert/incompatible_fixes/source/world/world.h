@@ -212,8 +212,8 @@ public:
     // between it and fromLongitude is minimal
     static void SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
 
-    Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
-    Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
+    // Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
+    // Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetDistance               ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam = false );
     Fixed GetDistanceSqd            ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam = false );
     Fixed GetSailDistance           ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );

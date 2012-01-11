@@ -33,8 +33,8 @@ public:
     Fixed   m_finalTargetLatitude;
     int     m_targetNodeId;
 
-    Fixed   m_targetLongitudeAcrossSeam;
-    Fixed   m_targetLatitudeAcrossSeam;
+    // Fixed   m_targetLongitudeAcrossSeam;
+    // Fixed   m_targetLatitudeAcrossSeam;
 
     Fixed   m_pathCalcTimer;
     bool    m_blockHistory;
