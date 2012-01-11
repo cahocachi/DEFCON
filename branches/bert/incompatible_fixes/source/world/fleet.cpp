@@ -53,6 +53,7 @@ void Fleet::Update()
         return;
     }  
 
+    Fixed lastLongitude = m_longitude;
     GetFleetPosition( &m_longitude, &m_latitude );
     CheckFleetFormation();
 
@@ -160,6 +161,16 @@ void Fleet::Update()
         {
             m_crossingSeam = true;
             return;
+        }
+
+        // extra check for single fleet ships: if the longitude moved more than 180 degrees
+        // during one update, the seam was crossed just now.
+        {
+            Fixed difference = lastLongitude - m_longitude;
+            if( difference < -180 || difference > 180 )
+            {
+                m_crossingSeam = true;
+            }
         }
 
         m_pathCheckTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
