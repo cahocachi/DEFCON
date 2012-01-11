@@ -467,40 +467,13 @@ void MovingObject::CrossSeam()
     {
         Fixed amountCrossed = m_longitude - 180;
         m_longitude = -180 + amountCrossed;
+        m_targetLongitude -= 360;
     }
     else if( m_longitude <= -180 )
     {
         Fixed amountCrossed = m_longitude + 180;
         m_longitude = 180 + amountCrossed;
-    }
-
-    if( m_targetLongitude > 180 )
-    {
-        m_targetLongitude -= 360;
-    }
-    else if( m_targetLongitude < -180 )
-    {
         m_targetLongitude += 360;
-    }
-
-    if( m_type != WorldObject::TypeNuke )
-    {
-        // nukes have their own seperate calculation for this kind of thing
-        Fixed seamDistanceSqd =  g_app->GetWorld()->GetDistanceAcrossSeamSqd( m_longitude, m_latitude, m_targetLongitude, m_targetLatitude );
-        Fixed directDistanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, m_targetLongitude, m_targetLatitude, true );
-
-        if( seamDistanceSqd < directDistanceSqd )
-        {
-            // target has crossed seam when it shouldnt have (possible while turning )
-            if( m_targetLongitude < 0 )
-            {
-                m_targetLongitude += 360;
-            }
-            else
-            {
-                m_targetLongitude -= 360;
-            }
-        }
     }
 }
 
