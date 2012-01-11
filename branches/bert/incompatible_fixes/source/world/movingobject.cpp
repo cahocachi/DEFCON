@@ -182,27 +182,9 @@ void MovingObject::SetWaypoint( Fixed longitude, Fixed latitude )
        
     if( m_movementType == MovementTypeAir )
     {
-        Fixed directDistanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, longitude, latitude, true);
-        Fixed distanceAcrossSeamSqd = g_app->GetWorld()->GetDistanceAcrossSeamSqd( m_longitude, m_latitude, longitude, latitude);
-
-        if( distanceAcrossSeamSqd < directDistanceSqd )
-        {
-            Fixed targetSeamLatitude;
-            Fixed targetSeamLongitude;
-            g_app->GetWorld()->GetSeamCrossLatitude( Vector3<Fixed>( longitude, latitude, 0 ), 
-                                                     Vector3<Fixed>(m_longitude, m_latitude, 0), 
-                                                     &targetSeamLongitude, &targetSeamLatitude);
-            if(targetSeamLongitude < 0)
-            {
-                longitude -= 360;
-            }
-            else 
-            {
-                longitude += 360;
-            }
-        }
-
+        World::SanitizeTargetLongitude( m_longitude, longitude );
     }
+
     m_targetLongitude = longitude;
     m_targetLatitude = latitude;
 }
