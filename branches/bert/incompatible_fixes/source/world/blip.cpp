@@ -158,24 +158,11 @@ bool Blip::Update()
 
 void Blip::SetWaypoint( Fixed longitude, Fixed latitude )
 {
-    Fixed directDistance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, longitude, latitude, true);
+    // this thing moves at sea and the MovingObject base function
+    // only corrects the target longitude for planes, so we need to
+    // do it manually here.
+    World::SanitizeTargetLongitude( m_longitude, longitude );
 
-    Fixed targetSeamLatitude;
-    Fixed targetSeamLongitude;
-    g_app->GetWorld()->GetSeamCrossLatitude( Vector3<Fixed>( longitude, latitude, 0 ), Vector3<Fixed>(m_longitude, m_latitude, 0), &targetSeamLongitude, &targetSeamLatitude);
-    Fixed distanceAcrossSeam = g_app->GetWorld()->GetDistanceAcrossSeam( m_longitude, m_latitude, longitude, latitude);
-
-    if( distanceAcrossSeam < directDistance )
-    {
-        if( targetSeamLongitude < 0 )
-        {
-            longitude -= 360;
-        }
-        else
-        {
-            longitude += 360;
-        }      
-    }
     MovingObject::SetWaypoint( longitude, latitude );
 }
 
