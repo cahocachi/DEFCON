@@ -374,7 +374,10 @@ void Interface::Render()
                 
                     float maxLat = s_maxLatency;
                     float estLat = estimatedLatency;
-                
+
+// while debugging, we want to be able to sit on breakpoints and step through
+// things without the sync window popping up.                
+#ifndef _DEBUG
                     if( estimatedLatency < s_maxLatency - 1.0f )
                     {
                         s_connectionProblem = 2;
@@ -383,6 +386,7 @@ void Interface::Render()
                             EclRegisterWindow( new ConnectingWindow() );
                         }
                     }
+#endif
                 }
             }
             else if( s_connectionProblem == 2 )
