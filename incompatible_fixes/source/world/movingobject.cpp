@@ -339,8 +339,38 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
     Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
                                 Vector3<Fixed>( m_longitude, m_latitude, 0 ));
     
-    Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
     Fixed distanceSquared = targetDir.MagSquared();
+
+    // if you left the map (and have already turned back, code below takes care of that bit),
+    // return ASAP, or you're invisible to extreme widescreen users or players who never zoom out.
+    if( m_latitude > 100 || m_latitude < -100 )
+    {
+        Fixed velyout = m_vel.y * ( m_latitude > 0 ? 1 : -1 );
+        if( velyout > 0 || -velyout > m_vel.x || -velyout > -m_vel.x )
+        {
+            // not going in far enough; turn around (as quickly as possible)
+            if( velyout >= 0 )
+            {
+                targetDir.x = 0;
+                targetDir.y = -m_latitude;
+            }
+            else
+            {
+                targetDir.x = -m_vel.x;
+                targetDir.y = 0;
+            }
+
+            // make sure the "don't turn too soon" code doens't get triggered
+            distanceSquared = 100000000;
+        }
+        else
+        {
+            // already going back in enoug; go straight
+            distanceSquared = 0;
+        }
+    }
+
+    Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
     if( distanceSquared > 0 )
     {
         targetDir.Normalise();
@@ -364,6 +394,23 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
                 // make it so that targetDir is projected perpendicularly to
                 // m_vel.
                 targetDir -= m_vel * (dotProduct/m_vel.MagSquared());
+
+                /* (no longer required, the code at the beginning takes care of everything)
+                // pole nonsploit (for lack of term, it's technically an exploit, but
+                // pretty useless): by carefully balancing waypoints, you can move a
+                // plane as far north of the north pole as its range allows.
+                Fixed sign = m_latitude > 0 ? 1 : -1;
+                Fixed maxLat = sign * 90;
+                if( sign * ( maxLat - m_targetLatitude ) < 0 )
+                {
+                    maxLat = m_targetLatitude;
+                }
+                if( ( m_latitude -maxLat ) * sign > 0 && targetDir.y * sign > 0 )
+                {
+                    // out of sensible bounds and going out, only turn back inward
+                    targetDir *= -1;
+                }
+                */
 
                 if( targetDir.MagSquared() > 0 )
                 {
