@@ -1556,6 +1556,12 @@ void World::TeamShareRadar( int teamId, int targetTeam )
 
 void World::AssignTerritory( int territoryId, int teamId, int addOrRemove )
 {
+    if( g_app && g_app->m_gameRunning )
+    {
+        // umm, no. Too late.
+        return;
+    }
+
     if( GetTeam( teamId ) )
     {
         int owner = GetTerritoryOwner( territoryId );
