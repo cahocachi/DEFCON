@@ -15,9 +15,9 @@ char* GetKeyboardLayout ()
 	char* returnme = new char[64];
 	memset(returnme, 0, 64);
 	KeyboardLayoutRef layout;
-	KLGetCurrentKeyboardLayout(&layout);
+//	KLGetCurrentKeyboardLayout(&layout);
 	void* val;
-	KLGetKeyboardLayoutProperty(layout, kKLName, (const void**)&val);
+//	KLGetKeyboardLayoutProperty(layout, kKLName, (const void**)&val);
 	CFStringRef ref = (CFStringRef)val;
 	CFStringGetCString(ref, returnme, 64, kCFStringEncodingASCII);
 	return returnme;

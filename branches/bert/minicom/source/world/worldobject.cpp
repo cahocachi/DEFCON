@@ -237,6 +237,16 @@ void WorldObject::SetState( int state )
 
 bool WorldObject::Update()
 {    
+    // forget target if it went invisible
+    if( m_targetObjectId >= 0 )
+    {
+        WorldObject *obj = g_app->GetWorld()->GetWorldObject( m_targetObjectId );
+        if( !obj || !obj->m_visible[ m_teamId ] )
+        {
+            m_targetObjectId = -1;
+        }
+    }
+
     if( m_stateTimer > 0 )
     {
         m_stateTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();

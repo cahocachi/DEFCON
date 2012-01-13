@@ -1556,6 +1556,12 @@ void World::TeamShareRadar( int teamId, int targetTeam )
 
 void World::AssignTerritory( int territoryId, int teamId, int addOrRemove )
 {
+    if( g_app && g_app->m_gameRunning )
+    {
+        // umm, no. Too late.
+        return;
+    }
+
     if( GetTeam( teamId ) )
     {
         int owner = GetTerritoryOwner( territoryId );
@@ -2432,6 +2438,14 @@ void World::GenerateWorldEvent()
     g_app->GetInterface()->ShowMessage( 0, 0, -1, msg, true );
 }
 
+// properly clip to* coordinates to the intersection of the from* - to* line with the vertical
+// line at finalLongitude
+static void ClipTarget( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed &toLongitude, Fixed &toLatitude, Fixed const &finalLongitude )
+{
+    Fixed factor = ( toLongitude - finalLongitude ) / ( toLongitude - fromLongitude );
+    toLatitude -= factor*( toLatitude - fromLatitude );
+    toLongitude = finalLongitude;
+}
 
 bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
@@ -2445,11 +2459,11 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
 
     if( actualToLongitude < -180 )
     {
-        actualToLongitude = -180;
+        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, -180 );
     }
     else if( actualToLongitude > 180 )
     {
-        actualToLongitude = 180;
+        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, 180 );
     }
    
 
@@ -2628,21 +2642,43 @@ int World::GetClosestNodeSlow( Fixed const &longitude, Fixed const &latitude )
     return nodeId;
 }
 
+void World::SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude )
+{
+    // move the target longitude across the seam to make sure if the unit slavishly
+    // goes for it using euclidean geometry and topology, it'll take the shorter way
+    if( toLongitude - fromLongitude < -180 )
+    {
+        do
+        {
+            toLongitude += 360;
+        }
+        while( toLongitude - fromLongitude < -180 );
+    }
+    else
+    {
+        while( toLongitude - fromLongitude > 180 )
+        {
+            toLongitude -= 360;
+        }
+    }
+}
 
+/*
 Fixed World::GetDistanceAcrossSeamSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
-    Fixed targetSeamLatitude;
-    Fixed targetSeamLongitude;
-    GetSeamCrossLatitude( Vector3<Fixed>(toLongitude, toLatitude, 0), Vector3<Fixed>(fromLongitude, fromLatitude,0), &targetSeamLongitude, &targetSeamLatitude);
-    
+    // sensibly move the longitudes around so one seam cross is added
+    Fixed _toLongitude = toLongitude;
+    if( fromLongitude < toLongitude )
+    {
+        _toLongitude -= 360;
+    }
+    else
+    {
+        _toLongitude += 360;
+    }
 
-    Fixed distanceAcrossSeam = ( Vector3<Fixed>(targetSeamLongitude, targetSeamLatitude,0) -
-                                 Vector3<Fixed>(fromLongitude, fromLatitude, 0) ).MagSquared();
-
-    distanceAcrossSeam += ( Vector3<Fixed>(targetSeamLongitude * -1, targetSeamLatitude,0) -
-                            Vector3<Fixed>(toLongitude, toLatitude, 0) ).MagSquared();
-
-    return distanceAcrossSeam;
+    // delegate
+    return GetDistanceSqd( fromLongitude, fromLatitude, _toLongitude, toLatitude, true );
 }
 
 
@@ -2651,23 +2687,36 @@ Fixed World::GetDistanceAcrossSeam( Fixed const &fromLongitude, Fixed const &fro
     Fixed distSqd = GetDistanceAcrossSeamSqd( fromLongitude, fromLatitude, toLongitude, toLatitude );
     return sqrt( distSqd );
 }
-
+*/
 
 Fixed World::GetDistanceSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam )
 {
     Vector3<Fixed>from(fromLongitude, fromLatitude, 0);
     Vector3<Fixed>to(toLongitude, toLatitude, 0);
     Vector3<Fixed> theVector = from - to;
-    Fixed dist = theVector.MagSquared();
-    if( ignoreSeam )
+
+    if( !ignoreSeam )
     {
-        return dist;
+        // take the longitude difference mod 360 smartly so its always the shorter alternative
+        // (add/subtract 360 until it's in the -180 to 180 range)
+        if( theVector.x < -180 )
+        {
+            do
+            {
+                theVector.x += 360;
+            }
+            while( theVector.x < -180 );
+        }
+        else
+        {
+            while( theVector.x > 180 )
+            {
+                theVector.x -= 360;
+            }
+        }
     }
-    else
-    {
-        Fixed distAcrossSeam = GetDistanceAcrossSeamSqd( fromLongitude, fromLatitude, toLongitude, toLatitude );
-        return ( dist < distAcrossSeam ? dist : distAcrossSeam );
-    }
+
+    return theVector.MagSquared();
 }
 
 
@@ -2839,6 +2888,7 @@ Fixed World::GetSailDistance( Fixed const &fromLongitude, Fixed const &fromLatit
     return totalDistance;
 }
 
+/*
 void World::GetSeamCrossLatitude( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude )
 {
 //    y = mx + c
@@ -2883,7 +2933,7 @@ void World::GetSeamCrossLatitude( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixe
     // We should never ever get here
     AppAssert( false );
 }
-
+*/
 
 int World::GetTerritoryOwner( int territoryId )
 {

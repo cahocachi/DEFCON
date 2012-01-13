@@ -53,6 +53,7 @@ void Fleet::Update()
         return;
     }  
 
+    Fixed lastLongitude = m_longitude;
     GetFleetPosition( &m_longitude, &m_latitude );
     CheckFleetFormation();
 
@@ -86,6 +87,20 @@ void Fleet::Update()
         }
 
         bool validPersueTarget = false;
+
+        // the below code is well meaning, but practically never does anything sensible
+        // if the fleet contains carriers. Cut out this block once that's fixed.
+        if( m_pursueTarget )
+        {
+            for( int i = 0; i < m_fleetMembers.Size(); ++i )
+            {
+                WorldObject * obj = g_app->GetWorld()->GetWorldObject( m_fleetMembers[i] );
+                if( obj && obj->m_type == WorldObject::TypeCarrier )
+                {
+                    m_pursueTarget = false;
+                }
+            }
+        }
 
         if( m_pursueTarget )
         {
@@ -160,6 +175,16 @@ void Fleet::Update()
         {
             m_crossingSeam = true;
             return;
+        }
+
+        // extra check for single fleet ships: if the longitude moved more than 180 degrees
+        // during one update, the seam was crossed just now.
+        {
+            Fixed difference = lastLongitude - m_longitude;
+            if( difference < -180 || difference > 180 )
+            {
+                m_crossingSeam = true;
+            }
         }
 
         m_pathCheckTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
@@ -414,32 +439,10 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
     }
 
 
+    World::SanitizeTargetLongitude( m_longitude, longitude );
+        
     if( IsOnSameSideOfSeam() )
     {
-        Fixed directDistanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, longitude, latitude, true);
-
-        // calculate the distance to the target if the unit cross a world join
-        Fixed targetSeamLatitude;
-        Fixed targetSeamLongitude;
-        g_app->GetWorld()->GetSeamCrossLatitude( Vector3<Fixed>( longitude, latitude, 0 ), 
-                                                 Vector3<Fixed>(m_longitude, m_latitude, 0), 
-                                                 &targetSeamLongitude, &targetSeamLatitude);
-
-        Fixed distanceAcrossSeamSqd = g_app->GetWorld()->GetDistanceAcrossSeamSqd( m_longitude, m_latitude, longitude, latitude);
-
-        bool fasterAcrossSeam = false;
-        if( distanceAcrossSeamSqd < directDistanceSqd )
-        {
-            if( targetSeamLongitude < 0 )
-            {
-                longitude -= 360;
-            }
-            else
-            {
-                longitude += 360;
-            }
-            fasterAcrossSeam = true;
-        }
         m_targetNodeId = g_app->GetWorld()->GetClosestNode( longitude, latitude );
     
         m_targetLongitude = longitude;
@@ -497,18 +500,6 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
         m_targetLongitude = longitude;
         m_targetLatitude= latitude;
 
-        if( g_app->GetWorld()->GetDistanceAcrossSeamSqd( m_longitude, m_latitude, m_targetLongitude, m_targetLatitude ) < 
-            g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, m_targetLongitude, m_targetLatitude, true ) )
-        {
-            if( m_longitude < 0 )
-            {
-                m_targetLongitude -= 360;
-            }
-            else
-            {
-                m_targetLongitude += 360;
-            }
-        }
         for( int i = 0; i < m_fleetMembers.Size(); ++i )
         {
             if( m_fleetMembers.ValidIndex(i) )
@@ -516,27 +507,7 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
                 MovingObject *obj = (MovingObject* )g_app->GetWorld()->GetWorldObject( m_fleetMembers[i] );
                 if( obj && obj->IsMovingObject() )
                 {
-                    //m_targetNodeId = g_app->GetWorld()->GetClosestNode( longitude, latitude );
-                    Fixed directDistanceSqd = g_app->GetWorld()->GetDistanceSqd( obj->m_longitude, obj->m_latitude, longitude, latitude, true);
-
-                    // calculate the distance to the target if the unit cross a world join
-                    Fixed targetSeamLatitude;
-                    Fixed targetSeamLongitude;
-                    g_app->GetWorld()->GetSeamCrossLatitude( Vector3<Fixed>( longitude, latitude, 0 ), Vector3<Fixed>(obj->m_longitude, obj->m_latitude, 0), &targetSeamLongitude, &targetSeamLatitude);
-
-                    Fixed distanceAcrossSeamSqd = g_app->GetWorld()->GetDistanceAcrossSeamSqd( obj->m_longitude, obj->m_latitude, longitude, latitude);
-
-                    if( distanceAcrossSeamSqd < directDistanceSqd )
-                    {
-                        if( targetSeamLongitude < 0 )
-                        {
-                            longitude -= 360;
-                        }
-                        else
-                        {
-                            longitude += 360;
-                        }      
-                    }
+                    World::SanitizeTargetLongitude( obj->m_longitude, longitude );
 
                     Node *node = g_app->GetWorld()->m_nodes[ g_app->GetWorld()->GetClosestNode( obj->m_longitude, obj->m_latitude )];
                     if( !node )
@@ -1342,24 +1313,7 @@ void Fleet::CreateBlip( Fixed longitude, Fixed latitude, int type )
         {
             if( g_app->GetWorld()->GetDistanceSqd( longitude, latitude, m_longitude, m_latitude ) > 6 * 6 )
             {
-                Fixed directDistanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, longitude, latitude, true);
-
-                Fixed targetSeamLatitude;
-                Fixed targetSeamLongitude;
-                g_app->GetWorld()->GetSeamCrossLatitude( Vector3<Fixed>( longitude, latitude, 0 ), Vector3<Fixed>(m_longitude, m_latitude, 0), &targetSeamLongitude, &targetSeamLatitude);
-                Fixed distanceAcrossSeamSqd = g_app->GetWorld()->GetDistanceAcrossSeamSqd( m_longitude, m_latitude, longitude, latitude);
-
-                if( distanceAcrossSeamSqd < directDistanceSqd )
-                {
-                    if( targetSeamLongitude < 0 )
-                    {
-                        longitude -= 360;
-                    }
-                    else
-                    {
-                        longitude += 360;
-                    }      
-                }
+                World::SanitizeTargetLongitude( m_longitude, longitude );
 
                 m_blipTimer = 5;
                 Blip *blip = new Blip();
