@@ -168,8 +168,9 @@ bool GunFire::MoveToWaypoint()
     }
 
     if( newDistance <= distToTarget && 
-        newDistance < Fixed::Hundredths(48) &&
-        m_targetLongitudeAcrossSeam == 0 )
+        newDistance < Fixed::Hundredths(48) 
+        // && m_targetLongitudeAcrossSeam == 0 
+        )
     {
         ClearWaypoints();
         m_vel.Zero();

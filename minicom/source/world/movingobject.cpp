@@ -39,12 +39,10 @@ MovingObject::MovingObject()
     m_finalTargetLongitude(0),
     m_finalTargetLatitude(0),
     m_pathCalcTimer(1),
-    m_targetLongitudeAcrossSeam(0),
-    m_targetLatitudeAcrossSeam(0),
+    // m_targetLongitudeAcrossSeam(0),
+    // m_targetLatitudeAcrossSeam(0),
     m_blockHistory(false),
-    m_isLanding(-1),
-    m_turning(false),
-    m_angleTurned(0)
+    m_isLanding(-1)
 {
 }
 
@@ -182,27 +180,9 @@ void MovingObject::SetWaypoint( Fixed longitude, Fixed latitude )
        
     if( m_movementType == MovementTypeAir )
     {
-        Fixed directDistanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, longitude, latitude, true);
-        Fixed distanceAcrossSeamSqd = g_app->GetWorld()->GetDistanceAcrossSeamSqd( m_longitude, m_latitude, longitude, latitude);
-
-        if( distanceAcrossSeamSqd < directDistanceSqd )
-        {
-            Fixed targetSeamLatitude;
-            Fixed targetSeamLongitude;
-            g_app->GetWorld()->GetSeamCrossLatitude( Vector3<Fixed>( longitude, latitude, 0 ), 
-                                                     Vector3<Fixed>(m_longitude, m_latitude, 0), 
-                                                     &targetSeamLongitude, &targetSeamLatitude);
-            if(targetSeamLongitude < 0)
-            {
-                longitude -= 360;
-            }
-            else 
-            {
-                longitude += 360;
-            }
-        }
-
+        World::SanitizeTargetLongitude( m_longitude, longitude );
     }
+
     m_targetLongitude = longitude;
     m_targetLatitude = latitude;
 }
@@ -352,55 +332,113 @@ void FFClamp( Fixed &f, unsigned long long clamp )
 //}
 
 
-void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude, Fixed *newDistance )
+void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude )
 {
-    if( m_longitude > -180 && m_longitude < 0 && m_targetLongitude > 180 )
-    {
-        m_targetLongitude -= 360;
-    }
-    else if( m_longitude < 180 && m_longitude > 0 && m_targetLongitude < -180 )
-    {
-        m_targetLongitude += 360;
-    }
+    World::SanitizeTargetLongitude( m_longitude, m_targetLongitude );
 
     Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-                                Vector3<Fixed>( m_longitude, m_latitude, 0 )).Normalise();
-    Vector3<Fixed> originalTargetDir = targetDir;
+                                Vector3<Fixed>( m_longitude, m_latitude, 0 ));
+    
+    Fixed distanceSquared = targetDir.MagSquared();
 
-    Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
-
-    Fixed factor1 = m_turnRate * timePerUpdate / 10;
-    Fixed factor2 = 1 - factor1;
-
-    m_vel = ( targetDir * factor1 ) + ( m_vel * factor2 );
-    m_vel.Normalise();
-
-    Fixed dotProduct = originalTargetDir * m_vel;
-
-    if( dotProduct < Fixed::FromDouble(-0.98) )
+    // if you left the map (and have already turned back, code below takes care of that bit),
+    // return ASAP, or you're invisible to extreme widescreen users or players who never zoom out.
+    if( m_latitude > 100 || m_latitude < -100 )
     {
-        m_turning = true;
-    }
-
-    if( m_turning )
-    {
-        Fixed angle = acos( dotProduct );
-        Fixed turn = (angle / 50) * timePerUpdate;
-        m_vel.RotateAroundZ( turn );
-        m_vel.Normalise();
-        m_angleTurned += turn;
-        if( turn > Fixed::Hundredths(12) )
+        Fixed velyout = m_vel.y * ( m_latitude > 0 ? 1 : -1 );
+        if( velyout > 0 || -velyout > m_vel.x || -velyout > -m_vel.x )
         {
-            m_turning = false;
-            m_angleTurned = 0;
+            // not going in far enough; turn around (as quickly as possible)
+            if( velyout >= 0 )
+            {
+                targetDir.x = 0;
+                targetDir.y = -m_latitude;
+            }
+            else
+            {
+                targetDir.x = -m_vel.x;
+                targetDir.y = 0;
+            }
+
+            // make sure the "don't turn too soon" code doens't get triggered
+            distanceSquared = 100000000;
+        }
+        else
+        {
+            // already going back in enoug; go straight
+            distanceSquared = 0;
         }
     }
 
-    m_vel *= m_speed;
+    Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+    if( distanceSquared > 0 )
+    {
+        targetDir.Normalise();
 
+        Fixed dotProduct = targetDir * m_vel;
+        Fixed factor1 = m_turnRate * timePerUpdate / 10;
+
+        if( dotProduct < 0 )
+        {
+            Fixed turnRadius = m_speed / m_turnRate;
+            if( distanceSquared < turnRadius * turnRadius )
+            {
+                // target is not too far behind us, go straight for a bit so we can
+                // actually make the turn.
+                targetDir.x = 0;
+                targetDir.y = 0;
+            }
+            else
+            {
+                // we're facing away from the target.
+                // make it so that targetDir is projected perpendicularly to
+                // m_vel.
+                targetDir -= m_vel * (dotProduct/m_vel.MagSquared());
+
+                /* (no longer required, the code at the beginning takes care of everything)
+                // pole nonsploit (for lack of term, it's technically an exploit, but
+                // pretty useless): by carefully balancing waypoints, you can move a
+                // plane as far north of the north pole as its range allows.
+                Fixed sign = m_latitude > 0 ? 1 : -1;
+                Fixed maxLat = sign * 90;
+                if( sign * ( maxLat - m_targetLatitude ) < 0 )
+                {
+                    maxLat = m_targetLatitude;
+                }
+                if( ( m_latitude -maxLat ) * sign > 0 && targetDir.y * sign > 0 )
+                {
+                    // out of sensible bounds and going out, only turn back inward
+                    targetDir *= -1;
+                }
+                */
+
+                if( targetDir.MagSquared() > 0 )
+                {
+                    // normalize again for maximal turn speed
+                    targetDir.Normalise();
+                }
+                else
+                {
+                    // we're moving exactly away from the target. Do something random.
+                    m_vel.RotateAroundZ(factor1);
+                }
+            }
+        }
+
+        // use original code from here on.
+        if( factor1 > Fixed::Hundredths(80) )
+        {
+            factor1 = Fixed::Hundredths(80);
+        }
+        Fixed factor2 = 1 - factor1;
+
+        m_vel = ( targetDir * factor1 ) + ( m_vel * factor2 );
+        m_vel.Normalise();
+        m_vel *= m_speed;
+    }
+        
     *newLongitude = m_longitude + m_vel.x * Fixed(timePerUpdate);
     *newLatitude = m_latitude + m_vel.y * Fixed(timePerUpdate);
-    *newDistance = g_app->GetWorld()->GetDistance( *newLongitude, *newLatitude, m_targetLongitude, m_targetLatitude );
 }
 
 
@@ -415,9 +453,8 @@ bool MovingObject::MoveToWaypoint()
 
         Fixed newLongitude;
         Fixed newLatitude;
-        Fixed newDistance;
 
-        CalculateNewPosition( &newLongitude, &newLatitude, &newDistance );
+        CalculateNewPosition( &newLongitude, &newLatitude );
 
         // if the unit has reached the edge of the map, move it to the other side and update all nessecery information
         if( newLongitude <= -180 ||
@@ -426,8 +463,12 @@ bool MovingObject::MoveToWaypoint()
             m_longitude = newLongitude;
             CrossSeam();
             newLongitude = m_longitude;
-            newDistance = g_app->GetWorld()->GetDistance( newLongitude, newLatitude, m_targetLongitude, m_targetLatitude );
         }
+
+        Fixed newDistance = g_app->GetWorld()->GetDistance( newLongitude, newLatitude, m_targetLongitude, m_targetLatitude );
+
+        m_longitude = newLongitude;
+        m_latitude = newLatitude;
 
         if( (newDistance < timePerUpdate * m_speed * Fixed::Hundredths(50)) ||
             (m_movementType == MovementTypeAir &&
@@ -452,8 +493,6 @@ bool MovingObject::MoveToWaypoint()
 				m_lastHitByTeamId = m_teamId;
                 g_app->GetWorld()->AddOutOfFueldMessage( m_objectId );
             }
-            m_longitude = newLongitude;
-            m_latitude = newLatitude;
         }
         return false;
     }
@@ -467,40 +506,13 @@ void MovingObject::CrossSeam()
     {
         Fixed amountCrossed = m_longitude - 180;
         m_longitude = -180 + amountCrossed;
+        m_targetLongitude -= 360;
     }
     else if( m_longitude <= -180 )
     {
         Fixed amountCrossed = m_longitude + 180;
         m_longitude = 180 + amountCrossed;
-    }
-
-    if( m_targetLongitude > 180 )
-    {
-        m_targetLongitude -= 360;
-    }
-    else if( m_targetLongitude < -180 )
-    {
         m_targetLongitude += 360;
-    }
-
-    if( m_type != WorldObject::TypeNuke )
-    {
-        // nukes have their own seperate calculation for this kind of thing
-        Fixed seamDistanceSqd =  g_app->GetWorld()->GetDistanceAcrossSeamSqd( m_longitude, m_latitude, m_targetLongitude, m_targetLatitude );
-        Fixed directDistanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, m_targetLongitude, m_targetLatitude, true );
-
-        if( seamDistanceSqd < directDistanceSqd )
-        {
-            // target has crossed seam when it shouldnt have (possible while turning )
-            if( m_targetLongitude < 0 )
-            {
-                m_targetLongitude += 360;
-            }
-            else
-            {
-                m_targetLongitude -= 360;
-            }
-        }
     }
 }
 
@@ -722,8 +734,8 @@ void MovingObject::ClearWaypoints()
     m_targetLatitude = 0;
     m_finalTargetLongitude = 0;
     m_finalTargetLatitude = 0;
-    m_targetLongitudeAcrossSeam = 0;
-    m_targetLatitudeAcrossSeam = 0;
+    // m_targetLongitudeAcrossSeam = 0;
+    // m_targetLatitudeAcrossSeam = 0;
     m_targetNodeId = -1;
     m_isLanding = -1;
 //    m_movementBlips.EmptyAndDelete();

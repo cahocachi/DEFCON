@@ -208,14 +208,18 @@ public:
     int   GetClosestNode            ( Fixed const &longitude, Fixed const &latitude );
     int   GetClosestNodeSlow        ( Fixed const &longitude, Fixed const &latitude );
 
-    Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
-    Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
+    // makes sure toLongitude is wrapped around the seam in such a way that the absolute difference
+    // between it and fromLongitude is minimal
+    static void SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
+
+    // Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
+    // Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetDistance               ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam = false );
     Fixed GetDistanceSqd            ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam = false );
     Fixed GetSailDistance           ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetSailDistanceSlow       ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     
-    void  GetSeamCrossLatitude  ( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude );
+    // void  GetSeamCrossLatitude  ( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude );
     int   GetTerritoryOwner     ( int territoryId );
 
     int  GetUnitValue( int _type );

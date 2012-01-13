@@ -145,17 +145,16 @@ bool Nuke::Update()
        
     Fixed newLongitude = m_longitude + m_vel.x * timePerUpdate;
     Fixed newLatitude = m_latitude + m_vel.y * timePerUpdate;
-    Fixed newDistance = g_app->GetWorld()->GetDistance( newLongitude, newLatitude, m_targetLongitude, m_targetLatitude);
 
     if( newLongitude <= -180 ||
         newLongitude >= 180 )
     {
         m_longitude = newLongitude;
         CrossSeam();
-
         newLongitude = m_longitude;
-        newDistance = g_app->GetWorld()->GetDistance( newLongitude, newLatitude, m_targetLongitude, m_targetLatitude );
     }
+
+    Fixed newDistance = g_app->GetWorld()->GetDistance( newLongitude, newLatitude, m_targetLongitude, m_targetLatitude);
 
     if( newDistance < 2 &&
         newDistance >= remainingDistance )

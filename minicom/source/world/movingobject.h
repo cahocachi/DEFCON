@@ -33,15 +33,12 @@ public:
     Fixed   m_finalTargetLatitude;
     int     m_targetNodeId;
 
-    Fixed   m_targetLongitudeAcrossSeam;
-    Fixed   m_targetLatitudeAcrossSeam;
+    // Fixed   m_targetLongitudeAcrossSeam;
+    // Fixed   m_targetLatitudeAcrossSeam;
 
     Fixed   m_pathCalcTimer;
     bool    m_blockHistory;
     int     m_isLanding;
-
-    bool    m_turning;          //  Used to turn the object when
-    Fixed   m_angleTurned;      //  Its target is directly behind it
 
 public:
     MovingObject();
@@ -59,7 +56,7 @@ public:
 
     virtual void    SetWaypoint     ( Fixed longitude, Fixed latitude );
 
-    void            CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude, Fixed *newDistance );
+    void            CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude );
     void            CrossSeam();
 
     virtual int     GetAttackState  ();
