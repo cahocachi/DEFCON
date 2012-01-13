@@ -550,6 +550,7 @@ void Game::Update()
                 CalculateScores();
     
                 m_winner = -1;
+                bool draw = false;
                 int winningScore = 0;
                 for( int t = 0; t < g_app->GetWorld()->m_teams.Size(); ++t )
                 {
@@ -561,12 +562,16 @@ void Game::Update()
                         winningScore = score;
                         m_winner = team->m_teamId;
                     }
+                    else if( score == winningScore )
+                    {
+                        draw = true;
+                    }
                 }
 
                 int numPlayers = g_app->GetWorld()->m_teams.Size();
 
                 char msg[128];
-                if( m_winner != -1 )
+                if( m_winner != -1 && !draw )
                 {
                     strcpy(msg, LANGUAGEPHRASE("message_victory"));
                     LPREPLACESTRINGFLAG( 'T', g_app->GetWorld()->GetTeam(m_winner)->GetTeamName(), msg );
