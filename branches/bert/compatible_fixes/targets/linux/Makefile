@@ -257,7 +257,7 @@ $(OBJDIR_BASE)/full/%.o: %.c
 
 defcon.full$(SUFFIX): $(FULL_OBJECTS)
 	@echo -n "Linking... "
-	@$(LINK) -o $@ $+ $(LIBS) 
+	@$(LINK) -o $@ $+ $(LIBS) $(LDFLAGS)
 	@echo "Done."
 
 clean:
