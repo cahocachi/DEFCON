@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Defcon"
 	ProjectGUID="{58515771-3484-43F9-9D1B-4F800F7F0436}"
 	RootNamespace="Defcon"
@@ -7532,6 +7532,10 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+		</File>
+		<File
+			RelativePath=".\Defcon.nsi"
+			>
 		</File>
 	</Files>
 	<Globals>
