@@ -7,11 +7,11 @@ you have a license key stored in the default location or can enter one
 when prompted. All of the terms and services attached to the original 
 copy still apply.
 
-====================================================================
+================================================
 
 <insert description of release here>
 
-=====================================================================
+=================================================
 
 Contributors outside of Introversion (in alphabetical order):
 
