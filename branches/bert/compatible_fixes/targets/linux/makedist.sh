@@ -23,10 +23,12 @@ if ! bzr branch . ./$TARNAME; then
     find $TARNAME -name *~ -exec rm \{\} \;
 fi
 rm ./$TARNAME/.bzr -rf 
+if test -z "$DONTTAR"; then
+  tar -cjf ./${TARNAME}.tbz ./$TARNAME || exit -1
+fi
 
 # build
-rm defcon.full
-make -f ${DIR}/Makefile.release LDFLAGS="-Wl,-rpath=./lib" || exit -1
+make -f ${DIR}/Makefile.release || exit -1
 
 # prepare distribution
 rm -rf ${BINNAME}
@@ -45,8 +47,11 @@ mkdir ${BINNAME}/lib || exit -1
 cp README.txt "LICENCE AGREEMENT.txt" ${BINNAME}
 
 # this line will probably fail for you. It's supposed to copy a version of
-# SDL built also with apbuild into the libs subdirectory.
-cp -ax /usr/local/apbuild/lib/libSDL-* ${BINNAME}/lib/ || exit -1
+# SDL and ogg/vorbis built also with apbuild into the libs subdirectory.
+LIBSRC=/usr/local/apbuild/lib
+cp -ax ${LIBSRC}/libSDL-* ${BINNAME}/lib/ || exit -1
+cp -ax ${LIBSRC}/libogg* ${BINNAME}/lib/ || exit -1
+cp -ax ${LIBSRC}/libvorbis* ${BINNAME}/lib/ || exit -1
 
 # package data. Requires original rar. the -s is required for DEFCON to be
 # able to read the archive properly
@@ -58,5 +63,15 @@ rar a -r -s ../${BINNAME}/main.dat data || exit -1
 popd
 
 # package up
-tar -cjf ./${BINNAME}.tbz ./$BINNAME || exit -1
-tar -cjf ./${TARNAME}.tbz ./$TARNAME || exit -1
+if test -z "$DONTTAR"; then
+  tar -cjf ./${BINNAME}.tbz ./$BINNAME || exit -1
+fi
+
+# prepare Windows source tarbal
+rm -rf ${TARNAME}/data
+cp ${BINNAME}/*.dat ${TARNAME} || exit -1
+todos ${TARNAME}/*.txt || exit -1
+sed < targets/msvc/Defcon.nsi -e "s,PRODUCT_VERSION.*,PRODUCT_VERSION \"${VERSION}\"", > ${TARNAME}/targets/msvc/Defcon.nsi || exit -1
+if test -z "$DONTTAR"; then
+  tar -cjf ./${TARNAME}-windows.tbz ./$TARNAME || exit -1
+fi
