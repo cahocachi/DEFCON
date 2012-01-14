@@ -69,9 +69,11 @@ fi
 
 # prepare Windows source tarbal
 rm -rf ${TARNAME}/data
+rm -rf ${TARNAME}/localisation
 cp ${BINNAME}/*.dat ${TARNAME} || exit -1
+sed < targets/msvc/Defcon.nsi -e "s,define PRODUCT_VERSION.*,define PRODUCT_VERSION \"${VERSION}\"", > ${TARNAME}/targets/msvc/Defcon.nsi || exit -1
 todos ${TARNAME}/*.txt || exit -1
-sed < targets/msvc/Defcon.nsi -e "s,PRODUCT_VERSION.*,PRODUCT_VERSION \"${VERSION}\"", > ${TARNAME}/targets/msvc/Defcon.nsi || exit -1
+todos ${TARNAME}/targets/msvc/Defcon.nsi || exit -1
 if test -z "$DONTTAR"; then
   tar -cjf ./${TARNAME}-windows.tbz ./$TARNAME || exit -1
 fi
