@@ -16,7 +16,12 @@ bzr status || exit -1
 
 # create clean branch
 rm -rf ./$TARNAME
-bzr branch . ./$TARNAME || exit -1
+if ! bzr branch . ./$TARNAME; then
+    files=*
+    mkdir $TARNAME
+    cp -ax $files $TARNAME
+    find $TARNAME -name *~ -exec rm \{\} \;
+fi
 rm ./$TARNAME/.bzr -rf 
 
 # build
@@ -35,6 +40,9 @@ cp ${DIR}/launch.sh ${BINNAME}/defcon || exit -1
 
 # add libraries
 mkdir ${BINNAME}/lib || exit -1
+
+# add READMEs
+cp README.txt "LICENCE AGREEMENT.txt" ${BINNAME}
 
 # this line will probably fail for you. It's supposed to copy a version of
 # SDL built also with apbuild into the libs subdirectory.
