@@ -6,7 +6,7 @@ set -x
 
 DIR=$(dirname $0)
 
-VERSION_RAW=$({ echo \#define TARGET_OS_LINUX; cat ./source/lib/universal_include.h; echo APPVERSION=APP_VERSION; } | cpp | grep APPVERSION | sed -e s,APPVERSION=,, -e s,\",,g)
+VERSION_RAW=$({ echo \#define TARGET_OS_LINUX; cat ./source/lib/universal_include.h; echo APPVERSION=APP_VERSION; } | cpp | grep APPVERSION | sed -e s,APPVERSION=,, -e "s, *LINUX,," -e s,\",,g)
 VERSION=$(echo $VERSION_RAW | sed -e "s, ,_,")
 NAME=defcon-$VERSION
 TARNAME=defcon-src-$VERSION
