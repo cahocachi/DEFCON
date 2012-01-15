@@ -65,7 +65,7 @@ popd
 
 # package up
 if test -z "$DONTTAR"; then
-  tar -cjf ./${BINNAME}.tbz ./$BINNAME || exit -1
+  tar -cjf ./${BINNAME}-linux.tbz ./$BINNAME || exit -1
 fi
 
 # prepare Mac source tarball
