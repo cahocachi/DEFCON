@@ -83,6 +83,7 @@ Section "MainSection" SEC01
   File "..\..\README.txt"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_BASENAME}\README.lnk" "$INSTDIR\README.txt"
   File /oname=DEVELOPER_LICENSE_AGREEMENT.txt "..\..\LICENSE AGREEMENT.txt"
+  File /nonfatal "..\..\ChangeLog.txt"
   File /nonfatal "..\..\*.dat"
   File /nonfatal /r "..\..\data"
 SectionEnd

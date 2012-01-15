@@ -14,6 +14,14 @@ BINNAME=defcon-$VERSION
 
 bzr status || exit -1
 
+function filterlog()
+{
+    while line=$(line); do
+        if $( echo $line | grep authkey > /dev/null ); then line="        <REDACTED>"; fi
+        echo "$line"
+    done
+}
+
 # create clean branch
 rm -rf ./$TARNAME
 if ! bzr branch . ./$TARNAME; then
@@ -21,6 +29,9 @@ if ! bzr branch . ./$TARNAME; then
     mkdir $TARNAME
     cp -ax $files $TARNAME
     find $TARNAME -name *~ -exec rm \{\} \;
+else
+  # generate changelog
+  bzr log --gnu-changelog --include-merges | filterlog > ${TARNAME}/ChangeLog.txt
 fi
 rm ./$TARNAME/.bzr -rf 
 if test -z "$DONTTAR"; then
@@ -46,8 +57,9 @@ cp ${DIR}/launch.sh ${BINNAME}/defcon || exit -1
 mkdir ${BINNAME}/lib || exit -1
 
 # add READMEs
-cp README.txt ${BINNAME}
-cp "LICENCE AGREEMENT.txt" ${BINNAME}/DEVELOPER_LICENCE_AGREEMENT.txt
+cp README.txt ${BINNAME} || exit 1
+cp "LICENSE AGREEMENT.txt" ${BINNAME}/DEVELOPER_LICENSE_AGREEMENT.txt || exit 1
+cp ${TARNAME}/ChangeLog.txt ${BINNAME}/ || exit 1
 
 # this line will probably fail for you. It's supposed to copy a version of
 # SDL and ogg/vorbis built also with apbuild into the libs subdirectory.
