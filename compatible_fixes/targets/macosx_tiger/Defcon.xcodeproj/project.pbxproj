@@ -1575,7 +1575,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
+			shellScript = "# shell script goes here\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\n# copy/generate changelog\nif test -r ${SRCROOT}/../../ChangeLog.txt; then\n  cp ${SRCROOT}/../../ChangeLog.txt ${TARGET_BUILD_DIR}/\nelse\n  bzr log --gnu-changelog --include-merges > ${TARGET_BUILD_DIR}/ChangeLog.txt || svn log > ${TARGET_BUILD_DIR}/ChangeLog.txt\nfi\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
