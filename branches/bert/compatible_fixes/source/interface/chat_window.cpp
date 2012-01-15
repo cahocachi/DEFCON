@@ -224,6 +224,7 @@ void ChatWindow::Update()
 
     if( g_app->m_gameRunning )
     {
+        /*
         if( EclGetWindow() == this )
         {
             if( m_h < 200 )
@@ -248,6 +249,7 @@ void ChatWindow::Update()
                 Create();
             }
         }
+        */
     }
     else
     {
