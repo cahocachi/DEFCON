@@ -359,6 +359,7 @@ void Vote::Finish( int _result )
 
                 LPREPLACESTRINGFLAG('N', allianceName, msg );
 
+                team->m_allianceId = -1;
                 team->m_allianceId = g_app->GetWorld()->FindFreeAllianceId();
 
                 break;
@@ -387,6 +388,7 @@ void Vote::Finish( int _result )
                     }
                 }
 
+                team->m_allianceId = -1;
                 team->m_allianceId = g_app->GetWorld()->FindFreeAllianceId();
                 break;
             }
