@@ -1535,7 +1535,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh \nln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources ";
+			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
