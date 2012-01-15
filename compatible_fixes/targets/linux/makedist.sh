@@ -44,7 +44,8 @@ cp ${DIR}/launch.sh ${BINNAME}/defcon || exit -1
 mkdir ${BINNAME}/lib || exit -1
 
 # add READMEs
-cp README.txt "LICENCE AGREEMENT.txt" ${BINNAME}
+cp README.txt ${BINNAME}
+cp "LICENCE AGREEMENT.txt" ${BINNAME}/DEVELOPER_LICENCE_AGREEMENT.txt
 
 # this line will probably fail for you. It's supposed to copy a version of
 # SDL and ogg/vorbis built also with apbuild into the libs subdirectory.
@@ -67,13 +68,21 @@ if test -z "$DONTTAR"; then
   tar -cjf ./${BINNAME}.tbz ./$BINNAME || exit -1
 fi
 
-# prepare Windows source tarbal
+# prepare Mac source tarball
 rm -rf ${TARNAME}/data
 rm -rf ${TARNAME}/localisation
 cp ${BINNAME}/*.dat ${TARNAME} || exit -1
+if test -z "$DONTTAR"; then
+  tar -cjf ./${TARNAME}-mac.tbz ./$TARNAME || exit -1
+fi
+
+# prepare Windows source tarball
 sed < targets/msvc/Defcon.nsi -e "s,define PRODUCT_VERSION.*,define PRODUCT_VERSION \"${VERSION}\"", > ${TARNAME}/targets/msvc/Defcon.nsi || exit -1
 todos ${TARNAME}/*.txt || exit -1
 todos ${TARNAME}/targets/msvc/Defcon.nsi || exit -1
 if test -z "$DONTTAR"; then
   tar -cjf ./${TARNAME}-windows.tbz ./$TARNAME || exit -1
+
+  # cleanup
+  rm -rf ${TARNAME} ${BINNAME}
 fi
