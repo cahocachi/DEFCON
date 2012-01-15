@@ -107,7 +107,7 @@ void ChatWindow::Create()
 
     if( windowSize > 40 )
     {
-        m_scrollbar->Create( "Scrollbar", m_w-22, 20, 18, m_h - 50, 0, windowSize );    
+        m_scrollbar->Create( "Scrollbar", m_w-22, 20, 18, m_h - 50, 0, windowSize, 32 );    
     }
 }
 
