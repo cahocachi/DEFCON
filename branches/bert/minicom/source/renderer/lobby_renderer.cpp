@@ -590,7 +590,7 @@ void LobbyRenderer::RenderGlobe()
 
 void LobbyRenderer::RenderVersionInfo()
 {
-    char currentVersion[256] = APP_VERSION;
+    char currentVersion[256] = APP_VERSION_BASE;
     strupr( currentVersion );
 
     float xPos = 50.0f;
