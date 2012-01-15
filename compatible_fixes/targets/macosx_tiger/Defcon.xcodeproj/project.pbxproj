@@ -239,6 +239,7 @@
 		49F18D04134FE45900569ECF /* soundsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C01344C95500746827 /* soundsystem.cpp */; };
 		49F18D05134FE45900569ECF /* soundsystem_interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C21344C95900746827 /* soundsystem_interface.cpp */; };
 		49F18D3A134FE5CA00569ECF /* sound_instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968B01344C92400746827 /* sound_instance.cpp */; };
+		64E3B72814C2E40E00B687D3 /* DMGMakefile in Resources */ = {isa = PBXBuildFile; fileRef = 64E3B72714C2E40E00B687D3 /* DMGMakefile */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8EAE03FB0B9207FA00FAB174 /* macutil.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 8EAE03F90B9207FA00FAB174 /* macutil.h */; };
 		8EAE03FC0B9207FA00FAB174 /* macutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EAE03FA0B9207FA00FAB174 /* macutil.cpp */; };
@@ -661,6 +662,7 @@
 		49E968D21344C98900746827 /* net_socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_socket.cpp; sourceTree = "<group>"; };
 		49E968D31344C98900746827 /* net_thread_linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_thread_linux.cpp; sourceTree = "<group>"; };
 		49E968D41344C98900746827 /* net_udp_packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_udp_packet.cpp; sourceTree = "<group>"; };
+		64E3B72714C2E40E00B687D3 /* DMGMakefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = DMGMakefile; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* DEFCON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEFCON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAE03F90B9207FA00FAB174 /* macutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macutil.h; sourceTree = "<group>"; };
 		8EAE03FA0B9207FA00FAB174 /* macutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macutil.cpp; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				64E3B72714C2E40E00B687D3 /* DMGMakefile */,
 				8D1107320486CEB800E47090 /* DEFCON.app */,
 				21FBC3DF0A79722E00B47F25 /* libOggVorbis.a */,
 				21993A880B85DB0500DC54D7 /* libSoundLibrary.a */,
@@ -1518,6 +1521,7 @@
 				27E954900B091CDF0012741B /* Defcon.icns in Resources */,
 				2743B75F0BCB010E00672CC4 /* DEFCON User Manual.pdf in Resources */,
 				49BC80E3136D572F00A3C3BE /* steam_appid.txt in Resources */,
+				64E3B72814C2E40E00B687D3 /* DMGMakefile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1535,7 +1539,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi";
+			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
