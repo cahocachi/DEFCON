@@ -31,7 +31,7 @@ TEMPLATE_DMG ?= ../../template.dmg
 # DMG building. No editing should be needed beyond this point.
 ################################################################################
 
-MASTER_DMG=$(NAME)-$(VERSION).dmg
+MASTER_DMG=$(NAME)-$(VERSION)-osx.dmg
 WC_DMG=wc.dmg
 WC_DIR=wc
 
