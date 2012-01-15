@@ -18,13 +18,13 @@
 # Customizable variables
 ################################################################################
 
-NAME ?= MyApp
-VERSION ?= 0.1
+NAME ?= DEFCON
+VERSION ?= 1.6_SOURCE
 
-SOURCE_DIR ?= src
-SOURCE_FILES ?= MyApp.app README COPYING
+SOURCE_DIR ?= .
+SOURCE_FILES ?= DEFCON.app README.txt DEVELOPER_LICENSE_AGREEMENT.txt
 
-TEMPLATE_DMG ?= template.dmg
+TEMPLATE_DMG ?= ../../template.dmg
 
 
 ################################################################################
@@ -45,7 +45,7 @@ $(TEMPLATE_DMG).bz2:
 	@echo
 	@echo --------------------- Generating empty template --------------------
 	mkdir template
-	hdiutil create -fs HFSX -layout SPUD -size 40m "$(TEMPLATE_DMG)" -srcfolder template -format UDRW -volname "$(NAME)" -quiet
+	hdiutil create -fs HFSX -layout SPUD -size 70m "$(TEMPLATE_DMG)" -srcfolder template -format UDRW -volname "$(NAME)" -quiet
 	rmdir template
 	bzip2 "$(TEMPLATE_DMG)"
 	@echo
