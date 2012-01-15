@@ -279,7 +279,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D1107260486CEB800E47090 /* Defcon */;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
 			remoteInfo = Defcon;
 		};
 /* End PBXContainerItemProxy section */
@@ -754,7 +754,6 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				64E3B72714C2E40E00B687D3 /* DMGMakefile */,
 				8D1107320486CEB800E47090 /* DEFCON.app */,
 				21FBC3DF0A79722E00B47F25 /* libOggVorbis.a */,
 				21993A880B85DB0500DC54D7 /* libSoundLibrary.a */,
@@ -1382,6 +1381,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				64E3B72714C2E40E00B687D3 /* DMGMakefile */,
 				49BC80E2136D572F00A3C3BE /* steam_appid.txt */,
 			);
 			name = Defcon;
