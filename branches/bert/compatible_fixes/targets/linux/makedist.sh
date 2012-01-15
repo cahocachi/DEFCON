@@ -25,6 +25,8 @@ fi
 rm ./$TARNAME/.bzr -rf 
 if test -z "$DONTTAR"; then
   tar -cjf ./${TARNAME}.tbz ./$TARNAME || exit -1
+else
+  VERSION=${VERSION}-TEST
 fi
 
 # build
@@ -72,6 +74,7 @@ fi
 rm -rf ${TARNAME}/data
 rm -rf ${TARNAME}/localisation
 cp ${BINNAME}/*.dat ${TARNAME} || exit -1
+sed < targets/macosx_tiger/DMGMakefile -e "s,VERSION ?=.*,VERSION ?= \"${VERSION}\"", > ${TARNAME}/targets/macosx_tiger/DMGMakefile || exit -1
 if test -z "$DONTTAR"; then
   tar -cjf ./${TARNAME}-mac.tbz ./$TARNAME || exit -1
 fi
