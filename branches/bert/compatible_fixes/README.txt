@@ -2,9 +2,13 @@ This is a community-modified version of DEFCON by Introversion Software
 distributed under the terms of the developer's licence agreement.
  To run it, you need an original copy of DEFCON first, bought from 
 Introversion Software directly or a licensed distributor; it is taken 
-as sufficient proof if you have a license key stored in the default location
-or can enter one when prompted. The original license agreement of DEFCON
-still applies to this software; it is attached below.
+as sufficient proof if you have a license key stored in the default
+location or can enter one when prompted. The original license agreement
+of DEFCON still applies to this software; it is attached below.
+
+A copy of the developer license is also included for reference as 
+DEVELOPER_LICENSE_AGREEMENT.txt; note however that it does not apply 
+to you as a user of this software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
