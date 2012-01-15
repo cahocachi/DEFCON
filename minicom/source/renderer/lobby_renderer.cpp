@@ -590,7 +590,7 @@ void LobbyRenderer::RenderGlobe()
 
 void LobbyRenderer::RenderVersionInfo()
 {
-    char currentVersion[256] = APP_NAME "  " APP_VERSION;
+    char currentVersion[256] = APP_VERSION;
     strupr( currentVersion );
 
     float xPos = 50.0f;
@@ -616,7 +616,7 @@ void LobbyRenderer::RenderVersionInfo()
 
 		float latestVersionFloat = VersionManager::VersionStringToNumber( latestVersionString );
 		float curVersionFloat = VersionManager::VersionStringToNumber( APP_VERSION );
-        if( strcmp( latestVersionString, APP_VERSION ) == 0 || curVersionFloat >= latestVersionFloat )
+        if( strcmp( latestVersionString, APP_VERSION_BASE ) == 0 || curVersionFloat >= latestVersionFloat )
         {
             g_renderer->TextSimple( xPos, yPos + 33, fontNormal, 12, LANGUAGEPHRASE("dialog_lobby_have_latest_version") );
         }

@@ -21,10 +21,17 @@
 // for all of the above, if you change one definition, you can reset everything below it.
 
 #if (defined TARGET_OS_MACOSX)
-	#define	APP_VERSION		"1.6 MAC"
+	#define	OS_TYPE		"MAC"
+#else 
+# if (defined TARGET_OS_LINUX)
+	#define	OS_TYPE		"LINUX"
 #else
-	#define APP_VERSION     BASE_VERSION "." PROTOCOL_VERSION "." PATCH_VERSION " " BRANCH_VERSION
+	#define	OS_TYPE		"WINDOWS"
 #endif
+#endif
+
+# define APP_VERSION_BASE BASE_VERSION "." PROTOCOL_VERSION "." PATCH_VERSION " " BRANCH_VERSION
+# define APP_VERSION      APP_VERSION_BASE " " OS_TYPE
 //#define APP_VERSION     "1.5 fr rtl" // Defcon 1.5 Codemasters french build, use TARGET_RETAIL_MULTI_LANGUAGE_FRENCH
 //#define APP_VERSION     "1.5 de rtl" // Defcon 1.5 german build, use TARGET_RETAIL_MULTI_LANGUAGE_GERMAN
 //#define APP_VERSION     "1.5 it rtl" // Defcon 1.5 italian build, use TARGET_RETAIL_MULTI_LANGUAGE_ITALIAN
