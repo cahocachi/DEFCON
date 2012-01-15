@@ -80,7 +80,9 @@ Section "MainSection" SEC01
   CreateDirectory "$APPDATA\${PRODUCT_BASENAME}"
   File "..\..\defcon.exe"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_BASENAME}\${PRODUCT_BASENAME}.lnk" "$INSTDIR\defcon.exe"
-  File "..\..\*.txt"
+  File "..\..\README.txt"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_BASENAME}\README.lnk" "$INSTDIR\README.txt"
+  File /oname DEVELOPER_LICENSE_AGREEMENT.txt "..\..\LICENSE AGREEMENT.txt"
   File /nonfatal "..\..\*.dat"
   File /nonfatal /r "..\..\data"
 SectionEnd
@@ -95,7 +97,7 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\defcon.exe"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION    }"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
@@ -118,6 +120,7 @@ Section Uninstall
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall ${PRODUCT_NAME}.lnk"
   Delete "$DESKTOP\${PRODUCT_NAME}.lnk"
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}\README.lnk"
 
   RMDir "$SMPROGRAMS\${PRODUCT_NAME}"
 
