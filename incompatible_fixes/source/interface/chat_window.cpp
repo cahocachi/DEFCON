@@ -107,7 +107,7 @@ void ChatWindow::Create()
 
     if( windowSize > 40 )
     {
-        m_scrollbar->Create( "Scrollbar", m_w-22, 20, 18, m_h - 50, 0, windowSize );    
+        m_scrollbar->Create( "Scrollbar", m_w-22, 20, 18, m_h - 50, 0, windowSize, 32 );    
     }
 }
 
@@ -224,6 +224,7 @@ void ChatWindow::Update()
 
     if( g_app->m_gameRunning )
     {
+        /*
         if( EclGetWindow() == this )
         {
             if( m_h < 200 )
@@ -248,6 +249,7 @@ void ChatWindow::Update()
                 Create();
             }
         }
+        */
     }
     else
     {

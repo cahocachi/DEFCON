@@ -6,6 +6,21 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		64F9AC5614C2E9C20004E398 /* Build Release DMG */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 64F9AC5914C2E9EA0004E398 /* Build configuration list for PBXAggregateTarget "Build Release DMG" */;
+			buildPhases = (
+				64F9AC5514C2E9C20004E398 /* ShellScript */,
+			);
+			dependencies = (
+				64F9AC5814C2E9CB0004E398 /* PBXTargetDependency */,
+			);
+			name = "Build Release DMG";
+			productName = "Build Release DMG";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		002F3A2E09D0888800EBEB88 /* SDLMain.mm in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A2C09D0888800EBEB88 /* SDLMain.mm */; };
 		002F3C0109D093BD00EBEB88 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F3C0009D093BD00EBEB88 /* OpenGL.framework */; };
@@ -239,6 +254,7 @@
 		49F18D04134FE45900569ECF /* soundsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C01344C95500746827 /* soundsystem.cpp */; };
 		49F18D05134FE45900569ECF /* soundsystem_interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C21344C95900746827 /* soundsystem_interface.cpp */; };
 		49F18D3A134FE5CA00569ECF /* sound_instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968B01344C92400746827 /* sound_instance.cpp */; };
+		64E3B72814C2E40E00B687D3 /* DMGMakefile in Resources */ = {isa = PBXBuildFile; fileRef = 64E3B72714C2E40E00B687D3 /* DMGMakefile */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8EAE03FB0B9207FA00FAB174 /* macutil.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 8EAE03F90B9207FA00FAB174 /* macutil.h */; };
 		8EAE03FC0B9207FA00FAB174 /* macutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EAE03FA0B9207FA00FAB174 /* macutil.cpp */; };
@@ -258,6 +274,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 21FBC3DE0A79722E00B47F25;
 			remoteInfo = OggVorbis;
+		};
+		64F9AC5714C2E9CB0004E398 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = Defcon;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -661,6 +684,7 @@
 		49E968D21344C98900746827 /* net_socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_socket.cpp; sourceTree = "<group>"; };
 		49E968D31344C98900746827 /* net_thread_linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_thread_linux.cpp; sourceTree = "<group>"; };
 		49E968D41344C98900746827 /* net_udp_packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_udp_packet.cpp; sourceTree = "<group>"; };
+		64E3B72714C2E40E00B687D3 /* DMGMakefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = DMGMakefile; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* DEFCON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEFCON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAE03F90B9207FA00FAB174 /* macutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macutil.h; sourceTree = "<group>"; };
 		8EAE03FA0B9207FA00FAB174 /* macutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macutil.cpp; sourceTree = "<group>"; };
@@ -1357,6 +1381,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				64E3B72714C2E40E00B687D3 /* DMGMakefile */,
 				49BC80E2136D572F00A3C3BE /* steam_appid.txt */,
 			);
 			name = Defcon;
@@ -1500,6 +1525,7 @@
 				8D1107260486CEB800E47090 /* Defcon */,
 				21FBC3DE0A79722E00B47F25 /* OggVorbis */,
 				21993A870B85DB0500DC54D7 /* SoundLibrary */,
+				64F9AC5614C2E9C20004E398 /* Build Release DMG */,
 			);
 		};
 /* End PBXProject section */
@@ -1518,6 +1544,7 @@
 				27E954900B091CDF0012741B /* Defcon.icns in Resources */,
 				2743B75F0BCB010E00672CC4 /* DEFCON User Manual.pdf in Resources */,
 				49BC80E3136D572F00A3C3BE /* steam_appid.txt in Resources */,
+				64E3B72814C2E40E00B687D3 /* DMGMakefile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1535,7 +1562,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh \nln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources ";
+			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n";
+		};
+		64F9AC5514C2E9C20004E398 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\n# copy/generate changelog\nif test -r ${SRCROOT}/../../ChangeLog.txt; then\n  cp ${SRCROOT}/../../ChangeLog.txt ${TARGET_BUILD_DIR}/\nelse\n  bzr log --gnu-changelog --include-merges > ${TARGET_BUILD_DIR}/ChangeLog.txt || svn log > ${TARGET_BUILD_DIR}/ChangeLog.txt\nfi\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1787,6 +1827,11 @@
 			isa = PBXTargetDependency;
 			target = 21FBC3DE0A79722E00B47F25 /* OggVorbis */;
 			targetProxy = 21FBC48F0A79742700B47F25 /* PBXContainerItemProxy */;
+		};
+		64F9AC5814C2E9CB0004E398 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* Defcon */;
+			targetProxy = 64F9AC5714C2E9CB0004E398 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2200,6 +2245,42 @@
 			};
 			name = MacSteam;
 		};
+		64F9AC5A14C2E9EA0004E398 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build Release DMG";
+			};
+			name = Debug;
+		};
+		64F9AC5B14C2E9EA0004E398 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "Build Release DMG";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		64F9AC5C14C2E9EA0004E398 /* Vanilla */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Build Release DMG";
+			};
+			name = Vanilla;
+		};
+		64F9AC5D14C2E9EA0004E398 /* MacSteam */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Build Release DMG";
+			};
+			name = MacSteam;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2371,6 +2452,17 @@
 				21FBC3E30A79723400B47F25 /* Release */,
 				4989F6BD1357D82A00BE16BD /* Vanilla */,
 				49BF3DBC13604978002A9503 /* MacSteam */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64F9AC5914C2E9EA0004E398 /* Build configuration list for PBXAggregateTarget "Build Release DMG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64F9AC5A14C2E9EA0004E398 /* Debug */,
+				64F9AC5B14C2E9EA0004E398 /* Release */,
+				64F9AC5C14C2E9EA0004E398 /* Vanilla */,
+				64F9AC5D14C2E9EA0004E398 /* MacSteam */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
