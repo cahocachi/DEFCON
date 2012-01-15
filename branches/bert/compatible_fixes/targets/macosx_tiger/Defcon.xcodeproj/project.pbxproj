@@ -6,6 +6,21 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		64F9AC5614C2E9C20004E398 /* Build Release DMG */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 64F9AC5914C2E9EA0004E398 /* Build configuration list for PBXAggregateTarget "Build Release DMG" */;
+			buildPhases = (
+				64F9AC5514C2E9C20004E398 /* ShellScript */,
+			);
+			dependencies = (
+				64F9AC5814C2E9CB0004E398 /* PBXTargetDependency */,
+			);
+			name = "Build Release DMG";
+			productName = "Build Release DMG";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		002F3A2E09D0888800EBEB88 /* SDLMain.mm in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A2C09D0888800EBEB88 /* SDLMain.mm */; };
 		002F3C0109D093BD00EBEB88 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F3C0009D093BD00EBEB88 /* OpenGL.framework */; };
@@ -259,6 +274,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 21FBC3DE0A79722E00B47F25;
 			remoteInfo = OggVorbis;
+		};
+		64F9AC5714C2E9CB0004E398 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090 /* Defcon */;
+			remoteInfo = Defcon;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1503,6 +1525,7 @@
 				8D1107260486CEB800E47090 /* Defcon */,
 				21FBC3DE0A79722E00B47F25 /* OggVorbis */,
 				21993A870B85DB0500DC54D7 /* SoundLibrary */,
+				64F9AC5614C2E9C20004E398 /* Build Release DMG */,
 			);
 		};
 /* End PBXProject section */
@@ -1539,7 +1562,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
+			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n";
+		};
+		64F9AC5514C2E9C20004E398 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1791,6 +1827,11 @@
 			isa = PBXTargetDependency;
 			target = 21FBC3DE0A79722E00B47F25 /* OggVorbis */;
 			targetProxy = 21FBC48F0A79742700B47F25 /* PBXContainerItemProxy */;
+		};
+		64F9AC5814C2E9CB0004E398 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* Defcon */;
+			targetProxy = 64F9AC5714C2E9CB0004E398 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2204,6 +2245,42 @@
 			};
 			name = MacSteam;
 		};
+		64F9AC5A14C2E9EA0004E398 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build Release DMG";
+			};
+			name = Debug;
+		};
+		64F9AC5B14C2E9EA0004E398 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "Build Release DMG";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		64F9AC5C14C2E9EA0004E398 /* Vanilla */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Build Release DMG";
+			};
+			name = Vanilla;
+		};
+		64F9AC5D14C2E9EA0004E398 /* MacSteam */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Build Release DMG";
+			};
+			name = MacSteam;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2375,6 +2452,17 @@
 				21FBC3E30A79723400B47F25 /* Release */,
 				4989F6BD1357D82A00BE16BD /* Vanilla */,
 				49BF3DBC13604978002A9503 /* MacSteam */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64F9AC5914C2E9EA0004E398 /* Build configuration list for PBXAggregateTarget "Build Release DMG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64F9AC5A14C2E9EA0004E398 /* Debug */,
+				64F9AC5B14C2E9EA0004E398 /* Release */,
+				64F9AC5C14C2E9EA0004E398 /* Vanilla */,
+				64F9AC5D14C2E9EA0004E398 /* MacSteam */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
