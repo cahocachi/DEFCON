@@ -82,7 +82,7 @@ Section "MainSection" SEC01
   CreateShortCut "$SMPROGRAMS\${PRODUCT_BASENAME}\${PRODUCT_BASENAME}.lnk" "$INSTDIR\defcon.exe"
   File "..\..\README.txt"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_BASENAME}\README.lnk" "$INSTDIR\README.txt"
-  File /oname DEVELOPER_LICENSE_AGREEMENT.txt "..\..\LICENSE AGREEMENT.txt"
+  File /oname=DEVELOPER_LICENSE_AGREEMENT.txt "..\..\LICENSE AGREEMENT.txt"
   File /nonfatal "..\..\*.dat"
   File /nonfatal /r "..\..\data"
 SectionEnd
