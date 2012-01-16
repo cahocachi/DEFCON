@@ -20,7 +20,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ================================================
 
-<insert description of release here>
+MINICOM aims to eliminate the remaining bugs and other problems 
+of DEFCON while trying to keep the intended feel of the game or 
+what the community turned it into by now. Future changes may
+go beyond this mission statement, but if they do, they will be
+optional. 
 
 ================================================
 
