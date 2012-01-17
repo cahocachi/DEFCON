@@ -685,7 +685,7 @@
 		49E968D31344C98900746827 /* net_thread_linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_thread_linux.cpp; sourceTree = "<group>"; };
 		49E968D41344C98900746827 /* net_udp_packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_udp_packet.cpp; sourceTree = "<group>"; };
 		64E3B72714C2E40E00B687D3 /* DMGMakefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = DMGMakefile; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* DEFCON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEFCON.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* DEFCON.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DEFCON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAE03F90B9207FA00FAB174 /* macutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macutil.h; sourceTree = "<group>"; };
 		8EAE03FA0B9207FA00FAB174 /* macutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macutil.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1575,7 +1575,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\n# copy/generate changelog\nif test -r ${SRCROOT}/../../ChangeLog.txt; then\n  cp ${SRCROOT}/../../ChangeLog.txt ${TARGET_BUILD_DIR}/\nelse\n  bzr log --gnu-changelog --include-merges > ${TARGET_BUILD_DIR}/ChangeLog.txt || svn log > ${TARGET_BUILD_DIR}/ChangeLog.txt\nfi\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
+			shellScript = "# shell script goes here\n\ncp ${SRCROOT}/../../README.txt ${TARGET_BUILD_DIR}/\ncp ${SRCROOT}\"/../../LICENSE AGREEMENT.txt\" ${TARGET_BUILD_DIR}/DEVELOPER_LICENSE_AGREEMENT.txt\n\nrm -rf ${TARGET_BUILD_DIR}/DEFCON-MINICOM.app\nmv ${TARGET_BUILD_DIR}/DEFCON.app ${TARGET_BUILD_DIR}/DEFCON-MINICOM.app\n\n# copy/generate changelog\nif test -r ${SRCROOT}/../../ChangeLog.txt; then\n  cp ${SRCROOT}/../../ChangeLog.txt ${TARGET_BUILD_DIR}/\nelse\n  bzr log --gnu-changelog --include-merges > ${TARGET_BUILD_DIR}/ChangeLog.txt || svn log > ${TARGET_BUILD_DIR}/ChangeLog.txt\nfi\n\nmake -C ${TARGET_BUILD_DIR} -f ${SRCROOT}/DMGMakefile\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
