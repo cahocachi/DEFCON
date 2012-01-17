@@ -419,8 +419,10 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
                 }
                 else
                 {
-                    // we're moving exactly away from the target. Do something random.
-                    m_vel.RotateAroundZ(factor1);
+                    // we're moving exactly away from the target. Do something random:
+                    // a small rotation. Normalization will take care of the rest.
+                    m_vel.x += m_vel.y * factor1;
+                    m_vel.y -= m_vel.x * factor1;
                 }
             }
         }
