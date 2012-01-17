@@ -12,8 +12,11 @@
 // branch. Change if you want to do something completely different
 #define BRANCH_VERSION "MINICOM"
 
-// Protocol version. When we make sync incompatible changes, we bump it
-#define PROTOCOL_VERSION "0"
+// Protocol version. When we make sync incompatible changes, we bump it.
+// Even protocol versions are stable releases compatible with each other,
+// odd protocol versions signify beta series where each version is only compatible
+// with itself.
+#define PROTOCOL_VERSION "1"
 
 // patch level. Increased on all new builds that don't break sync compatibility
 #define PATCH_VERSION "0"

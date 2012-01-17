@@ -210,10 +210,11 @@ bool ProtocolMatch( Directory * server )
     }
 
     // second check, base and protocol version need to match. That's the version string up to the
-    // third non-digit.
+    // third non-digit (fourth for beta series).
     char *myVersion = APP_VERSION;
     int nonDigits = 0;
-    while( nonDigits < 3 && *myVersion && *theirVersion )
+    int maxNonDigits = ( atoi( PROTOCOL_VERSION ) & 1 ) ? 4 : 3;
+    while( nonDigits < maxNonDigits && *myVersion && *theirVersion )
     {
         if( *myVersion != *theirVersion )
         {
