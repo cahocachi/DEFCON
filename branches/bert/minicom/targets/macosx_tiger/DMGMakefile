@@ -18,11 +18,11 @@
 # Customizable variables
 ################################################################################
 
-NAME ?= DEFCON
+NAME ?= DEFCON-MINICOM
 VERSION ?= 1.6_SOURCE
 
 SOURCE_DIR ?= .
-SOURCE_FILES ?= DEFCON.app README.txt DEVELOPER_LICENSE_AGREEMENT.txt ChangeLog.txt
+SOURCE_FILES ?= DEFCON-MINICOM.app README.txt DEVELOPER_LICENSE_AGREEMENT.txt ChangeLog.txt
 
 TEMPLATE_DMG ?= ../../template.dmg
 
