@@ -485,7 +485,7 @@ bool MovingObject::MoveToWaypoint()
             {
                 m_vel.Zero();
             }
-            return true;
+            return false;
         }
         else
         {
@@ -498,6 +498,15 @@ bool MovingObject::MoveToWaypoint()
         }
         return false;
     }
+    else
+    {
+        // just move
+        Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+        m_longitude += m_vel.x * Fixed(timePerUpdate);
+        m_latitude  += m_vel.y * Fixed(timePerUpdate);
+        CrossSeam();
+   }
+
     return true;
     
 }
