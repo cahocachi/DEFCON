@@ -194,8 +194,7 @@ bool Bomber::Update()
     if( m_currentState == 0 &&
         !hasTarget &&
         m_retargetTimer <= 0 &&
-        !m_bombingRun &&
-        m_isLanding == -1 )
+        !m_bombingRun )
     {
         m_retargetTimer = 10;
         m_targetObjectId = -1;
