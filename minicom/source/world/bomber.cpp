@@ -52,8 +52,7 @@ Bomber::Bomber()
 
 void Bomber::Action( int targetObjectId, Fixed longitude, Fixed latitude )
 {
-    if( !CheckCurrentState() ||
-        m_stateTimer > 0 )
+    if( !CheckCurrentState() )
     {
         return;
     }
@@ -195,8 +194,7 @@ bool Bomber::Update()
     if( m_currentState == 0 &&
         !hasTarget &&
         m_retargetTimer <= 0 &&
-        !m_bombingRun &&
-        m_isLanding == -1 )
+        !m_bombingRun )
     {
         m_retargetTimer = 10;
         m_targetObjectId = -1;
@@ -214,9 +212,6 @@ bool Bomber::Update()
     
     if( m_targetLongitude == 0 && m_targetLatitude == 0 )
     {
-        Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
-        m_longitude += m_vel.x * Fixed(timePerUpdate);
-        m_latitude  += m_vel.y * Fixed(timePerUpdate);
         if( m_range <= 0 )
         {
             m_life = 0;
@@ -270,8 +265,6 @@ bool Bomber::Update()
         float timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
 
         m_vel.RotateAroundZ( 0.02f * timePerUpdate );
-        m_longitude += m_vel.x * timePerUpdate;
-        m_latitude += m_vel.y * timePerUpdate;
 
         if( m_longitude <= -180.0f ||
             m_longitude >= 180.0f )
@@ -286,6 +279,16 @@ bool Bomber::Update()
         }
 
     }*/
+
+    // Empty the action queue. Bomber actions just set targets and don't actually do anything.
+    // (unless they are explicitly allowed to)
+    if( m_actionQueue.Size() > 0 )
+    {
+        ActionOrder *action = m_actionQueue[0];
+        Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );
+        m_actionQueue.RemoveData(0);
+        delete action;
+    }
 
     return MovingObject::Update();   
 }
