@@ -263,13 +263,14 @@ defcon.full$(SUFFIX): $(FULL_OBJECTS)
 clean:
 	rm -f defcon.full$(SUFFIX)
 	rm -rf $(OBJDIR_BASE)
+	rm -f full$(SUFFIX).dep
 
 FASTDEP = contrib/linux/bin/fastdep
 
-$(OBJDIR_BASE)/%.dep: TARGET=$(patsubst %.dep,%,$@)
+%.dep: TARGET=$(patsubst %.dep,%,$@)
 
-$(OBJDIR_BASE)/%.dep:
+%.dep:
 	@test -d $(OBJDIR_BASE) || mkdir $(OBJDIR_BASE)
-	@$(FASTDEP) -O $(OBJDIR_BASE)/$(TARGET)/1/1 $(INCLUDES:%=-I %) --remakedeptarget=$@ $(SOURCES) > $@
+	@$(FASTDEP) -O $(OBJDIR_BASE)/$(TARGET) $(INCLUDES:%=-I %) --remakedeptarget=$@ $(SOURCES) > $@
 
--include $(OBJDIR_BASE)/full.dep
+-include full$(SUFFIX).dep
