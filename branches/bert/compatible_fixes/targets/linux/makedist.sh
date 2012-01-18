@@ -2,7 +2,7 @@
 
 # call from main directory to build versioned source archive
 
-set -x
+#set -x
 
 DIR=$(dirname $0)
 
@@ -16,10 +16,27 @@ bzr status || exit -1
 
 function filterlog()
 {
+    # keep a backlog of two lines so we can properly cut out merges
+    lastline2=$(line)
+    lastline1=$(line)
+
     while line=$(line); do
         if $( echo $line | grep authkey > /dev/null ); then line="        <REDACTED>"; fi
-        echo "$line"
+        if $( echo $line | grep -i "merging" > /dev/null ); then 
+            # swallow four lines (this one is included)
+            line=$(line)
+            lastline2=$(line)
+            lastline1=$(line)
+        else
+            echo "$lastline2"
+
+            lastline2="$lastline1"
+            lastline1="$line"
+        fi
     done
+
+    echo "$lastline2"
+    echo "$lastline1"
 }
 
 # create clean branch
