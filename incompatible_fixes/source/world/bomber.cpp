@@ -178,7 +178,6 @@ bool Bomber::Update()
                             if( distanceSqd <= GetActionRangeSqd() )
                             {
                                 FireGun( GetActionRange() );
-                                m_stateTimer = m_states[0]->m_timeToReload;
                             }
                         }
                     }

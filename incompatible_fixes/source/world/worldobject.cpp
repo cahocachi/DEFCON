@@ -677,6 +677,7 @@ void WorldObject::FireGun( Fixed range )
     bullet->m_distanceToTarget = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude );
     bullet->m_attackOdds = g_app->GetWorld()->GetAttackOdds( m_type, targetObject->m_type, m_objectId );
     g_app->GetWorld()->m_gunfire.PutData( bullet );
+    m_stateTimer = m_states[ m_currentState ]->m_timeToReload;
 }
 
 int WorldObject::GetAttackOdds( int _defenderType )

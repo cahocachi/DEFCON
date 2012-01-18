@@ -88,7 +88,6 @@ bool BattleShip::Update()
                         if( m_stateTimer <= 0 )
                         {
                             FireGun( GetActionRange() );
-                            m_stateTimer = m_states[ m_currentState ]->m_timeToReload;
                             fleet->FleetAction( m_targetObjectId );
                         }
                     }

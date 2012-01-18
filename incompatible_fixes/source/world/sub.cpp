@@ -152,10 +152,6 @@ bool Sub::Update()
                         {
                             FireGun( GetActionRange() );
                             fleet->FleetAction( m_targetObjectId );
-                            if( m_currentState == 0 )
-                            {
-                                m_stateTimer = m_states[0]->m_timeToReload;
-                            }
                         }
                     }
                 }
