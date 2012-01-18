@@ -114,7 +114,6 @@ bool Fighter::Update()
                         if( distanceSqd <= GetActionRangeSqd() )
                         {
                             FireGun( GetActionRange() );
-                            m_stateTimer = m_states[ m_currentState ]->m_timeToReload;
                         }
                     }
                     else

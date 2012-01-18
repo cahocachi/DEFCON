@@ -138,7 +138,6 @@ bool Silo::Update()
                     g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude) <= GetActionRange() )
                 {
                     FireGun( GetActionRange() );
-                    m_stateTimer = m_states[1]->m_timeToReload;
                 }
                 else
                 {
