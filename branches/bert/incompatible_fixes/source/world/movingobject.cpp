@@ -59,7 +59,10 @@ void MovingObject::InitialiseTimers()
 
     Fixed gameScale = World::GetGameScale();
     m_speed /= gameScale;
-    //m_range /= gameScale;
+    if( gameScale < 1 && m_range < Fixed::MAX )
+    {
+        m_range /= gameScale;
+    }
 }
 
 
