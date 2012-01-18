@@ -243,10 +243,6 @@ void World::AssignCities()
         team->m_desiredGameSpeed = 20;
 #endif
 
-        team->m_unitCredits = 53 * g_app->GetGame()->GetOptionValue("TerritoriesPerTeam");
-
-        if( !g_app->GetGame()->GetOptionValue("VariableUnitCounts") ) team->m_unitCredits = 999999;
-
         if( team->m_territories.Size() < g_app->GetGame()->GetOptionValue("TerritoriesPerTeam") )
         {
             if( !g_app->GetTutorial() )
@@ -273,6 +269,7 @@ void World::AssignCities()
         {
             for( int j = 0; j < m_teams.Size(); ++j )
             {
+                m_teams[j]->m_unitCredits = 999999;
                 if( i == WorldObject::TypeAirBase )
                 {
                     m_teams[j]->m_unitsAvailable[i] = (4 * territoriesPerTeam * worldScale).IntValue();
@@ -303,24 +300,27 @@ void World::AssignCities()
         {
             for( int j = 0; j < m_teams.Size(); ++j )
             {
-                m_teams[j]->m_unitCredits = 120 * g_app->GetGame()->GetOptionValue( "TerritoriesPerTeam" );
+                Fixed scale = territoriesPerTeam * worldScale;
+                m_teams[j]->m_unitCredits = (120 * scale).IntValue();
                 if( i == WorldObject::TypeAirBase )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 8 * territoriesPerTeam;
+                    m_teams[j]->m_unitsAvailable[i] = (8 * scale).IntValue();
                 }
                 else if( i == WorldObject::TypeRadarStation )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 12 * territoriesPerTeam;
+                    m_teams[j]->m_unitsAvailable[i] = (12 * scale).IntValue();
                 }
                 else if( i == WorldObject::TypeSilo )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 10 * territoriesPerTeam;
+                    m_teams[j]->m_unitsAvailable[i] = (10 * scale).IntValue();
                 }
                 else if(i == WorldObject::TypeBattleShip ||
                         i == WorldObject::TypeCarrier ||
                         i == WorldObject::TypeSub )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 18 * territoriesPerTeam;
+                    Fixed shipsAvailable = 18 * territoriesPerTeam * sqrt(worldScale*worldScale*worldScale);
+                    // Round before truncating to int, to eliminate floating point error
+                    m_teams[j]->m_unitsAvailable[i] = int( shipsAvailable.DoubleValue() + 0.5f );
                 }
             }
         }
