@@ -122,7 +122,7 @@ bool Nuke::Update()
     Vector3<Fixed> target( m_targetLongitude, m_targetLatitude, 0 );
     Vector3<Fixed> pos( m_longitude, m_latitude, 0 );
     Fixed remainingDistance = (target - pos).Mag();
-    Fixed fractionDistance = 1 - remainingDistance / m_totalDistance;
+    Fixed fractionDistance = m_totalDistance > 0 ? 1 - remainingDistance / m_totalDistance : Fixed::Hundredths(50);
 
     Vector3<Fixed> front = (target - pos).Normalise();  
     Fixed fractionNorth = 5 * m_latitude.abs() / ( 200 / 2 );
