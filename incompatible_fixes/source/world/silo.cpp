@@ -50,9 +50,9 @@ void Silo::Action( int targetObjectId, Fixed longitude, Fixed latitude )
         return;
     }
 
-    if( m_stateTimer <= 0 )
+    if( m_currentState == 0 )
     {
-        if( m_currentState == 0 )
+        if( m_stateTimer <= 0 )
         {
             g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, 360 );
             m_numNukesLaunched++;
@@ -63,32 +63,38 @@ void Silo::Action( int targetObjectId, Fixed longitude, Fixed latitude )
                 m_lastSeenTime[team->m_teamId] = m_ghostFadeTime;
                 m_seen[team->m_teamId] = true;
             }
-    
         }
-        else if( m_currentState == 1 )
+        else
         {
-            WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(targetObjectId);
-            if( targetObject )
+            return;
+        }
+    }
+    else if( m_currentState == 1 )
+    {
+        WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(targetObjectId);
+        if( targetObject )
+        {
+            if( targetObject->m_visible[m_teamId] &&                     
+                g_app->GetWorld()->GetAttackOdds( m_type, targetObject->m_type ) > 0 &&
+                g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude) <= GetActionRange() )
             {
-                if( targetObject->m_visible[m_teamId] &&                     
-                    g_app->GetWorld()->GetAttackOdds( m_type, targetObject->m_type ) > 0 &&
-                    g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude) <= GetActionRange() )
-                {
-                    m_targetObjectId = targetObjectId;
-                }
-                else
-                {
-                    return;
-                }
+                m_targetObjectId = targetObjectId;
+
+                // manual target selection; don't retarget.
+                m_retargetTimer = Fixed::MAX;
             }
             else
             {
                 return;
             }
         }
-
-        WorldObject::Action( targetObjectId, longitude, latitude );
+        else
+        {
+            return;
+        }
     }
+
+    WorldObject::Action( targetObjectId, longitude, latitude );
 }
 
 void Silo::SetState( int state )
@@ -123,10 +129,13 @@ bool Silo::Update()
 
     if( m_stateTimer <= 0 )
     {
-        if( m_retargetTimer <= 0 )
+        static const Fixed retargetTime(10);
+
+        // retarget if the timer is up or a manually selected target was just destroyed
+        if( m_retargetTimer <= 0 || ( m_retargetTimer > retargetTime && m_targetObjectId == -1 ) )
         {
-            m_retargetTimer = 10;
             AirDefense();
+            m_retargetTimer = retargetTime;
         }
         if( m_targetObjectId != -1  )
         {
