@@ -263,9 +263,8 @@ bool WorldObject::Update()
         }
     }
 
-    if( m_stateTimer <= 0 )
     {
-        if( m_actionQueue.Size() > 0 )
+        while( ( m_stateTimer <= 0 || !IsActionQueueable() ) && m_actionQueue.Size() > 0 )
         {
             ActionOrder *action = m_actionQueue[0];
             Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );

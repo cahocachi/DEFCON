@@ -279,16 +279,6 @@ bool Bomber::Update()
 
     }*/
 
-    // Empty the action queue. Bomber actions just set targets and don't actually do anything.
-    // (unless they are explicitly allowed to)
-    if( m_actionQueue.Size() > 0 )
-    {
-        ActionOrder *action = m_actionQueue[0];
-        Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );
-        m_actionQueue.RemoveData(0);
-        delete action;
-    }
-
     return MovingObject::Update();   
 }
 
