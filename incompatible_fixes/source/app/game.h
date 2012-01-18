@@ -36,7 +36,7 @@ public:
     
     LList           <GameOption *>  m_options;
     
-    BoundedArray    <int>           m_score;                            // Indexed on teamID
+    BoundedArray    <Fixed>         m_score;                            // Indexed on teamID
     BoundedArray    <int>           m_nukeCount;                        
     BoundedArray    <int>           m_totalNukes;                       // the total nukes a player has, calculated once defcon 3 hits
 
