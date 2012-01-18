@@ -134,9 +134,6 @@ bool Fighter::Update()
     {
         if( m_targetObjectId == -1 )
         {
-            Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
-            m_longitude += m_vel.x * Fixed(timePerUpdate);
-            m_latitude  += m_vel.y * Fixed(timePerUpdate);
             if( m_range <= 0 )
             {
                 m_life = 0;
@@ -169,14 +166,6 @@ bool Fighter::Update()
         Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
 
         m_vel.RotateAroundZ( Fixed::Hundredths(2) * timePerUpdate );
-        m_longitude += m_vel.x * Fixed(timePerUpdate);
-        m_latitude += m_vel.y * Fixed(timePerUpdate);
-
-        if( m_longitude <= -180 ||
-            m_longitude >= 180 )
-        {
-            CrossSeam();
-        }
 
         if( m_range <= 0 )
         {
