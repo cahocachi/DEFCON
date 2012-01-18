@@ -178,7 +178,10 @@ Fixed WorldObject::GetRadarRange ()
 
 void WorldObject::Action( int targetObjectId, Fixed longitude, Fixed latitude )
 {
-    m_stateTimer = m_states[m_currentState]->m_timeToReload;
+    if( IsActionQueueable() )
+    {
+        m_stateTimer = m_states[m_currentState]->m_timeToReload;
+    }
 
     WorldObjectState *currentState = m_states[m_currentState];
     if( currentState->m_numTimesPermitted != -1 &&
