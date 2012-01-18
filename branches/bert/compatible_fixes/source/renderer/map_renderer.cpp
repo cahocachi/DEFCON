@@ -45,6 +45,7 @@
 #include "world/nuke.h"
 #include "world/node.h"
 #include "world/blip.h"
+#include "world/bomber.h"
 #include "world/fleet.h"
 #include "world/whiteboard.h"
 
@@ -2224,7 +2225,41 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                     actionCursorLatitude = fleet->m_targetLatitude.DoubleValue();                    
                 }
             }
-            if( actionCursorLongitude != 0.0f || actionCursorLatitude != 0.0f )
+            // render bomber nuke targets
+            bool vetoNavTarget = false;
+            if( mobj->m_type == WorldObject::TypeBomber &&
+                mobj->m_currentState == 1 )
+            {
+                Bomber * bomber = dynamic_cast< Bomber * >( mobj );
+                if( bomber && bomber->m_bombingRun && ( bomber->m_nukeTargetLongitude != 0 || bomber->m_nukeTargetLatitude != 0 ) )
+                {
+                    Colour actionCursorCol( 255,0,0,150 );
+                    float actionCursorSize = 2.0f;
+                    float actionCursorAngle = 0;
+
+                    vetoNavTarget = ( bomber->m_nukeTargetLongitude == bomber->m_targetLongitude ||
+                                      bomber->m_nukeTargetLongitude == bomber->m_targetLongitude + 360 ||
+                                      bomber->m_nukeTargetLongitude == bomber->m_targetLongitude - 360 ) &&
+                    bomber->m_nukeTargetLatitude == bomber->m_targetLatitude;
+
+                    float actionCursorLongitude = bomber->m_nukeTargetLongitude.DoubleValue();
+                    float actionCursorLatitude = bomber->m_nukeTargetLatitude.DoubleValue();                   
+
+                    g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
+
+                    Image *img = g_resource->GetImage( "graphics/cursor_target.bmp" );
+                    g_renderer->Blit( img, actionCursorLongitude, actionCursorLatitude, 
+                                      actionCursorSize, actionCursorSize, 
+                                      actionCursorCol, actionCursorAngle );
+
+                    g_renderer->SetBlendMode( Renderer::BlendModeNormal );            
+
+                    RenderActionLine( predictedLongitude, predictedLatitude, 
+                                      actionCursorLongitude, actionCursorLatitude, 
+                                      actionCursorCol, 0.5f );
+                }
+            }
+            if( !vetoNavTarget && ( actionCursorLongitude != 0.0f || actionCursorLatitude != 0.0f ) )
             {
                 Colour actionCursorCol( 0,0,255,150 );
                 float actionCursorSize = 2.0f;
@@ -2233,12 +2268,6 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                 g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
                 if( mobj->m_type == WorldObject::TypeNuke )
-                {
-                    actionCursorCol.Set( 255,0,0,150 );
-                }
-
-                if( mobj->m_type == WorldObject::TypeBomber &&
-                    mobj->m_currentState == 1 )
                 {
                     actionCursorCol.Set( 255,0,0,150 );
                 }
@@ -2255,7 +2284,6 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                                   actionCursorCol, 0.5f );
             }
         }
-
 
         //
         // Render our action queue
