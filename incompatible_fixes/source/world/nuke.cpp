@@ -247,7 +247,7 @@ void Nuke::FindTarget( int team, int targetTeam, int launchedBy, Fixed range, Fi
 
     Team *friendlyTeam = g_app->GetWorld()->GetTeam( team );
 
-    int maxPop = 500000;        // Don't bother hitting cities with less than 0.5M survivors
+    int maxPop = 0;
 
     for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
     {
