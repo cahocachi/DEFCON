@@ -159,7 +159,7 @@ bool Fighter::Update()
             }
             m_targetObjectId = obj->m_objectId;
         }
-        else
+        else if( IsIdle() )
         {
             Land( GetClosestLandingPad() );
         }
