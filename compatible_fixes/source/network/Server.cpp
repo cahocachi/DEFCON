@@ -785,7 +785,7 @@ void Server::AdvanceSender()
                 AppDebugOut( "Largest server letter sent : %d bytes\n", s_largest );
             }
 
-            delete linearisedLetter;
+            delete[] linearisedLetter;
             delete letter;                                        
         }
 

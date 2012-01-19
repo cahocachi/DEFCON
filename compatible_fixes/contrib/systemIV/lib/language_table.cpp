@@ -33,7 +33,7 @@ LanguageTable::~LanguageTable()
 	ClearLanguagePhraseErrors();
 #endif
 
-    m_languages.EmptyAndDelete();
+    m_languages.EmptyAndFree();
 
 	if( m_lang ) delete m_lang;
 	if( m_defaultLanguage ) delete [] m_defaultLanguage;
@@ -64,7 +64,7 @@ void LanguageTable::LoadLanguages()
     //
     // Clear out all known languages
 
-    m_languages.EmptyAndDelete();
+    m_languages.EmptyAndFree();
 
 
     //
@@ -118,7 +118,7 @@ void LanguageTable::LoadLanguages()
                      lang->m_path );
     }
 
-    files->EmptyAndDelete();
+    files->EmptyAndFree();
     delete files;
 }
 

@@ -137,7 +137,7 @@ void ModSystem::LoadInstalledMods()
         }
     }
 
-    subDirs->EmptyAndDelete();
+    subDirs->EmptyAndFree();
     delete subDirs;
 }
 

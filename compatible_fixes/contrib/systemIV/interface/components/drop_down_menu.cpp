@@ -26,10 +26,10 @@ DropDownOptionData::DropDownOptionData(const char *_word, int _value, bool _word
 
 DropDownOptionData::~DropDownOptionData()
 {
-	delete [] m_word;
+	free( m_word );
 	if( m_renderLanguage )
 	{
-		delete [] m_renderLanguage;
+		free( m_renderLanguage );
 	}
 }
 
