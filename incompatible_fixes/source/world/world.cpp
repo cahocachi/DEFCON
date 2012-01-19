@@ -2642,7 +2642,7 @@ int World::GetClosestNodeSlow( Fixed const &longitude, Fixed const &latitude )
     return nodeId;
 }
 
-void World::SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude )
+void World::SanitiseTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude )
 {
     // move the target longitude across the seam to make sure if the unit slavishly
     // goes for it using euclidean geometry and topology, it'll take the shorter way

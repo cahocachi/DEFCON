@@ -183,7 +183,7 @@ void MovingObject::SetWaypoint( Fixed longitude, Fixed latitude )
        
     if( m_movementType == MovementTypeAir )
     {
-        World::SanitizeTargetLongitude( m_longitude, longitude );
+        World::SanitiseTargetLongitude( m_longitude, longitude );
     }
 
     m_targetLongitude = longitude;
@@ -337,7 +337,7 @@ void FFClamp( Fixed &f, unsigned long long clamp )
 
 void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude )
 {
-    World::SanitizeTargetLongitude( m_longitude, m_targetLongitude );
+    World::SanitiseTargetLongitude( m_longitude, m_targetLongitude );
 
     Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
                                 Vector3<Fixed>( m_longitude, m_latitude, 0 ));

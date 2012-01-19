@@ -439,7 +439,7 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
     }
 
 
-    World::SanitizeTargetLongitude( m_longitude, longitude );
+    World::SanitiseTargetLongitude( m_longitude, longitude );
         
     if( IsOnSameSideOfSeam() )
     {
@@ -507,7 +507,7 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
                 MovingObject *obj = (MovingObject* )g_app->GetWorld()->GetWorldObject( m_fleetMembers[i] );
                 if( obj && obj->IsMovingObject() )
                 {
-                    World::SanitizeTargetLongitude( obj->m_longitude, longitude );
+                    World::SanitiseTargetLongitude( obj->m_longitude, longitude );
 
                     Node *node = g_app->GetWorld()->m_nodes[ g_app->GetWorld()->GetClosestNode( obj->m_longitude, obj->m_latitude )];
                     if( !node )
@@ -1313,7 +1313,7 @@ void Fleet::CreateBlip( Fixed longitude, Fixed latitude, int type )
         {
             if( g_app->GetWorld()->GetDistanceSqd( longitude, latitude, m_longitude, m_latitude ) > 6 * 6 )
             {
-                World::SanitizeTargetLongitude( m_longitude, longitude );
+                World::SanitiseTargetLongitude( m_longitude, longitude );
 
                 m_blipTimer = 5;
                 Blip *blip = new Blip();
