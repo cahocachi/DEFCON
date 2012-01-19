@@ -90,7 +90,7 @@ bool Fighter::Update()
             }
             else
             {
-                if( !m_isRetaliating )
+                if( m_targetLongitude == 0 && m_targetLatitude == 0 )
                 {
                     SetWaypoint( targetObject->m_lastKnownPosition[m_teamId].x, 
                                  targetObject->m_lastKnownPosition[m_teamId].y );
@@ -146,12 +146,17 @@ bool Fighter::Update()
         }
     }
 
-    if( IsIdle() )
+    if( m_targetObjectId == -1 && m_retargetTimer <= 0 )
     {
+        m_retargetTimer = 10;
         WorldObject *obj = g_app->GetWorld()->GetWorldObject( GetTarget( ( m_range < 40 ) ? m_range : 40 ) );
         if( obj )
         {
-            SetWaypoint( obj->m_longitude, obj->m_latitude );
+            // follow object if there are no other orders
+            if( IsIdle() )
+            {
+                SetWaypoint( obj->m_longitude, obj->m_latitude );
+            }
             m_targetObjectId = obj->m_objectId;
         }
         else
@@ -252,6 +257,10 @@ int Fighter::IsValidCombatTarget( int _objectId )
     return MovingObject::IsValidCombatTarget( _objectId );
 }
 
+void Fighter::Retaliate( int attackerId )
+{
+    // fighters are expendable and never retaliate
+}
 
 bool Fighter::SetWaypointOnAction()
 {
