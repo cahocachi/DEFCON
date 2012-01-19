@@ -26,6 +26,9 @@ public:
     int     CountTargettedFighters( int targetId );
 
     int     IsValidCombatTarget( int _objectId );                                      // returns TargetType...
+
+    virtual void    Retaliate       ( int attackerId );
+
     bool    SetWaypointOnAction();
 };
 
