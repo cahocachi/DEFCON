@@ -88,7 +88,7 @@ PreferencesItem::PreferencesItem(char *_line)
 		m_str = newStr(value);
 
         int len = strlen(m_str);
-        if( m_str[len-1] == '\n' || m_str[len-1] == '\r' ) 
+        if( len > 0 && ( m_str[len-1] == '\n' || m_str[len-1] == '\r' ) ) 
         {
             m_str[len-1] = '\x0';
         }
