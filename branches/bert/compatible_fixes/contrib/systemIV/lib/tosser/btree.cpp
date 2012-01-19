@@ -68,7 +68,7 @@ void BTree<T>::Empty()
 {
     delete ltree;
     delete rtree;
-    delete id;
+    delete[] id;
     
     ltree = rtree = NULL;
     id = NULL;

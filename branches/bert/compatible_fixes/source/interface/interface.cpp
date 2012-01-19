@@ -472,7 +472,7 @@ void Interface::Render()
             }
             else
             {
-                delete m_message;
+                free( m_message );
                 m_message = NULL;
             }
         }

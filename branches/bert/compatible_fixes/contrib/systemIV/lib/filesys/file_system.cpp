@@ -32,7 +32,7 @@ void FileSystem::ParseArchives( const char *_dir, const char *_filter )
         fullFilename[ sizeof(fullFilename) - 1 ] = '\0';
         ParseArchive( fullFilename );
     }
-    results->EmptyAndDelete();
+    results->EmptyAndDeleteArray();
     delete results;
 }
 
@@ -288,7 +288,7 @@ LList<char *> *FileSystem::ListArchive(char *_dir, char *_filter, bool fullFilen
         else
         {
             ListArchiveFilterResults( results, results2 );
-            results2->EmptyAndDelete();
+            results2->EmptyAndDeleteArray();
             delete results2;
         }
     }
@@ -308,7 +308,7 @@ LList<char *> *FileSystem::ListArchive(char *_dir, char *_filter, bool fullFilen
     else
     {
         ListArchiveFilterResults( results, results3 );
-        results3->EmptyAndDelete();
+        results3->EmptyAndDeleteArray();
         delete results3;
     }
 
@@ -318,7 +318,7 @@ LList<char *> *FileSystem::ListArchive(char *_dir, char *_filter, bool fullFilen
 
     LList<char *> *results4 = ListDirectory( _dir, _filter, fullFilename );
     ListArchiveFilterResults( results, results4 );
-    results4->EmptyAndDelete();
+    results4->EmptyAndDeleteArray();
     delete results4;
 
 

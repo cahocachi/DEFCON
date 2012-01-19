@@ -216,7 +216,7 @@ void ClientToServer::AdvanceSender()
             s_bytesSent += UDP_HEADER_SIZE;
             
             delete letter;
-            delete byteStream;            
+            delete[] byteStream;            
         }
         g_app->GetClientToServer()->m_outbox.RemoveData(0);
     }
@@ -844,7 +844,7 @@ void ClientToServer::ClientLeave( bool _notifyServer )
     delete m_sendSocket;
     m_sendSocket = NULL;
 
-    delete m_serverIp;
+    free( m_serverIp );
     m_serverIp = NULL;
     m_serverPort = -1;
 
