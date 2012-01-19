@@ -78,6 +78,9 @@ public:
     char            *LogState();
 
     virtual int     GetTarget( Fixed range );
+
+private:
+    bool            GetClosestLandingPad( BoundedArray<int> const & alreadyLanding, Fixed const & turnRadius, int & padId, int & nearestNonViableId );
 };
 
 /*
