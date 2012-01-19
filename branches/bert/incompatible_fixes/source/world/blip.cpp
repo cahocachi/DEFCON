@@ -161,7 +161,7 @@ void Blip::SetWaypoint( Fixed longitude, Fixed latitude )
     // this thing moves at sea and the MovingObject base function
     // only corrects the target longitude for planes, so we need to
     // do it manually here.
-    World::SanitizeTargetLongitude( m_longitude, longitude );
+    World::SanitiseTargetLongitude( m_longitude, longitude );
 
     MovingObject::SetWaypoint( longitude, latitude );
 }

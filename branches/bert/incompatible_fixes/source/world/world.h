@@ -210,7 +210,7 @@ public:
 
     // makes sure toLongitude is wrapped around the seam in such a way that the absolute difference
     // between it and fromLongitude is minimal
-    static void SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
+    static void SanitiseTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
 
     // Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     // Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
