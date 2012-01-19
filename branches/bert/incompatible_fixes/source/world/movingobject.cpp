@@ -99,7 +99,7 @@ bool MovingObject::Update()
             if((m_type == WorldObject::TypeFighter &&
                 home->m_states[0]->m_numTimesPermitted >= home->m_maxFighters ) ||
                 (m_type == WorldObject::TypeBomber &&
-                home->m_states[1]->m_numTimesPermitted >= home->m_maxBombers ))
+                home->m_states[1]->m_numTimesPermitted >= home->m_maxBombers ) )
             {
                 Land( GetClosestLandingPad() );
             }            
@@ -816,7 +816,18 @@ int MovingObject::GetClosestLandingPad()
     int nearestWithNukesId = -1;
 
     Fixed nearestSqd = Fixed::MAX;
-    Fixed nearestWithNukesSqd = Fixed::MAX;
+
+    // take into account that we may need to turn around; overestimate it a bit
+    Fixed turnRadius = 2*m_speed/m_turnRate;
+    Fixed range = m_range - turnRadius;
+    Fixed turnLongitude = m_longitude + m_vel.x * turnRadius;
+    Fixed turnLatitude  = m_latitude  + m_vel.y * turnRadius;
+
+    // for the nearest nuke supply, prefer larger supplies and don't look further than
+    // our remaining fuel range
+    Fixed rangeSqd = range * range;
+    Fixed nearestWithNukesSqd = rangeSqd;
+    int maxNukeSupply = 1;
 
     //
     // Look for any carrier or airbase with room
@@ -838,19 +849,29 @@ int MovingObject::GetClosestLandingPad()
 
                     if( roomInside > 0 )
                     {
-                        Fixed distSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
+                        Fixed distSqd = g_app->GetWorld()->GetDistanceSqd( turnLongitude, turnLatitude, obj->m_longitude, obj->m_latitude );
                         if( distSqd < nearestSqd )
                         {
                             nearestSqd = distSqd;
                             nearestId = obj->m_objectId;
                         }
 
-                        if( m_type == TypeBomber && 
-                            obj->m_nukeSupply > 0 &&
-                            distSqd < nearestWithNukesSqd )
+                        if( m_type == TypeBomber && obj->m_nukeSupply > 0 )
                         {
-                            nearestWithNukesSqd = distSqd;
-                            nearestId = obj->m_objectId;
+                            // must be an airbase or carrier
+                            AppAssert( obj->m_type == TypeCarrier || obj->m_type == TypeAirBase );
+
+                            // get nukes left to distribute: nukes minus bombers
+                            int nukesLeft = obj->m_nukeSupply - obj->m_states[1]->m_numTimesPermitted;
+
+                            // closer is better, more nukes is even better
+                            if ( ( distSqd < nearestWithNukesSqd && nukesLeft >= maxNukeSupply ) ||
+                                 ( distSqd < rangeSqd && nukesLeft > maxNukeSupply ) ) 
+                            {
+                                nearestWithNukesSqd = distSqd;
+                                nearestWithNukesId = obj->m_objectId;
+                                maxNukeSupply = nukesLeft;
+                            }
                         }
                     }
                 }
@@ -868,9 +889,10 @@ int MovingObject::GetClosestLandingPad()
     }
 
     //
-    // Bomber - go for nearest with nukes if in range
+    // Bomber without nuke - go for nearest with nukes if in range
 
     if( m_type == TypeBomber && 
+        m_states[1]->m_numTimesPermitted == 0 &&
         nearestWithNukesId != -1 &&
         nearestWithNukesSqd < m_range * m_range )
     {
