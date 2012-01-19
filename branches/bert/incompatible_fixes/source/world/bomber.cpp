@@ -242,10 +242,24 @@ bool Bomber::Update()
         SetState(1);
     }
 
-    if( (m_bombingRun && m_states[1]->m_numTimesPermitted ==  0) ||
-        IsIdle() )
+    // bombing run over? return to base.
+    if( m_bombingRun && m_states[1]->m_numTimesPermitted ==  0 )
     {
         Land( GetClosestLandingPad() );
+    }
+    
+    // nothing to do?
+    if( IsIdle() )
+    {
+        // wait, wasn't there something to nuke?
+        if( m_bombingRun && m_states[1]->m_numTimesPermitted != 0 )
+        {
+            SetWaypoint( m_nukeTargetLongitude, m_nukeTargetLatitude );
+        }
+        else
+        {
+            Land( GetClosestLandingPad() );
+        }
     }
 
     if( m_currentState == 1 )
