@@ -22,7 +22,6 @@ public:
     bool    Update          ();
     void    Render          ();
     void    RunAI           ();
-    void    Land            ( int targetId );
     bool    UsingNukes      ();
     void    SetNukeTarget   ( Fixed longitude, Fixed latitude );
     void    Retaliate       ( int attackerId );

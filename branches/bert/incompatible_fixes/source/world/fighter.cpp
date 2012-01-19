@@ -201,17 +201,6 @@ int Fighter::GetAttackState()
     return 0;
 }
 
-
-void Fighter::Land( int targetId )
-{
-    WorldObject *target = g_app->GetWorld()->GetWorldObject(targetId);
-    if( target )
-    {
-        SetWaypoint( target->m_longitude, target->m_latitude );
-        m_isLanding = targetId;
-    }
-}
-
 bool Fighter::UsingGuns()
 {
     return true;

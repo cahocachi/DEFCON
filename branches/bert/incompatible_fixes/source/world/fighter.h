@@ -21,7 +21,6 @@ public:
 
     int     GetAttackState  ();
 
-    void    Land            ( int targetId );
     bool    UsingGuns       ();
     int     CountTargettedFighters( int targetId );
 

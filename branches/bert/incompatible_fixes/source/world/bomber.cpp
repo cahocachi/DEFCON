@@ -337,16 +337,6 @@ void Bomber::RunAI()
 
 
 
-void Bomber::Land( int targetId )
-{
-    WorldObject *target = g_app->GetWorld()->GetWorldObject(targetId);
-    if( target )
-    {
-        SetWaypoint( target->m_longitude, target->m_latitude );
-        m_isLanding = targetId;
-    }
-}
-
 bool Bomber::UsingNukes()
 {
     if( m_currentState == 1 )
