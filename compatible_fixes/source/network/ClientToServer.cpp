@@ -120,6 +120,9 @@ ClientToServer::ClientToServer()
 ClientToServer::~ClientToServer()
 {
     while( m_outbox.Size() > 0 ) {}
+
+    delete m_netLib;
+    m_netLib = NULL;
 }
 
 

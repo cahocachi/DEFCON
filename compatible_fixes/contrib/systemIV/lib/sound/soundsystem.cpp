@@ -48,10 +48,10 @@ SoundSystem::SoundSystem()
 
 SoundSystem::~SoundSystem()
 {
-    delete [] m_channels;
-
     m_sounds.EmptyAndDelete();
 
+    delete [] m_channels;
+    m_channels = NULL;
 
     delete g_soundSampleBank;
     g_soundSampleBank = NULL;

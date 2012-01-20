@@ -367,7 +367,7 @@ void MetaServer_Connect( char *_metaServerIp, int _metaserverPort, int _listenPo
 
     //
     // Try the requested port number first
-    
+    delete s_socketListener;
     s_socketListener = new NetSocketListener( _listenPort );    
     NetRetCode result = s_socketListener->Bind();
 
@@ -421,7 +421,7 @@ void MetaServer_Disconnect()
     if( s_socketListener )
     {
         s_socketListener->StopListening();
-        //delete s_socketListener;
+        // delete s_socketListener;
         s_socketListener = NULL;
     }
 
