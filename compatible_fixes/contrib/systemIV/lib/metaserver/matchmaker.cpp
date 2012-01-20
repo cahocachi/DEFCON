@@ -374,6 +374,8 @@ bool MatchMaker_ReceiveMessage( NetSocketListener *_listener, Directory *_messag
         AppAbort( "unrecognised matchmaker message" );
     }
 
+    delete _message;
+
     return true;
 }
 

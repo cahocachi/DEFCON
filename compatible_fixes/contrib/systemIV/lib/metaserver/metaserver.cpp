@@ -1151,6 +1151,8 @@ int MetaServer_GetServerTTL()
 
     serverTTL = max( serverTTL, 10 );
 
+    delete serverTTLDir;
+
     return serverTTL;
 }
 
