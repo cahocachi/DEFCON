@@ -52,6 +52,10 @@ SoundSystem::~SoundSystem()
 
     m_sounds.EmptyAndDelete();
 
+
+    delete g_soundSampleBank;
+    g_soundSampleBank = NULL;
+
     delete g_soundLibrary3d;
     g_soundLibrary3d = NULL;
 #ifndef TARGET_MSVC
@@ -116,6 +120,8 @@ void SoundSystem::RestartSoundLibrary()
     m_channels = new SoundInstanceId[m_numChannels];    
 
     g_soundLibrary3d->SetMainCallback( &SoundLibraryMainCallback );
+
+    g_soundSampleBank->EmptyCache();
 }
 
 
