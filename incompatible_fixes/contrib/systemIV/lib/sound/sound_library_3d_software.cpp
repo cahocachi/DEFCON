@@ -78,7 +78,7 @@ SoftwareChannel::SoftwareChannel()
 
 SoftwareChannel::~SoftwareChannel()
 {
-    delete m_buffer;
+    delete[] m_buffer;
 }
 
 void SoftwareChannel::Initialise( bool _stereo )
