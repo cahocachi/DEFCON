@@ -3461,14 +3461,6 @@ void World::WriteNodeCoverageFile()
 
 void World::ClearWorld()
 {
-    for( int i = 0; i < m_objects.Size(); ++i )
-    {
-        if( m_objects.ValidIndex(i) )
-        {
-            m_objects[i]->m_life = 0;
-        }
-    }
-    Update();
     m_objects.EmptyAndDelete();
     m_gunfire.EmptyAndDelete();
     m_explosions.EmptyAndDelete();
