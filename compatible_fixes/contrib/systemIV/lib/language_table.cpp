@@ -118,7 +118,7 @@ void LanguageTable::LoadLanguages()
                      lang->m_path );
     }
 
-    files->EmptyAndFree();
+    files->EmptyAndDeleteArray();
     delete files;
 }
 

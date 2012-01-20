@@ -240,7 +240,7 @@ void OrderedInsert( LList<char *> *_llist, char *_newString )
         }
         if( strcmp( _newString, thisString ) < 0 )
         {
-            _llist->PutDataAtIndex( strdup(_newString), i );
+            _llist->PutDataAtIndex( newStr(_newString), i );
             added = true;
             break;
         }
@@ -248,7 +248,7 @@ void OrderedInsert( LList<char *> *_llist, char *_newString )
 
     if( !added )
     {
-        _llist->PutDataAtEnd( strdup(_newString) );
+        _llist->PutDataAtEnd( newStr(_newString) );
     }
 }
 
