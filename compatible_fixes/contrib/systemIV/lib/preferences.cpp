@@ -428,20 +428,20 @@ void Preferences::AddLine(char *_line)
 		{
 			c[0] = '\0';
 		}
-		PreferencesItem *item = new PreferencesItem(localCopy);
+		PreferencesItem item(localCopy);
 		//m_items.PutData(item->m_key, item);
 
-        if( !DoesKeyExist(item->m_key) )
+        if( !DoesKeyExist(item.m_key) )
         {
   	        char *lineCopy = newStr(_line);
             m_fileText.PutData(lineCopy);
         }
 
-        switch( item->m_type )
+        switch( item.m_type )
         {
-            case PreferencesItem::TypeInt:      SetInt( item->m_key, item->m_int );         break;
-            case PreferencesItem::TypeFloat:    SetFloat( item->m_key, item->m_float );     break;
-            case PreferencesItem::TypeString:   SetString( item->m_key, item->m_str );      break;
+            case PreferencesItem::TypeInt:      SetInt( item.m_key, item.m_int );         break;
+            case PreferencesItem::TypeFloat:    SetFloat( item.m_key, item.m_float );     break;
+            case PreferencesItem::TypeString:   SetString( item.m_key, item.m_str );      break;
         }
 	}  
     else
