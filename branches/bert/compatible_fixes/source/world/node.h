@@ -13,8 +13,9 @@ public:
     LList<Route *>    m_routeTable;
 
 public:
-    
     Node();
+    ~Node();
+
     void AddRoute(int targetNodeId, int nextNode, Fixed distance);
     int  GetRouteId( int targetNodeId );
 

@@ -97,7 +97,7 @@ protected:
     
 public:
     WorldObject();
-    ~WorldObject();
+    virtual ~WorldObject();
 
     virtual void        InitialiseTimers();
 

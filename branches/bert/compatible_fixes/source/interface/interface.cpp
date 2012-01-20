@@ -151,6 +151,19 @@ Interface::Interface()
 {
 }
 
+Interface::~Interface()
+{
+    m_messages.EmptyAndDelete();
+    if( m_message )
+    {
+        free( m_message );
+    }
+    if( m_mouseCursor )
+    {
+        free( m_mouseCursor );
+    }
+}
+
 void Interface::Init()
 {
     //
