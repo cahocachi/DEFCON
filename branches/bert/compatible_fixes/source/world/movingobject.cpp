@@ -79,7 +79,9 @@ bool MovingObject::Update()
     while( m_maxHistorySize != -1 && 
            m_history.ValidIndex(m_maxHistorySize) )
     {
+        Vector3<Fixed> * last = m_history.GetData(m_maxHistorySize);
         m_history.RemoveData(m_maxHistorySize);
+        delete last;
     }
 
 
