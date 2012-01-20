@@ -17,6 +17,11 @@ GameHistory::GameHistory()
     Load();
 }
 
+GameHistory::~GameHistory()
+{
+    m_servers.EmptyAndDelete();
+}
+
 
 void GameHistory::JoinedGame( char *_ip, int _port, const char *_name )
 {
