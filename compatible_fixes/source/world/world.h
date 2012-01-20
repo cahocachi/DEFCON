@@ -123,6 +123,7 @@ public:
 
 public:   
     World();
+    ~World();
 
     void Init();
     void Shutdown();

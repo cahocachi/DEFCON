@@ -35,6 +35,7 @@ class Island
 public:
     LList<Vector3<float> *> m_points;
 
+    ~Island();
 };
 
 
