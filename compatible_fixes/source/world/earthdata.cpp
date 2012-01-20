@@ -15,6 +15,12 @@ EarthData::EarthData()
 {
 }
 
+EarthData::~EarthData()
+{
+    m_borders.EmptyAndDelete();
+    m_cities.EmptyAndDelete();
+    m_islands.EmptyAndDelete();
+}
 
 void EarthData::Initialise()
 {        

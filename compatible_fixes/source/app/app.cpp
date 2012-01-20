@@ -99,6 +99,8 @@ App::App()
 
 App::~App()
 {
+	delete m_world;
+	m_world = NULL;
 	delete m_clientToServer;
 	delete m_game;
 	delete m_earthData;

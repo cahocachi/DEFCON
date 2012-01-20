@@ -17,6 +17,7 @@ public:
 
 public:
     EarthData();
+    ~EarthData();
 
     void Initialise();
 
