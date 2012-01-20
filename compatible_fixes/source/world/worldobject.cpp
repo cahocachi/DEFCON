@@ -229,7 +229,7 @@ void WorldObject::SetState( int state )
         WorldObjectState *theState = m_states[state];
         m_currentState = state;
         m_stateTimer = theState->m_timeToPrepare;
-        m_actionQueue.Empty();
+        m_actionQueue.EmptyAndDelete();
         m_targetObjectId = -1;
     }
 }
