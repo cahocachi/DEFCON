@@ -369,14 +369,14 @@ void DropDownMenuOption::SetParentMenu( EclWindow *_window, DropDownMenu *_menu,
         delete [] m_parentWindowName;
         m_parentWindowName = NULL;
     }
-    m_parentWindowName = strdup( _window->m_name );
+    m_parentWindowName = newStr( _window->m_name );
 
     if( m_parentMenuName )
     {
         delete [] m_parentMenuName;
         m_parentMenuName = NULL;
     }
-    m_parentMenuName = strdup( _menu->m_name );    
+    m_parentMenuName = newStr( _menu->m_name );    
 
 //    m_menuIndex = _index;
 	m_value = _value;

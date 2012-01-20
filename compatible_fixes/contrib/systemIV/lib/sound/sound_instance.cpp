@@ -174,7 +174,7 @@ SoundInstance::~SoundInstance()
 	
 	m_dspFX.EmptyAndDelete();
 
-	free(m_eventName);
+	delete[] m_eventName;
 
     m_objIds.Empty();
 }
