@@ -924,6 +924,14 @@ bool WorldObject::SetWaypointOnAction()
 
 static char tempStateName[256];
 
+WorldObjectState::~WorldObjectState()
+{
+    if( m_stateName )
+    {
+        free( m_stateName );
+    }
+}
+
 char *WorldObjectState::GetStateName()
 {
     sprintf( tempStateName, "%s", m_stateName );
