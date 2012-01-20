@@ -82,6 +82,7 @@ World::World()
 World::~World()
 {
     m_nodes.EmptyAndDelete();
+    m_objects.EmptyAndDelete();
 }
 
 int World::GenerateUniqueId() 
