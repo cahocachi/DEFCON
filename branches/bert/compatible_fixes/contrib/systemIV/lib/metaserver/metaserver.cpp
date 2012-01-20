@@ -70,7 +70,15 @@ static int                  s_bytesSent = 0;
 
 #define                    UDP_HEADER_SIZE    32
 
-
+class ServerListDestroyer
+{
+public:
+    ~ServerListDestroyer()
+    {
+        MetaServer_ClearServerList();
+    }
+};
+static ServerListDestroyer s_serverListDestroyer;
 
 struct MetaServerData
 {
@@ -758,7 +766,6 @@ bool MetaServer_HasReceivedListWAN()
 {
     return !s_awaitingServerListWAN;
 }
-
 
 int MetaServer_GetNumServers( bool _wanServers, bool _lanServers )
 {
