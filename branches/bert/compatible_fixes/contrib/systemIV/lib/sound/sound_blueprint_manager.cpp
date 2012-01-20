@@ -20,6 +20,7 @@ SoundBlueprintManager::SoundBlueprintManager()
 
 SoundBlueprintManager::~SoundBlueprintManager()
 {
+    m_blueprints.EmptyAndDelete();
     m_dspBlueprints.EmptyAndDelete();
     m_sampleGroups.EmptyAndDelete();
 }
@@ -708,11 +709,38 @@ char const *SoundBlueprintManager::IsSoundSourceOK(char const *_soundName)
 }
 
 
+//*****************************************************************************
+// Class SoundInstanceBlueprint
+//*****************************************************************************
 
+SoundInstanceBlueprint::SoundInstanceBlueprint()
+: m_instance( NULL )
+{
+}
+
+SoundInstanceBlueprint::~SoundInstanceBlueprint()
+{
+    delete m_instance;
+    m_instance = NULL;
+}
+
+//*****************************************************************************
+// Class SoundEventBlueprint
+//*****************************************************************************
+
+SoundEventBlueprint::~SoundEventBlueprint()
+{
+    m_events.EmptyAndDelete();
+}
 
 //*****************************************************************************
 // Class DspBlueprint
 //*****************************************************************************
+
+DspBlueprint::~DspBlueprint()
+{
+    m_params.EmptyAndDelete();
+}
 
 char *DspBlueprint::GetParameter( int _param, float *_min, float *_max, float *_default, int *_dataType )
 {
