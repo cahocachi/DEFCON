@@ -323,6 +323,28 @@ void LList<T>::EmptyAndDelete()
     }
 }
 
+template <class T>
+void LList<T>::EmptyAndDeleteArray()
+{
+    while(Size() > 0)
+    {
+        T theData = GetData(0);
+        RemoveData(0);
+        delete[] theData;
+    }
+}
+
+template <class T>
+void LList<T>::EmptyAndFree()
+{
+    while(Size() > 0)
+    {
+        T theData = GetData(0);
+        RemoveData(0);
+        free(theData);
+    }
+}
+
 
 template <class T>
 void LList<T>::RemoveData(int index)

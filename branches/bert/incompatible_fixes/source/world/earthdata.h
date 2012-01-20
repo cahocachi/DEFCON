@@ -17,6 +17,7 @@ public:
 
 public:
     EarthData();
+    ~EarthData();
 
     void Initialise();
 
@@ -34,6 +35,7 @@ class Island
 public:
     LList<Vector3<float> *> m_points;
 
+    ~Island();
 };
 
 

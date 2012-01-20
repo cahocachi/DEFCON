@@ -52,6 +52,7 @@ protected:
 
 public:
     Game();
+    ~Game();
 
     void            Update();
 

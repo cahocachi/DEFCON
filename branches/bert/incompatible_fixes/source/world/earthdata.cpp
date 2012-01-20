@@ -15,6 +15,12 @@ EarthData::EarthData()
 {
 }
 
+EarthData::~EarthData()
+{
+    m_borders.EmptyAndDelete();
+    m_cities.EmptyAndDelete();
+    m_islands.EmptyAndDelete();
+}
 
 void EarthData::Initialise()
 {        
@@ -172,4 +178,9 @@ void EarthData::LoadCoastlines()
 
     double totalTime = GetHighResTime() - startTime;
     AppDebugOut( "Parsing Coastline data (%d islands) : %dms\n", numIslands, int( totalTime * 1000.0f ) );
+}
+
+Island::~Island()
+{
+    m_points.EmptyAndDelete();
 }

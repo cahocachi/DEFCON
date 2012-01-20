@@ -97,7 +97,7 @@ protected:
     
 public:
     WorldObject();
-    ~WorldObject();
+    virtual ~WorldObject();
 
     virtual void        InitialiseTimers();
 
@@ -196,6 +196,8 @@ public:
 
     int     m_numTimesPermitted;            // Number of times a particular state can be used
     int     m_defconPermitted;              // The required defcon level before this state is usable
+
+    ~WorldObjectState();
 
     char *GetStateName();                   // "Launch ICBM"
     char *GetPrepareName();                 // "Prepare to Launch ICBM"

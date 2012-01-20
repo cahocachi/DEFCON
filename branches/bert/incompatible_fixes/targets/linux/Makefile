@@ -267,7 +267,7 @@ clean:
 
 FASTDEP = contrib/linux/bin/fastdep
 
-%.dep: TARGET=$(patsubst %.dep,%,$@)
+%.dep: TARGET=full
 
 %.dep:
 	@test -d $(OBJDIR_BASE) || mkdir $(OBJDIR_BASE)

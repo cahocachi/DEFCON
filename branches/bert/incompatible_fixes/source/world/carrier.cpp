@@ -63,6 +63,10 @@ void Carrier::RequestAction(ActionOrder *_action)
         {
             WorldObject::RequestAction(_action);
         }
+        else
+        {
+            delete _action;
+        }
     }
     else
     {

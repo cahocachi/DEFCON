@@ -68,6 +68,8 @@ public:
 
     void		Empty			();						// Resets the array to empty    
     void		EmptyAndDelete	();						// As above, deletes all data as well
+    void		EmptyAndDeleteArray	();	   				// As above, delete[]s all data as well
+    void		EmptyAndFree	();						// As above, deletes all data as well using free()
 
     inline T operator [] (int index);
 };

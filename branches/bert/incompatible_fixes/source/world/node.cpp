@@ -22,6 +22,11 @@ Node::Node()
     
 }
 
+Node::~Node()
+{
+    m_routeTable.EmptyAndDelete();
+}
+
 void Node::AddRoute( int targetNodeId, int nextNodeId, Fixed distance )
 {
     // Do we already have a quicker route to this node?

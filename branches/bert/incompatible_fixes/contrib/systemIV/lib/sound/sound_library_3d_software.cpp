@@ -57,12 +57,14 @@ public:
 
 public:
     SoftwareChannel();
+    ~SoftwareChannel();
     void Initialise( bool _stereo );
 };
 
 
 SoftwareChannel::SoftwareChannel()
-:	m_freq(1),
+:	m_buffer(NULL),
+	m_freq(1),
 	m_volume(0.0f),
 	m_oldVolLeft(0.0f),
 	m_oldVolRight(0.0f),
@@ -72,6 +74,11 @@ SoftwareChannel::SoftwareChannel()
 	m_pos(0,0,0),
 	m_3DMode(0)
 {
+}
+
+SoftwareChannel::~SoftwareChannel()
+{
+    delete m_buffer;
 }
 
 void SoftwareChannel::Initialise( bool _stereo )

@@ -77,7 +77,14 @@ World::World()
     {
         m_achievementCitiesNuked[i] = false;
     }
+}
 
+World::~World()
+{
+    ClearWorld();
+    
+    m_nodes.EmptyAndDelete();
+    m_teams.EmptyAndDelete();
 }
 
 int World::GenerateUniqueId() 
@@ -108,6 +115,9 @@ void World::LoadNodes()
     int pixelX = 0;
     int pixelY = 0;
     int numNodes = 0;
+
+    m_nodes.EmptyAndDelete();
+
     for ( int x = 0; x < 800; ++x )
     {
         for( int y = 0; y < 400; ++y )
@@ -3463,6 +3473,8 @@ void World::ClearWorld()
     m_gunfire.EmptyAndDelete();
     m_explosions.EmptyAndDelete();
     m_radiation.EmptyAndDelete();
+    m_aiTargetPoints.EmptyAndDelete();
+    m_aiPlacementPoints.EmptyAndDelete();
     for( int i = 0; i < m_teams.Size(); ++i )
     {
         Team *team = m_teams[i];
