@@ -629,8 +629,11 @@ public:
                     if( joinGame ) joinGame->MouseUp();
                     timeNow = 0.0f;
                 }
+                else
+                {
+                    sbw->m_doubleClickTimer = timeNow;
+                }
             }
-            sbw->m_doubleClickTimer = timeNow;
         }
     }
 };
@@ -1016,14 +1019,17 @@ bool ServerBrowserWindow::IsOurServer( char *_ip, int _port )
     //
     // WAN
 
-    char ourIp[256];
-    int ourPort;
-    g_app->GetServer()->GetIdentity( ourIp, &ourPort );
-    if( strcmp(ourIp,_ip) == 0 && ourPort == _port ) 
     {
-        return true;
+        char ourIp[256];
+        int ourPort;
+        if( g_app->GetServer()->GetIdentity( ourIp, &ourPort ) )
+        {
+            if( strcmp(ourIp,_ip) == 0 && ourPort == _port ) 
+            {
+                return true;
+            }
+        }
     }
-
 
     //
     // LAN
