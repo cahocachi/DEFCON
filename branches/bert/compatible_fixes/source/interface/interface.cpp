@@ -692,7 +692,7 @@ void Interface::ShowMessage( Fixed longitude, Fixed latitude, int teamId, char *
 
     if( showLarge )
     {
-        if( m_message ) delete m_message;
+        if( m_message ) free(m_message);
         m_message = strdup( msg );
         m_messageTimer = GetHighResTime();
     }

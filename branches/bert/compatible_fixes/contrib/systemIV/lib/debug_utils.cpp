@@ -92,9 +92,10 @@ void OutputDebugString( const char *s )
 void AppDebugOutRedirect(char *_filename)
 {
 	// re-using same log file is a no-op
-    if ( !s_debugOutRedirect || strcmp(s_debugOutRedirect, AppDebugLogPath(_filename)) != 0 )
+    char * debugLogPath = AppDebugLogPath(_filename);
+    if ( !s_debugOutRedirect || strcmp(s_debugOutRedirect, debugLogPath) != 0 )
 	{
-		s_debugOutRedirect = AppDebugLogPath(_filename);
+		s_debugOutRedirect = debugLogPath;
 
 		// Check we have write access, and clear the file
 
@@ -112,6 +113,10 @@ void AppDebugOutRedirect(char *_filename)
 			fclose( file );
 		}
 	}
+    else
+    {
+        delete[] debugLogPath;
+    }
 }
 
 

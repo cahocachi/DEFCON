@@ -421,7 +421,10 @@ const char *FindCaseInsensitive ( const char *_fullPath )
 
     // No results, so maybe the file does not exist.
     if ( files->Size() == 0 )
-       return _fullPath;
+    {
+        delete files;
+        return _fullPath;
+    }
 
     // Copy the corrected path back, and prepare to return it.
     memset ( retval, 0, sizeof ( retval ) );

@@ -33,7 +33,7 @@ LanguageTable::~LanguageTable()
 	ClearLanguagePhraseErrors();
 #endif
 
-    m_languages.EmptyAndFree();
+    m_languages.EmptyAndDelete();
 
 	if( m_lang ) delete m_lang;
 	if( m_defaultLanguage ) delete [] m_defaultLanguage;
@@ -64,7 +64,7 @@ void LanguageTable::LoadLanguages()
     //
     // Clear out all known languages
 
-    m_languages.EmptyAndFree();
+    m_languages.EmptyAndDelete();
 
 
     //
@@ -440,7 +440,7 @@ void LanguageTable::LoadTranslation(char *_filename)
 void LanguageTable::ClearBaseLanguage()
 {
     DArray<char *> *base = m_baseLanguage.ConvertToDArray();
-    base->EmptyAndDelete();
+    base->EmptyAndFree();
     delete base;
     m_baseLanguage.Empty();
 }

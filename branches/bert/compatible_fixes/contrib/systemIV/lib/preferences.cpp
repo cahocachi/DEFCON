@@ -106,6 +106,7 @@ PreferencesItem::PreferencesItem(char *_key, char *_str)
 
 PreferencesItem::PreferencesItem(char *_key, float _float)
 :	m_type(TypeFloat),
+    m_str(NULL),
 	m_float(_float)
 {
 	m_key = newStr(_key);
@@ -114,6 +115,7 @@ PreferencesItem::PreferencesItem(char *_key, float _float)
 
 PreferencesItem::PreferencesItem(char *_key, int _int)
 :	m_type(TypeInt),
+    m_str(NULL),
 	m_int(_int)
 {
 	m_key = newStr(_key);
