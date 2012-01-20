@@ -76,6 +76,9 @@ class SoundInstanceBlueprint
 public:
     char m_eventName[256];
     SoundInstance *m_instance;
+
+    SoundInstanceBlueprint();
+    ~SoundInstanceBlueprint();
 };
 
 
@@ -87,6 +90,8 @@ class SoundEventBlueprint
 {   
 public:
     LList<SoundInstanceBlueprint *> m_events;
+
+    ~SoundEventBlueprint();
 };
 
 
@@ -116,6 +121,8 @@ public:
     DArray  <DspParameterBlueprint *> m_params;
 
 public:
+    ~DspBlueprint();
+
     char *GetParameter   ( int _param, float *_min=NULL, float *_max=NULL, float *_default=NULL, int *_dataType=NULL );
 };
 
