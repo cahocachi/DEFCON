@@ -30,6 +30,7 @@ protected:
 
 public:
     RadarGrid();
+    ~RadarGrid();
 
     void Initialise( int _resolution, int _numTeams );                              // Resolution should be 1 (normal), 2 (double) etc
 
