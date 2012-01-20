@@ -982,9 +982,6 @@ bool ServerBrowserWindow::ConnectToServer( Directory *_server, const char *_serv
         // If we are connected to an existing server, disconnect now
 
         g_app->ShutdownCurrentGame();
-        EclRemoveWindow( "LOBBY" );
-        EclRemoveWindow( "Server Browser" );
-        EclRemoveWindow( "Enter IP Manually" );
 
         //
         // Connect to the new server
@@ -1004,6 +1001,10 @@ bool ServerBrowserWindow::ConnectToServer( Directory *_server, const char *_serv
         ConnectingWindow *connectWindow = new ConnectingWindow();
         connectWindow->m_popupLobbyAtEnd = true;
         EclRegisterWindow( connectWindow );
+
+        EclRemoveWindow( "LOBBY" );
+        EclRemoveWindow( "Server Browser" );
+        EclRemoveWindow( "Enter IP Manually" );
     }
 
     return true;
