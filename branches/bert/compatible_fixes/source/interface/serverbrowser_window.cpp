@@ -1057,6 +1057,12 @@ bool ServerBrowserWindow::IsOurServer( char *_ip, int _port )
 ServerBrowserWindow::~ServerBrowserWindow()
 {
     g_app->GetClientToServer()->StopIdentifying();
+
+    if( m_serverList )
+    {
+        m_serverList->EmptyAndDelete();
+        delete m_serverList;
+    }
 }
 
 
