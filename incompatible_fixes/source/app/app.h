@@ -57,6 +57,8 @@ protected:
     bool        m_mousePointerVisible;
         
 public:
+    class Exit{}; // exception to throw on exit wish
+
     App();
     ~App();
 

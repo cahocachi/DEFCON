@@ -118,6 +118,10 @@ Game::Game()
     }
 }
 
+Game::~Game()
+{
+    m_options.EmptyAndDelete();
+}
 
 void Game::ResetOptions()
 {

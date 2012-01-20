@@ -99,6 +99,8 @@ App::App()
 
 App::~App()
 {
+	delete m_world;
+	m_world = NULL;
 	delete m_clientToServer;
 	delete m_game;
 	delete m_earthData;
@@ -109,14 +111,23 @@ App::~App()
 	delete m_tutorial;
 	delete m_statusIcon;
 	delete g_inputManager;
+    g_inputManager = NULL;
 	delete g_languageTable;
+    g_languageTable = NULL;
 	delete g_preferences;
+    g_preferences = NULL;
 	delete g_fileSystem;
+    g_fileSystem = NULL;
 	delete g_profiler;
+    g_profiler = NULL;
 	delete g_resource;
+    g_resource = NULL;
 	delete g_renderer;
+    g_renderer = NULL;
 	delete g_windowManager;
+    g_windowManager = NULL;
 	delete g_soundSystem;
+    g_soundSystem = NULL;
 }
 
 void App::InitMetaServer()
@@ -728,7 +739,7 @@ void App::Shutdown()
 
 	m_inited = false;
         
-    exit(0);
+    throw Exit();
 }
 
 

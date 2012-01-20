@@ -33,6 +33,7 @@ public:
 
 public:
     GameHistory();
+    ~GameHistory();
     
     void JoinedGame( char *_ip, int _port, const char *_name );
 

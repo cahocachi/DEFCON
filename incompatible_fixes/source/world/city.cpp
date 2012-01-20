@@ -31,15 +31,25 @@ City::City()
 {
     SetType( TypeCity );
     
-    m_name = strdup("City");
-
     strcpy( bmpImageFilename, "graphics/city.bmp" );
 
     m_radarRange = 0;
     AddState( "City", 0, 0, 5, 0, false );
 }
 
-
+City::~City()
+{
+    if( m_name )
+    {
+        free( m_name );
+        m_name = 0;
+    }
+    if( m_country )
+    {
+        free( m_country );
+        m_country = 0;
+    }
+}
 
 bool City::Update()
 {

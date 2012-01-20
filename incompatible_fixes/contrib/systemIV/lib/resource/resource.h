@@ -29,6 +29,7 @@ protected:
 
 public:
     Resource();
+    ~Resource();
 
     void            Restart();
     void            Shutdown();

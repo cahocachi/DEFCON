@@ -118,7 +118,7 @@ void LanguageTable::LoadLanguages()
                      lang->m_path );
     }
 
-    files->EmptyAndDelete();
+    files->EmptyAndDeleteArray();
     delete files;
 }
 
@@ -440,7 +440,7 @@ void LanguageTable::LoadTranslation(char *_filename)
 void LanguageTable::ClearBaseLanguage()
 {
     DArray<char *> *base = m_baseLanguage.ConvertToDArray();
-    base->EmptyAndDelete();
+    base->EmptyAndFree();
     delete base;
     m_baseLanguage.Empty();
 }

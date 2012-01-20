@@ -48,6 +48,8 @@ public:
     
     void Empty			();						                        // Resets the array to empty    
 	void EmptyAndDelete ();						                        // Same as Empty() but deletes the elements that are pointed to as well
+	void EmptyAndDeleteArray ();						                        // Same as Empty() but delete[]s the elements that are pointed to as well
+	void EmptyAndFree ();						                        // Same as Empty() but deletes the elements that are pointed to as well using free()
     
     T& operator         [] (int index);
 	const T& operator   [] (int index) const;

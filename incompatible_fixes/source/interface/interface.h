@@ -44,6 +44,7 @@ protected:
 
 public:
     Interface();
+    ~Interface();
 
     void Init();
     void Update();
