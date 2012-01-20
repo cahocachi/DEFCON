@@ -3423,6 +3423,7 @@ void World::ClearWorld()
     m_gunfire.EmptyAndDelete();
     m_explosions.EmptyAndDelete();
     m_radiation.EmptyAndDelete();
+    m_aiTargetPoints.EmptyAndDelete();
     for( int i = 0; i < m_teams.Size(); ++i )
     {
         Team *team = m_teams[i];
