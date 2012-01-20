@@ -70,16 +70,6 @@ static int                  s_bytesSent = 0;
 
 #define                    UDP_HEADER_SIZE    32
 
-class ServerListDestroyer
-{
-public:
-    ~ServerListDestroyer()
-    {
-        MetaServer_ClearServerList();
-    }
-};
-static ServerListDestroyer s_serverListDestroyer;
-
 struct MetaServerData
 {
 public:
@@ -102,6 +92,18 @@ public:
 static LList<MetaServerData *>  s_metaServerData;
 static NetMutex                 s_metaServerDataMutex;
 
+class ListDestroyer
+{
+public:
+    ~ListDestroyer()
+    {
+        MetaServer_ClearServerList();
+        s_metaServerDataMutex.Lock();
+        s_metaServerData.EmptyAndDelete();
+        s_metaServerDataMutex.Unlock();
+    }
+};
+static ListDestroyer s_listDestroyer;
 
 // ============================================================================
 
