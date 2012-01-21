@@ -216,9 +216,7 @@ void World::LoadNodes()
 
 Fixed World::GetGameScale()
 {
-    GameOption *option = g_app->GetGame()->GetOption( "WorldScale" );
-    Fixed gameScale = Fixed::FromDouble(option->m_currentValue / option->m_default);
-    return gameScale;
+    return g_app->GetGame()->GetGameScale();
 }
 
 
