@@ -68,6 +68,8 @@ public:
     void            AutoLand        ();
     int             GetClosestLandingPad();
 
+    void            GetInterceptionPoint( WorldObject *target, Fixed *interceptLongitude, Fixed *interceptLatitude );
+
     virtual int     IsValidMovementTarget( Fixed longitude, Fixed latitude );
 
     virtual void    Retaliate       ( int attackerId );

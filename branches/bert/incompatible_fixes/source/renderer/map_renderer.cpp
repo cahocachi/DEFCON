@@ -2212,6 +2212,22 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
             float actionCursorLongitude = mobj->m_targetLongitude.DoubleValue();
             float actionCursorLatitude = mobj->m_targetLatitude.DoubleValue();
 
+            // target coordinates are rendez-vous coordinates and may be confusing,
+            // draw direct line to target instead.
+            if( mobj->m_isLanding >= 0 )
+            {
+                WorldObject * home = g_app->GetWorld()->GetWorldObject( mobj->m_isLanding );
+                if( home )
+                {
+                    actionCursorLongitude = home->m_longitude.DoubleValue() + 
+                                            home->m_vel.x.DoubleValue() * g_predictionTime * 
+                                            g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+                    actionCursorLatitude  = home->m_latitude.DoubleValue() + 
+                                            home->m_vel.y.DoubleValue() * g_predictionTime * 
+                                            g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+                }
+            }
+
             if( mobj->m_fleetId != -1 )
             {
                 Fleet *fleet = g_app->GetWorld()->GetTeam(mobj->m_teamId)->GetFleet(mobj->m_fleetId);

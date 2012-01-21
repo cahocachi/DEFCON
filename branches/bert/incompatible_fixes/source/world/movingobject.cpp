@@ -142,8 +142,8 @@ bool MovingObject::Update()
                     }
                 }
             }
-            else if( home->IsMovingObject() &&
-                home->m_vel.MagSquared() > 0 )
+            else if( home->IsMovingObject() && 
+                     ( home->m_longitude != m_targetLongitude || home->m_latitude != m_targetLatitude ) )
             {
                 Land( m_isLanding );
             }
@@ -750,15 +750,16 @@ void MovingObject::Land( int targetId )
 
     if( target )
     {
+        Fixed  interceptLongitude, interceptLatitude;
+        GetInterceptionPoint( target, &interceptLongitude, &interceptLatitude );
+
         if( RoomInside( target, m_type ) <= 0 )
         {
             // get distance
-            Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, target->m_longitude, target->m_latitude );
+            Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, interceptLongitude, interceptLatitude );
             // landing pad is full. Just go towards there, but don't land.
-            Fixed middleLongitude = target->m_longitude;
-            World::SanitiseTargetLongitude( m_longitude, middleLongitude );
-            middleLongitude = (middleLongitude+m_longitude)/2;
-            Fixed middleLatitude =  (m_latitude+target->m_latitude)/2;
+            Fixed middleLongitude = (m_longitude+interceptLongitude)/2;
+            Fixed middleLatitude =  (m_latitude+interceptLatitude)/2;
 
             if( distance*2 > m_range+5 )
             {
@@ -774,7 +775,7 @@ void MovingObject::Land( int targetId )
         }
         else
         {
-            SetWaypoint( target->m_longitude, target->m_latitude );
+            SetWaypoint( interceptLongitude, interceptLatitude );
             m_isLanding = targetId;
         }
     }
@@ -1261,6 +1262,66 @@ int MovingObject::GetClosestLandingPad()
 //
 //    return target;
 //}
+
+// calculates the best target point to intercept the other object
+void MovingObject::GetInterceptionPoint( WorldObject *target, Fixed *interceptLongitude, Fixed *interceptLatitude )
+{
+    Fixed timeLimit = Fixed::MAX;
+    Vector3<Fixed> targetVel = target->m_vel;
+
+    Fixed targetLongitude = target->m_longitude;
+    World::SanitiseTargetLongitude( m_longitude, targetLongitude );
+
+    Vector3<Fixed> distance( targetLongitude - m_longitude, target->m_latitude - m_latitude, 0 );
+    
+    // we know exactly where a friendly object is heading
+    if( target->m_teamId == m_teamId && target->IsMovingObject() )
+    {
+        MovingObject * movingTarget = dynamic_cast< MovingObject * >( target );
+        AppAssert( movingTarget );
+        if ( movingTarget->m_targetLatitude != 0 || movingTarget->m_targetLongitude != 0 ) 
+        {
+            // assume it's going in a straight line at top speed
+            Fixed targetTargetLongitude = movingTarget->m_targetLongitude;
+            World::SanitiseTargetLongitude( targetLongitude, targetTargetLongitude );
+            targetVel.x = targetTargetLongitude - targetLongitude;
+            targetVel.y = movingTarget->m_targetLatitude - movingTarget->m_latitude;
+            Fixed distSqd = targetVel.MagSquared();
+            if( distSqd > 0 )
+            {
+                Fixed dist = sqrt( distSqd );
+                timeLimit = dist/movingTarget->m_speed;
+                targetVel /= timeLimit;
+            }
+            else
+            {
+                targetVel = target->m_vel;
+            }
+        }
+    }
+
+    Fixed targetSpeedSqd = targetVel.MagSquared();
+    Fixed thisSpeedSqd = m_speed*m_speed;
+    if( targetSpeedSqd >= thisSpeedSqd * Fixed::Hundredths(90) )
+    {
+        // clamp target speed, pretend we can catch up
+        targetSpeedSqd = thisSpeedSqd * Fixed::Hundredths(90);
+    }
+
+    // calculation of time to rendez-vous
+    Fixed dv = 1/(thisSpeedSqd - targetSpeedSqd);
+    Fixed dot = distance * targetVel;
+    Fixed p = dot*dv;
+    Fixed timeLeft = p + sqrt( p*p + distance.MagSquared()*dv );
+    if( timeLeft > timeLimit )
+    {
+        timeLeft = timeLimit;
+    }
+
+    // calculate position
+    *interceptLongitude = targetLongitude     + timeLeft*targetVel.x;
+    *interceptLatitude  = target->m_latitude  + timeLeft*targetVel.y;
+}
 
 void MovingObject::Retaliate( int attackerId )
 {
