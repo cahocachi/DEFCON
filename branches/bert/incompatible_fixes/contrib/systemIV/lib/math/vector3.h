@@ -41,16 +41,11 @@ public:
 	{
 	}
 
-private:
-    // this conversion is a tad dangerous; all the code in DEFCON that uses
-    // Vector3 uses the x and y components. Better not use it while that code
-    // is still around.
-	Vector3(Vector2<T> const &_b)
+    explicit Vector3(Vector2<T> const &_b)
 	:	x(_b.x), y(0), z(_b.y)
 	{
 	}
 
-public:	
 	template <class T2>
 	Vector3(Vector3<T2> const &_v);
 
