@@ -363,9 +363,9 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
         m_targetLongitude += 360;
     }
 
-    Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-                                Vector3<Fixed>( m_longitude, m_latitude, 0 )).Normalise();
-    Vector3<Fixed> originalTargetDir = targetDir;
+    Direction targetDir = (Direction( m_targetLongitude, m_targetLatitude ) -
+                           Direction( m_longitude, m_latitude )).Normalise();
+    Direction originalTargetDir = targetDir;
 
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
 

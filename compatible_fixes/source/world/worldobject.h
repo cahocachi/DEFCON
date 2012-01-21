@@ -55,7 +55,8 @@ public:
 	int		m_lastHitByTeamId;
     bool    m_selectable;
     
-    Vector3<Fixed> m_vel;
+    typedef Vector3<Fixed> Direction;
+    Direction m_vel;
 
     LList   <WorldObjectState *> m_states;
     int     m_currentState;
@@ -66,7 +67,7 @@ public:
     BoundedArray<bool>      m_visible;
     BoundedArray<bool>      m_seen;                     // seen objects memory
     BoundedArray<Vector2<Fixed> >   m_lastKnownPosition;
-    BoundedArray<Vector3<Fixed> >   m_lastKnownVelocity;
+    BoundedArray<Direction>         m_lastKnownVelocity;
     BoundedArray<Fixed>     m_lastSeenTime;
     BoundedArray<int>       m_lastSeenState;
     

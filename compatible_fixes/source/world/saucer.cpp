@@ -70,7 +70,7 @@ bool Saucer::Update()
 
     if( m_currentState == 0 )
     {    
-        Vector3<Fixed> oldVel = m_vel;
+        Direction oldVel = m_vel;
 
         if( m_targetLongitude != 0 || m_targetLatitude != 0 )
         {
