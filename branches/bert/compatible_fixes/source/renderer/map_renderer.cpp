@@ -330,10 +330,10 @@ void MapRenderer::Render()
                                     100+sinf(g_gameTime+i*1.2)*30,
                                     40+cosf(g_gameTime+i*1.5)*30,
                                     20+sinf(g_gameTime+i*1.1)*5);
-                Vector3<Fixed> *pos = (Vector3<Fixed> *)g_app->GetWorld()->m_radiation[i];
+                Vector2<Fixed> const & pos = g_app->GetWorld()->m_radiation[i];
                 float angle = (g_gameTime+i) * 0.01f;
                 angle = 0;
-                g_renderer->Blit( boom, pos->x.DoubleValue(), pos->y.DoubleValue(), 15.0f, 15.0f, col, angle );
+                g_renderer->Blit( boom, pos.x.DoubleValue(), pos.y.DoubleValue(), 15.0f, 15.0f, col, angle );
             }
         }
 
@@ -528,8 +528,7 @@ void MapRenderer::RenderCountryControl()
 
                 if( m_showAllTeams )
                 {
-                    Vector3<float> populationCentre;
-					populationCentre = g_app->GetWorld()->m_populationCenter[team->m_territories[j]];
+                    Vector2<float> const & populationCentre = g_app->GetWorld()->m_populationCenter[team->m_territories[j]];
 
                     char teamName[256];
                     sprintf( teamName, "%s", team->m_name );
@@ -2484,7 +2483,7 @@ void MapRenderer::RenderCoastlines()
 
             for( int j = 0; j < island->m_points.Size(); j++ )
             {
-                Vector3<float> thePoint = *island->m_points[j];
+                Vector2<float> const & thePoint = island->m_points[j];
                 glVertex2f( thePoint.x, thePoint.y );
             }
 
@@ -2533,7 +2532,7 @@ void MapRenderer::RenderBorders()
 
             for( int j = 0; j < island->m_points.Size(); j++ )
             {
-                Vector3<float> thePoint = *island->m_points[j];
+                Vector2<float> const & thePoint = island->m_points[j];
                 glVertex2f( thePoint.x, thePoint.y );
             }
 
@@ -2994,11 +2993,11 @@ void MapRenderer::RenderNodes()
      
     for( int i = 0; i < g_app->GetWorld()->m_aiPlacementPoints.Size(); ++i )
     {
-        Vector3<Fixed> *thisPoint = g_app->GetWorld()->m_aiPlacementPoints[i];
+        Vector2<Fixed> const & thisPoint = g_app->GetWorld()->m_aiPlacementPoints[i];
 
         Colour col(0,255,0,55);
 
-        g_renderer->CircleFill( thisPoint->x.DoubleValue(), thisPoint->y.DoubleValue(), 0.5, 20, col );
+        g_renderer->CircleFill( thisPoint.x.DoubleValue(), thisPoint.y.DoubleValue(), 0.5, 20, col );
     }
 
 
@@ -3007,7 +3006,7 @@ void MapRenderer::RenderNodes()
 
     for( int i = 0; i < g_app->GetWorld()->m_aiTargetPoints.Size(); ++i )
     {
-        Vector3<Fixed> *thisPoint = g_app->GetWorld()->m_aiTargetPoints[i];
+        Vector2<Fixed> const & thisPoint = g_app->GetWorld()->m_aiTargetPoints[i];
 
         Fixed attackRange = 60;
 
@@ -3021,7 +3020,7 @@ void MapRenderer::RenderNodes()
             {
                 Fixed popCenterLong = g_app->GetWorld()->m_populationCenter[j].x;
                 Fixed popCenterLat = g_app->GetWorld()->m_populationCenter[j].y;
-                if( g_app->GetWorld()->GetDistance( thisPoint->x, thisPoint->y, popCenterLong, popCenterLat ) < attackRange )
+                if( g_app->GetWorld()->GetDistance( thisPoint.x, thisPoint.y, popCenterLong, popCenterLat ) < attackRange )
                 {
                     inRange = true;
                     break;
@@ -3033,11 +3032,11 @@ void MapRenderer::RenderNodes()
         
         if( inRange )
         {
-            g_renderer->CircleFill( thisPoint->x.DoubleValue(), thisPoint->y.DoubleValue(), 1, 20, col );
+            g_renderer->CircleFill( thisPoint.x.DoubleValue(), thisPoint.y.DoubleValue(), 1, 20, col );
         }
         else
         {
-            g_renderer->Circle( thisPoint->x.DoubleValue(), thisPoint->y.DoubleValue(), 1, 20, col );
+            g_renderer->Circle( thisPoint.x.DoubleValue(), thisPoint.y.DoubleValue(), 1, 20, col );
         }
     }
 

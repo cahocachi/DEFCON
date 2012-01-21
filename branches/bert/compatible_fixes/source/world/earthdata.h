@@ -33,7 +33,7 @@ public:
 class Island
 {
 public:
-    LList<Vector3<float> *> m_points;
+    LList<Vector2<float> > m_points;
 
     ~Island();
 };

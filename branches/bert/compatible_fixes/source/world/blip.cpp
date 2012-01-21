@@ -94,7 +94,7 @@ bool Blip::Update()
         if( m_longitude > -180 ||
             m_longitude < 180 )
         {
-            m_history.PutDataAtStart( Vector3<Fixed>(m_longitude, m_latitude, 0) );
+            m_history.PutDataAtStart( Vector2<Fixed>(m_longitude, m_latitude) );
             m_historyTimer = Fixed::Hundredths(1);
         }
     }
@@ -162,7 +162,7 @@ void Blip::SetWaypoint( Fixed longitude, Fixed latitude )
 
     Fixed targetSeamLatitude;
     Fixed targetSeamLongitude;
-    g_app->GetWorld()->GetSeamCrossLatitude( Vector3<Fixed>( longitude, latitude, 0 ), Vector3<Fixed>(m_longitude, m_latitude, 0), &targetSeamLongitude, &targetSeamLatitude);
+    g_app->GetWorld()->GetSeamCrossLatitude( Vector2<Fixed>( longitude, latitude ), Vector2<Fixed>(m_longitude, m_latitude), &targetSeamLongitude, &targetSeamLatitude);
     Fixed distanceAcrossSeam = g_app->GetWorld()->GetDistanceAcrossSeam( m_longitude, m_latitude, longitude, latitude);
 
     if( distanceAcrossSeam < directDistance )
