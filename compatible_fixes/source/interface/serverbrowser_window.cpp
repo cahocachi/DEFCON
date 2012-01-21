@@ -634,6 +634,10 @@ public:
                     sbw->m_doubleClickTimer = timeNow;
                 }
             }
+            else
+            {
+                sbw->m_doubleClickTimer = timeNow;
+            }
         }
     }
 };
