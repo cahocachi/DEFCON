@@ -78,7 +78,7 @@ WorldObject::WorldObject()
         m_seen.SetAll( false );
         m_visible.SetAll( false );
         m_lastKnownPosition.SetAll( Vector2<Fixed>::ZeroVector() );
-        m_lastKnownVelocity.SetAll( Vector3<Fixed>::ZeroVector() );
+        m_lastKnownVelocity.SetAll( Direction::ZeroVector() );
         m_lastSeenTime.SetAll( 0 );
         m_lastSeenState.SetAll( 0 );
     }

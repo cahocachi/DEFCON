@@ -142,7 +142,7 @@ bool Bomber::Update()
     //
     // Do we move ?
     
-    Vector3<Fixed> oldVel = m_vel;
+    Direction oldVel = m_vel;
 
     bool hasTarget = false;
     if( m_targetObjectId != -1 )

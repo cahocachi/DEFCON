@@ -343,8 +343,8 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
 {
     World::SanitiseTargetLongitude( m_longitude, m_targetLongitude );
 
-    Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-                                Vector3<Fixed>( m_longitude, m_latitude, 0 ));
+    Direction targetDir = (Direction( m_targetLongitude, m_targetLatitude ) -
+                           Direction( m_longitude, m_latitude )).Normalise();
     
     Fixed distanceSquared = targetDir.MagSquared();
 
