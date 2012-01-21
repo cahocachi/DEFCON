@@ -115,7 +115,8 @@ bool DefconSoundInterface::GetObjectPosition( SoundObjectId _id, Vector3<float> 
         _pos.y = wobj->m_latitude.DoubleValue();
         _pos.z = 0;
 
-        _vel = wobj->m_vel;
+        _vel.x = wobj->m_vel.x.DoubleValue();
+        _vel.y = wobj->m_vel.y.DoubleValue();
 
         return true;
     }

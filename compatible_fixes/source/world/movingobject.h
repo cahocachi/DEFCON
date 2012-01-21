@@ -12,7 +12,7 @@ protected:
     Fixed   m_speed;     
     Fixed   m_turnRate;
 
-    LList   <Vector3<Fixed> > m_history;
+    LList   <Vector2<Fixed> > m_history;
     Fixed   m_historyTimer;
     int     m_maxHistorySize;
 
@@ -100,13 +100,13 @@ public:
     float   m_latitude;
     float   m_targetLongitude;
     float   m_targetLatitude;
-    Vector3 m_blipVel;
+    Vector2 m_blipVel;
     int     m_targetNodeId;
     int     m_currentNodeId;
     float   m_nodeCheckTimer;
     int     m_targetType;
 
-    LList   <Vector3 *> m_history;
+    LList   <Vector2 *> m_history;
     float   m_historyTimer;
 };
 */

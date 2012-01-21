@@ -8,6 +8,7 @@
 #include "lib/tosser/fast_darray.h"
 #include "lib/tosser/bounded_array.h"
 #include "lib/math/vector3.h"
+#include "lib/math/vector2.h"
 
 #include "renderer/animated_icon.h"
 
@@ -99,12 +100,12 @@ public:
     LList           <ChatMessage *>     m_chat;   
     LList           <Team *>            m_teams;
     LList           <Spectator *>       m_spectators;
-    BoundedArray    <Vector3<Fixed> >   m_populationCenter;     // Indedex on territory
+    BoundedArray    <Vector2<Fixed> >   m_populationCenter;     // Indedex on territory
 
-    LList           <Vector3<Fixed> *>  m_aiPlacementPoints;
-    LList           <Vector3<Fixed> *>  m_aiTargetPoints;
+    LList           <Vector2<Fixed> >   m_aiPlacementPoints;
+    LList           <Vector2<Fixed> >   m_aiTargetPoints;
 
-    LList           <Vector3<Fixed> *>  m_radiation;
+    LList           <Vector2<Fixed> >   m_radiation;
     LList           <int>               m_populationTotals;     // used for resetting cities in the tutorial
 
     int             m_myTeamId;
@@ -216,7 +217,7 @@ public:
     Fixed GetSailDistance           ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetSailDistanceSlow       ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     
-    void  GetSeamCrossLatitude  ( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude );
+    void  GetSeamCrossLatitude  ( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude );
     int   GetTerritoryOwner     ( int territoryId );
 
     int  GetUnitValue( int _type );

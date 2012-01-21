@@ -4,7 +4,7 @@
 
 #include "lib/tosser/llist.h"
 #include "lib/tosser/bounded_array.h"
-#include "lib/math/vector3.h"
+#include "lib/math/vector2.h"
 #include "lib/math/fixed.h"
 
 class Image;
@@ -65,7 +65,7 @@ public:
 
     BoundedArray<bool>      m_visible;
     BoundedArray<bool>      m_seen;                     // seen objects memory
-    BoundedArray<Vector3<Fixed> >   m_lastKnownPosition;
+    BoundedArray<Vector2<Fixed> >   m_lastKnownPosition;
     BoundedArray<Vector3<Fixed> >   m_lastKnownVelocity;
     BoundedArray<Fixed>     m_lastSeenTime;
     BoundedArray<int>       m_lastSeenState;
