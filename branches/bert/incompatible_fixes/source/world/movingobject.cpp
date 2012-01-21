@@ -1265,12 +1265,12 @@ int MovingObject::GetClosestLandingPad()
 void MovingObject::GetInterceptionPoint( WorldObject *target, Fixed *interceptLongitude, Fixed *interceptLatitude )
 {
     Fixed timeLimit = Fixed::MAX;
-    Vector3<Fixed> targetVel = target->m_vel;
+    Direction targetVel = target->m_vel;
 
     Fixed targetLongitude = target->m_longitude;
     World::SanitiseTargetLongitude( m_longitude, targetLongitude );
 
-    Vector3<Fixed> distance( targetLongitude - m_longitude, target->m_latitude - m_latitude, 0 );
+    Direction distance( targetLongitude - m_longitude, target->m_latitude - m_latitude );
     
     // we know exactly where a friendly object is heading
     if( target->m_teamId == m_teamId && target->IsMovingObject() )
