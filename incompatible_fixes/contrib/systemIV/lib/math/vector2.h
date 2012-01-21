@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#include "lib/math/vector3.h"
+// #include "lib/math/vector3.h"
 #include "lib/math/math_utils.h"
 #include "lib/math/fixed.h"
 
@@ -35,15 +35,10 @@ public:
 	{
 	}
 
-private:
-    // this conversion is a tad dangerous; all the code in DEFCON that uses
-    // Vector3 uses the x and y components. Better not use it while that code
-    // is still around.
-	Vector2(Vector3<T> const &_b)
+    explicit Vector2(Vector3<T> const &_b)
 	:	x(_b.x), y(_b.z)
 	{
 	}
-public:
 
 	template <class T2>
 	Vector2(Vector2<T2> const &_v);
@@ -124,13 +119,6 @@ public:
 		return *this;
 	}
 
-private:
-    // This code causes potential sync errors with no way of fixing it here.
-    // The corresponding Vector3 function, if the length is zero, sets z to 1;
-    // if the result is used and projected, that's fine, but often the result is added
-    // to some other vector, then normalized again, and then the added third dimension
-    // component causes the results to differ after projection.
-    // So: better leave the code using Normalise() on Vector3 for now.
 	Vector2<T> const &Normalise()
 	{
 		T lenSqrd = x*x + y*y;
@@ -143,12 +131,11 @@ private:
 		else
 		{
 			x = 0;
-            y = 0;
+            y = 1;
 		}
 
 		return *this;
 	}
-public:
 
 	Vector2 const &SetLength(T _len)
 	{
@@ -177,20 +164,11 @@ public:
 
 	void RotateAroundZ (T _angle)
 	{
-        // delegate to Vector3 for sync compatibility.
-        Vector3<T> d(x,y,0);
-        d.RotateAroundZ(_angle);
-        x=d.x;
-        y=d.y;
-
-        // this code is faster, of course:
-        /*
 		T s = sin( _angle );
 		T c = cos( _angle );
         
         Vector2 result( c*x - s*y, c*y + s*x );
         *this = result;
-        */
 	}
 	
 	T Mag() const
