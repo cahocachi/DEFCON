@@ -61,7 +61,7 @@ bool GunFire::Update()
         if( m_longitude > -180 ||
             m_longitude < 180 )
         {
-            m_history.PutDataAtStart( new Vector3<Fixed>(m_longitude, m_latitude, 0) );
+            m_history.PutDataAtStart( Vector3<Fixed>(m_longitude, m_latitude, 0) );
             m_historyTimer = Fixed::Hundredths(10);
         }
     }
@@ -71,9 +71,7 @@ bool GunFire::Update()
     while( m_maxHistorySize != -1 && 
            m_history.ValidIndex(m_maxHistorySize) )
     {
-        Vector3<Fixed> * last = m_history.GetData(m_maxHistorySize);
         m_history.RemoveData(m_maxHistorySize);
-        delete last;
     }
 
     return MoveToWaypoint();
@@ -106,8 +104,8 @@ void GunFire::Render()
     {
         Vector3<float> lastPos, thisPos;
 		
-		lastPos = *m_history[i-1];
-        thisPos = *m_history[i];
+		lastPos = m_history[i-1];
+        thisPos = m_history[i];
 
         if( lastPos.x < -170 && thisPos.x > 170 )
         {
@@ -128,7 +126,7 @@ void GunFire::Render()
     {
         Vector3<float> lastPos, thisPos;
 		
-		lastPos = *m_history[ 0 ];
+		lastPos = m_history[ 0 ];
         thisPos = Vector3<float>( predictedLongitude, predictedLatitude, 0 );
         
         if( lastPos.x < -170 && thisPos.x > 170 )

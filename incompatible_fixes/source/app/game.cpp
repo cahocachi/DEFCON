@@ -32,7 +32,8 @@ Game::Game()
     m_gameTimeWarning(false),
     m_lockVictoryTimer(false),
     m_lastKnownDefcon(5),
-    m_gameMode(-1)
+    m_gameMode(-1),
+    m_gameScale(NULL)
 {
     //
     // Load game options
@@ -105,6 +106,7 @@ Game::Game()
     GetOption("MaxGameRealTime")->m_currentValue = 15;
 #endif
 
+    m_gameScale = GetOption( "WorldScale" );
 
     m_score.Initialise(MAX_TEAMS);
     m_nukeCount.Initialise(MAX_TEAMS);
@@ -145,6 +147,11 @@ GameOption *Game::GetOption( char *_name )
     }
 
     return NULL;
+}
+
+Fixed Game::GetGameScale() const
+{
+    return Fixed::FromDouble(m_gameScale->m_currentValue / m_gameScale->m_default);
 }
 
 
