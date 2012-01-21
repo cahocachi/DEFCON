@@ -100,7 +100,8 @@ public:
 
     BoundedArray<float> m_leftAllianceTimer;    // achievement tracking only
     bool    m_alwaysSolo;
-    
+
+    Colour m_teamColour;
 public:
     Team();
 
@@ -131,7 +132,8 @@ public:
     bool CanAssembleFleet   (); // checks all fleet constructions to make sure at least one valid fleet type is available
     bool CanAssembleFleet   ( int fleetType );
 
-    Colour GetTeamColour    ();
+    void UpdateTeamColour ();
+    Colour const &GetTeamColour () const { return m_teamColour; }
     char *GetTeamType       ();
     char *GetTeamName       ();
 

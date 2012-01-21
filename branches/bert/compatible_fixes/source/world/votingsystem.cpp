@@ -339,6 +339,8 @@ void Vote::Finish( int _result )
                 team->m_allianceId = m_voteData;
                 team->m_alwaysSolo = false;
 
+                team->UpdateTeamColour();
+
                 sprintf( msg, LANGUAGEPHRASE("message_alliance_join") );
                 LPREPLACESTRINGFLAG('P', team->GetTeamName(), msg);
 
@@ -360,6 +362,7 @@ void Vote::Finish( int _result )
                 LPREPLACESTRINGFLAG('N', allianceName, msg );
 
                 team->m_allianceId = g_app->GetWorld()->FindFreeAllianceId();
+                team->UpdateTeamColour();
 
                 break;
             }
@@ -388,6 +391,8 @@ void Vote::Finish( int _result )
                 }
 
                 team->m_allianceId = g_app->GetWorld()->FindFreeAllianceId();
+                team->UpdateTeamColour();
+
                 break;
             }
         }
