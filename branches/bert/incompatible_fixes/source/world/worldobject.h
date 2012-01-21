@@ -55,7 +55,7 @@ public:
 	int		m_lastHitByTeamId;
     bool    m_selectable;
     
-    typedef Vector3<Fixed> Direction;
+    typedef Vector2<Fixed> Direction;
     Direction m_vel;
 
     LList   <WorldObjectState *> m_states;
