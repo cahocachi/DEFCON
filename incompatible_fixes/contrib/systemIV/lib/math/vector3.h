@@ -3,10 +3,11 @@
 
 #include <math.h>
 
-#include "lib/math/vector2.h"
+// #include "lib/math/vector2.h"
 #include "lib/math/math_utils.h"
 #include "lib/math/fixed.h"
 
+template <class T> class Vector2;
 
 template <class T> class Vector3
 {
@@ -15,16 +16,18 @@ private:
 
 public:
 	T x, y, z;
-	
+
 	// *** Class methods ***
-	static Vector3 const UpVector()
+	static Vector3 const & UpVector()
 	{
-		return Vector3(0, 1, 0);
+		static Vector3 up(0, 1, 0);
+        return up;
 	}
 	
-	static Vector3 const ZeroVector()
+	static Vector3 const & ZeroVector()
 	{
-		return Vector3(0, 0, 0);
+        static Vector3 zero(0, 0, 0);
+        return zero;
 	}
 
 	// *** Constructors ***
@@ -38,11 +41,16 @@ public:
 	{
 	}
 
-	Vector3(Vector2 const &_b)
+private:
+    // this conversion is a tad dangerous; all the code in DEFCON that uses
+    // Vector3 uses the x and y components. Better not use it while that code
+    // is still around.
+	Vector3(Vector2<T> const &_b)
 	:	x(_b.x), y(0), z(_b.y)
 	{
 	}
-	
+
+public:	
 	template <class T2>
 	Vector3(Vector3<T2> const &_v);
 

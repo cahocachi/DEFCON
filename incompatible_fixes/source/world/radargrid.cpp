@@ -146,7 +146,7 @@ void RadarGrid::ModifyCoverage( Fixed _longitude, Fixed _latitude, Fixed _radius
             Fixed thisLatitude;
             GetWorldLocation( x, y, thisLongitude, thisLatitude );
 
-            Fixed distanceSquared = (Vector3<Fixed>(_longitude, _latitude,0) - Vector3<Fixed>(thisLongitude, thisLatitude,0)).MagSquared();
+            Fixed distanceSquared = (Vector2<Fixed>(_longitude, _latitude) - Vector2<Fixed>(thisLongitude, thisLatitude)).MagSquared();
             if( distanceSquared < radiusSquared )
             {
                 int xRadar = x;

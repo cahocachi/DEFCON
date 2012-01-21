@@ -94,7 +94,7 @@ bool Blip::Update()
         if( m_longitude > -180 ||
             m_longitude < 180 )
         {
-            m_history.PutDataAtStart( Vector3<Fixed>(m_longitude, m_latitude, 0) );
+            m_history.PutDataAtStart( Vector2<Fixed>(m_longitude, m_latitude) );
             m_historyTimer = Fixed::Hundredths(1);
         }
     }

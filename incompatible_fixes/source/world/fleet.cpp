@@ -125,11 +125,11 @@ void Fleet::Update()
                     START_PROFILE( "Persue" );
                     if( visibleTargets )
                     {
-                        Vector3<Fixed> targetPos( targetFleet->m_longitude, targetFleet->m_latitude, 0 );
-                        Vector3<Fixed> offset( 0, 5, 0 );
+                        Vector2<Fixed> targetPos( targetFleet->m_longitude, targetFleet->m_latitude );
+                        Vector2<Fixed> offset( 0, 5 );
                         offset.RotateAroundZ( targetFleet->m_fleetId * Fixed::Hundredths(30) );
 
-                        Vector3<Fixed> ourPos( m_longitude, m_latitude, 0 );
+                        Vector2<Fixed> ourPos( m_longitude, m_latitude );
 
                         if( IsValidFleetPosition( targetPos.x + offset.x, targetPos.y + offset.y ) &&
                             (ourPos - targetPos).MagSquared() > 5 * 5 )
@@ -784,7 +784,7 @@ bool Fleet::FindGoodAttackSpot( Fixed &_longitude, Fixed &_latitude )
     {
         if( !IsIgnoringPoint(i) )
         {
-            Vector3<Fixed> *point = g_app->GetWorld()->m_aiTargetPoints[i];
+            Vector2<Fixed> const & point = g_app->GetWorld()->m_aiTargetPoints[i];
 
             bool inRange = false;            
             for( int j = 0; j < World::NumTerritories; ++j )
@@ -796,7 +796,7 @@ bool Fleet::FindGoodAttackSpot( Fixed &_longitude, Fixed &_latitude )
                     Fixed popCenterLong = g_app->GetWorld()->m_populationCenter[j].x;
                     Fixed popCenterLat = g_app->GetWorld()->m_populationCenter[j].y;
 
-                    if( g_app->GetWorld()->GetDistanceSqd( point->x, point->y, popCenterLong, popCenterLat ) < attackRange * attackRange )
+                    if( g_app->GetWorld()->GetDistanceSqd( point.x, point.y, popCenterLong, popCenterLat ) < attackRange * attackRange )
                     {
                         inRange = true;
                         break;
@@ -805,11 +805,11 @@ bool Fleet::FindGoodAttackSpot( Fixed &_longitude, Fixed &_latitude )
             }
             if( inRange )
             {
-                Fixed sailRange = g_app->GetWorld()->GetSailDistance( m_longitude, m_latitude, point->x, point->y );
+                Fixed sailRange = g_app->GetWorld()->GetSailDistance( m_longitude, m_latitude, point.x, point.y );
                 
                 ValidTargetPoint newPoint;
-                newPoint.m_longitude = point->x;
-                newPoint.m_latitude = point->y;
+                newPoint.m_longitude = point.x;
+                newPoint.m_latitude = point.y;
                 newPoint.m_sailRange = sailRange;
 
                 if( sailRange < 5 )
@@ -885,7 +885,7 @@ bool Fleet::FindGoodAttackSpotSlow( Fixed &_longitude, Fixed &_latitude )
     {
         if( !IsIgnoringPoint(i) )
         {
-            Vector3<Fixed> *point = g_app->GetWorld()->m_aiTargetPoints[i];
+            Vector2<Fixed> const & point = g_app->GetWorld()->m_aiTargetPoints[i];
 
             bool inRange = false;            
             for( int j = 0; j < World::NumTerritories; ++j )
@@ -897,7 +897,7 @@ bool Fleet::FindGoodAttackSpotSlow( Fixed &_longitude, Fixed &_latitude )
                     Fixed popCenterLong = g_app->GetWorld()->m_populationCenter[j].x;
                     Fixed popCenterLat = g_app->GetWorld()->m_populationCenter[j].y;
 
-                    if( g_app->GetWorld()->GetDistanceSqd( point->x, point->y, popCenterLong, popCenterLat ) < attackRange * attackRange )
+                    if( g_app->GetWorld()->GetDistanceSqd( point.x, point.y, popCenterLong, popCenterLat ) < attackRange * attackRange )
                     {
                         inRange = true;
                         break;
@@ -906,11 +906,11 @@ bool Fleet::FindGoodAttackSpotSlow( Fixed &_longitude, Fixed &_latitude )
             }
             if( inRange )
             {
-                Fixed sailRange = g_app->GetWorld()->GetSailDistance( m_longitude, m_latitude, point->x, point->y );
+                Fixed sailRange = g_app->GetWorld()->GetSailDistance( m_longitude, m_latitude, point.x, point.y );
 
                 ValidTargetPoint newPoint;
-                newPoint.m_longitude = point->x;
-                newPoint.m_latitude = point->y;
+                newPoint.m_longitude = point.x;
+                newPoint.m_latitude = point.y;
                 newPoint.m_sailRange = sailRange;
 
                 if( sailRange < 5 )

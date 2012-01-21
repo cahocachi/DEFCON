@@ -80,7 +80,7 @@ bool MovingObject::Update()
     m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
     if( m_historyTimer <= 0 )
     {
-        m_history.PutDataAtStart( Vector3<Fixed>(m_longitude, m_latitude, 0) );
+        m_history.PutDataAtStart( Vector2<Fixed>(m_longitude, m_latitude) );
         m_historyTimer = 2;
     }
 
@@ -224,9 +224,9 @@ void FFClamp( Fixed &f, unsigned long long clamp )
 //        m_targetLongitude += 360;
 //    }
 //    
-//    Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-//								Vector3<Fixed>( m_longitude, m_latitude, 0 )).Normalise();
-//    Vector3<Fixed> originalTargetDir = targetDir;
+//    Vector2<Fixed> targetDir = (Vector2<Fixed>( m_targetLongitude, m_targetLatitude ) -
+//								Vector2<Fixed>( m_longitude, m_latitude )).Normalise();
+//    Vector2<Fixed> originalTargetDir = targetDir;
 //
 //    Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
 //    
@@ -454,7 +454,7 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
 bool MovingObject::MoveToWaypoint()
 {
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
-    m_range -= Vector3<Fixed>( m_vel.x * Fixed(timePerUpdate), m_vel.y * Fixed(timePerUpdate), 0 ).Mag();
+    m_range -= Vector2<Fixed>( m_vel.x * Fixed(timePerUpdate), m_vel.y * Fixed(timePerUpdate) ).Mag();
     if( m_targetLongitude != 0 &&
         m_targetLatitude != 0 )
     {
@@ -661,17 +661,17 @@ void MovingObject::RenderHistory()
 
     if( m_history.Size() > 0 )
     {
-        Vector3<float> lastPos( predictedLongitude, predictedLatitude, 0 );
+        Vector2<float> lastPos( predictedLongitude, predictedLatitude );
 
         for( int i = 0; i < maxSize; ++i )
         {
-            Vector3<float> const & historyPos = m_history[i];
-			Vector3<float> thisPos = historyPos;
+            Vector2<float> const & historyPos = m_history[i];
+			Vector2<float> thisPos = historyPos;
 
             if( lastPos.x < -170 && thisPos.x > 170 )       thisPos.x = -180 - ( 180 - thisPos.x );        
             if( lastPos.x > 170 && thisPos.x < -170 )       thisPos.x = 180 + ( 180 - fabs(thisPos.x) );        
 
-            Vector3<float> diff = thisPos - lastPos;
+            Vector2<float> diff = thisPos - lastPos;
             lastPos += diff * 0.1f;
             colour.m_a = 255 - 255 * (float) i / (float) maxSize;
             
@@ -1395,7 +1395,7 @@ void MovingObject::Ping()
                                 if( g_app->GetWorld()->IsFriend(team->m_teamId, m_teamId ) )
                                 {
                                     obj->m_lastSeenTime[team->m_teamId] = obj->m_ghostFadeTime;
-                                    obj->m_lastKnownPosition[team->m_teamId] = Vector3<Fixed>( obj->m_longitude, obj->m_latitude, 0 );                                    
+                                    obj->m_lastKnownPosition[team->m_teamId] = Vector2<Fixed>( obj->m_longitude, obj->m_latitude );                                    
                                     //obj->m_visible[team->m_teamId] = (obj->m_type != WorldObject::TypeSub );
                                     obj->m_seen[team->m_teamId] = true;
                                     obj->m_lastKnownVelocity[team->m_teamId].Zero();
@@ -1412,7 +1412,7 @@ void MovingObject::Ping()
                                 {
                                     m_seen[team->m_teamId] = true;
                                     m_lastSeenTime[team->m_teamId] = m_ghostFadeTime;
-                                    m_lastKnownPosition[team->m_teamId] = Vector3<Fixed>( m_longitude, m_latitude, 0 );
+                                    m_lastKnownPosition[team->m_teamId] = Vector2<Fixed>( m_longitude, m_latitude );
                                     m_lastKnownVelocity[team->m_teamId].Zero();
                                 }
                             }

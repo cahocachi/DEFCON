@@ -496,8 +496,8 @@ void Team::PlacementAI()
                 LList<int> validPointsList;
                 for( int i = 0; i < g_app->GetWorld()->m_aiPlacementPoints.Size(); ++i )
                 {
-                    Vector3<Fixed> *point = g_app->GetWorld()->m_aiPlacementPoints[i];
-                    if( g_app->GetMapRenderer()->GetTerritory( point->x, point->y, true ) == m_teamId )
+                    Vector2<Fixed> const & point = g_app->GetWorld()->m_aiPlacementPoints[i];
+                    if( g_app->GetMapRenderer()->GetTerritory( point.x, point.y, true ) == m_teamId )
                     {
                         //Fixed distance = Fixed::MAX;
                         //for( int j = 0; j < m_fleets.Size(); ++j )
@@ -521,9 +521,9 @@ void Team::PlacementAI()
                 while( attempt > 0 && validPointsList.Size() )
                 {
                     int pointId = syncrand() % validPointsList.Size();
-                    Vector3<Fixed> *point = g_app->GetWorld()->m_aiPlacementPoints[ validPointsList[pointId]];
-                    Fixed longitude = point->x + syncsfrand(10);
-                    Fixed latitude = point->y + syncsfrand(10);
+                    Vector2<Fixed> const & point = g_app->GetWorld()->m_aiPlacementPoints[ validPointsList[pointId]];
+                    Fixed longitude = point.x + syncsfrand(10);
+                    Fixed latitude = point.y + syncsfrand(10);
                     if( m_fleets[id]->ValidFleetPlacement(longitude, latitude) &&
                         g_app->GetWorld()->GetClosestNode( longitude, latitude ) != -1 )
                     {
@@ -537,9 +537,9 @@ void Team::PlacementAI()
                 if( !success && validPointsList.Size() )
                 {
                     int pointId = syncrand() % validPointsList.Size();
-                    Vector3<Fixed> *point = g_app->GetWorld()->m_aiPlacementPoints[ validPointsList[pointId]];
-                    m_fleets[id]->PlaceFleet( point->x, point->y );
-                    AppDebugOut( "Failed to find good spot, fell back on %2.2f %2.2f\n", point->x.DoubleValue(), point->y.DoubleValue() );
+                    Vector2<Fixed> const & point = g_app->GetWorld()->m_aiPlacementPoints[ validPointsList[pointId]];
+                    m_fleets[id]->PlaceFleet( point.x, point.y );
+                    AppDebugOut( "Failed to find good spot, fell back on %2.2f %2.2f\n", point.x.DoubleValue(), point.y.DoubleValue() );
                 }
             }
         }
