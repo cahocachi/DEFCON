@@ -216,9 +216,7 @@ void World::LoadNodes()
 
 Fixed World::GetGameScale()
 {
-    GameOption *option = g_app->GetGame()->GetOption( "WorldScale" );
-    Fixed gameScale = Fixed::FromDouble(option->m_currentValue / option->m_default);
-    return gameScale;
+    return g_app->GetGame()->GetGameScale();
 }
 
 
@@ -657,6 +655,7 @@ void World::RequestAlliance( int teamId, int allianceId )
     if( team )
     {
         team->m_allianceId = allianceId;
+        team->UpdateTeamColour();
     }
 }
 
@@ -693,6 +692,8 @@ void World::InitialiseTeam ( int teamId, int teamType, int clientId )
     team->m_allianceId = FindFreeAllianceId();
     team->m_clientId = clientId;
     team->m_readyToStart = false;
+
+    team->UpdateTeamColour();
  
     if( teamType == Team::TypeLocalPlayer )
     {
@@ -1795,6 +1796,8 @@ void World::Update()
     int shareAllianceRadar = g_app->GetGame()->GetOptionValue( "RadarSharing" );
     for(int i = 0; i < m_teams.Size(); ++i )
     {
+        m_teams[i]->UpdateTeamColour();
+
         if( shareAllianceRadar == 0 )
         {
             // Always off

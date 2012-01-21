@@ -48,7 +48,7 @@ MovingObject::MovingObject()
 
 MovingObject::~MovingObject()
 {
-    m_history.EmptyAndDelete();
+    //om_history.EmptyAndDelete();
     //m_movementBlips.EmptyAndDelete();
 }
 
@@ -80,16 +80,14 @@ bool MovingObject::Update()
     m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
     if( m_historyTimer <= 0 )
     {
-        m_history.PutDataAtStart( new Vector3<Fixed>(m_longitude, m_latitude, 0) );
+        m_history.PutDataAtStart( Vector3<Fixed>(m_longitude, m_latitude, 0) );
         m_historyTimer = 2;
     }
 
     while( m_maxHistorySize != -1 && 
            m_history.ValidIndex(m_maxHistorySize) )
     {
-        Vector3<Fixed> * last = m_history.GetData(m_maxHistorySize);
         m_history.RemoveData(m_maxHistorySize);
-        delete last;
     }
 
 
@@ -667,8 +665,8 @@ void MovingObject::RenderHistory()
 
         for( int i = 0; i < maxSize; ++i )
         {
-            Vector3<float> historyPos, thisPos;
-			thisPos = historyPos = *m_history[i];
+            Vector3<float> const & historyPos = m_history[i];
+			Vector3<float> thisPos = historyPos;
 
             if( lastPos.x < -170 && thisPos.x > 170 )       thisPos.x = -180 - ( 180 - thisPos.x );        
             if( lastPos.x > 170 && thisPos.x < -170 )       thisPos.x = 180 + ( 180 - fabs(thisPos.x) );        

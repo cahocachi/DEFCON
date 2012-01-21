@@ -50,6 +50,8 @@ protected:
     void            CountNukes();
     void            CalculateScores();
 
+    GameOption *    m_gameScale; // cache only
+
 public:
     Game();
     ~Game();
@@ -63,6 +65,7 @@ public:
     void            SetOptionValue  ( char *_name, int _value );
     int             GetOptionIndex  ( char *_name );    
     GameOption      *GetOption      ( char *_name );
+    Fixed           GetGameScale() const;
 
     void            SetGameMode     ( int _mode );
     bool            IsOptionEditable( int _optionId );
