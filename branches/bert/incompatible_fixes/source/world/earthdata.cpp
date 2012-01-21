@@ -58,7 +58,7 @@ void EarthData::LoadBorders()
         {
             float longitude, latitude;
             sscanf( line, "%f %f", &longitude, &latitude );
-            island->m_points.PutData( new Vector3<float>( longitude, latitude, 0.0f ) );
+            island->m_points.PutData( Vector2<float>( longitude, latitude ) );
         }
     }
     
@@ -170,7 +170,7 @@ void EarthData::LoadCoastlines()
         {
             float longitude, latitude;
             sscanf( line, "%f %f", &longitude, &latitude );
-            island->m_points.PutData( new Vector3<float>( longitude, latitude, 0.0f ) );            
+            island->m_points.PutData( Vector2<float>( longitude, latitude ) );            
         }
     }
 
@@ -182,5 +182,4 @@ void EarthData::LoadCoastlines()
 
 Island::~Island()
 {
-    m_points.EmptyAndDelete();
 }

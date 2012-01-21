@@ -190,15 +190,15 @@ void World::LoadNodes()
             if( col.m_r > 200 ||
                 col.m_g > 200 )
             {
-                Vector3<Fixed> *point = new Vector3<Fixed>;
+                Vector2<Fixed> point;
                 Fixed width = 360;
                 Fixed height = 200;
 
                 Fixed longitude = x * (width/aiMarkers->Width()) - 180;
                 Fixed latitude = y * ( height/aiMarkers->Height()) - 100;
 
-                point->x = longitude;
-                point->y = latitude;
+                point.x = longitude;
+                point.y = latitude;
 
                 if( col.m_r > 200 )
                 {
@@ -394,8 +394,8 @@ void World::AssignCities()
                     thisCity->m_capital = false;
                 }
 
-                Fixed distanceSqd = (Vector3<Fixed>(city->m_longitude, city->m_latitude,0) -
-                                  Vector3<Fixed>(thisCity->m_longitude, thisCity->m_latitude,0)).MagSquared();
+                Fixed distanceSqd = (Vector2<Fixed>(city->m_longitude, city->m_latitude) -
+                                  Vector2<Fixed>(thisCity->m_longitude, thisCity->m_latitude)).MagSquared();
 
                 if( distanceSqd < 2 * 2 )
                 {
@@ -472,7 +472,7 @@ void World::AssignCities()
         }
         if( totalLong != 0 && totalLat != 0 )
         {
-            Vector3<Fixed> center = Vector3<Fixed>( totalLong/tempList[i].Size(), totalLat/tempList[i].Size(), 0 );
+            Vector2<Fixed> center = Vector2<Fixed>( totalLong/tempList[i].Size(), totalLat/tempList[i].Size() );
             m_populationCenter[i] = center;
         }
     }
@@ -1365,9 +1365,9 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
 
         if( intensity > 50 )
         {
-            Vector3<Fixed> *pos = new Vector3<Fixed>();
-            pos->x = longitude;
-            pos->y = latitude;
+            Vector2<Fixed> pos;
+            pos.x = longitude;
+            pos.y = latitude;
             m_radiation.PutData(pos);
         }
     
@@ -2480,8 +2480,8 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
     }
    
 
-    Vector3<Fixed> vel = (Vector3<Fixed>( actualToLongitude, actualToLatitude, 0 ) -
-                          Vector3<Fixed>( longitude, latitude, 0 ));
+    Vector2<Fixed> vel = (Vector2<Fixed>( actualToLongitude, actualToLatitude ) -
+                          Vector2<Fixed>( longitude, latitude ));
     Fixed velMag = vel.Mag();
     int nbIterations = 0;
 
@@ -2550,7 +2550,7 @@ bool World::IsSailableSlow( Fixed const &fromLongitude, Fixed const &fromLatitud
         Fixed factor2 = 1 - factor1;
 
         Vector3<Fixed> targetDir = (Vector3<Fixed>( actualToLongitude, actualToLatitude, 0 ) -
-            Vector3<Fixed>( longitude, latitude, 0 )).Normalise();  
+                                    Vector3<Fixed>( longitude, latitude, 0 )).Normalise();  
 
         vel = ( targetDir * factor1 ) + ( vel * factor2 );
         vel.Normalise();
@@ -2902,7 +2902,7 @@ Fixed World::GetSailDistance( Fixed const &fromLongitude, Fixed const &fromLatit
 }
 
 /*
-void World::GetSeamCrossLatitude( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude )
+void World::GetSeamCrossLatitude( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude )
 {
 //    y = mx + c
 //    c = y - mx
@@ -3467,9 +3467,9 @@ void World::ClearWorld()
     m_objects.EmptyAndDelete();
     m_gunfire.EmptyAndDelete();
     m_explosions.EmptyAndDelete();
-    m_radiation.EmptyAndDelete();
-    m_aiTargetPoints.EmptyAndDelete();
-    m_aiPlacementPoints.EmptyAndDelete();
+    m_radiation.Empty();
+    m_aiTargetPoints.Empty();
+    m_aiPlacementPoints.Empty();
     for( int i = 0; i < m_teams.Size(); ++i )
     {
         Team *team = m_teams[i];

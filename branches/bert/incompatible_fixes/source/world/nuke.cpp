@@ -62,8 +62,8 @@ void Nuke::SetWaypoint( Fixed longitude, Fixed latitude )
     }
     MovingObject::SetWaypoint( longitude, latitude );
 
-    Vector3<Fixed> target( m_targetLongitude, m_targetLatitude, 0 );
-    Vector3<Fixed> pos( m_longitude, m_latitude, 0 );
+    Vector2<Fixed> target( m_targetLongitude, m_targetLatitude );
+    Vector2<Fixed> pos( m_longitude, m_latitude );
     m_totalDistance = (target - pos).Mag();
 
     if( m_targetLongitude >= m_longitude )
@@ -141,8 +141,8 @@ bool Nuke::Update()
         front.Normalise();
     }
 
-    m_vel = Vector3<Fixed>(front * (m_speed/2 + m_speed/2 * fractionDistance * fractionDistance));
-       
+    m_vel = front * (m_speed/2 + m_speed/2 * fractionDistance * fractionDistance);
+
     Fixed newLongitude = m_longitude + m_vel.x * timePerUpdate;
     Fixed newLatitude = m_latitude + m_vel.y * timePerUpdate;
 
@@ -168,7 +168,7 @@ bool Nuke::Update()
     }
     else
     {
-        m_range -= Vector3<Fixed>( m_vel.x * Fixed(timePerUpdate), m_vel.y * Fixed(timePerUpdate), 0 ).Mag();
+        m_range -= ( m_vel * Fixed(timePerUpdate) ).Mag();
         if( m_range <= 0 )
         {
             m_life = 0;

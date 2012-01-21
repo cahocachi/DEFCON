@@ -77,7 +77,7 @@ WorldObject::WorldObject()
     {
         m_seen.SetAll( false );
         m_visible.SetAll( false );
-        m_lastKnownPosition.SetAll( Vector3<Fixed>::ZeroVector() );
+        m_lastKnownPosition.SetAll( Vector2<Fixed>::ZeroVector() );
         m_lastKnownVelocity.SetAll( Vector3<Fixed>::ZeroVector() );
         m_lastSeenTime.SetAll( 0 );
         m_lastSeenState.SetAll( 0 );
@@ -319,7 +319,7 @@ bool WorldObject::Update()
         Team *team = g_app->GetWorld()->m_teams[i];
         if(m_visible[team->m_teamId])
         {
-            m_lastKnownPosition[team->m_teamId] = Vector3<Fixed>( m_longitude, m_latitude, 0 );
+            m_lastKnownPosition[team->m_teamId] = Vector2<Fixed>( m_longitude, m_latitude );
             m_lastKnownVelocity[team->m_teamId] = m_vel;
             m_lastSeenTime[team->m_teamId] = m_ghostFadeTime;
             m_lastSeenState[team->m_teamId] = m_currentState;
