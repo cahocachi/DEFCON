@@ -113,9 +113,13 @@ bool Team::IsValidName( char *name )
 	return len <= MAX_TEAM_NAME && !isBlank;
 }
 
-Colour Team::GetTeamColour()
+void Team::UpdateTeamColour()
 {
-    if( m_allianceId == -1 ) return DarkGray;
+    if( m_allianceId == -1 ) 
+    {
+        m_teamColour = DarkGray;
+        return;
+    }
     
     Colour allianceColour = g_app->GetWorld()->GetAllianceColour( m_allianceId );
 
@@ -131,7 +135,7 @@ Colour Team::GetTeamColour()
         allianceColour.m_b *= 0.5;
     }       
            
-    return allianceColour;
+    m_teamColour = allianceColour;
     
 
 //    int fadedColour = 100 + 100 * m_teamColourFader;
