@@ -36,7 +36,7 @@ public:
 	{
 	}
 
-	inline Vector3(T _x, T _y, T _z)
+	inline Vector3(T _x, T _y, T _z=0)
 	:	x(_x), y(_y), z(_z) 
 	{
 	}

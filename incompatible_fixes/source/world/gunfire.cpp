@@ -190,8 +190,8 @@ bool GunFire::MoveToWaypoint()
 
 void GunFire::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude, Fixed *newDistance )
 {
-    Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-								Vector3<Fixed>( m_longitude, m_latitude, 0 )).Normalise();    
+    Direction targetDir = (Direction( m_targetLongitude, m_targetLatitude ) -
+                           Direction( m_longitude, m_latitude )).Normalise();    
     
     Fixed distance = (Vector2<Fixed>( m_targetLongitude, m_targetLatitude ) -
                       Vector2<Fixed>( m_longitude, m_latitude )).Mag();

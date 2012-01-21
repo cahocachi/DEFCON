@@ -119,12 +119,12 @@ bool Nuke::Update()
     //
     // Move towards target
 
-    Vector3<Fixed> target( m_targetLongitude, m_targetLatitude, 0 );
-    Vector3<Fixed> pos( m_longitude, m_latitude, 0 );
+    Direction target( m_targetLongitude, m_targetLatitude );
+    Direction pos( m_longitude, m_latitude );
     Fixed remainingDistance = (target - pos).Mag();
     Fixed fractionDistance = m_totalDistance > 0 ? 1 - remainingDistance / m_totalDistance : Fixed::Hundredths(50);
 
-    Vector3<Fixed> front = (target - pos).Normalise();  
+    Direction front = (target - pos).Normalise();  
     Fixed fractionNorth = 5 * m_latitude.abs() / ( 200 / 2 );
     fractionNorth = max( fractionNorth, 3 );
     

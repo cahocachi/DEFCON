@@ -2537,7 +2537,7 @@ bool World::IsSailableSlow( Fixed const &fromLongitude, Fixed const &fromLatitud
     }
 
 
-    Vector3<Fixed> vel;
+    MovingObject::Direction vel;
     while(true)
     {
         Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
@@ -2549,8 +2549,8 @@ bool World::IsSailableSlow( Fixed const &fromLongitude, Fixed const &fromLatitud
         Fixed factor1 = Fixed::Hundredths(1) * timePerUpdate / 10;
         Fixed factor2 = 1 - factor1;
 
-        Vector3<Fixed> targetDir = (Vector3<Fixed>( actualToLongitude, actualToLatitude, 0 ) -
-                                    Vector3<Fixed>( longitude, latitude, 0 )).Normalise();  
+        MovingObject::Direction targetDir = (MovingObject::Direction( actualToLongitude, actualToLatitude ) -
+                                             MovingObject::Direction( longitude, latitude )).Normalise();  
 
         vel = ( targetDir * factor1 ) + ( vel * factor2 );
         vel.Normalise();
