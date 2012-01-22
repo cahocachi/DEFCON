@@ -11,6 +11,8 @@
 #ifndef _included_app_h
 #define _included_app_h
 
+#include "lib/debug_utils.h"
+
 class MapRenderer;
 class LobbyRenderer;
 class Interface;
@@ -95,7 +97,7 @@ public:
     ClientToServer  *GetClientToServer();
     World           *GetWorld();
     EarthData       *GetEarthData();
-    Game            *GetGame();
+    inline Game     *GetGame();
     StatusIcon      *GetStatusIcon();
     Tutorial        *GetTutorial();
 	
@@ -108,6 +110,12 @@ public:
 
 	void    SaveGameName();
 };
+
+inline Game *App::GetGame()
+{
+    AppDebugAssert( m_game );
+    return m_game;
+}
 
 void	ConfirmExit( const char *_parentWindowName );
 void	AttemptQuitImmediately();
