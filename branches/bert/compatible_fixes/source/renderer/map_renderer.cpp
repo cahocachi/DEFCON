@@ -3365,7 +3365,7 @@ void MapRenderer::HandleClickStateMenu()
             {
                 for( int i = 0; i < fleet->m_fleetMembers.Size(); ++i )
                 {
-                    int thisObjId = fleet->m_fleetMembers[i];
+                    WorldObjectReference const & thisObjId = fleet->m_fleetMembers[i];
                     WorldObject *thisObj = g_app->GetWorld()->GetWorldObject(thisObjId);
                     if( thisObj && 
                         thisObj->m_type == highlight->m_type )
@@ -4055,12 +4055,12 @@ Image *MapRenderer::GetTerritoryImage( int territoryId )
     return m_territories[territoryId];
 }
 
-int MapRenderer::GetCurrentSelectionId()
+WorldObjectReference const & MapRenderer::GetCurrentSelectionId()
 {
     return m_currentSelectionId; 
 }
 
-int MapRenderer::GetCurrentHighlightId()
+WorldObjectReference const & MapRenderer::GetCurrentHighlightId()
 {
     return m_currentHighlightId;
 }

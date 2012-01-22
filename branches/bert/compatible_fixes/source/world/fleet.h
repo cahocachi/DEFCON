@@ -13,7 +13,7 @@ public:
     int         m_fleetId;
     int         m_teamId;
     //int         m_fleetLeader;
-    LList<int>  m_fleetMembers;
+    LList<WorldObjectReference>  m_fleetMembers;
     LList<int>  m_memberType;
     LList<int>  m_lastHitByTeamId;
     bool        m_active;

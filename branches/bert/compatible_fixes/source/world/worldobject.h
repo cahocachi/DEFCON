@@ -11,6 +11,21 @@ class Image;
 class WorldObjectState;
 class ActionOrder;
 
+// cached world object queries
+class WorldObjectReference
+{
+    int m_uniqueId;          // the real unique ID
+    mutable int m_index;     // the index in the array
+
+public:
+    WorldObjectReference() { m_uniqueId = -1; m_index = -1; }
+    WorldObjectReference( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; }
+    operator int() const { return m_uniqueId; }
+    WorldObjectReference & operator = ( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; return *this; }
+
+    friend class World;
+};
+
 class WorldObject
 {
 public:
@@ -79,7 +94,7 @@ public:
     Fixed   m_aiTimer;
     Fixed   m_aiSpeed;
     Fixed   m_ghostFadeTime;
-    int     m_targetObjectId;
+    WorldObjectReference m_targetObjectId;
     bool    m_isRetaliating;
     bool    m_forceAction;              // forces ai unit to act on a certain state regardless of team/fleet state
 
