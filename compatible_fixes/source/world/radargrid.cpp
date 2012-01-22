@@ -267,6 +267,24 @@ int RadarGrid::GetCoverage( Fixed _longitude, Fixed _latitude, int _teamId )
     return m_radar[_teamId][ indexY * RADARGRID_WIDTH * m_resolution + indexX ];
 }
 
+void RadarGrid::GetMultiCoverage( Fixed _longitude, Fixed _latitude, BoundedArray< int > & coveragePerTeam )
+{
+    if( coveragePerTeam.Size() != m_radar.Size() )
+    {
+        coveragePerTeam.Initialise( m_radar.Size() );
+    }
+
+    int indexX;
+    int indexY;
+    GetIndices( _longitude, _latitude, indexX, indexY );
+
+    int offset =  indexY * RADARGRID_WIDTH * m_resolution + indexX;
+
+    for( int team = 0; team < m_radar.Size(); team++ )
+    {
+        coveragePerTeam[team] = m_radar[team][offset];
+    }
+}
 
 void RadarGrid::Render()
 {    

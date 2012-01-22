@@ -166,6 +166,7 @@ public:
     void CreateExplosion    ( int teamId, Fixed longitude, Fixed latitude, Fixed intensity, int targetTeamId=-1 );
 
     bool IsVisible          ( Fixed longitude, Fixed latitude, int teamId );
+    void IsVisible          ( Fixed longitude, Fixed latitude, BoundedArray<bool> & visibility );
 
     void ObjectPlacement        ( int teamId, int unitType, Fixed longitude, Fixed latitude, int fleetId );
     void ObjectStateChange      ( int objectId, int newState );
