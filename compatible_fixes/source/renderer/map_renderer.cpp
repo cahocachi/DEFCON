@@ -3241,6 +3241,8 @@ int MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
         nearest *= Fixed::FromDouble(g_app->GetMapRenderer()->GetZoomFactor() * 4);
     }
 
+    Fixed nearestSqd = nearest*nearest;
+
     //
     // Find the nearest object to the Mouse
 
@@ -3254,12 +3256,12 @@ int MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
                 wobj->m_lastSeenTime[g_app->GetWorld()->m_myTeamId] > 0 ||
                 g_app->GetGame()->m_winner != -1 )
             {
-                Fixed distance = g_app->GetWorld()->GetDistance( wobj->m_longitude, wobj->m_latitude,
-																 Fixed::FromDouble(_mouseX), Fixed::FromDouble(_mouseY) );
-                if( distance < nearest )
+                Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( wobj->m_longitude, wobj->m_latitude,
+                                                                       Fixed::FromDouble(_mouseX), Fixed::FromDouble(_mouseY) );
+                if( distanceSqd < nearestSqd )
                 {
                     underMouseId = wobj->m_objectId;
-                    nearest = distance;
+                    nearestSqd = distanceSqd;
                 }
             }
         }
@@ -3271,12 +3273,12 @@ int MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
     for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
     {
         City *city = g_app->GetWorld()->m_cities[i];
-        Fixed distance = g_app->GetWorld()->GetDistance( city->m_longitude, city->m_latitude,
-														 Fixed::FromDouble(_mouseX), Fixed::FromDouble(_mouseY) );
-        if( distance < nearest )
+        Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( city->m_longitude, city->m_latitude,
+                                                               Fixed::FromDouble(_mouseX), Fixed::FromDouble(_mouseY) );
+        if( distanceSqd < nearestSqd )
         {
             underMouseId = city->m_objectId;
-            nearest = distance;
+            nearestSqd = distanceSqd;
         }
     }
 
