@@ -2573,7 +2573,7 @@ void Tutorial::UpdateLevel6()
                 int numSubs = 0;
                 for( int i = 0; i < fleet->m_fleetMembers.Size(); ++i )
                 {
-                    int shipId = fleet->m_fleetMembers[i];
+                    WorldObjectReference const & shipId = fleet->m_fleetMembers[i];
                     WorldObject *wobj = g_app->GetWorld()->GetWorldObject(shipId);
                     if( wobj->m_type == WorldObject::TypeSub )
                     {

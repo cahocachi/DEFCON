@@ -181,7 +181,7 @@ int BattleShip::GetTarget( Fixed range )
                     obj->m_visible[m_teamId] &&
                     !team->m_ceaseFire[ obj->m_teamId ] &&
                     !g_app->GetWorld()->IsFriend( obj->m_teamId, m_teamId ) &&                    
-                    g_app->GetWorld()->GetAttackOdds( m_type, obj->m_type, m_objectId ) > 0 &&
+                    g_app->GetWorld()->GetAttackOdds( m_type, obj->m_type, this ) > 0 &&
                     g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) < range * range )
                 {
                     currentTarget = obj;

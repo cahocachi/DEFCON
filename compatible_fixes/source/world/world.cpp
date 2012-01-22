@@ -1159,9 +1159,9 @@ void World::LaunchNuke( int teamId, int objId, Fixed longitude, Fixed latitude, 
     }
 }
 
-int World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
+WorldObjectReference World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
 {
-    int result = -1;
+    WorldObjectReference result = -1;
     Fixed nearestSqd = Fixed::MAX;
 
     for( int i = 0; i < m_objects.Size(); ++i )
@@ -1179,7 +1179,7 @@ int World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int ob
                 Fixed distanceSqd = GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude);
                 if( distanceSqd < nearestSqd )
                 {
-                    result = obj->m_objectId;
+                    result = GetObjectReference(i);
                     nearestSqd = distanceSqd;
                 }
             }
@@ -1303,6 +1303,62 @@ WorldObject *World::GetWorldObject( int _uniqueId )
         }
     }
     return NULL;
+}
+
+WorldObject * World::GetWorldObject( WorldObjectReference const & reference )
+{
+    if( reference.m_uniqueId == -1 )
+    {
+        return NULL;
+    }
+
+    if( reference.m_index >= 0 )
+    {
+        if( m_objects.ValidIndex(reference.m_index) )
+        {
+            WorldObject *obj = m_objects[reference.m_index];
+            if( obj->m_objectId == reference.m_uniqueId )
+            {
+                return obj;
+            }
+        }
+
+        // array indices never change, so here we can quit.
+        return NULL;
+    }
+    
+    if( reference.m_uniqueId >= OBJECTID_CITYS )
+    {
+        return m_cities[reference.m_uniqueId - OBJECTID_CITYS];
+    }
+    
+    for( int i = 0; i < m_objects.Size(); ++i )
+    {
+        if( m_objects.ValidIndex(i) )
+        {
+            WorldObject *obj = m_objects[i];
+            if( obj->m_objectId == reference.m_uniqueId )
+            {
+                reference.m_index = i;
+                return obj;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+WorldObjectReference World::GetObjectReference( int arrayIndex )
+{
+    WorldObjectReference ret;
+
+    if( m_objects.ValidIndex( arrayIndex ) )
+    {
+        ret.m_index = arrayIndex;
+        ret.m_uniqueId = m_objects[arrayIndex]->m_objectId;
+    }
+
+    return ret;
 }
 
 void World::Shutdown()
@@ -3386,9 +3442,8 @@ void World::ParseCityDataFile()
 }
 
 
-int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
+int World::GetAttackOdds( int attackerType, int defenderType, WorldObject * attacker )
 {
-    WorldObject *attacker = GetWorldObject( attackerId );
     if( attacker )
     {
         return attacker->GetAttackOdds( defenderType );
@@ -3397,6 +3452,11 @@ int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
     {
         return GetAttackOdds( attackerType, defenderType );
     }
+}
+
+int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
+{
+    return GetAttackOdds( attackerType, defenderType, GetWorldObject( attackerId ) );
 }
 
 int World::GetAttackOdds( int attackerType, int defenderType )

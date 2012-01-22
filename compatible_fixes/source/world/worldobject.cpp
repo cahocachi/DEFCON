@@ -390,12 +390,14 @@ void WorldObject::Render ()
     // Current selection?
 
     colour.Set(255,255,255,255);
-    int selectionId = g_app->GetMapRenderer()->GetCurrentSelectionId();
+    WorldObjectReference const & selectionIdOrig = g_app->GetMapRenderer()->GetCurrentSelectionId();
+    g_app->GetWorld()->GetWorldObject(selectionIdOrig);
+    WorldObjectReference selectionId = selectionIdOrig;
     for( int i = 0; i < 2; ++i )
     {
         if( i == 1 )
         {
-            int highlightId = g_app->GetMapRenderer()->GetCurrentHighlightId();
+            WorldObjectReference const & highlightId = g_app->GetMapRenderer()->GetCurrentHighlightId();
             if( highlightId == selectionId ) break;
             selectionId = highlightId;
         }
