@@ -98,7 +98,7 @@ public:
     FastDArray      <Explosion *>       m_explosions;    
     LList           <WorldMessage *>    m_messages;   
     LList           <ChatMessage *>     m_chat;   
-    LList           <Team *>            m_teams;
+    DArray          <Team *>            m_teams;
     LList           <Spectator *>       m_spectators;
     BoundedArray    <Vector2<Fixed> >   m_populationCenter;     // Indedex on territory
 
