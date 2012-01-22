@@ -12,7 +12,7 @@ protected:
     Fixed   m_speed;     
     Fixed   m_turnRate;
 
-    LList   <Vector2<Fixed> > m_history;
+    LList   <Vector2<float> > m_history;
     Fixed   m_historyTimer;
     int     m_maxHistorySize;
 
