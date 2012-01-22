@@ -237,17 +237,19 @@ void WorldObject::SetState( int state )
 
 bool WorldObject::Update()
 {    
+    World * world = g_app->GetWorld();
+
     if( m_stateTimer > 0 )
     {
-        m_stateTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+        m_stateTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
         if( m_stateTimer <= 0 )
         {
             m_stateTimer = 0;
             
-            //if( m_teamId == g_app->GetWorld()->m_myTeamId &&
+            //if( m_teamId == world->m_myTeamId &&
             //    m_type != TypeNuke )
             {
-                //g_app->GetWorld()->AddWorldMessage( m_objectId, m_teamId,
+                //world->AddWorldMessage( m_objectId, m_teamId,
                 //    m_states[m_currentState]->GetReadyName(), WorldMessage::TypeObjectState,false );                
             }
         }
@@ -262,7 +264,7 @@ bool WorldObject::Update()
 
             if( action->m_targetObjectId == -1 )
             {
-                //Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+                //Fleet *fleet = world->GetTeam( m_teamId )->GetFleet( m_fleetId );
                 //if( fleet )
                 {
                     //fleet->StopFleet();
@@ -270,10 +272,10 @@ bool WorldObject::Update()
             }
             else if( action->m_pursueTarget )
             {
-                Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+                Fleet *fleet = world->GetTeam( m_teamId )->GetFleet( m_fleetId );
                 if( fleet )
                 {
-                    MovingObject *obj = (MovingObject *)g_app->GetWorld()->GetWorldObject( action->m_targetObjectId );
+                    MovingObject *obj = (MovingObject *)world->GetWorldObject( action->m_targetObjectId );
                     if( obj &&
                         obj->IsMovingObject() )
                     {
@@ -294,17 +296,17 @@ bool WorldObject::Update()
     if( m_currentState != m_previousState )
     {
         m_previousState = m_currentState;
-        if( m_teamId == g_app->GetWorld()->m_myTeamId &&
+        if( m_teamId == world->m_myTeamId &&
             m_stateTimer > 0 )
         {
-            //g_app->GetWorld()->AddWorldMessage( m_objectId, m_teamId,
+            //world->AddWorldMessage( m_objectId, m_teamId,
             //    m_states[m_currentState]->GetPreparingName(), WorldMessage::TypeObjectState, false );                                   
         }
     }
         
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i ) 
+    for( int i = 0; i < world->m_teams.Size(); ++i ) 
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
+        Team *team = world->m_teams[i];
         if(m_visible[team->m_teamId])
         {
             m_lastKnownPosition[team->m_teamId] = Vector2<Fixed>( m_longitude, m_latitude );
@@ -319,15 +321,15 @@ bool WorldObject::Update()
         float realTimeNow = GetHighResTime();
         if( realTimeNow > m_nukeCountTimer )
         {
-            g_app->GetWorld()->GetNumNukers( m_objectId, &m_numNukesInFlight, &m_numNukesInQueue );
+            world->GetNumNukers( m_objectId, &m_numNukesInFlight, &m_numNukesInQueue );
             m_nukeCountTimer = realTimeNow + 2.0f;
         }
     }
 
-    m_aiTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+    m_aiTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
     if( m_retargetTimer > 0 )
     {
-        m_retargetTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+        m_retargetTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
         m_retargetTimer = max( m_retargetTimer, 0 );
     }
 
@@ -335,7 +337,7 @@ bool WorldObject::Update()
     {
         if( m_fleetId != -1 )
         {
-            Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+            Fleet *fleet = world->GetTeam( m_teamId )->GetFleet( m_fleetId );
             if( fleet )
             {
                 fleet->m_lastHitByTeamId.PutData( m_lastHitByTeamId );

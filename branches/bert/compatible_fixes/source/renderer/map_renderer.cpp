@@ -437,19 +437,20 @@ void MapRenderer::RenderExplosions()
 {
     START_PROFILE( "Explosions" );
     int myTeamId = g_app->GetWorld()->m_myTeamId;
+    World * world = g_app->GetWorld();
     
-    for( int i = 0; i < g_app->GetWorld()->m_explosions.Size(); ++i )
+    for( int i = 0; i < world->m_explosions.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_explosions.ValidIndex(i) )
+        if( world->m_explosions.ValidIndex(i) )
         {
-            Explosion *explosion = g_app->GetWorld()->m_explosions[i];
+            Explosion *explosion = world->m_explosions[i];
             if( IsOnScreen( explosion->m_longitude.DoubleValue(), explosion->m_latitude.DoubleValue() ) )
             {
                 if( myTeamId == -1 ||
                     explosion->m_visible[myTeamId] || 
                     m_renderEverything )
                 {
-                    g_app->GetWorld()->m_explosions[i]->Render();
+                    world->m_explosions[i]->Render();
                 }
             }
         }
@@ -2551,13 +2552,15 @@ void MapRenderer::RenderObjects()
 {
     START_PROFILE( "Objects" );
 
-    int myTeamId = g_app->GetWorld()->m_myTeamId;
+    World * world = g_app->GetWorld();
+
+    int myTeamId = world->m_myTeamId;
      
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {            
-            WorldObject *wobj = g_app->GetWorld()->m_objects[i];
+            WorldObject *wobj = world->m_objects[i];
             START_PROFILE( WorldObject::GetName(wobj->m_type) );
 
             g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
@@ -2636,7 +2639,7 @@ void MapRenderer::RenderObjects()
     }
 
 #ifndef NON_PLAYABLE
-    WorldObject *selection = g_app->GetWorld()->GetWorldObject(m_currentSelectionId);
+    WorldObject *selection = world->GetWorldObject(m_currentSelectionId);
 
     if( selection  )
     {
@@ -2651,7 +2654,7 @@ void MapRenderer::RenderObjects()
                     mobj->IsValidPosition( Fixed::FromDouble(longitude), Fixed::FromDouble(latitude) ) &&
                     m_currentSelectionId != m_currentHighlightId)
                 {
-                    Fleet *fleet = g_app->GetWorld()->GetTeam( mobj->m_teamId )->GetFleet( mobj->m_fleetId );
+                    Fleet *fleet = world->GetTeam( mobj->m_teamId )->GetFleet( mobj->m_fleetId );
                     if( fleet )
                     {
                         fleet->CreateBlip();
@@ -2661,7 +2664,7 @@ void MapRenderer::RenderObjects()
         }
     }
 
-    WorldObject *highlight = g_app->GetWorld()->GetWorldObject( m_currentHighlightId );
+    WorldObject *highlight = world->GetWorldObject( m_currentHighlightId );
  
     if( highlight  )
     {
@@ -2674,7 +2677,7 @@ void MapRenderer::RenderObjects()
                     MovingObject *mobj = (MovingObject *)highlight;
                     if( mobj->m_movementType == MovingObject::MovementTypeSea )
                     {
-                        Fleet *fleet = g_app->GetWorld()->GetTeam( mobj->m_teamId )->GetFleet( mobj->m_fleetId );
+                        Fleet *fleet = world->GetTeam( mobj->m_teamId )->GetFleet( mobj->m_fleetId );
                         if( fleet )
                         {
                             fleet->CreateBlip();
@@ -2723,6 +2726,8 @@ void MapRenderer::RenderCities()
 {
     START_PROFILE( "Cities" );
 
+    World * world = g_app->GetWorld();
+
     g_renderer->SetFont( "kremlin", true );
 
     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
@@ -2732,9 +2737,9 @@ void MapRenderer::RenderCities()
     //
     // City icons
 
-    for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
+    for( int i = 0; i < world->m_cities.Size(); ++i )
     {
-        City *city = g_app->GetWorld()->m_cities.GetData(i);
+        City *city = world->m_cities.GetData(i);
 
         if( city->m_capital || city->m_teamId != -1 )
         {            
@@ -2750,7 +2755,7 @@ void MapRenderer::RenderCities()
                 Colour col(100,100,100,100);
                 if( city->m_teamId > -1 ) 
                 {
-                    col = g_app->GetWorld()->GetTeam(city->m_teamId)->GetTeamColour();
+                    col = world->GetTeam(city->m_teamId)->GetTeamColour();
                 }                            
                 col.m_a = 200.0f * ( 1.0f - min(0.8f, m_zoomFactor) );
                             
@@ -2814,9 +2819,9 @@ void MapRenderer::RenderCities()
         cityColour.m_a      = 200.0f * (1.0f - sqrtf(m_zoomFactor));
         countryColour.m_a   = 200.0f * (1.0f - sqrtf(m_zoomFactor));
 
-        for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
+        for( int i = 0; i < world->m_cities.Size(); ++i )
         {
-            City *city = g_app->GetWorld()->m_cities.GetData(i);
+            City *city = world->m_cities.GetData(i);
 
             if( city->m_capital || city->m_teamId != -1 )
             {            
@@ -2851,19 +2856,21 @@ void MapRenderer::RenderPopulationDensity()
 {
     START_PROFILE( "Population Density" );
 
+    World * world = g_app->GetWorld();
+
     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
     
-    for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
+    for( int i = 0; i < world->m_cities.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_cities.ValidIndex(i) )
+        if( world->m_cities.ValidIndex(i) )
         {
-            City *city = g_app->GetWorld()->m_cities.GetData(i);
+            City *city = world->m_cities.GetData(i);
 
             if( city->m_teamId != -1 )
             {            
                 float size = sqrtf( sqrtf((float) city->m_population) ) / 2.0f;
 
-                Colour col = g_app->GetWorld()->GetTeam(city->m_teamId)->GetTeamColour();
+                Colour col = world->GetTeam(city->m_teamId)->GetTeamColour();
                 col.m_a = 255.0f * min( 1.0f, city->m_population / 10000000.0f );
                                     
                 g_renderer->Blit( g_resource->GetImage( "graphics/explosion.bmp" ),
@@ -2879,15 +2886,17 @@ void MapRenderer::RenderPopulationDensity()
 
 void MapRenderer::RenderRadar( bool _allies, bool _outlined )
 {
-    int myTeamId = g_app->GetWorld()->m_myTeamId;
-    float timeFactor = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+    World * world = g_app->GetWorld();
 
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    int myTeamId = world->m_myTeamId;
+    float timeFactor = g_predictionTime * world->GetTimeScaleFactor().DoubleValue();
+
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *wobj = g_app->GetWorld()->m_objects[i];            
-            Team *team = g_app->GetWorld()->GetTeam(wobj->m_teamId);
+            WorldObject *wobj = world->m_objects[i];            
+            Team *team = world->GetTeam(wobj->m_teamId);
 
             if( (_allies && team->m_sharingRadar[myTeamId]) ||
                 (!_allies && wobj->m_teamId == myTeamId) )
@@ -3225,6 +3234,8 @@ void MapRenderer::UpdateCameraControl( float longitude, float latitude )
 
 int MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
 {
+    World * world = g_app->GetWorld();
+
     if( _mouseX > 180 ) _mouseX = -180 + ( _mouseX - 180 );
     if( _mouseX < -180 ) _mouseX = 180 + ( _mouseX + 180 );
 
@@ -3246,17 +3257,17 @@ int MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
     //
     // Find the nearest object to the Mouse
 
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *wobj = g_app->GetWorld()->m_objects[i];
-            if( g_app->GetWorld()->m_myTeamId == -1 ||
-                wobj->m_visible[g_app->GetWorld()->m_myTeamId] ||
-                wobj->m_lastSeenTime[g_app->GetWorld()->m_myTeamId] > 0 ||
+            WorldObject *wobj = world->m_objects[i];
+            if( world->m_myTeamId == -1 ||
+                wobj->m_visible[world->m_myTeamId] ||
+                wobj->m_lastSeenTime[world->m_myTeamId] > 0 ||
                 g_app->GetGame()->m_winner != -1 )
             {
-                Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( wobj->m_longitude, wobj->m_latitude,
+                Fixed distanceSqd = world->GetDistanceSqd( wobj->m_longitude, wobj->m_latitude,
                                                                        Fixed::FromDouble(_mouseX), Fixed::FromDouble(_mouseY) );
                 if( distanceSqd < nearestSqd )
                 {
@@ -3270,10 +3281,10 @@ int MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
     //
     // Any cities nearer?
 
-    for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
+    for( int i = 0; i < world->m_cities.Size(); ++i )
     {
-        City *city = g_app->GetWorld()->m_cities[i];
-        Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( city->m_longitude, city->m_latitude,
+        City *city = world->m_cities[i];
+        Fixed distanceSqd = world->GetDistanceSqd( city->m_longitude, city->m_latitude,
                                                                Fixed::FromDouble(_mouseX), Fixed::FromDouble(_mouseY) );
         if( distanceSqd < nearestSqd )
         {
