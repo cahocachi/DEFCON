@@ -84,7 +84,11 @@ World::~World()
     ClearWorld();
     
     m_nodes.EmptyAndDelete();
-    m_teams.EmptyAndDelete();
+
+    for( int i = m_teams.Size()-1; i >= 0; --i )
+    {
+        delete m_teams[i];
+    }
 }
 
 int World::GenerateUniqueId() 
@@ -920,13 +924,28 @@ void World::RemoveAITeam( int _teamId )
 
 void World::RemoveTeam( int _teamId )
 {
+    // completely rebuild team list to avoid holes.
+    // slow, but this is called far, far less often than team queries
+
+    BoundedArray< Team * > oldTeamList;
+    oldTeamList.Initialise( m_teams.Size() );
     for( int i = 0; i < m_teams.Size(); ++i )
     {
-        Team *team = m_teams[i];
+        oldTeamList[i] = m_teams[i];
+    }
+    
+    m_teams.Empty();
+
+    for( int i = 0; i < oldTeamList.Size(); ++i )
+    {
+        Team *team = oldTeamList[i];
         if( team->m_teamId == _teamId )
         {
-            m_teams.RemoveData(i);
             delete team;
+        }
+        else
+        {
+            m_teams.PutData( team );
         }
     }
 }
@@ -1159,9 +1178,9 @@ void World::LaunchNuke( int teamId, int objId, Fixed longitude, Fixed latitude, 
     }
 }
 
-int World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
+WorldObjectReference World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
 {
-    int result = -1;
+    WorldObjectReference result = -1;
     Fixed nearestSqd = Fixed::MAX;
 
     for( int i = 0; i < m_objects.Size(); ++i )
@@ -1179,7 +1198,7 @@ int World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int ob
                 Fixed distanceSqd = GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude);
                 if( distanceSqd < nearestSqd )
                 {
-                    result = obj->m_objectId;
+                    result = GetObjectReference(i);
                     nearestSqd = distanceSqd;
                 }
             }
@@ -1303,6 +1322,62 @@ WorldObject *World::GetWorldObject( int _uniqueId )
         }
     }
     return NULL;
+}
+
+WorldObject * World::GetWorldObject( WorldObjectReference const & reference )
+{
+    if( reference.m_uniqueId == -1 )
+    {
+        return NULL;
+    }
+
+    if( reference.m_index >= 0 )
+    {
+        if( m_objects.ValidIndex(reference.m_index) )
+        {
+            WorldObject *obj = m_objects[reference.m_index];
+            if( obj->m_objectId == reference.m_uniqueId )
+            {
+                return obj;
+            }
+        }
+
+        // array indices never change, so here we can quit.
+        return NULL;
+    }
+    
+    if( reference.m_uniqueId >= OBJECTID_CITYS )
+    {
+        return m_cities[reference.m_uniqueId - OBJECTID_CITYS];
+    }
+    
+    for( int i = 0; i < m_objects.Size(); ++i )
+    {
+        if( m_objects.ValidIndex(i) )
+        {
+            WorldObject *obj = m_objects[i];
+            if( obj->m_objectId == reference.m_uniqueId )
+            {
+                reference.m_index = i;
+                return obj;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+WorldObjectReference World::GetObjectReference( int arrayIndex )
+{
+    WorldObjectReference ret;
+
+    if( m_objects.ValidIndex( arrayIndex ) )
+    {
+        ret.m_index = arrayIndex;
+        ret.m_uniqueId = m_objects[arrayIndex]->m_objectId;
+    }
+
+    return ret;
 }
 
 void World::Shutdown()
@@ -2188,6 +2263,50 @@ bool World::IsVisible( Fixed longitude, Fixed latitude, int teamId )
     return false;
 }
 
+void World::IsVisible( Fixed longitude, Fixed latitude, BoundedArray<bool> & visibility )
+{
+    if( visibility.Size() != m_teams.Size() )
+    {
+        visibility.Initialise( m_teams.Size() );
+    }
+
+    // get basic coverage
+    static BoundedArray< int > coverage;
+    m_radarGrid.GetMultiCoverage( longitude, latitude, coverage );
+    
+    for( int teamId = 0; teamId < m_teams.Size(); ++teamId )
+    {
+        visibility[teamId] = false;
+
+        //
+        // Check our own radar first
+
+        if( coverage[teamId] > 0 )
+        {
+            visibility[teamId] = true;
+        }
+
+        //
+        // Not on our radar - but maybe its on our allies radar
+        // And maybe our allies are nice enough to share their radar (the fools)
+
+        for( int t = 0; t < m_teams.Size(); ++t )
+        {
+            Team *team = m_teams[t];
+            if( teamId != team->m_teamId &&
+                teamId != -1 &&
+                team->m_sharingRadar[teamId] &&
+                coverage[ team->m_teamId ] > 0 )
+            {
+                visibility[teamId] = true;
+            }
+        }
+
+        //
+        // Nope, can't see it
+    }
+}
+
 
 void World::UpdateRadar()
 {
@@ -2225,6 +2344,7 @@ void World::UpdateRadar()
         return;
     }
 
+    BoundedArray<bool> visibility;
     
     //
     // Update gunfire visibility
@@ -2234,10 +2354,13 @@ void World::UpdateRadar()
         if( m_gunfire.ValidIndex(j) )
         {
             WorldObject *potential = m_gunfire[j];
+
+            IsVisible( potential->m_longitude, potential->m_latitude, visibility );
+
             for( int k = 0; k < m_teams.Size(); ++k )
             {
                 Team *team = m_teams[k];
-                potential->m_visible[team->m_teamId] = IsVisible( potential->m_longitude, potential->m_latitude, team->m_teamId );
+                potential->m_visible[team->m_teamId] = visibility[ team->m_teamId ];
             }
         }
     }
@@ -2252,12 +2375,12 @@ void World::UpdateRadar()
             SonarPing *ping = (SonarPing *)g_app->GetMapRenderer()->m_animations[j];
             if( ping->m_animationType == MapRenderer::AnimationTypeSonarPing )
             {
+                IsVisible( Fixed::FromDouble(ping->m_longitude), Fixed::FromDouble(ping->m_latitude), visibility );
                 for( int k = 0; k < m_teams.Size(); ++k )
                 {
                     Team *team = m_teams[k];
                     ping->m_visible[team->m_teamId] = (team->m_teamId == ping->m_teamId) ||
-                                                       IsVisible( Fixed::FromDouble(ping->m_longitude),
-																  Fixed::FromDouble(ping->m_latitude), team->m_teamId );
+                                                       visibility[team->m_teamId];
                 }
             }
         }
@@ -2272,6 +2395,8 @@ void World::UpdateRadar()
         if( m_explosions.ValidIndex(j) )
         {
             Explosion *explosion = m_explosions[j];
+
+            IsVisible( explosion->m_longitude, explosion->m_latitude, visibility );
             
             for( int k = 0; k < g_app->GetWorld()->m_teams.Size(); ++k )
             {
@@ -2279,7 +2404,7 @@ void World::UpdateRadar()
                 explosion->m_visible[team->m_teamId] = explosion->m_targetTeamId == team->m_teamId ||
                                                        explosion->m_teamId == team->m_teamId ||
                                                        explosion->m_initialIntensity > 30 ||
-                                                       IsVisible( explosion->m_longitude, explosion->m_latitude, team->m_teamId );
+                                                       visibility[ team->m_teamId ];
             }
         }
     }
@@ -2294,6 +2419,8 @@ void World::UpdateRadar()
         {
             WorldObject *wobj = m_objects[i];
             
+            IsVisible( wobj->m_longitude, wobj->m_latitude, visibility );
+
             for( int t = 0; t < m_teams.Size(); ++t )
             {
                 Team *team = m_teams[t];
@@ -2307,7 +2434,7 @@ void World::UpdateRadar()
                 }
 
                 if( wobj->m_teamId == TEAMID_SPECIALOBJECTS ||
-                    IsVisible( wobj->m_longitude, wobj->m_latitude, team->m_teamId ) )
+                    visibility[ team->m_teamId ] )
                 {
                     int permitDefection = g_app->GetGame()->GetOptionValue("PermitDefection");
                     if( !wobj->IsHiddenFrom() || 
@@ -3384,9 +3511,8 @@ void World::ParseCityDataFile()
 }
 
 
-int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
+int World::GetAttackOdds( int attackerType, int defenderType, WorldObject * attacker )
 {
-    WorldObject *attacker = GetWorldObject( attackerId );
     if( attacker )
     {
         return attacker->GetAttackOdds( defenderType );
@@ -3395,6 +3521,11 @@ int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
     {
         return GetAttackOdds( attackerType, defenderType );
     }
+}
+
+int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
+{
+    return GetAttackOdds( attackerType, defenderType, GetWorldObject( attackerId ) );
 }
 
 int World::GetAttackOdds( int attackerType, int defenderType )

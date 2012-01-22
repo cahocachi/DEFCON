@@ -197,7 +197,9 @@ void Nuke::FindTarget( int team, int targetTeam, int launchedBy, Fixed range, Fi
 {
     START_PROFILE("Nuke::FindTarget");
     
-    WorldObject *launcher = g_app->GetWorld()->GetWorldObject(launchedBy);
+    World * world = g_app->GetWorld();
+
+    WorldObject *launcher = world->GetWorldObject(launchedBy);
     if( !launcher ) 
     {
         END_PROFILE("Nuke::FindTarget");
@@ -206,16 +208,16 @@ void Nuke::FindTarget( int team, int targetTeam, int launchedBy, Fixed range, Fi
 
     LList<int> validTargets;
         
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *obj = g_app->GetWorld()->m_objects[i];
+            WorldObject *obj = world->m_objects[i];
             if( obj->m_teamId == targetTeam &&
                 obj->m_seen[team] &&
                 !obj->IsMovingObject() )
             {
-                Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( launcher->m_longitude, launcher->m_latitude, obj->m_longitude, obj->m_latitude);
+                Fixed distanceSqd = world->GetDistanceSqd( launcher->m_longitude, launcher->m_latitude, obj->m_longitude, obj->m_latitude);
                 if( distanceSqd <= range * range )
                 {                    
                     int numTargetedNukes = CountTargetedNukes( team, obj->m_longitude, obj->m_latitude );
@@ -234,7 +236,7 @@ void Nuke::FindTarget( int team, int targetTeam, int launchedBy, Fixed range, Fi
     {
         int targetId = syncrand() % validTargets.Size();
         int objIndex = validTargets[ targetId ];
-        WorldObject *obj = g_app->GetWorld()->GetWorldObject(objIndex);
+        WorldObject *obj = world->GetWorldObject(objIndex);
         if( obj )
         {
             *longitude = obj->m_longitude;
@@ -245,18 +247,18 @@ void Nuke::FindTarget( int team, int targetTeam, int launchedBy, Fixed range, Fi
         }
     }
 
-    Team *friendlyTeam = g_app->GetWorld()->GetTeam( team );
+    Team *friendlyTeam = world->GetTeam( team );
 
     int maxPop = 0;
 
-    for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
+    for( int i = 0; i < world->m_cities.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_cities.ValidIndex(i) )
+        if( world->m_cities.ValidIndex(i) )
         {
-            City *city = g_app->GetWorld()->m_cities[i];
+            City *city = world->m_cities[i];
 
-            if( !g_app->GetWorld()->IsFriend( city->m_teamId, team) && 
-				g_app->GetWorld()->GetDistanceSqd( city->m_longitude, city->m_latitude, launcher->m_longitude, launcher->m_latitude) <= range * range)               
+            if( !world->IsFriend( city->m_teamId, team) && 
+				world->GetDistanceSqd( city->m_longitude, city->m_latitude, launcher->m_longitude, launcher->m_latitude) <= range * range)               
             {
                 int numTargetedNukes = CountTargetedNukes(team, city->m_longitude, city->m_latitude);
                 int estimatedPop = City::GetEstimatedPopulation( team, i, numTargetedNukes );
@@ -276,14 +278,15 @@ void Nuke::FindTarget( int team, int targetTeam, int launchedBy, Fixed range, Fi
 
 int Nuke::CountTargetedNukes( int teamId, Fixed longitude, Fixed latitude )
 {
+    World * world = g_app->GetWorld();
     int targetedNukes = 0;
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            if( g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeNuke )
+            if( world->m_objects[i]->m_type == WorldObject::TypeNuke )
             {
-                MovingObject *obj = (MovingObject *)g_app->GetWorld()->m_objects[i];
+                MovingObject *obj = (MovingObject *)world->m_objects[i];
                 Fixed targetLongitude = obj->m_targetLongitude;
                 if( targetLongitude > 180 )
                 {
@@ -301,9 +304,9 @@ int Nuke::CountTargetedNukes( int teamId, Fixed longitude, Fixed latitude )
                     ++targetedNukes;
                 }
             }
-            else if( g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeBomber )
+            else if( world->m_objects[i]->m_type == WorldObject::TypeBomber )
             {
-                Bomber *obj = (Bomber *)g_app->GetWorld()->m_objects[i];
+                Bomber *obj = (Bomber *)world->m_objects[i];
                 if( obj->m_teamId == teamId &&
                     obj->m_nukeTargetLongitude == longitude &&
                     obj->m_nukeTargetLatitude == latitude )
@@ -311,10 +314,10 @@ int Nuke::CountTargetedNukes( int teamId, Fixed longitude, Fixed latitude )
                     ++targetedNukes;
                 }
             }
-            else if( g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeSub ||
-                     g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeSilo)
+            else if( world->m_objects[i]->m_type == WorldObject::TypeSub ||
+                     world->m_objects[i]->m_type == WorldObject::TypeSilo)
             {
-                WorldObject *obj = g_app->GetWorld()->m_objects[i];
+                WorldObject *obj = world->m_objects[i];
                 int nukeState = 0;
                 if( obj->m_type == WorldObject::TypeSub ) 
                 {
@@ -333,10 +336,10 @@ int Nuke::CountTargetedNukes( int teamId, Fixed longitude, Fixed latitude )
                     }
                 }
             }
-            else if( g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeAirBase ||
-                     g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeCarrier )
+            else if( world->m_objects[i]->m_type == WorldObject::TypeAirBase ||
+                     world->m_objects[i]->m_type == WorldObject::TypeCarrier )
             {
-                WorldObject *obj = g_app->GetWorld()->m_objects[i];
+                WorldObject *obj = world->m_objects[i];
                 if( obj->m_teamId == teamId &&
                     obj->m_currentState == 1 )
                 {

@@ -309,7 +309,7 @@ void Silo::AirDefense()
     {
         Fixed actionRangeSqd = GetActionRangeSqd();
 
-        int nukeId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeNuke, true );
+        WorldObjectReference nukeId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeNuke, true );
         WorldObject *nuke = g_app->GetWorld()->GetWorldObject( nukeId );
         if( nuke )
         {
@@ -320,7 +320,7 @@ void Silo::AirDefense()
             }
         }
         
-        int bomberId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeBomber, true );
+        WorldObjectReference bomberId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeBomber, true );
         WorldObject *bomber = g_app->GetWorld()->GetWorldObject( bomberId );
         if( bomber )
         {
@@ -332,7 +332,7 @@ void Silo::AirDefense()
         }
         
         
-        int fighterId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeFighter, true );
+        WorldObjectReference fighterId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeFighter, true );
         WorldObject *fighter = g_app->GetWorld()->GetWorldObject( fighterId );
         if( fighter )
         {
