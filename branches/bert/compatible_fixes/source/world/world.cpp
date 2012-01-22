@@ -84,7 +84,11 @@ World::~World()
     ClearWorld();
     
     m_nodes.EmptyAndDelete();
-    m_teams.EmptyAndDelete();
+
+    for( int i = m_teams.Size()-1; i >= 0; --i )
+    {
+        delete m_teams[i];
+    }
 }
 
 int World::GenerateUniqueId() 
@@ -920,13 +924,28 @@ void World::RemoveAITeam( int _teamId )
 
 void World::RemoveTeam( int _teamId )
 {
+    // completely rebuild team list to avoid holes.
+    // slow, but this is called far, far less often than team queries
+
+    BoundedArray< Team * > oldTeamList;
+    oldTeamList.Initialise( m_teams.Size() );
     for( int i = 0; i < m_teams.Size(); ++i )
     {
-        Team *team = m_teams[i];
+        oldTeamList[i] = m_teams[i];
+    }
+    
+    m_teams.Empty();
+
+    for( int i = 0; i < oldTeamList.Size(); ++i )
+    {
+        Team *team = oldTeamList[i];
         if( team->m_teamId == _teamId )
         {
-            m_teams.RemoveData(i);
             delete team;
+        }
+        else
+        {
+            m_teams.PutData( team );
         }
     }
 }
