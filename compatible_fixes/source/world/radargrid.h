@@ -16,8 +16,9 @@ template< class T > class Vector2;
 class RadarGrid
 {
 protected:
-    BoundedArray    <unsigned char *> m_radar;
+    unsigned char * m_radar;
     int             m_resolution;
+    int             m_teamCount;
     
     void            GetIndices( Fixed _longitude, Fixed _latitude, int &_x, int &_y );
     void            GetIndices( Fixed _longitude, Fixed _latitude, Fixed _radius, int &_x, int &_y, int &_w, int &_h );
