@@ -13,7 +13,6 @@
 #include "lib/resource/resource.h"
 #include "lib/render/renderer.h"
 #include "lib/render/styletable.h"
-#include "lib/debug_utils.h"
 #include "lib/profiler.h"
 #include "lib/hi_res_time.h"
 #include "lib/language_table.h"
@@ -1030,12 +1029,6 @@ EarthData *App::GetEarthData()
     return m_earthData;
 }
 
-
-Game *App::GetGame()
-{
-    AppAssert( m_game );
-    return m_game;
-}
 
 StatusIcon *App::GetStatusIcon()
 {
