@@ -11,12 +11,12 @@
 struct RadarGridCell;
 
 
-
+template< class T > class Vector2;
 
 class RadarGrid
 {
 protected:
-    BoundedArray    <unsigned char> *m_radar;
+    BoundedArray    <unsigned char *> m_radar;
     int             m_resolution;
     
     void            GetIndices( Fixed _longitude, Fixed _latitude, int &_x, int &_y );
@@ -24,9 +24,10 @@ protected:
 
     void            GetIndicesRadar( int &_x, int &_y );
 
-    void            GetWorldLocation( int _indexX, int _indexY, Fixed &_longitude, Fixed &_latitude );
+    void            GetWorldLocation( int _indexX, int _indexY, Fixed &_longitude, Fixed &_latitude ) const;
 
     void            ModifyCoverage( Fixed _longitude, Fixed _latitude, Fixed _radius, int _teamId, bool addCoverage );
+    bool            IsInside( int x, int y, Fixed const & radiusSquared, Vector2<Fixed> const & centre ) const;
 
 public:
     RadarGrid();
