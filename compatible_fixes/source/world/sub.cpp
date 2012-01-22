@@ -366,26 +366,28 @@ void Sub::RunAI()
 
 WorldObject *Sub::FindTarget()
 {
-    Team *team = g_app->GetWorld()->GetTeam( m_teamId );
+    World * world = g_app->GetWorld();
+
+    Team *team = world->GetTeam( m_teamId );
     Fleet *fleet = team->GetFleet( m_fleetId );
 
-    int objectsSize = g_app->GetWorld()->m_objects.Size();
+    int objectsSize = world->m_objects.Size();
     for( int i = 0; i < objectsSize; ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *obj = g_app->GetWorld()->m_objects[i];
-            Fleet *fleetTarget = g_app->GetWorld()->GetTeam( obj->m_teamId )->GetFleet( obj->m_fleetId );
+            WorldObject *obj = world->m_objects[i];
+            Fleet *fleetTarget = world->GetTeam( obj->m_teamId )->GetFleet( obj->m_fleetId );
 
             if( fleetTarget &&
                 obj->m_visible[m_teamId] &&
                 !team->m_ceaseFire[ obj->m_teamId ] &&
-                !g_app->GetWorld()->IsFriend( obj->m_teamId, m_teamId ) &&
-                g_app->GetWorld()->GetAttackOdds( WorldObject::TypeSub, obj->m_type ) > 0 )
+                !world->IsFriend( obj->m_teamId, m_teamId ) &&
+                world->GetAttackOdds( WorldObject::TypeSub, obj->m_type ) > 0 )
             {
                 bool safeTarget = ( m_states[2]->m_numTimesPermitted == 0 || IsSafeTarget( fleetTarget ) );
                 if( safeTarget &&
-                    g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude) <= 5 * 5 )
+                    world->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude) <= 5 * 5 )
                 {
                     if( fleet->m_pursueTarget )
                     {
