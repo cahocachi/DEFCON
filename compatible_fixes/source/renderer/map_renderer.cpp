@@ -528,7 +528,7 @@ void MapRenderer::RenderCountryControl()
 
                 if( m_showAllTeams )
                 {
-                    Vector2<float> const & populationCentre = g_app->GetWorld()->m_populationCenter[team->m_territories[j]];
+                    Vector2<float> populationCentre( g_app->GetWorld()->m_populationCenter[team->m_territories[j]] );
 
                     char teamName[256];
                     sprintf( teamName, "%s", team->m_name );
