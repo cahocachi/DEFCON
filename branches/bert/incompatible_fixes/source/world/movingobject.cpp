@@ -80,7 +80,7 @@ bool MovingObject::Update()
     m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
     if( m_historyTimer <= 0 )
     {
-        m_history.PutDataAtStart( Vector2<Fixed>(m_longitude, m_latitude) );
+        m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
         m_historyTimer = 2;
     }
 
