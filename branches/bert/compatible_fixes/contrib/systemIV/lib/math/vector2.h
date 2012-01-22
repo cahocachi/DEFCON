@@ -46,6 +46,7 @@ private:
 public:
 
 	template <class T2>
+    explicit
 	Vector2(Vector2<T2> const &_v);
 
 	void Zero()
