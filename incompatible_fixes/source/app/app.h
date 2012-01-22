@@ -97,9 +97,14 @@ public:
     ClientToServer  *GetClientToServer();
     World           *GetWorld();
     EarthData       *GetEarthData();
-    inline Game     *GetGame();
     StatusIcon      *GetStatusIcon();
     Tutorial        *GetTutorial();
+
+    inline Game     *GetGame()
+    {
+        AppDebugAssert( m_game );
+        return m_game;
+    }
 	
 	static const char *GetAuthKeyPath();
 	static const char *GetPrefsPath();
@@ -110,12 +115,6 @@ public:
 
 	void    SaveGameName();
 };
-
-inline Game *App::GetGame()
-{
-    AppDebugAssert( m_game );
-    return m_game;
-}
 
 void	ConfirmExit( const char *_parentWindowName );
 void	AttemptQuitImmediately();

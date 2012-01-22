@@ -54,8 +54,8 @@ protected:
 
     float   m_totalZoom;
 
-    int     m_currentHighlightId;
-    int     m_currentSelectionId;
+    WorldObjectReference m_currentHighlightId;
+    WorldObjectReference m_currentSelectionId;
     int     m_currentStateId;
     float   m_highlightTime;
 
@@ -222,10 +222,10 @@ public:
     int     GetTerritoryId( Fixed longitude, Fixed latitude );
     int     GetTerritoryIdUnique( Fixed longitude, Fixed latitude );
 
-    int     GetCurrentSelectionId();
+    WorldObjectReference const & GetCurrentSelectionId();
     void    SetCurrentSelectionId( int id );
 
-    int     GetCurrentHighlightId();
+    WorldObjectReference const & GetCurrentHighlightId();
 
     void    CenterViewport( float longitude, float latitude, int zoom = 20, int camSpeed = 200 );
     void    CenterViewport( int objectId, int zoom = 20, int camSpeed = 200 );

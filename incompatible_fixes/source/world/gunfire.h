@@ -8,7 +8,7 @@
 class GunFire : public MovingObject
 {
 public:
-    int     m_origin;
+    WorldObjectReference m_origin;
     bool    m_killShot;
     Fixed   m_attackOdds;
     Fixed   m_distanceToTarget;

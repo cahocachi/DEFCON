@@ -98,7 +98,7 @@ public:
     FastDArray      <Explosion *>       m_explosions;    
     LList           <WorldMessage *>    m_messages;   
     LList           <ChatMessage *>     m_chat;   
-    LList           <Team *>            m_teams;
+    DArray          <Team *>            m_teams;
     LList           <Spectator *>       m_spectators;
     BoundedArray    <Vector2<Fixed> >   m_populationCenter;     // Indedex on territory
 
@@ -159,13 +159,17 @@ public:
 
     int  AddWorldObject     ( WorldObject *wobj );
     WorldObject *GetWorldObject( int _uniqueId );
+    
+    WorldObject *GetWorldObject( WorldObjectReference const & reference );
+    WorldObjectReference GetObjectReference( int arrayIndex );
 
     bool IsValidPlacement   ( int teamId, Fixed longitude, Fixed latitude, int objectType );    
-    int  GetNearestObject   ( int teamId, Fixed longitude, Fixed latitude, int objectType=-1, bool enemyTeam = false );
+    WorldObjectReference  GetNearestObject   ( int teamId, Fixed longitude, Fixed latitude, int objectType=-1, bool enemyTeam = false );
     void LaunchNuke         ( int teamId, int objId, Fixed longitude, Fixed latitude, Fixed range );
     void CreateExplosion    ( int teamId, Fixed longitude, Fixed latitude, Fixed intensity, int targetTeamId=-1 );
 
     bool IsVisible          ( Fixed longitude, Fixed latitude, int teamId );
+    void IsVisible          ( Fixed longitude, Fixed latitude, BoundedArray<bool> & visibility );
 
     void ObjectPlacement        ( int teamId, int unitType, Fixed longitude, Fixed latitude, int fleetId );
     void ObjectStateChange      ( int objectId, int newState );
@@ -182,6 +186,7 @@ public:
     void AssignTerritory    ( int territoryId, int teamId, int addOrRemove );
     void RequestAlliance    ( int teamId, int allianceId );
 
+    int  GetAttackOdds      ( int attackerType, int defenderType, WorldObject * attacker );
     int  GetAttackOdds      ( int attackerType, int defenderType, int attackerId );
     int  GetAttackOdds      ( int attackerType, int defenderType );
     

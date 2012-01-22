@@ -38,7 +38,7 @@ public:
 
     Fixed   m_pathCalcTimer;
     bool    m_blockHistory;
-    int     m_isLanding;
+    WorldObjectReference m_isLanding;
 
 public:
     MovingObject();

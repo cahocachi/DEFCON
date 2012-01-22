@@ -75,9 +75,11 @@ static int RoomInside( WorldObject * pad, int type )
 
 bool MovingObject::Update()
 {
+    World * world = g_app->GetWorld();
+
     //
     // Update history    
-    m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
+    m_historyTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor() / 10;
     if( m_historyTimer <= 0 )
     {
         m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
@@ -91,23 +93,23 @@ bool MovingObject::Update()
     }
 
 
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+    for( int i = 0; i < world->m_teams.Size(); ++i )
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
-        m_lastSeenTime[team->m_teamId] -= g_app->GetWorld()->GetTimeScaleFactor() * SERVER_ADVANCE_PERIOD ;
+        Team *team = world->m_teams[i];
+        m_lastSeenTime[team->m_teamId] -= world->GetTimeScaleFactor() * SERVER_ADVANCE_PERIOD ;
         if( m_lastSeenTime[team->m_teamId] < 0 ) m_lastSeenTime[team->m_teamId] = 0;
     }
 
     if( m_isLanding != -1 )
     {
-        WorldObject *home = g_app->GetWorld()->GetWorldObject( m_isLanding );
+        WorldObject *home = world->GetWorldObject( m_isLanding );
         if( home )
         {
             if( RoomInside( home, m_type ) <= 0 )
             {
                 Land( GetClosestLandingPad() );
             }            
-            else if( g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, home->m_longitude, home->m_latitude ) < 2 * 2 )
+            else if( world->GetDistanceSqd( m_longitude, m_latitude, home->m_longitude, home->m_latitude ) < 2 * 2 )
             {
                 if( home->m_teamId == m_teamId )
                 {
@@ -152,9 +154,9 @@ bool MovingObject::Update()
         }
     }
 
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+    for( int i = 0; i < world->m_teams.Size(); ++i )
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
+        Team *team = world->m_teams[i];
         if( m_lastSeenTime[team->m_teamId] <= 0 )
         {
             m_seen[team->m_teamId] = false;
@@ -1450,21 +1452,23 @@ void MovingObject::SetSpeed( Fixed speed )
 
 int MovingObject::GetTarget( Fixed range )
 {
+    World * world = g_app->GetWorld();
+
     LList<int> farTargets;
     LList<int> closeTargets;
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *obj = g_app->GetWorld()->m_objects[i];
+            WorldObject *obj = world->m_objects[i];
             if( obj->m_teamId != TEAMID_SPECIALOBJECTS )
             {
-                if( !g_app->GetWorld()->IsFriend( obj->m_teamId, m_teamId ) &&
-                    g_app->GetWorld()->GetAttackOdds( m_type, obj->m_type ) > 0 &&
+                if( !world->IsFriend( obj->m_teamId, m_teamId ) &&
+                    world->GetAttackOdds( m_type, obj->m_type ) > 0 &&
                     obj->m_visible[m_teamId] &&
-                    !g_app->GetWorld()->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ] )
+                    !world->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ] )
                 {
-                    Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
+                    Fixed distanceSqd = world->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
                     if( distanceSqd < GetActionRangeSqd() )
                     {
                         closeTargets.PutData(obj->m_objectId );
@@ -1505,6 +1509,8 @@ char *MovingObject::LogState()
     char targetLat[64];
     char seenTime[64];
 
+    World * world = g_app->GetWorld();
+
     static char s_result[10240];
     snprintf( s_result, 10240, "obj[%d] [%10s] team[%d] fleet[%d] long[%s] lat[%s] velX[%s] velY[%s] state[%d] target[%d] life[%d] timer[%s] retarget[%s] ai[%s] speed[%s] targetNode[%d] targetLong[%s] targetLat[%s]",
                 m_objectId,
@@ -1526,9 +1532,9 @@ char *MovingObject::LogState()
                 HashDouble( m_targetLongitude.DoubleValue(), targetLong ),
                 HashDouble( m_targetLatitude.DoubleValue(), targetLat ) );
 
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+    for( int i = 0; i < world->m_teams.Size(); ++i )
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
+        Team *team = world->m_teams[i];
         char thisTeam[512];
         sprintf( thisTeam, "\n\tTeam %d visible[%d] seen[%d] pos[%s %s] vel[%s %s] seen[%s] state[%d]",
             team->m_teamId,
