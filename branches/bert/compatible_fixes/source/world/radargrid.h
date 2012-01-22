@@ -42,6 +42,7 @@ public:
                           Fixed _newLongitude, Fixed _newLatitude, Fixed _newRadius, int _teamId );
 
     int  GetCoverage    ( Fixed _longitude, Fixed _latitude, int _teamId );
+    void GetMultiCoverage( Fixed _longitude, Fixed _latitude, BoundedArray< int > & coveragePerTeam );
 
     void Render();                                                                  // Very slow
 };

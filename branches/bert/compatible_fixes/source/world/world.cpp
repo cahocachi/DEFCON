@@ -2182,6 +2182,50 @@ bool World::IsVisible( Fixed longitude, Fixed latitude, int teamId )
     return false;
 }
 
+void World::IsVisible( Fixed longitude, Fixed latitude, BoundedArray<bool> & visibility )
+{
+    if( visibility.Size() != m_teams.Size() )
+    {
+        visibility.Initialise( m_teams.Size() );
+    }
+
+    // get basic coverage
+    static BoundedArray< int > coverage;
+    m_radarGrid.GetMultiCoverage( longitude, latitude, coverage );
+    
+    for( int teamId = 0; teamId < m_teams.Size(); ++teamId )
+    {
+        visibility[teamId] = false;
+
+        //
+        // Check our own radar first
+
+        if( coverage[teamId] > 0 )
+        {
+            visibility[teamId] = true;
+        }
+
+        //
+        // Not on our radar - but maybe its on our allies radar
+        // And maybe our allies are nice enough to share their radar (the fools)
+
+        for( int t = 0; t < m_teams.Size(); ++t )
+        {
+            Team *team = m_teams[t];
+            if( teamId != team->m_teamId &&
+                teamId != -1 &&
+                team->m_sharingRadar[teamId] &&
+                coverage[ team->m_teamId ] > 0 )
+            {
+                visibility[teamId] = true;
+            }
+        }
+
+        //
+        // Nope, can't see it
+    }
+}
+
 
 void World::UpdateRadar()
 {
@@ -2219,6 +2263,7 @@ void World::UpdateRadar()
         return;
     }
 
+    BoundedArray<bool> visibility;
     
     //
     // Update gunfire visibility
@@ -2228,10 +2273,13 @@ void World::UpdateRadar()
         if( m_gunfire.ValidIndex(j) )
         {
             WorldObject *potential = m_gunfire[j];
+
+            IsVisible( potential->m_longitude, potential->m_latitude, visibility );
+
             for( int k = 0; k < m_teams.Size(); ++k )
             {
                 Team *team = m_teams[k];
-                potential->m_visible[team->m_teamId] = IsVisible( potential->m_longitude, potential->m_latitude, team->m_teamId );
+                potential->m_visible[team->m_teamId] = visibility[ team->m_teamId ];
             }
         }
     }
@@ -2246,12 +2294,12 @@ void World::UpdateRadar()
             SonarPing *ping = (SonarPing *)g_app->GetMapRenderer()->m_animations[j];
             if( ping->m_animationType == MapRenderer::AnimationTypeSonarPing )
             {
+                IsVisible( Fixed::FromDouble(ping->m_longitude), Fixed::FromDouble(ping->m_latitude), visibility );
                 for( int k = 0; k < m_teams.Size(); ++k )
                 {
                     Team *team = m_teams[k];
                     ping->m_visible[team->m_teamId] = (team->m_teamId == ping->m_teamId) ||
-                                                       IsVisible( Fixed::FromDouble(ping->m_longitude),
-																  Fixed::FromDouble(ping->m_latitude), team->m_teamId );
+                                                       visibility[team->m_teamId];
                 }
             }
         }
@@ -2266,6 +2314,8 @@ void World::UpdateRadar()
         if( m_explosions.ValidIndex(j) )
         {
             Explosion *explosion = m_explosions[j];
+
+            IsVisible( explosion->m_longitude, explosion->m_latitude, visibility );
             
             for( int k = 0; k < g_app->GetWorld()->m_teams.Size(); ++k )
             {
@@ -2273,7 +2323,7 @@ void World::UpdateRadar()
                 explosion->m_visible[team->m_teamId] = explosion->m_targetTeamId == team->m_teamId ||
                                                        explosion->m_teamId == team->m_teamId ||
                                                        explosion->m_initialIntensity > 30 ||
-                                                       IsVisible( explosion->m_longitude, explosion->m_latitude, team->m_teamId );
+                                                       visibility[ team->m_teamId ];
             }
         }
     }
@@ -2288,6 +2338,8 @@ void World::UpdateRadar()
         {
             WorldObject *wobj = m_objects[i];
             
+            IsVisible( wobj->m_longitude, wobj->m_latitude, visibility );
+
             for( int t = 0; t < m_teams.Size(); ++t )
             {
                 Team *team = m_teams[t];
@@ -2301,7 +2353,7 @@ void World::UpdateRadar()
                 }
 
                 if( wobj->m_teamId == TEAMID_SPECIALOBJECTS ||
-                    IsVisible( wobj->m_longitude, wobj->m_latitude, team->m_teamId ) )
+                    visibility[ team->m_teamId ] )
                 {
                     int permitDefection = g_app->GetGame()->GetOptionValue("PermitDefection");
                     if( !wobj->IsHiddenFrom() || 
