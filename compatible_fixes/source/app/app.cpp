@@ -1016,12 +1016,6 @@ Server *App::GetServer()
     return m_server;
 }
 
-World *App::GetWorld()
-{
-    AppAssert( m_world );
-    return m_world;
-}
-
 
 EarthData *App::GetEarthData()
 {
