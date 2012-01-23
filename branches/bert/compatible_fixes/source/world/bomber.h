@@ -22,7 +22,7 @@ public:
     bool    Update          ();
     void    Render          ();
     void    RunAI           ();
-    void    Land            ( int targetId );
+    void    Land            ( WorldObjectReference const & targetId );
     bool    UsingNukes      ();
     void    SetNukeTarget   ( Fixed longitude, Fixed latitude );
     void    Retaliate       ( WorldObjectReference const &  attackerId );

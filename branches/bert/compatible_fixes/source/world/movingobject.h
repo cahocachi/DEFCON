@@ -65,7 +65,7 @@ public:
     virtual int     GetAttackState  ();
     virtual bool    IsIdle          ();
 
-    virtual void    Land            ( int targetId );
+    virtual void    Land            ( WorldObjectReference const & targetId );
 
     void            ClearWaypoints  ();
     void            AutoLand        ();

@@ -331,13 +331,13 @@ void Bomber::RunAI()
 
 
 
-void Bomber::Land( int targetId )
+void Bomber::Land( WorldObjectReference const & targetId )
 {
     WorldObject *target = g_app->GetWorld()->GetWorldObject(targetId);
     if( target )
     {
         SetWaypoint( target->m_longitude, target->m_latitude );
-        m_isLanding = targetId;
+        m_isLanding = target; // use this; the targetId reference may have gotten stale.
     }
 }
 

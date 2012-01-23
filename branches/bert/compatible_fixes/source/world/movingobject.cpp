@@ -715,7 +715,7 @@ void MovingObject::RenderGhost( int teamId )
     }
 }
 
-void MovingObject::Land( int targetId )
+void MovingObject::Land( WorldObjectReference const & targetId )
 {
 }
 

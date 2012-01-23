@@ -21,7 +21,7 @@ public:
 
     int     GetAttackState  ();
 
-    void    Land            ( int targetId );
+    void    Land            ( WorldObjectReference const & targetId );
     bool    UsingGuns       ();
     int     CountTargettedFighters( int targetId );
 
