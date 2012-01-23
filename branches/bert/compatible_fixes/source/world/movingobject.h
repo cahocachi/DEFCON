@@ -73,7 +73,7 @@ public:
 
     virtual int     IsValidMovementTarget( Fixed longitude, Fixed latitude );
 
-    virtual void    Retaliate       ( int attackerId );
+    virtual void    Retaliate       ( WorldObjectReference const & attackerId );
 
     void            Ping            ();
     void            SetSpeed        ( Fixed speed );

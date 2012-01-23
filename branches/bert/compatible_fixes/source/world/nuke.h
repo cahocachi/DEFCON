@@ -20,7 +20,7 @@ protected:
 public:
     Nuke();
 
-    void    Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
+    void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    Update          ();
     void    Render          ();
 

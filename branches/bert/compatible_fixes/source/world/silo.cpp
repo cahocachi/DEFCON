@@ -43,7 +43,7 @@ Silo::Silo()
     InitialiseTimers();
 }
 
-void Silo::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Silo::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {

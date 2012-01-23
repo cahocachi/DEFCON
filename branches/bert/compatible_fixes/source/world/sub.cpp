@@ -47,7 +47,7 @@ Sub::Sub()
     InitialiseTimers();
 }
 
-void Sub::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Sub::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {
@@ -587,7 +587,7 @@ int Sub::IsValidCombatTarget( int _objectId )
 }
 
 
-void Sub::FleetAction( int targetObjectId )
+void Sub::FleetAction( WorldObjectReference const & targetObjectId )
 {
     if( m_targetObjectId == -1 )
     {

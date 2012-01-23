@@ -595,7 +595,7 @@ bool Fleet::IsValidFleetPosition( Fixed longitude, Fixed latitude )
     return true;
 }
 
-void Fleet::FleetAction( int targetObjectId )
+void Fleet::FleetAction( WorldObjectReference const & targetObjectId )
 {
     for( int i = 0; i < m_fleetMembers.Size(); ++i )
     {

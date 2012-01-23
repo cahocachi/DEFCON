@@ -157,7 +157,7 @@ public:
     int    CountAllianceMembers ( int _allianceId );
     int    FindFreeAllianceId   ();
 
-    int  AddWorldObject     ( WorldObject *wobj );
+    WorldObjectReference const & AddWorldObject( WorldObject *wobj );
     WorldObject *GetWorldObject( int _uniqueId );
     
     WorldObject *GetWorldObject( WorldObjectReference const & reference );

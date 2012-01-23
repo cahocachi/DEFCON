@@ -43,7 +43,7 @@ Tornado::Tornado()
 }
 
 
-void Tornado::Action( int targetObjectId, float longitude, float latitude )
+void Tornado::Action( WorldObjectReference const & targetObjectId, float longitude, float latitude )
 {
     
 }

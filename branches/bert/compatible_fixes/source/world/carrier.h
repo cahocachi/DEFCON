@@ -16,7 +16,7 @@ public:
     Carrier();
 
     void    RequestAction       (ActionOrder *_action);
-    void    Action              ( int targetObjectId, Fixed longitude, Fixed latitude );
+    void    Action              ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    Update              ();
     void    Render              ();
     void    RunAI               ();
@@ -24,11 +24,11 @@ public:
     int     FindTarget          ();
     int     GetAttackState      ();
 
-    void    Retaliate           ( int attackerId );
+    void    Retaliate           ( WorldObjectReference const & attackerId );
     bool    UsingNukes          ();
     void    FireGun             ( Fixed range );
 
-    void    FleetAction     ( int targetObjectId );
+    void    FleetAction     ( WorldObjectReference const & targetObjectId );
 
     int     GetAttackOdds   ( int _defenderType );
     
