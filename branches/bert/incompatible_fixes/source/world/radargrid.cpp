@@ -139,7 +139,7 @@ inline bool RadarGrid::IsInside( int x, int y, Fixed const & radiusSquared, Vect
     return( distanceSquared < radiusSquared );
 }
 
-void RadarGrid::ModifyCoverage( Fixed _longitude, Fixed _latitude, Fixed _radius, int _teamId, bool addCoverage )
+void RadarGrid::ModifyCoverage( int centreX, int centreY, Fixed _radius, int _teamId, bool addCoverage )
 {
     if( _teamId == -1 ) return;
 
@@ -148,8 +148,7 @@ void RadarGrid::ModifyCoverage( Fixed _longitude, Fixed _latitude, Fixed _radius
 
     Fixed radiusSquared = _radius * _radius;
 
-    int centreX, centreY;
-    GetIndices( _longitude, _latitude, centreX, centreY );
+    Fixed _longitude, _latitude;
     GetWorldLocation( centreX, centreY, _longitude, _latitude );
 
     int x0, y0, w, h;
@@ -164,69 +163,61 @@ void RadarGrid::ModifyCoverage( Fixed _longitude, Fixed _latitude, Fixed _radius
 
     // borders of region to fill in x direction
     int xMid = x0+(w>>1);
-    int xMin = xMid;
-    int xMax = xMid-1;
 
     Vector2<Fixed> centre(_longitude, _latitude);
+
+    static const Fixed metricXBase = RADARGRID_WIDTH/Fixed(360);
+    static const Fixed metricYBase = Fixed(200)/RADARGRID_HEIGHT;
+    Fixed metricX = metricXBase * m_resolution;
+    Fixed metricY = metricYBase / m_resolution;
+    metricY *= metricY;
 
     for( int y = y0; y < y0+h; ++y )
     {
         unsigned char * row = array + y * totalWidth;
 
-        // update fill region
-        if( xMin > x0 && IsInside( xMin-1, y, radiusSquared, centre ) )
+        Fixed dy = y - centreY;
+        Fixed rest = radiusSquared - dy*dy;
+        if( rest > 0 )
         {
-            do
-            {
-                xMin--;
-            }
-            while ( xMin > x0 && IsInside( xMin-1, y, radiusSquared, centre ) );
-        }
-        else
-        {
-            while( xMin < xMid && !IsInside( xMin, y, radiusSquared, centre ) )
-            {
-                xMin++;
-            }
-        }
-        if( xMax < x0+w && IsInside( xMax+1, y, radiusSquared, centre ) )
-        {
-            do
-            {
-                xMax++;
-            }
-            while( xMax < x0+w && IsInside( xMax+1, y, radiusSquared, centre ) );
-        }
-        else
-        {
-            while( xMax >= xMid && !IsInside( xMax, y, radiusSquared, centre ) )
-            {
-                xMax--;
-            }
-        }
+            int dx = sqrt(rest).IntValue();
+            int xMin = centreX - dx;
+            int xMax = centreX + dx;
 
-        AppDebugAssert(!IsInside(xMin-1,y,radiusSquared,centre));
-        AppDebugAssert(!IsInside(xMax+1,y,radiusSquared,centre));
-
-        for( int x = xMin; x <= xMax; ++x )
-        {
-            AppDebugAssert(IsInside(x,y,radiusSquared,centre));
-            row[ ((x+totalWidthAdd)%totalWidth) ] += increment;
-            // MoreReadsOrMoreWrites(0);
+            for( int x = xMin; x <= xMax; ++x )
+            {
+                row[ ((x+totalWidthAdd)%totalWidth) ] += increment;
+                // MoreReadsOrMoreWrites(0);
+            }
         }
     }
 }
 
 
+void RadarGrid::AddCoverage( int _x, int _y, Fixed _radius, int _teamId )
+{
+    ModifyCoverage( _x, _y, _radius, _teamId, true );
+}
+
+
+void RadarGrid::RemoveCoverage( int _x, int _y, Fixed _radius, int _teamId )
+{
+    ModifyCoverage( _x, _y, _radius, _teamId, false );
+}
+
 void RadarGrid::AddCoverage( Fixed _longitude, Fixed _latitude, Fixed _radius, int _teamId )
 {
-    ModifyCoverage( _longitude, _latitude, _radius, _teamId, true );
+    int _x, _y;
+    GetIndices( _longitude, _latitude, _x, _y );
+    ModifyCoverage( _x, _y, _radius, _teamId, true );
 }
 
 
 void RadarGrid::RemoveCoverage ( Fixed _longitude, Fixed _latitude, Fixed _radius, int _teamId )
 {
-    ModifyCoverage( _longitude, _latitude, _radius, _teamId, false );
+    int _x, _y;
+    GetIndices( _longitude, _latitude, _x, _y );
+    ModifyCoverage( _x, _y, _radius, _teamId, false );
 }
 
 
@@ -242,21 +233,22 @@ void RadarGrid::UpdateCoverage ( Fixed _oldLongitude, Fixed _oldLatitude, Fixed 
         changeRequired = true;
     }
 
+    int oldX, oldY, newX, newY;
+    GetIndices( _oldLongitude, _oldLatitude, oldX, oldY );
+    GetIndices( _newLongitude, _newLatitude, newX, newY );
+
     if( !changeRequired )
     {
         // Have we actually moved cells?
         // If not then nothing will have changed
-        int oldX, oldY, newX, newY;
-        GetIndices( _oldLongitude, _oldLatitude, oldX, oldY );
-        GetIndices( _newLongitude, _newLatitude, newX, newY );
         
         changeRequired = ( oldX != newX ) || ( oldY != newY );
     }
 
     if( changeRequired )
     {
-        RemoveCoverage( _oldLongitude, _oldLatitude, _oldRadius, _teamId );
-        AddCoverage( _newLongitude, _newLatitude, _newRadius, _teamId );
+        RemoveCoverage( oldX, oldY, _oldRadius, _teamId );
+        AddCoverage( newX, newY, _newRadius, _teamId );
     }
 }
 
@@ -303,8 +295,9 @@ void RadarGrid::Render()
     //
     // Render radar to a bitmap
 
-    Bitmap bitmap( RADARGRID_WIDTH*m_resolution,
-                   RADARGRID_HEIGHT*m_resolution );
+    Bitmap * bitmapP = new Bitmap( RADARGRID_WIDTH*m_resolution,
+                                   RADARGRID_HEIGHT*m_resolution );
+    Bitmap & bitmap = *bitmapP;
 
     int teamId = g_app->GetWorld()->m_myTeamId;
     int size = RADARGRID_WIDTH * RADARGRID_HEIGHT * m_resolution * m_resolution;

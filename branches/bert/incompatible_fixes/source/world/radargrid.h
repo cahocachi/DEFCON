@@ -27,9 +27,11 @@ protected:
 
     void            GetWorldLocation( int _indexX, int _indexY, Fixed &_longitude, Fixed &_latitude ) const;
 
-    void            ModifyCoverage( Fixed _longitude, Fixed _latitude, Fixed _radius, int _teamId, bool addCoverage );
+    void            ModifyCoverage( int _x, int _y, Fixed _radius, int _teamId, bool addCoverage );
     bool            IsInside( int x, int y, Fixed const & radiusSquared, Vector2<Fixed> const & centre ) const;
 
+    void AddCoverage    ( int _x, int _y, Fixed _radius, int _teamId );
+    void RemoveCoverage ( int _x, int _y, Fixed _radius, int _teamId );
 public:
     RadarGrid();
     ~RadarGrid();

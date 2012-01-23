@@ -2955,14 +2955,32 @@ void MapRenderer::RenderRadar( bool _allies, bool _outlined )
 }
 
 
+#ifdef _DEBUG
+// activates the old bitmap based radar grid rendering; a bit fuzzy and slow,
+// but good for debugging the radar grid functions.
+// #define DEBUG_RADARGRID
+#endif
+
 void MapRenderer::RenderRadar()
 {
     START_PROFILE( "Radar" );
+
+#ifdef DEBUG_RADARGRID
+    {
+        static int count = 0;
+        if( (count++ % 300) < 100 )
+        {
+            g_app->GetWorld()->m_radarGrid.Render();
+            return;
+        }
+    }
+#endif
 
     float timeFactor = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
 
     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
     g_renderer->SetDepthBuffer( true, true );
+
 
     //
     // Render our Radar first
@@ -2999,7 +3017,9 @@ void MapRenderer::RenderRadar()
     // Now darken the whole world not covered by Radar
 
     g_renderer->SetBlendMode( Renderer::BlendModeNormal );        
+#ifndef DEBUG_RADARGRID
     g_renderer->RectFill( -180, -100, 360, 200, Colour(0,0,0,150) );
+#endif
     g_renderer->SetDepthBuffer( false, false );
     
     END_PROFILE( "Radar" );
