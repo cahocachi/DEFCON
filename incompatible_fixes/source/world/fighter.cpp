@@ -246,7 +246,7 @@ int Fighter::IsValidCombatTarget( int _objectId )
     return MovingObject::IsValidCombatTarget( _objectId );
 }
 
-void Fighter::Retaliate( int attackerId )
+void Fighter::Retaliate( WorldObjectReference const & attackerId )
 {
     // fighters are expendable and never retaliate
 }
