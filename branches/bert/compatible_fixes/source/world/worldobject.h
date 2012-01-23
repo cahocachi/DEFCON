@@ -11,6 +11,8 @@ class Image;
 class WorldObjectState;
 class ActionOrder;
 
+class WorldObject;
+
 // cached world object queries
 class WorldObjectReference
 {
@@ -22,6 +24,7 @@ public:
     WorldObjectReference( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; }
     operator int() const { return m_uniqueId; }
     WorldObjectReference & operator = ( WorldObjectReference const & other ) { m_uniqueId = other.m_uniqueId; m_index = other.m_index; return *this; }
+    WorldObjectReference & operator = ( WorldObject const * obj );
     WorldObjectReference & operator = ( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; return *this; }
 
     friend class World;
@@ -243,5 +246,17 @@ public:
     {
     }
 };
+
+inline WorldObjectReference &  WorldObjectReference::operator = ( WorldObject const * obj )
+{
+    if( obj )
+    {
+        return operator = ( obj->m_objectId );
+    }
+    else
+    {
+        return operator = ( -1 );
+    }
+}
 
 #endif
