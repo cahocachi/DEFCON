@@ -387,10 +387,10 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
         Fixed dotProduct = targetDir * m_vel;
         Fixed factor1 = m_turnRate * timePerUpdate / 10;
 
-        if( m_movementType == MovementTypeAir && dotProduct < 0 )
+        if( dotProduct < 0 )
         {
             Fixed turnRadius = m_speed / m_turnRate;
-            if( distanceSquared < turnRadius * turnRadius )
+            if( m_movementType == MovementTypeAir && distanceSquared < turnRadius * turnRadius )
             {
                 // target is not too far behind us, go straight for a bit so we can
                 // actually make the turn.
