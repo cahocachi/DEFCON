@@ -41,7 +41,7 @@ Fighter::Fighter()
 }
 
 
-void Fighter::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Fighter::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {   
     m_targetObjectId = -1;
 

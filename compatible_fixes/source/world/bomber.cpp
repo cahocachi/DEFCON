@@ -50,7 +50,7 @@ Bomber::Bomber()
 }
 
 
-void Bomber::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Bomber::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() ||
         m_stateTimer > 0 )
@@ -359,7 +359,7 @@ void Bomber::SetNukeTarget( Fixed longitude, Fixed latitude )
     m_nukeTargetLatitude = latitude;
 }
 
-void Bomber::Retaliate( int attackerId )
+void Bomber::Retaliate( WorldObjectReference const & attackerId )
 {
     if( g_app->GetWorld()->GetTeam( m_teamId )->m_type == Team::TypeAI )
     {

@@ -160,7 +160,7 @@ public:
     void    Update();
     void    UpdateCameraControl     ( float _mouseX, float _mouseY );
     bool    UpdatePlanning          ( float _mouseX, float _mouseY );
-    int     GetNearestObjectToMouse ( float _mouseX, float _mouseY );
+    WorldObjectReference GetNearestObjectToMouse ( float _mouseX, float _mouseY );
     void    HandleObjectAction      ( float _mouseX, float _mouseY, int _underMouseId );
     void    HandleSetWaypoint       ( float _mouseX, float _mouseY );
     void    HandleSelectObject      ( int _underMouseId );

@@ -48,7 +48,7 @@ Nuke::Nuke()
 }
 
 
-void Nuke::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Nuke::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     //m_newLongitude = longitude;
     //m_newLatitude = latitude;

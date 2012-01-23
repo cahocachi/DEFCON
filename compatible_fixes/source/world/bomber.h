@@ -17,7 +17,7 @@ public:
 
     Bomber();
 
-    void    Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
+    void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     Fixed   GetActionRange  ();
     bool    Update          ();
     void    Render          ();
@@ -25,7 +25,7 @@ public:
     void    Land            ( int targetId );
     bool    UsingNukes      ();
     void    SetNukeTarget   ( Fixed longitude, Fixed latitude );
-    void    Retaliate       ( int attackerId );
+    void    Retaliate       ( WorldObjectReference const &  attackerId );
     void    SetState        (int state );
 
     int     GetAttackOdds       ( int _defenderType );
