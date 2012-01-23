@@ -84,7 +84,7 @@ bool Fighter::Update()
                 if( targetObject->m_type == WorldObject::TypeCarrier ||
                     targetObject->m_type == WorldObject::TypeAirBase )
                 {
-                    Land( m_targetObjectId );
+                    Land( targetObject );
                 }
                 m_targetObjectId = -1;
             }
