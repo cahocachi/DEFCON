@@ -62,11 +62,11 @@ public:
     virtual int     GetAttackState  ();
     virtual bool    IsIdle          ();
 
-    virtual void    Land            ( WorldObjectReference const & targetId );
+    virtual void    Land            ( WorldObject * target );
 
     void            ClearWaypoints  ();
     void            AutoLand        ();
-    int             GetClosestLandingPad();
+    WorldObject *   GetClosestLandingPad();
 
     void            GetInterceptionPoint( WorldObject *target, Fixed *interceptLongitude, Fixed *interceptLatitude );
 
@@ -82,7 +82,7 @@ public:
     virtual int     GetTarget( Fixed range );
 
 private:
-    bool            GetClosestLandingPad( BoundedArray<int> const & alreadyLanding, Fixed const & turnRadius, int & padId, int & nearestNonViableId );
+    bool            GetClosestLandingPad( BoundedArray<int> const & alreadyLanding, BoundedArray<int> const & alreadyLandingWantingNukes, Fixed const & turnRadius, WorldObject * & pad, WorldObject * & nearestNonViable );
 };
 
 /*

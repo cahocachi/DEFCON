@@ -158,7 +158,7 @@ bool Bomber::Update()
                         targetObject->m_type == WorldObject::TypeAirBase )
                     {
                         SetWaypoint( targetObject->m_longitude, targetObject->m_latitude );
-                        Land( m_targetObjectId );
+                        Land( targetObject );
                     }
                     m_targetObjectId = -1;
                 }

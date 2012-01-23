@@ -1587,7 +1587,7 @@ void World::ObjectSpecialAction( int objectId, int targetObjectId, int specialAc
                 if( wobj->IsMovingObject() )
                 {
                     MovingObject *mobj = (MovingObject *) wobj;
-                    mobj->Land( targetObjectId );
+                    mobj->Land( mobj );
                 }
                 break;
 
