@@ -46,7 +46,7 @@ Saucer::Saucer()
 }
 
 
-void Saucer::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Saucer::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( m_currentState == 0 )
     {

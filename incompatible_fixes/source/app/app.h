@@ -96,16 +96,11 @@ public:
     Server          *GetServer();
     ClientToServer  *GetClientToServer();
     World           *GetWorld();
+    inline Game     *GetGame();
     EarthData       *GetEarthData();
     StatusIcon      *GetStatusIcon();
     Tutorial        *GetTutorial();
 
-    inline Game     *GetGame()
-    {
-        AppDebugAssert( m_game );
-        return m_game;
-    }
-	
 	static const char *GetAuthKeyPath();
 	static const char *GetPrefsPath();
 
@@ -116,6 +111,18 @@ public:
 	void    SaveGameName();
 };
 
+inline Game *App::GetGame()
+{
+    AppDebugAssert( m_game );
+    return m_game;
+}
+
+inline World *App::GetWorld()
+{
+    AppDebugAssert( m_world );
+    return m_world;
+}
+	
 void	ConfirmExit( const char *_parentWindowName );
 void	AttemptQuitImmediately();
 void	ToggleFullscreenAsync();

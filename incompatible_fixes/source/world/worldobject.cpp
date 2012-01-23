@@ -176,7 +176,7 @@ Fixed WorldObject::GetRadarRange ()
 }
 
 
-void WorldObject::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void WorldObject::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( IsActionQueueable() )
     {
@@ -404,18 +404,16 @@ void WorldObject::Render ()
     // Current selection?
 
     colour.Set(255,255,255,255);
-    WorldObjectReference const & selectionIdOrig = g_app->GetMapRenderer()->GetCurrentSelectionId();
-    g_app->GetWorld()->GetWorldObject(selectionIdOrig);
-    WorldObjectReference selectionId = selectionIdOrig;
+    WorldObject *selection = g_app->GetWorld()->GetWorldObject(g_app->GetMapRenderer()->GetCurrentSelectionId());
+    
     for( int i = 0; i < 2; ++i )
     {
         if( i == 1 )
         {
-            WorldObjectReference const & highlightId = g_app->GetMapRenderer()->GetCurrentHighlightId();
-            if( highlightId == selectionId ) break;
-            selectionId = highlightId;
+            WorldObject* highlight = g_app->GetWorld()->GetWorldObject(g_app->GetMapRenderer()->GetCurrentHighlightId());
+            if( highlight == selection ) break;
+            selection = highlight;
         }
-        WorldObject *selection = g_app->GetWorld()->GetWorldObject(selectionId);
 
         if( selection )
         {
@@ -661,7 +659,7 @@ bool WorldObject::UsingNukes()
     return false;
 }
 
-void WorldObject::Retaliate( int attackerId )
+void WorldObject::Retaliate( WorldObjectReference const & attackerId )
 {
 }
 
@@ -728,7 +726,7 @@ void WorldObject::ClearLastAction()
     }
 }
 
-void WorldObject::SetTargetObjectId( int targetObjectId )
+void WorldObject::SetTargetObjectId( WorldObjectReference const & targetObjectId )
 {
 	m_targetObjectId = targetObjectId;
 }
@@ -738,11 +736,11 @@ int WorldObject::GetTargetObjectId()
     return m_targetObjectId;
 }
 
-void WorldObject::FleetAction( int targetObjectId )
+void WorldObject::FleetAction( WorldObjectReference const & targetObjectId )
 {
 }
 
-bool WorldObject::LaunchBomber( int targetObjectId, Fixed longitude, Fixed latitude )
+bool WorldObject::LaunchBomber( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     Bomber *bomber = new Bomber();
     bomber->SetTeamId( m_teamId );
@@ -805,8 +803,9 @@ bool WorldObject::LaunchBomber( int targetObjectId, Fixed longitude, Fixed latit
     return true;
 }
 
-bool WorldObject::LaunchFighter( int targetObjectId, Fixed longitude, Fixed latitude )
+bool WorldObject::LaunchFighter( WorldObjectReference const & _targetObjectId, Fixed longitude, Fixed latitude )
 {
+    WorldObjectReference targetObjectId = _targetObjectId;
     if( targetObjectId >= OBJECTID_CITYS )
     {
         targetObjectId = -1;
@@ -1000,7 +999,7 @@ char *WorldObject::LogState()
 
     static char s_result[10240];
     snprintf( s_result, 10240, "obj[%d] [%10s] team[%d] fleet[%d] long[%s] lat[%s] velX[%s] velY[%s] state[%d] target[%d] life[%d] timer[%s] retarget[%s] ai[%s]",
-                m_objectId,
+                (int) m_objectId,
                 GetName(m_type),
                 m_teamId,
                 m_fleetId,
@@ -1009,7 +1008,7 @@ char *WorldObject::LogState()
                 HashDouble( m_vel.x.DoubleValue(), buf3 ),
                 HashDouble( m_vel.y.DoubleValue(), buf4 ),
                 m_currentState,
-                m_targetObjectId,
+                (int) m_targetObjectId,
                 m_life,
                 HashDouble( m_stateTimer.DoubleValue(), buf5 ),
                 HashDouble( m_retargetTimer.DoubleValue(), buf6 ),

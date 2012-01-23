@@ -17,7 +17,7 @@ public:
 
     Sub();
 
-    void    Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
+    void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    IsHiddenFrom    ();
     bool    Update          ();
     void    Render          ();   
@@ -31,7 +31,7 @@ public:
     bool    IsActionQueueable();
     bool    IsGroupable     ( int unitType );
     bool    IsPinging       ();
-    void    FleetAction     ( int targetObjectId );
+    void    FleetAction     ( WorldObjectReference const & targetObjectId );
 
     void    RequestAction   ( ActionOrder *_action );
 

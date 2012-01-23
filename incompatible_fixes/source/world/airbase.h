@@ -15,7 +15,7 @@ public:
     AirBase();
 
     void RequestAction( ActionOrder *_order );
-    void Action( int targetObjectId, Fixed longitude, Fixed latitude );
+    void Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     void RunAI();
     bool IsActionQueueable();
     bool UsingNukes();

@@ -13,7 +13,7 @@ public:
 
     Silo();
 
-    void    Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
+    void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     void    Render          ();    
     bool    Update          ();
 	void	RunAI			();

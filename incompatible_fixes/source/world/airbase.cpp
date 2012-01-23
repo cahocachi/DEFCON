@@ -54,7 +54,7 @@ void AirBase::RequestAction(ActionOrder *_action)
 }
 
 
-void AirBase::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void AirBase::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {

@@ -12,14 +12,14 @@ public:
 
     BattleShip();
 
-    void    Action          ( int targetObjectId, Fixed longitude, Fixed latitude ); 
+    void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude ); 
     bool    Update          ();
     void    Render          ();    
     void    RunAI           ();
     int     GetAttackState();
     bool    UsingGuns       ();
     int     GetTarget       ( Fixed range );
-    void    FleetAction     ( int targetObjectId );
+    void    FleetAction     ( WorldObjectReference const & targetObjectId );
     int     GetAttackPriority( int _type );
 };
 

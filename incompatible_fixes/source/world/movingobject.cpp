@@ -744,7 +744,7 @@ void MovingObject::RenderGhost( int teamId )
     }
 }
 
-void MovingObject::Land( int targetId )
+void MovingObject::Land( WorldObjectReference const & targetId )
 {
     WorldObject *target = g_app->GetWorld()->GetWorldObject(targetId);
 
@@ -1323,7 +1323,7 @@ void MovingObject::GetInterceptionPoint( WorldObject *target, Fixed *interceptLo
     *interceptLatitude  = target->m_latitude  + timeLeft*targetVel.y;
 }
 
-void MovingObject::Retaliate( int attackerId )
+void MovingObject::Retaliate( WorldObjectReference const & attackerId )
 {
     WorldObject *obj = g_app->GetWorld()->GetWorldObject( attackerId );
     if( obj && !g_app->GetWorld()->IsFriend( m_teamId, attackerId ) &&
@@ -1513,7 +1513,7 @@ char *MovingObject::LogState()
 
     static char s_result[10240];
     snprintf( s_result, 10240, "obj[%d] [%10s] team[%d] fleet[%d] long[%s] lat[%s] velX[%s] velY[%s] state[%d] target[%d] life[%d] timer[%s] retarget[%s] ai[%s] speed[%s] targetNode[%d] targetLong[%s] targetLat[%s]",
-                m_objectId,
+                (int)m_objectId,
                 GetName(m_type),
                 m_teamId,
                 m_fleetId,
@@ -1522,7 +1522,7 @@ char *MovingObject::LogState()
                 HashDouble( m_vel.x.DoubleValue(), velX ),
                 HashDouble( m_vel.y.DoubleValue(), velY ),
                 m_currentState,
-                m_targetObjectId,
+                (int)m_targetObjectId,
                 m_life,
                 HashDouble( m_stateTimer.DoubleValue(), timer ),
                 HashDouble( m_retargetTimer.DoubleValue(), retarget ),

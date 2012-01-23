@@ -62,7 +62,7 @@ public:
     virtual int     GetAttackState  ();
     virtual bool    IsIdle          ();
 
-    virtual void    Land            ( int targetId );
+    virtual void    Land            ( WorldObjectReference const & targetId );
 
     void            ClearWaypoints  ();
     void            AutoLand        ();
@@ -72,7 +72,7 @@ public:
 
     virtual int     IsValidMovementTarget( Fixed longitude, Fixed latitude );
 
-    virtual void    Retaliate       ( int attackerId );
+    virtual void    Retaliate       ( WorldObjectReference const & attackerId );
 
     void            Ping            ();
     void            SetSpeed        ( Fixed speed );

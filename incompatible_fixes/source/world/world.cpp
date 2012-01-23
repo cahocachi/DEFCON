@@ -1284,15 +1284,18 @@ Team *World::GetMyTeam()
 }
 
 
-int World::AddWorldObject( WorldObject *obj )
+WorldObjectReference const &  World::AddWorldObject( WorldObject *obj )
 {
     Team *team = GetTeam( obj->m_teamId );
     if( team )
     {
         team->m_unitsInPlay[ obj->m_type ]++;
     }
-    m_objects.PutData( obj);
-    obj->m_objectId = GenerateUniqueId();
+    int index = m_objects.PutData( obj);
+
+    obj->m_objectId.m_uniqueId = GenerateUniqueId();
+    obj->m_objectId.m_index = index;
+
     return obj->m_objectId;
 }
 
@@ -1394,7 +1397,7 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
     explosion->m_targetTeamId = targetTeamId;
 
     int expId = m_explosions.PutData( explosion );
-    explosion->m_objectId = expId;
+    explosion->m_objectId.m_uniqueId = expId;
     
 
     //
