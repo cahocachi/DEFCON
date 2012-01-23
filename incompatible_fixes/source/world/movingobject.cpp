@@ -346,7 +346,7 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
     World::SanitiseTargetLongitude( m_longitude, m_targetLongitude );
 
     Direction targetDir = (Direction( m_targetLongitude, m_targetLatitude ) -
-                           Direction( m_longitude, m_latitude )).Normalise();
+                           Direction( m_longitude, m_latitude ));
     
     Fixed distanceSquared = targetDir.MagSquared();
 
@@ -369,12 +369,12 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
                 targetDir.y = 0;
             }
 
-            // make sure the "don't turn too soon" code doens't get triggered
+            // make sure the "don't turn too soon" code doesn't get triggered
             distanceSquared = 100000000;
         }
         else
         {
-            // already going back in enoug; go straight
+            // already going back in enough; go straight
             distanceSquared = 0;
         }
     }
@@ -382,12 +382,12 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
     if( distanceSquared > 0 )
     {
-        targetDir.Normalise();
+        targetDir /= sqrt(distanceSquared );
 
         Fixed dotProduct = targetDir * m_vel;
         Fixed factor1 = m_turnRate * timePerUpdate / 10;
 
-        if( dotProduct < 0 )
+        if( m_movementType == MovementTypeAir && dotProduct < 0 )
         {
             Fixed turnRadius = m_speed / m_turnRate;
             if( distanceSquared < turnRadius * turnRadius )
