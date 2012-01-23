@@ -11,6 +11,8 @@ class Image;
 class WorldObjectState;
 class ActionOrder;
 
+class WorldObject;
+
 // cached world object queries
 class WorldObjectReference
 {
@@ -21,6 +23,8 @@ public:
     WorldObjectReference() { m_uniqueId = -1; m_index = -1; }
     WorldObjectReference( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; }
     operator int() const { return m_uniqueId; }
+    WorldObjectReference & operator = ( WorldObjectReference const & other ) { m_uniqueId = other.m_uniqueId; m_index = other.m_index; return *this; }
+    WorldObjectReference & operator = ( WorldObject const * obj );
     WorldObjectReference & operator = ( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; return *this; }
 
     friend class World;
@@ -63,7 +67,7 @@ public:
 
     int     m_type;
     int     m_teamId;
-    int     m_objectId;
+    WorldObjectReference m_objectId;
     Fixed   m_longitude;
     Fixed   m_latitude;
     int     m_life;                                     // Cities population, or 1/0 for sea units, or 0-30 for ground units
@@ -132,8 +136,8 @@ public:
     virtual bool        IsActionable    ();
     virtual Fixed       GetActionRange  ();
     virtual Fixed       GetActionRangeSqd();
-    virtual void        Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
-    virtual void        FleetAction     ( int targetObjectId );
+    virtual void        Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
+    virtual void        FleetAction     ( WorldObjectReference const & targetObjectId );
     virtual bool        IsHiddenFrom    ();
 
     virtual bool        Update          ();
@@ -159,9 +163,9 @@ public:
     virtual bool        UsingGuns       ();
     virtual void        NukeStrike      ();
 
-    virtual void        Retaliate       ( int attackerId );
+    virtual void        Retaliate       ( WorldObjectReference const & attackerId );
 
-    void                SetTargetObjectId ( int targetObjectId );
+    void                SetTargetObjectId ( WorldObjectReference const & targetObjectId );
     int                 GetTargetObjectId ();
 
     virtual bool        IsPinging();
@@ -178,8 +182,8 @@ public:
 
     virtual bool        CanLaunchFighter();
     virtual bool        CanLaunchBomber ();
-    bool                LaunchBomber    ( int targetObjectId, Fixed longitude, Fixed latitude );
-    bool                LaunchFighter   ( int targetObjectId, Fixed longitude, Fixed latitude );
+    bool                LaunchBomber    ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
+    bool                LaunchFighter   ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     virtual bool        SetWaypointOnAction();
 
     virtual void        CeaseFire       ( int teamId );
@@ -228,7 +232,7 @@ public:
 class ActionOrder
 {
 public:
-    int     m_targetObjectId;
+    WorldObjectReference m_targetObjectId;
     Fixed   m_longitude;
     Fixed   m_latitude;
     bool    m_pursueTarget;   // tells the objects fleet to pursue target
@@ -242,5 +246,17 @@ public:
     {
     }
 };
+
+inline WorldObjectReference &  WorldObjectReference::operator = ( WorldObject const * obj )
+{
+    if( obj )
+    {
+        return operator = ( obj->m_objectId );
+    }
+    else
+    {
+        return operator = ( -1 );
+    }
+}
 
 #endif

@@ -41,7 +41,7 @@ BattleShip::BattleShip()
     InitialiseTimers();
 }
 
-void BattleShip::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void BattleShip::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {
@@ -200,7 +200,7 @@ int BattleShip::GetTarget( Fixed range )
     }
 }
 
-void BattleShip::FleetAction( int targetObjectId )
+void BattleShip::FleetAction( WorldObjectReference const & targetObjectId )
 {
     if( m_targetObjectId == -1 )
     {

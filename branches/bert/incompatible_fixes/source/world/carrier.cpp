@@ -75,7 +75,7 @@ void Carrier::RequestAction(ActionOrder *_action)
 }
 
 
-void Carrier::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Carrier::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {
@@ -461,7 +461,7 @@ int Carrier::GetAttackState()
     return -1;
 }
 
-void Carrier::Retaliate( int attackerId )
+void Carrier::Retaliate( WorldObjectReference const & attackerId )
 {
     Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
     if( fleet )
@@ -522,7 +522,7 @@ void Carrier::FireGun( Fixed range)
     g_app->GetWorld()->m_gunfire.PutData( bullet );
 }
 
-void Carrier::FleetAction( int targetObjectId )
+void Carrier::FleetAction( WorldObjectReference const & targetObjectId )
 {
     if( m_targetObjectId == -1 )
     {

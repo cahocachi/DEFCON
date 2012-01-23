@@ -3268,14 +3268,14 @@ void MapRenderer::UpdateCameraControl( float longitude, float latitude )
 }
 
 
-int MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
+WorldObjectReference MapRenderer::GetNearestObjectToMouse( float _mouseX, float _mouseY )
 {
     World * world = g_app->GetWorld();
 
     if( _mouseX > 180 ) _mouseX = -180 + ( _mouseX - 180 );
     if( _mouseX < -180 ) _mouseX = 180 + ( _mouseX + 180 );
 
-    int underMouseId = -1;
+    WorldObjectReference underMouseId;
 
     Fixed nearest = 5;
     if( m_currentSelectionId != -1 )
@@ -3733,7 +3733,7 @@ void MapRenderer::Update()
         
 
     WorldObject *underMouse = NULL;
-    int underMouseId = GetNearestObjectToMouse( longitude, latitude );
+    WorldObjectReference underMouseId = GetNearestObjectToMouse( longitude, latitude );
     if( underMouseId != -1 ) underMouse = g_app->GetWorld()->GetWorldObject( underMouseId );
 
 

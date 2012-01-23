@@ -91,7 +91,7 @@ public:
 
     void AlterWaypoints             ( Fixed longitude, Fixed latitude, bool checkNewWaypoint );
     void MoveFleet                  ( Fixed longitude, Fixed latitude, bool cancelPursuits = true );
-    void FleetAction                ( int targetObjectId );
+    void FleetAction                ( WorldObjectReference const & targetObjectId );
     bool IsValidFleetPosition       ( Fixed longitude, Fixed latitude );
     bool ValidFleetPlacement        ( Fixed longitude, Fixed latitude );
     bool FindGoodAttackSpotSlow     ( Fixed &_longitude, Fixed &_latitude );

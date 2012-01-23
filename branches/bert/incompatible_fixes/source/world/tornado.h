@@ -27,7 +27,7 @@ protected:
 public:
     Tornado();
     
-    void    Action          ( int targetObjectId, float longitude, float latitude );
+    void    Action          ( WorldObjectReference const & targetObjectId, float longitude, float latitude );
     Fixed   GetActionRange  ();
     bool    Update          ();
     void    Render          ();
