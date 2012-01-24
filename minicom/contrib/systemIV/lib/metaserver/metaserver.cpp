@@ -70,8 +70,6 @@ static int                  s_bytesSent = 0;
 
 #define                    UDP_HEADER_SIZE    32
 
-
-
 struct MetaServerData
 {
 public:
@@ -94,6 +92,18 @@ public:
 static LList<MetaServerData *>  s_metaServerData;
 static NetMutex                 s_metaServerDataMutex;
 
+class ListDestroyer
+{
+public:
+    ~ListDestroyer()
+    {
+        MetaServer_ClearServerList();
+        s_metaServerDataMutex.Lock();
+        s_metaServerData.EmptyAndDelete();
+        s_metaServerDataMutex.Unlock();
+    }
+};
+static ListDestroyer s_listDestroyer;
 
 // ============================================================================
 
@@ -367,7 +377,7 @@ void MetaServer_Connect( char *_metaServerIp, int _metaserverPort, int _listenPo
 
     //
     // Try the requested port number first
-    
+    delete s_socketListener;
     s_socketListener = new NetSocketListener( _listenPort );    
     NetRetCode result = s_socketListener->Bind();
 
@@ -421,7 +431,7 @@ void MetaServer_Disconnect()
     if( s_socketListener )
     {
         s_socketListener->StopListening();
-        //delete s_socketListener;
+        // delete s_socketListener;
         s_socketListener = NULL;
     }
 
@@ -758,7 +768,6 @@ bool MetaServer_HasReceivedListWAN()
 {
     return !s_awaitingServerListWAN;
 }
-
 
 int MetaServer_GetNumServers( bool _wanServers, bool _lanServers )
 {
@@ -1150,6 +1159,8 @@ int MetaServer_GetServerTTL()
     // Sanity check the answer
 
     serverTTL = max( serverTTL, 10 );
+
+    delete serverTTLDir;
 
     return serverTTL;
 }

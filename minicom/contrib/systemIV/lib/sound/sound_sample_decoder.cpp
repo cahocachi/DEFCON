@@ -65,7 +65,7 @@ SoundSampleDecoder::~SoundSampleDecoder()
 
     if( m_sampleCache )
     {
-        delete m_sampleCache;
+        delete[] m_sampleCache;
     }
 }
 

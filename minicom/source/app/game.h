@@ -36,7 +36,7 @@ public:
     
     LList           <GameOption *>  m_options;
     
-    BoundedArray    <int>           m_score;                            // Indexed on teamID
+    BoundedArray    <Fixed>         m_score;                            // Indexed on teamID
     BoundedArray    <int>           m_nukeCount;                        
     BoundedArray    <int>           m_totalNukes;                       // the total nukes a player has, calculated once defcon 3 hits
 
@@ -50,8 +50,11 @@ protected:
     void            CountNukes();
     void            CalculateScores();
 
+    GameOption *    m_gameScale; // cache only
+
 public:
     Game();
+    ~Game();
 
     void            Update();
 
@@ -62,6 +65,7 @@ public:
     void            SetOptionValue  ( char *_name, int _value );
     int             GetOptionIndex  ( char *_name );    
     GameOption      *GetOption      ( char *_name );
+    Fixed           GetGameScale() const;
 
     void            SetGameMode     ( int _mode );
     bool            IsOptionEditable( int _optionId );

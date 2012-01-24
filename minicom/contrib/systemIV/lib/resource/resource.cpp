@@ -22,6 +22,11 @@ Resource::Resource()
 {
 }
 
+Resource::~Resource()
+{
+    Shutdown();
+}
+
 void Resource::Restart()
 {
     Shutdown();

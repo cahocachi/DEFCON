@@ -48,7 +48,7 @@ MovingObject::MovingObject()
 
 MovingObject::~MovingObject()
 {
-    m_history.EmptyAndDelete();
+    //om_history.EmptyAndDelete();
     //m_movementBlips.EmptyAndDelete();
 }
 
@@ -59,18 +59,30 @@ void MovingObject::InitialiseTimers()
 
     Fixed gameScale = World::GetGameScale();
     m_speed /= gameScale;
-    //m_range /= gameScale;
+    if( gameScale < 1 && m_range < Fixed::MAX )
+    {
+        m_range /= gameScale;
+    }
 }
 
+// returns room inside landing pad for given type
+static int RoomInside( WorldObject * pad, int type )
+{
+    if( type == WorldObject::TypeFighter ) return pad->m_maxFighters - pad->m_states[0]->m_numTimesPermitted;
+    if( type == WorldObject::TypeBomber ) return pad->m_maxBombers - pad->m_states[1]->m_numTimesPermitted;
+    return 0;
+}
 
 bool MovingObject::Update()
 {
+    World * world = g_app->GetWorld();
+
     //
     // Update history    
-    m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
+    m_historyTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor() / 10;
     if( m_historyTimer <= 0 )
     {
-        m_history.PutDataAtStart( new Vector3<Fixed>(m_longitude, m_latitude, 0) );
+        m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
         m_historyTimer = 2;
     }
 
@@ -81,26 +93,23 @@ bool MovingObject::Update()
     }
 
 
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+    for( int i = 0; i < world->m_teams.Size(); ++i )
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
-        m_lastSeenTime[team->m_teamId] -= g_app->GetWorld()->GetTimeScaleFactor() * SERVER_ADVANCE_PERIOD ;
+        Team *team = world->m_teams[i];
+        m_lastSeenTime[team->m_teamId] -= world->GetTimeScaleFactor() * SERVER_ADVANCE_PERIOD ;
         if( m_lastSeenTime[team->m_teamId] < 0 ) m_lastSeenTime[team->m_teamId] = 0;
     }
 
     if( m_isLanding != -1 )
     {
-        WorldObject *home = g_app->GetWorld()->GetWorldObject( m_isLanding );
+        WorldObject *home = world->GetWorldObject( m_isLanding );
         if( home )
         {
-            if((m_type == WorldObject::TypeFighter &&
-                home->m_states[0]->m_numTimesPermitted >= home->m_maxFighters ) ||
-                (m_type == WorldObject::TypeBomber &&
-                home->m_states[1]->m_numTimesPermitted >= home->m_maxBombers ))
+            if( RoomInside( home, m_type ) <= 0 )
             {
                 Land( GetClosestLandingPad() );
             }            
-            else if( g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, home->m_longitude, home->m_latitude ) < 2 * 2 )
+            else if( world->GetDistanceSqd( m_longitude, m_latitude, home->m_longitude, home->m_latitude ) < 2 * 2 )
             {
                 if( home->m_teamId == m_teamId )
                 {
@@ -133,10 +142,10 @@ bool MovingObject::Update()
                     }
                 }
             }
-            else if( home->IsMovingObject() &&
-                home->m_vel.MagSquared() > 0 )
+            else if( home->IsMovingObject() && 
+                     ( home->m_longitude != m_targetLongitude || home->m_latitude != m_targetLatitude ) )
             {
-                Land( m_isLanding );
+                Land( home );
             }
         }
         else
@@ -145,9 +154,9 @@ bool MovingObject::Update()
         }
     }
 
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+    for( int i = 0; i < world->m_teams.Size(); ++i )
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
+        Team *team = world->m_teams[i];
         if( m_lastSeenTime[team->m_teamId] <= 0 )
         {
             m_seen[team->m_teamId] = false;
@@ -180,7 +189,7 @@ void MovingObject::SetWaypoint( Fixed longitude, Fixed latitude )
        
     if( m_movementType == MovementTypeAir )
     {
-        World::SanitizeTargetLongitude( m_longitude, longitude );
+        World::SanitiseTargetLongitude( m_longitude, longitude );
     }
 
     m_targetLongitude = longitude;
@@ -217,9 +226,9 @@ void FFClamp( Fixed &f, unsigned long long clamp )
 //        m_targetLongitude += 360;
 //    }
 //    
-//    Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-//								Vector3<Fixed>( m_longitude, m_latitude, 0 )).Normalise();
-//    Vector3<Fixed> originalTargetDir = targetDir;
+//    Vector2<Fixed> targetDir = (Vector2<Fixed>( m_targetLongitude, m_targetLatitude ) -
+//								Vector2<Fixed>( m_longitude, m_latitude )).Normalise();
+//    Vector2<Fixed> originalTargetDir = targetDir;
 //
 //    Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
 //    
@@ -334,10 +343,10 @@ void FFClamp( Fixed &f, unsigned long long clamp )
 
 void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude )
 {
-    World::SanitizeTargetLongitude( m_longitude, m_targetLongitude );
+    World::SanitiseTargetLongitude( m_longitude, m_targetLongitude );
 
-    Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-                                Vector3<Fixed>( m_longitude, m_latitude, 0 ));
+    Direction targetDir = (Direction( m_targetLongitude, m_targetLatitude ) -
+                           Direction( m_longitude, m_latitude ));
     
     Fixed distanceSquared = targetDir.MagSquared();
 
@@ -360,12 +369,12 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
                 targetDir.y = 0;
             }
 
-            // make sure the "don't turn too soon" code doens't get triggered
+            // make sure the "don't turn too soon" code doesn't get triggered
             distanceSquared = 100000000;
         }
         else
         {
-            // already going back in enoug; go straight
+            // already going back in enough; go straight
             distanceSquared = 0;
         }
     }
@@ -373,7 +382,7 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
     if( distanceSquared > 0 )
     {
-        targetDir.Normalise();
+        targetDir /= sqrt(distanceSquared );
 
         Fixed dotProduct = targetDir * m_vel;
         Fixed factor1 = m_turnRate * timePerUpdate / 10;
@@ -381,7 +390,7 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
         if( dotProduct < 0 )
         {
             Fixed turnRadius = m_speed / m_turnRate;
-            if( distanceSquared < turnRadius * turnRadius )
+            if( m_movementType == MovementTypeAir && distanceSquared < turnRadius * turnRadius )
             {
                 // target is not too far behind us, go straight for a bit so we can
                 // actually make the turn.
@@ -447,7 +456,7 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
 bool MovingObject::MoveToWaypoint()
 {
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
-    m_range -= Vector3<Fixed>( m_vel.x * Fixed(timePerUpdate), m_vel.y * Fixed(timePerUpdate), 0 ).Mag();
+    m_range -= Vector2<Fixed>( m_vel.x * Fixed(timePerUpdate), m_vel.y * Fixed(timePerUpdate) ).Mag();
     if( m_targetLongitude != 0 &&
         m_targetLatitude != 0 )
     {
@@ -654,17 +663,17 @@ void MovingObject::RenderHistory()
 
     if( m_history.Size() > 0 )
     {
-        Vector3<float> lastPos( predictedLongitude, predictedLatitude, 0 );
+        Vector2<float> lastPos( predictedLongitude, predictedLatitude );
 
         for( int i = 0; i < maxSize; ++i )
         {
-            Vector3<float> historyPos, thisPos;
-			thisPos = historyPos = *m_history[i];
+            Vector2<float> const & historyPos = m_history[i];
+			Vector2<float> thisPos = historyPos;
 
             if( lastPos.x < -170 && thisPos.x > 170 )       thisPos.x = -180 - ( 180 - thisPos.x );        
             if( lastPos.x > 170 && thisPos.x < -170 )       thisPos.x = 180 + ( 180 - fabs(thisPos.x) );        
 
-            Vector3<float> diff = thisPos - lastPos;
+            Vector2<float> diff = thisPos - lastPos;
             lastPos += diff * 0.1f;
             colour.m_a = 255 - 255 * (float) i / (float) maxSize;
             
@@ -735,8 +744,43 @@ void MovingObject::RenderGhost( int teamId )
     }
 }
 
-void MovingObject::Land( int targetId )
+void MovingObject::Land( WorldObject * target )
 {
+    if( target )
+    {
+        Fixed  interceptLongitude, interceptLatitude;
+        GetInterceptionPoint( target, &interceptLongitude, &interceptLatitude );
+
+        if( RoomInside( target, m_type ) <= 0 )
+        {
+            // get distance
+            Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, interceptLongitude, interceptLatitude );
+            // landing pad is full. Just go towards there, but don't land.
+            Fixed middleLongitude = (m_longitude+interceptLongitude)/2;
+            Fixed middleLatitude =  (m_latitude+interceptLatitude)/2;
+
+            if( distance*2 > m_range+5 )
+            {
+                // we're kind of far away still, go directly
+                SetWaypoint( middleLongitude, middleLatitude );
+            }
+            else
+            {
+                // we're close. muck about a little.
+                Fixed range = m_range/16+distance/16+5;
+                SetWaypoint( middleLongitude + range*(syncfrand(2)-1), middleLatitude + range*(syncfrand(2)-1) );
+            }
+        }
+        else
+        {
+            SetWaypoint( interceptLongitude, interceptLatitude );
+            m_isLanding = target;
+        }
+    }
+    else
+    {
+        m_isLanding = -1;
+    }
 }
 
 void MovingObject::ClearWaypoints()
@@ -793,33 +837,52 @@ void MovingObject::AutoLand()
 {
     if( m_isLanding == -1 )
     {
-        int target = GetClosestLandingPad();
+        WorldObject * landingPad = GetClosestLandingPad();
 
-        if( target != -1 )
+        if( landingPad )
         {
-            WorldObject *landingPad = g_app->GetWorld()->GetWorldObject(target);
             if( m_range - 15 < g_app->GetWorld()->GetDistance( m_longitude, m_latitude, landingPad->m_longitude, landingPad->m_latitude) )
             {
-                Land( target );
+                Land( landingPad );
             }
         }
     }
 }
 
-
-int MovingObject::GetClosestLandingPad()
+bool MovingObject::GetClosestLandingPad( BoundedArray<int> const & alreadyLanding, BoundedArray<int> const & alreadyLandingWantingNukes, Fixed const & turnRadius, WorldObject * & goFor, WorldObject * & nearestNonViable )
 {
-    int nearestId = -1;
-    int nearestWithNukesId = -1;
-
+    WorldObject * nearest = NULL;
     Fixed nearestSqd = Fixed::MAX;
-    Fixed nearestWithNukesSqd = Fixed::MAX;
+
+    nearestNonViable = NULL;
+    Fixed nearestNonViableDistSqd = Fixed::MAX;
+    int nearestNonViableRoom = -100;
+
+    // take into account that we may need to turn around
+    Fixed range = m_range - turnRadius;
+    Fixed turnLongitude = m_longitude + m_vel.x * turnRadius;
+    Fixed turnLatitude  = m_latitude  + m_vel.y * turnRadius;
+
+    // for the nearest nuke supply, prefer larger supplies and don't look further than
+    // our remaining fuel range
+    Fixed rangeSqd = range * range;
+    WorldObject * nearestWithNukes = NULL;
+    Fixed nearestWithNukesSqd = rangeSqd;
+    int maxNukeSupply = 1;
 
     //
     // Look for any carrier or airbase with room
     // Favour objects with nukes if we are a bomber
+    
+    int maxI = g_app->GetWorld()->m_objects.Size();
 
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    // optimization hack exploiting that the object array never reassigns indices:
+    // we don't actually need to iterate over all objects, just the first few.
+    if( alreadyLanding.Size() < maxI )
+    {
+        maxI = alreadyLanding.Size();
+    }
+    for( int i = 0; i < maxI; ++i )
     {
         if( g_app->GetWorld()->m_objects.ValidIndex(i) )
         {
@@ -829,25 +892,66 @@ int MovingObject::GetClosestLandingPad()
                 if( obj->m_type == WorldObject::TypeCarrier ||
                     obj->m_type == WorldObject::TypeAirBase )
                 {
-                    int roomInside = 0;
-                    if( m_type == TypeFighter ) roomInside = obj->m_maxFighters - obj->m_states[0]->m_numTimesPermitted;
-                    if( m_type == TypeBomber ) roomInside = obj->m_maxBombers - obj->m_states[1]->m_numTimesPermitted;
+                    int roomInside = RoomInside( obj, m_type ) - alreadyLanding[obj->m_objectId];
 
+                    Fixed distSqd = g_app->GetWorld()->GetDistanceSqd( turnLongitude, turnLatitude, obj->m_longitude, obj->m_latitude );
                     if( roomInside > 0 )
                     {
-                        Fixed distSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
                         if( distSqd < nearestSqd )
                         {
                             nearestSqd = distSqd;
-                            nearestId = obj->m_objectId;
+                            nearest = obj;
                         }
 
-                        if( m_type == TypeBomber && 
-                            obj->m_nukeSupply > 0 &&
-                            distSqd < nearestWithNukesSqd )
+                        if( m_type == TypeBomber && obj->m_nukeSupply > 0 )
                         {
-                            nearestWithNukesSqd = distSqd;
-                            nearestId = obj->m_objectId;
+                            // must be an airbase or carrier
+                            AppAssert( obj->m_type == TypeCarrier || obj->m_type == TypeAirBase );
+
+                            // get nukes left to distribute: nukes minus bombers
+                            int nukesLeft = obj->m_nukeSupply - obj->m_states[1]->m_numTimesPermitted - alreadyLandingWantingNukes[obj->m_objectId];
+
+                            // closer is better, more nukes is even better
+                            if ( ( distSqd < nearestWithNukesSqd && nukesLeft >= maxNukeSupply ) ||
+                                 ( distSqd < rangeSqd && nukesLeft > maxNukeSupply ) ) 
+                            {
+                                nearestWithNukesSqd = distSqd;
+                                nearestWithNukes = obj;
+                                maxNukeSupply = nukesLeft;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // last ditch search
+                        bool better = false;
+                        
+                        // absolutely prefer objects in range
+                        bool newInRange = distSqd < range*range;
+                        bool oldInRange = nearestNonViableDistSqd < range*range;
+                        if( newInRange && !oldInRange )
+                        {
+                            better = true;
+                        }
+                        else if ( newInRange == oldInRange )
+                        {
+                            // prefer less overbooked spots
+                            if( roomInside > nearestNonViableRoom )
+                            {
+                                better = true;
+                            }
+                            else if( roomInside == nearestNonViableRoom )
+                            {
+                                // prefer closer spots
+                                better = distSqd < nearestNonViableDistSqd;
+                            }
+                        }
+
+                        if ( better )
+                        {
+                            nearestNonViableDistSqd = distSqd;
+                            nearestNonViable = obj;
+                            nearestNonViableRoom = roomInside;
                         }
                     }
                 }
@@ -855,36 +959,229 @@ int MovingObject::GetClosestLandingPad()
         }
     }
 
-    //
-    // Fighter - go for nearest landing pad
-
-    if( m_type == TypeFighter && 
-        nearestId != -1 )
-    {
-        return nearestId;
-    }
+    goFor = NULL;
 
     //
-    // Bomber - go for nearest with nukes if in range
+    // Bomber without nuke - go for nearest with nukes if in range
 
     if( m_type == TypeBomber && 
-        nearestWithNukesId != -1 &&
+        m_states[1]->m_numTimesPermitted == 0 &&
+        nearestWithNukes &&
         nearestWithNukesSqd < m_range * m_range )
     {
-        return nearestWithNukesId;
+        goFor = nearestWithNukes;
     }
 
     //
-    // Bomber - no nukes within range, so go for nearest
+    // Fighter or bomber with nuke or no nuke supply in range: go for nearest
 
-    if( m_type == TypeBomber &&
-        nearestId != -1 )
+    if( !goFor )
     {
-        return nearestId;
+        goFor = nearest;
     }
 
+    //
+    // Nothing found? Nothing at all? Shoot, go for the nearest whatever.
 
-    return -1;
+    if( !goFor )
+    {
+        goFor = nearestNonViable;
+    }
+
+    // 
+    // nothing at all? Give up.
+    if( !goFor )
+    {
+        return false;
+    }
+
+    // check whether we will have enough fuel to make it
+    Fixed fuelLeft = range - g_app->GetWorld()->GetDistance( turnLongitude, turnLatitude, goFor->m_longitude, goFor->m_latitude );
+
+    return fuelLeft > 0;
+}
+
+WorldObject * MovingObject::GetClosestLandingPad()
+{
+    World * world = g_app->GetWorld();
+
+    // overestimate turn radius it a tiny bit
+    // because planes don't exactly turn optimally
+    Fixed turnRadius = Fixed::Hundredths(110)*m_speed/m_turnRate;
+
+    // find the highest ID of a landing pad
+    int maxLandingPadId = 0;
+    for( int i = 0; i < world->m_objects.Size(); ++i )
+    {
+        if( world->m_objects.ValidIndex(i) )
+        {
+            WorldObject *obj = world->m_objects[i];
+            if( ( obj->m_type == TypeCarrier || obj->m_type == TypeAirBase ) && obj->m_teamId == m_teamId )
+            {
+                if( obj->m_objectId > maxLandingPadId )
+                {
+                    maxLandingPadId = obj->m_objectId;
+                }
+            }
+        }
+    }
+
+    // count how many other planes of this type are already landing on each platform
+    BoundedArray< int > alreadyLanding, alreadyLandingWantingNukes;
+    alreadyLanding.Initialise( maxLandingPadId+1 );
+    alreadyLanding.SetAll( 0 );
+    alreadyLandingWantingNukes.Initialise( maxLandingPadId+1 );
+    alreadyLandingWantingNukes.SetAll( 0 );
+
+    for( int i = 0; i < world->m_objects.Size(); ++i )
+    {
+        if( world->m_objects.ValidIndex(i) )
+        {
+            WorldObject *obj = world->m_objects[i];
+            if( obj != this && obj->m_type == m_type && obj->m_teamId == m_teamId )
+            {
+                MovingObject * mobj = dynamic_cast< MovingObject * >( obj );
+                AppAssert( mobj );
+                if( mobj->m_isLanding >= 0 )
+                {
+                    alreadyLanding[mobj->m_isLanding]++;
+                    if( mobj->m_type == TypeBomber && mobj->m_states[1]->m_numTimesPermitted == 0 )
+                    {
+                        alreadyLandingWantingNukes[mobj->m_isLanding]++;
+                    }
+                }
+            }
+        }
+    }
+
+    // delegate to core function
+    WorldObject * goFor;
+    WorldObject * nearestNonViable; // nearest pad, but it's already full
+    if( GetClosestLandingPad( alreadyLanding, alreadyLandingWantingNukes, turnRadius, goFor, nearestNonViable ) )
+    {
+        // it found a good spot for us, take it.
+        return goFor;
+    }
+    
+    // no. See if we can steal the landing spot from another plane.
+    MovingObject * victim= NULL;
+    Fixed maxScore = -Fixed::MAX;
+    WorldObject * victimEvade = NULL;
+    
+    for( int i = 0; i < world->m_objects.Size(); ++i )
+    {
+        if( world->m_objects.ValidIndex(i) )
+        {
+            WorldObject *obj = world->m_objects[i];
+            if( obj != this && obj->m_type == m_type && obj->m_teamId == m_teamId )
+            {
+                MovingObject * otherPlane = dynamic_cast< MovingObject * >( obj );
+                AppAssert( otherPlane );
+                
+                // is it landing? only then we can push it away.
+                if( otherPlane->m_isLanding >= 0 )
+                {
+                    // no need to recalculate turn radius, it's of the same type
+                    Fixed turnLongitude = otherPlane->m_longitude + otherPlane->m_vel.x * turnRadius;
+                    Fixed turnLatitude  = otherPlane->m_latitude  + otherPlane->m_vel.y * turnRadius;
+                    
+                    WorldObject *landing = world->GetWorldObject(otherPlane->m_isLanding);
+                    if( RoomInside( landing, m_type ) - alreadyLanding[landing->m_objectId] < 0 )
+                    {
+                        // overbooked already.
+                        continue;
+                    }
+                    
+                    // get distances to target
+                    Fixed distSqd = world->GetDistanceSqd( m_longitude, m_latitude, landing->m_longitude, landing->m_latitude );
+                    Fixed dist = sqrt(distSqd);
+                    Fixed otherDistSqd = world->GetDistanceSqd( turnLongitude, turnLatitude, landing->m_longitude, landing->m_latitude );
+
+                    Fixed otherDist = sqrt(otherDistSqd);
+
+                    // calculate other plane's fuel supply on landing
+                    Fixed otherFuel = otherPlane->m_range - turnRadius - otherDist;
+
+                    Fixed score = otherFuel - otherDist*Fixed::Hundredths(10);
+                    // Fixed score = -dist - otherDist*Fixed::Hundredths(1);
+
+                    if( m_type == TypeBomber )
+                    {
+                        if ( m_states[1]->m_numTimesPermitted > 0 )
+                        {
+                            // this bomber is carrying a nuke, but try to 
+                            // steal the landing spot from a no-nuke bomber. It presumably
+                            // hasn't selected an ideal landing spot anyway.
+                            score -= 1000 * otherPlane->m_states[1]->m_numTimesPermitted;
+                        }
+                        else
+                        {
+                            // this bomber has no nuke, the other has one. Don't pontentially
+                            // go waste a nuke, find another victim.
+                            if( otherPlane->m_states[1]->m_numTimesPermitted > 0 )
+                            {
+                                continue;
+                            }
+                        }
+                    }
+
+                    // early exit if the max score can't be beaten
+                    int evadeScore = 2000;
+                    if( maxScore > score + evadeScore )
+                    {
+                        continue;
+                    }
+                    // prefer planes that have a place to evade to
+                    WorldObject * evade = NULL;
+                    WorldObject * dummy;
+                    if( otherPlane->GetClosestLandingPad( alreadyLanding, alreadyLandingWantingNukes, turnRadius, evade, dummy ) )
+                    {
+                        score += evadeScore;
+                    }
+                    else
+                    {
+                        evade = NULL;
+                    }
+
+                    if( maxScore > score )
+                    {
+                        continue;
+                    }
+
+                    // calculate this plane's fuel supply pessimistically and our supply 
+                    // optimistically to avoid it stealing the spot right back
+                    Fixed ourFuelOptimistic = m_range - dist;
+                    
+                    // only steal spots if the other plane is better off than we are
+                    // and if we can save ourselves
+                    if( otherFuel > ourFuelOptimistic && ourFuelOptimistic > 0 )
+                    {
+                        maxScore = score;
+                        victim = otherPlane;
+                        victimEvade = evade;
+                    }
+                }
+            }
+        }
+    }
+
+    if( victim )
+    {
+        // found a victim. Tell it to bugger off and steal its spot.
+        goFor = world->GetWorldObject( victim->m_isLanding );
+        victim->ClearWaypoints();
+        if( victimEvade )
+        {
+            victim->Land( victimEvade );
+        }
+
+        return goFor;
+    }
+    else
+    {
+        // no landing spot free. Head for nearest base, hope it gets free when we get there.
+        return nearestNonViable;
+    }
 }
 
 
@@ -974,7 +1271,67 @@ int MovingObject::GetClosestLandingPad()
 //    return target;
 //}
 
-void MovingObject::Retaliate( int attackerId )
+// calculates the best target point to intercept the other object
+void MovingObject::GetInterceptionPoint( WorldObject *target, Fixed *interceptLongitude, Fixed *interceptLatitude )
+{
+    Fixed timeLimit = Fixed::MAX;
+    Direction targetVel = target->m_vel;
+
+    Fixed targetLongitude = target->m_longitude;
+    World::SanitiseTargetLongitude( m_longitude, targetLongitude );
+
+    Direction distance( targetLongitude - m_longitude, target->m_latitude - m_latitude );
+    
+    // we know exactly where a friendly object is heading
+    if( target->m_teamId == m_teamId && target->IsMovingObject() )
+    {
+        MovingObject * movingTarget = dynamic_cast< MovingObject * >( target );
+        AppAssert( movingTarget );
+        if ( movingTarget->m_targetLatitude != 0 || movingTarget->m_targetLongitude != 0 ) 
+        {
+            // assume it's going in a straight line at top speed
+            Fixed targetTargetLongitude = movingTarget->m_targetLongitude;
+            World::SanitiseTargetLongitude( targetLongitude, targetTargetLongitude );
+            targetVel.x = targetTargetLongitude - targetLongitude;
+            targetVel.y = movingTarget->m_targetLatitude - movingTarget->m_latitude;
+            Fixed distSqd = targetVel.MagSquared();
+            if( distSqd > 0 )
+            {
+                Fixed dist = sqrt( distSqd );
+                timeLimit = dist/movingTarget->m_speed;
+                targetVel /= timeLimit;
+            }
+            else
+            {
+                targetVel = target->m_vel;
+            }
+        }
+    }
+
+    Fixed targetSpeedSqd = targetVel.MagSquared();
+    Fixed thisSpeedSqd = m_speed*m_speed;
+    if( targetSpeedSqd >= thisSpeedSqd * Fixed::Hundredths(90) )
+    {
+        // clamp target speed, pretend we can catch up
+        targetSpeedSqd = thisSpeedSqd * Fixed::Hundredths(90);
+    }
+
+    // calculation of time to rendez-vous
+    Fixed dv = 1/(thisSpeedSqd - targetSpeedSqd);
+    Fixed dot = distance * targetVel;
+    Fixed p = dot*dv;
+    Fixed timeLeft = p + sqrt( p*p + distance.MagSquared()*dv );
+    if( timeLeft > timeLimit )
+    {
+        timeLeft = timeLimit;
+    }
+
+    // calculate position
+    *interceptLongitude = targetLongitude     + timeLeft*targetVel.x;
+    *interceptLatitude  = target->m_latitude  + timeLeft*targetVel.y;
+}
+
+void MovingObject::Retaliate( WorldObjectReference const & attackerId )
 {
     WorldObject *obj = g_app->GetWorld()->GetWorldObject( attackerId );
     if( obj && !g_app->GetWorld()->IsFriend( m_teamId, attackerId ) &&
@@ -1048,7 +1405,7 @@ void MovingObject::Ping()
                                 if( g_app->GetWorld()->IsFriend(team->m_teamId, m_teamId ) )
                                 {
                                     obj->m_lastSeenTime[team->m_teamId] = obj->m_ghostFadeTime;
-                                    obj->m_lastKnownPosition[team->m_teamId] = Vector3<Fixed>( obj->m_longitude, obj->m_latitude, 0 );                                    
+                                    obj->m_lastKnownPosition[team->m_teamId] = Vector2<Fixed>( obj->m_longitude, obj->m_latitude );                                    
                                     //obj->m_visible[team->m_teamId] = (obj->m_type != WorldObject::TypeSub );
                                     obj->m_seen[team->m_teamId] = true;
                                     obj->m_lastKnownVelocity[team->m_teamId].Zero();
@@ -1065,7 +1422,7 @@ void MovingObject::Ping()
                                 {
                                     m_seen[team->m_teamId] = true;
                                     m_lastSeenTime[team->m_teamId] = m_ghostFadeTime;
-                                    m_lastKnownPosition[team->m_teamId] = Vector3<Fixed>( m_longitude, m_latitude, 0 );
+                                    m_lastKnownPosition[team->m_teamId] = Vector2<Fixed>( m_longitude, m_latitude );
                                     m_lastKnownVelocity[team->m_teamId].Zero();
                                 }
                             }
@@ -1103,21 +1460,23 @@ void MovingObject::SetSpeed( Fixed speed )
 
 int MovingObject::GetTarget( Fixed range )
 {
+    World * world = g_app->GetWorld();
+
     LList<int> farTargets;
     LList<int> closeTargets;
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *obj = g_app->GetWorld()->m_objects[i];
+            WorldObject *obj = world->m_objects[i];
             if( obj->m_teamId != TEAMID_SPECIALOBJECTS )
             {
-                if( !g_app->GetWorld()->IsFriend( obj->m_teamId, m_teamId ) &&
-                    g_app->GetWorld()->GetAttackOdds( m_type, obj->m_type ) > 0 &&
+                if( !world->IsFriend( obj->m_teamId, m_teamId ) &&
+                    world->GetAttackOdds( m_type, obj->m_type ) > 0 &&
                     obj->m_visible[m_teamId] &&
-                    !g_app->GetWorld()->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ] )
+                    !world->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ] )
                 {
-                    Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
+                    Fixed distanceSqd = world->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
                     if( distanceSqd < GetActionRangeSqd() )
                     {
                         closeTargets.PutData(obj->m_objectId );
@@ -1158,9 +1517,11 @@ char *MovingObject::LogState()
     char targetLat[64];
     char seenTime[64];
 
+    World * world = g_app->GetWorld();
+
     static char s_result[10240];
     snprintf( s_result, 10240, "obj[%d] [%10s] team[%d] fleet[%d] long[%s] lat[%s] velX[%s] velY[%s] state[%d] target[%d] life[%d] timer[%s] retarget[%s] ai[%s] speed[%s] targetNode[%d] targetLong[%s] targetLat[%s]",
-                m_objectId,
+                (int)m_objectId,
                 GetName(m_type),
                 m_teamId,
                 m_fleetId,
@@ -1169,7 +1530,7 @@ char *MovingObject::LogState()
                 HashDouble( m_vel.x.DoubleValue(), velX ),
                 HashDouble( m_vel.y.DoubleValue(), velY ),
                 m_currentState,
-                m_targetObjectId,
+                (int)m_targetObjectId,
                 m_life,
                 HashDouble( m_stateTimer.DoubleValue(), timer ),
                 HashDouble( m_retargetTimer.DoubleValue(), retarget ),
@@ -1179,9 +1540,9 @@ char *MovingObject::LogState()
                 HashDouble( m_targetLongitude.DoubleValue(), targetLong ),
                 HashDouble( m_targetLatitude.DoubleValue(), targetLat ) );
 
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+    for( int i = 0; i < world->m_teams.Size(); ++i )
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
+        Team *team = world->m_teams[i];
         char thisTeam[512];
         sprintf( thisTeam, "\n\tTeam %d visible[%d] seen[%d] pos[%s %s] vel[%s %s] seen[%s] state[%d]",
             team->m_teamId,

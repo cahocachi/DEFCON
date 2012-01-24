@@ -12,7 +12,7 @@ protected:
     Fixed   m_speed;     
     Fixed   m_turnRate;
 
-    LList   <Vector3<Fixed> *> m_history;
+    LList   <Vector2<float> > m_history;
     Fixed   m_historyTimer;
     int     m_maxHistorySize;
 
@@ -38,7 +38,7 @@ public:
 
     Fixed   m_pathCalcTimer;
     bool    m_blockHistory;
-    int     m_isLanding;
+    WorldObjectReference m_isLanding;
 
 public:
     MovingObject();
@@ -62,15 +62,17 @@ public:
     virtual int     GetAttackState  ();
     virtual bool    IsIdle          ();
 
-    virtual void    Land            ( int targetId );
+    virtual void    Land            ( WorldObject * target );
 
     void            ClearWaypoints  ();
     void            AutoLand        ();
-    int             GetClosestLandingPad();
+    WorldObject *   GetClosestLandingPad();
+
+    void            GetInterceptionPoint( WorldObject *target, Fixed *interceptLongitude, Fixed *interceptLatitude );
 
     virtual int     IsValidMovementTarget( Fixed longitude, Fixed latitude );
 
-    virtual void    Retaliate       ( int attackerId );
+    virtual void    Retaliate       ( WorldObjectReference const & attackerId );
 
     void            Ping            ();
     void            SetSpeed        ( Fixed speed );
@@ -78,6 +80,9 @@ public:
     char            *LogState();
 
     virtual int     GetTarget( Fixed range );
+
+private:
+    bool            GetClosestLandingPad( BoundedArray<int> const & alreadyLanding, BoundedArray<int> const & alreadyLandingWantingNukes, Fixed const & turnRadius, WorldObject * & pad, WorldObject * & nearestNonViable );
 };
 
 /*
@@ -97,13 +102,13 @@ public:
     float   m_latitude;
     float   m_targetLongitude;
     float   m_targetLatitude;
-    Vector3 m_blipVel;
+    Vector2 m_blipVel;
     int     m_targetNodeId;
     int     m_currentNodeId;
     float   m_nodeCheckTimer;
     int     m_targetType;
 
-    LList   <Vector3 *> m_history;
+    LList   <Vector2 *> m_history;
     float   m_historyTimer;
 };
 */

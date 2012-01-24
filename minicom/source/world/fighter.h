@@ -13,7 +13,7 @@ public:
 public:
     Fighter();
 
-    void    Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
+    void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    Update          ();
     void    Render          ();
 
@@ -21,11 +21,13 @@ public:
 
     int     GetAttackState  ();
 
-    void    Land            ( int targetId );
     bool    UsingGuns       ();
     int     CountTargettedFighters( int targetId );
 
     int     IsValidCombatTarget( int _objectId );                                      // returns TargetType...
+
+    virtual void    Retaliate       ( WorldObjectReference const & attackerId );
+
     bool    SetWaypointOnAction();
 };
 

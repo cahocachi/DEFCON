@@ -61,7 +61,7 @@ bool GunFire::Update()
         if( m_longitude > -180 ||
             m_longitude < 180 )
         {
-            m_history.PutDataAtStart( new Vector3<Fixed>(m_longitude, m_latitude, 0) );
+            m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
             m_historyTimer = Fixed::Hundredths(10);
         }
     }
@@ -102,10 +102,10 @@ void GunFire::Render()
 
     for( int i = 1; i < m_history.Size(); ++i )
     {
-        Vector3<float> lastPos, thisPos;
+        Vector2<float> lastPos, thisPos;
 		
-		lastPos = *m_history[i-1];
-        thisPos = *m_history[i];
+		lastPos = m_history[i-1];
+        thisPos = m_history[i];
 
         if( lastPos.x < -170 && thisPos.x > 170 )
         {
@@ -117,17 +117,17 @@ void GunFire::Render()
             thisPos.x = 180 + ( 180 - fabs(thisPos.x) );
         }
 
-        Vector3<float> diff = thisPos - lastPos;        
+        Vector2<float> diff = thisPos - lastPos;        
         colour.m_a = 255 - 255 * (float) i / (float) maxSize;
         g_renderer->Line( lastPos.x, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
     }
 
     if( m_history.Size() > 0 )
     {
-        Vector3<float> lastPos, thisPos;
+        Vector2<float> lastPos, thisPos;
 		
-		lastPos = *m_history[ 0 ];
-        thisPos = Vector3<float>( predictedLongitude, predictedLatitude, 0 );
+		lastPos = m_history[ 0 ];
+        thisPos = Vector2<float>( predictedLongitude, predictedLatitude );
         
         if( lastPos.x < -170 && thisPos.x > 170 )
         {
@@ -179,7 +179,7 @@ bool GunFire::MoveToWaypoint()
     }
     else
     {
-        m_range -= Vector3<Fixed>( m_vel.x * Fixed(timePerUpdate), m_vel.y * Fixed(timePerUpdate), 0 ).Mag();
+        m_range -= Vector2<Fixed>( m_vel.x * Fixed(timePerUpdate), m_vel.y * Fixed(timePerUpdate) ).Mag();
         m_longitude = newLongitude;
         m_latitude = newLatitude;
         m_distanceToTarget -= Fixed(timePerUpdate) * m_vel.Mag();
@@ -190,11 +190,11 @@ bool GunFire::MoveToWaypoint()
 
 void GunFire::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude, Fixed *newDistance )
 {
-    Vector3<Fixed> targetDir = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-								Vector3<Fixed>( m_longitude, m_latitude, 0 )).Normalise();    
+    Direction targetDir = (Direction( m_targetLongitude, m_targetLatitude ) -
+                           Direction( m_longitude, m_latitude )).Normalise();    
     
-    Fixed distance = (Vector3<Fixed>( m_targetLongitude, m_targetLatitude, 0 ) -
-                      Vector3<Fixed>( m_longitude, m_latitude, 0 )).Mag();
+    Fixed distance = (Vector2<Fixed>( m_targetLongitude, m_targetLatitude ) -
+                      Vector2<Fixed>( m_longitude, m_latitude )).Mag();
     m_speed = distance / 48;
 
     Fixed minSpeed = Fixed::Hundredths(40) / g_app->GetWorld()->GetGameScale();
@@ -211,7 +211,6 @@ void GunFire::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude, Fix
     m_vel = ( targetDir * factor1 ) + ( m_vel * factor2 );
     m_vel.Normalise();
     m_vel *= m_speed;
-
 
     *newLongitude = m_longitude + m_vel.x * timePerUpdate;
     *newLatitude = m_latitude + m_vel.y * timePerUpdate;

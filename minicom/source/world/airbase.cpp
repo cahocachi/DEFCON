@@ -54,7 +54,7 @@ void AirBase::RequestAction(ActionOrder *_action)
 }
 
 
-void AirBase::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void AirBase::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {
@@ -90,6 +90,8 @@ void AirBase::Action( int targetObjectId, Fixed longitude, Fixed latitude )
 
 void AirBase::RunAI()
 {    
+    World * world = g_app->GetWorld();
+
     if( m_aiTimer <= 0 )
     {
         int trackSyncRand = g_preferences->GetInt( PREFS_NETWORKTRACKSYNCRAND );
@@ -100,17 +102,17 @@ void AirBase::RunAI()
             return;
         }
 
-        if( g_app->GetWorld()->GetDefcon() < 3 )
+        if( world->GetDefcon() < 3 )
         {
             Fixed aggressionDistance = 20;
-            aggressionDistance += 5 * g_app->GetWorld()->GetTeam(m_teamId)->m_aggression;
+            aggressionDistance += 5 * world->GetTeam(m_teamId)->m_aggression;
             if( aggressionDistance > 45 )
             {
                 aggressionDistance = 45;
             }
             
-            Team *team = g_app->GetWorld()->GetTeam( m_teamId );
-            if( g_app->GetWorld()->GetDefcon() > 1 &&
+            Team *team = world->GetTeam( m_teamId );
+            if( world->GetDefcon() > 1 &&
                 m_states[0]->m_numTimesPermitted > 2 &&
                 team->m_currentState == Team::StateScouting)
             {
@@ -120,20 +122,20 @@ void AirBase::RunAI()
                 }
                 for( int i = 0; i < World::NumTerritories; ++i )
                 {
-                    int owner = g_app->GetWorld()->GetTerritoryOwner(i);
-                    if( !g_app->GetWorld()->IsFriend(m_teamId, owner) )
+                    int owner = world->GetTerritoryOwner(i);
+                    if( !world->IsFriend(m_teamId, owner) )
                     {
-                        Fixed distSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, 
-                                                                           g_app->GetWorld()->m_populationCenter[i].x, 
-                                                                           g_app->GetWorld()->m_populationCenter[i].y );
+                        Fixed distSqd = world->GetDistanceSqd( m_longitude, m_latitude, 
+                                                                           world->m_populationCenter[i].x, 
+                                                                           world->m_populationCenter[i].y );
                         if( distSqd < 50 * 50 )
                         {
                             Fixed longitude = syncsfrand(40);
                             Fixed latitude  = syncsfrand(40);
 
                             ActionOrder *action = new ActionOrder;
-                            action->m_longitude = g_app->GetWorld()->m_populationCenter[i].x + longitude;
-                            action->m_latitude = g_app->GetWorld()->m_populationCenter[i].y + latitude;
+                            action->m_longitude = world->m_populationCenter[i].x + longitude;
+                            action->m_latitude = world->m_populationCenter[i].y + latitude;
                             RequestAction( action );
                             break;
                         }
@@ -170,11 +172,11 @@ void AirBase::RunAI()
                          event->m_type == Event::TypeEnemyIncursion ||
                          event->m_type == Event::TypeSubDetected ) )
                     {
-                        WorldObject *obj = g_app->GetWorld()->GetWorldObject( event->m_objectId );
+                        WorldObject *obj = world->GetWorldObject( event->m_objectId );
                         if( obj &&
-                            !g_app->GetWorld()->IsFriend( m_teamId, obj->m_teamId ) &&                            
+                            !world->IsFriend( m_teamId, obj->m_teamId ) &&                            
                             team->CountTargettedUnits( obj->m_objectId ) < 3 &&
-                            g_app->GetWorld()->GetDistance( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) <= aggressionDistance )
+                            world->GetDistance( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) <= aggressionDistance )
                         {
                             if( obj->m_type == WorldObject::TypeFighter ||
                                 obj->m_type == WorldObject::TypeBomber )
@@ -234,15 +236,15 @@ void AirBase::RunAI()
                 FastDArray<int> targetList;
                 if( !eventFound )
                 {
-                    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+                    for( int i = 0; i < world->m_objects.Size(); ++i )
                     {
-                        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+                        if( world->m_objects.ValidIndex(i) )
                         {
-                            WorldObject *obj = g_app->GetWorld()->m_objects[i];
-                            if( !g_app->GetWorld()->IsFriend( m_teamId, obj->m_teamId ) &&
+                            WorldObject *obj = world->m_objects[i];
+                            if( !world->IsFriend( m_teamId, obj->m_teamId ) &&
                                 obj->IsMovingObject() &&
                                 obj->m_visible[m_teamId] &&
-                                g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) <= aggressionDistance * aggressionDistance )
+                                world->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) <= aggressionDistance * aggressionDistance )
                             {
                                 targetList.PutData( obj->m_objectId );
                             }
@@ -262,7 +264,7 @@ void AirBase::RunAI()
                         for( int i = 0; i < targetList.Size(); ++i )
                         {
                             int id = targetList[i];
-                            WorldObject *wobj = g_app->GetWorld()->GetWorldObject(id);
+                            WorldObject *wobj = world->GetWorldObject(id);
                             if( wobj )
                             {
                                 SyncRandLog( "Airbase target = %d [%s]", id, WorldObject::GetName(wobj->m_type) );
@@ -276,7 +278,7 @@ void AirBase::RunAI()
 
                     int id = syncrand() % targetList.Size();
 
-                    WorldObject *obj = g_app->GetWorld()->GetWorldObject( targetList[id] );
+                    WorldObject *obj = world->GetWorldObject( targetList[id] );
                     if( obj )
                     {                        
                         ActionOrder *action = new ActionOrder;
@@ -289,7 +291,7 @@ void AirBase::RunAI()
                 }
                 else
                 {
-                    if( g_app->GetWorld()->GetDefcon() == 1 )
+                    if( world->GetDefcon() == 1 )
                     {
                         if( team->m_subState >= Team::SubStateLaunchBombers ||
                             team->m_currentState == Team::StatePanic )
@@ -366,7 +368,8 @@ bool AirBase::Update()
 
     if( m_states[0]->m_numTimesPermitted < 5 )
     {
-        m_fighterRegenTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+        World * world = g_app->GetWorld();
+        m_fighterRegenTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
         if( m_fighterRegenTimer <= 0 )
         {
             m_states[0]->m_numTimesPermitted ++;

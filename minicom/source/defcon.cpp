@@ -736,9 +736,22 @@ void HandleGameStart()
     }
 }
 
+class AppDestroyer
+{
+public:
+    AppDestroyer(){}
+    ~AppDestroyer()
+    {
+        delete g_app;
+        g_app = NULL;
+    }
+};
+
 void DefconMain()
 {
     g_app = new App();
+    AppDestroyer conanTheDestroyer; // make sure the app gets deleted no matter how we exit
+
     g_app->MinimalInit();
 
 	g_app->FinishInit();
@@ -922,14 +935,19 @@ void DefconMain()
             if( g_profiler ) g_profiler->Advance();
         }
     }
-	delete g_app;
-	g_app = NULL;
 }
 
 
 void AppMain()
 {
-    DefconMain();
+    try
+    {
+        DefconMain();
+    }
+    catch(App::Exit const & e)
+    {
+        // do nothing, exit cleanly
+    }
 }
 
 void AppShutdown()

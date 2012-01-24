@@ -667,8 +667,15 @@ public:
                     if( joinGame ) joinGame->MouseUp();
                     timeNow = 0.0f;
                 }
+                else
+                {
+                    sbw->m_doubleClickTimer = timeNow;
+                }
             }
-            sbw->m_doubleClickTimer = timeNow;
+            else
+            {
+                sbw->m_doubleClickTimer = timeNow;
+            }
         }
     }
 };
@@ -1015,9 +1022,6 @@ bool ServerBrowserWindow::ConnectToServer( Directory *_server, const char *_serv
         // If we are connected to an existing server, disconnect now
 
         g_app->ShutdownCurrentGame();
-        EclRemoveWindow( "LOBBY" );
-        EclRemoveWindow( "Server Browser" );
-        EclRemoveWindow( "Enter IP Manually" );
 
         //
         // Connect to the new server
@@ -1037,6 +1041,10 @@ bool ServerBrowserWindow::ConnectToServer( Directory *_server, const char *_serv
         ConnectingWindow *connectWindow = new ConnectingWindow();
         connectWindow->m_popupLobbyAtEnd = true;
         EclRegisterWindow( connectWindow );
+
+        EclRemoveWindow( "LOBBY" );
+        EclRemoveWindow( "Server Browser" );
+        EclRemoveWindow( "Enter IP Manually" );
     }
 
     return true;
@@ -1048,14 +1056,17 @@ bool ServerBrowserWindow::IsOurServer( char *_ip, int _port )
     //
     // WAN
 
-    char ourIp[256];
-    int ourPort;
-    g_app->GetServer()->GetIdentity( ourIp, &ourPort );
-    if( strcmp(ourIp,_ip) == 0 && ourPort == _port ) 
     {
-        return true;
+        char ourIp[256];
+        int ourPort;
+        if( g_app->GetServer()->GetIdentity( ourIp, &ourPort ) )
+        {
+            if( strcmp(ourIp,_ip) == 0 && ourPort == _port ) 
+            {
+                return true;
+            }
+        }
     }
-
 
     //
     // LAN
@@ -1090,6 +1101,12 @@ bool ServerBrowserWindow::IsOurServer( char *_ip, int _port )
 ServerBrowserWindow::~ServerBrowserWindow()
 {
     g_app->GetClientToServer()->StopIdentifying();
+
+    if( m_serverList )
+    {
+        m_serverList->EmptyAndDelete();
+        delete m_serverList;
+    }
 }
 
 

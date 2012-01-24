@@ -77,8 +77,8 @@ WorldObject::WorldObject()
     {
         m_seen.SetAll( false );
         m_visible.SetAll( false );
-        m_lastKnownPosition.SetAll( Vector3<Fixed>::ZeroVector() );
-        m_lastKnownVelocity.SetAll( Vector3<Fixed>::ZeroVector() );
+        m_lastKnownPosition.SetAll( Vector2<Fixed>::ZeroVector() );
+        m_lastKnownVelocity.SetAll( Direction::ZeroVector() );
         m_lastSeenTime.SetAll( 0 );
         m_lastSeenState.SetAll( 0 );
     }
@@ -176,9 +176,12 @@ Fixed WorldObject::GetRadarRange ()
 }
 
 
-void WorldObject::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void WorldObject::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
-    m_stateTimer = m_states[m_currentState]->m_timeToReload;
+    if( IsActionQueueable() )
+    {
+        m_stateTimer = m_states[m_currentState]->m_timeToReload;
+    }
 
     WorldObjectState *currentState = m_states[m_currentState];
     if( currentState->m_numTimesPermitted != -1 &&
@@ -229,7 +232,7 @@ void WorldObject::SetState( int state )
         WorldObjectState *theState = m_states[state];
         m_currentState = state;
         m_stateTimer = theState->m_timeToPrepare;
-        m_actionQueue.Empty();
+        m_actionQueue.EmptyAndDelete();
         m_targetObjectId = -1;
     }
 }
@@ -237,10 +240,12 @@ void WorldObject::SetState( int state )
 
 bool WorldObject::Update()
 {    
+    World * world = g_app->GetWorld();
+
     // forget target if it went invisible
     if( m_targetObjectId >= 0 )
     {
-        WorldObject *obj = g_app->GetWorld()->GetWorldObject( m_targetObjectId );
+        WorldObject *obj = world->GetWorldObject( m_targetObjectId );
         if( !obj || !obj->m_visible[ m_teamId ] )
         {
             m_targetObjectId = -1;
@@ -249,30 +254,29 @@ bool WorldObject::Update()
 
     if( m_stateTimer > 0 )
     {
-        m_stateTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+        m_stateTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
         if( m_stateTimer <= 0 )
         {
             m_stateTimer = 0;
             
-            //if( m_teamId == g_app->GetWorld()->m_myTeamId &&
+            //if( m_teamId == world->m_myTeamId &&
             //    m_type != TypeNuke )
             {
-                //g_app->GetWorld()->AddWorldMessage( m_objectId, m_teamId,
+                //world->AddWorldMessage( m_objectId, m_teamId,
                 //    m_states[m_currentState]->GetReadyName(), WorldMessage::TypeObjectState,false );                
             }
         }
     }
 
-    if( m_stateTimer <= 0 )
     {
-        if( m_actionQueue.Size() > 0 )
+        while( ( m_stateTimer <= 0 || !IsActionQueueable() ) && m_actionQueue.Size() > 0 )
         {
             ActionOrder *action = m_actionQueue[0];
             Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );
 
             if( action->m_targetObjectId == -1 )
             {
-                //Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+                //Fleet *fleet = world->GetTeam( m_teamId )->GetFleet( m_fleetId );
                 //if( fleet )
                 {
                     //fleet->StopFleet();
@@ -280,10 +284,10 @@ bool WorldObject::Update()
             }
             else if( action->m_pursueTarget )
             {
-                Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+                Fleet *fleet = world->GetTeam( m_teamId )->GetFleet( m_fleetId );
                 if( fleet )
                 {
-                    MovingObject *obj = (MovingObject *)g_app->GetWorld()->GetWorldObject( action->m_targetObjectId );
+                    MovingObject *obj = (MovingObject *)world->GetWorldObject( action->m_targetObjectId );
                     if( obj &&
                         obj->IsMovingObject() )
                     {
@@ -304,20 +308,20 @@ bool WorldObject::Update()
     if( m_currentState != m_previousState )
     {
         m_previousState = m_currentState;
-        if( m_teamId == g_app->GetWorld()->m_myTeamId &&
+        if( m_teamId == world->m_myTeamId &&
             m_stateTimer > 0 )
         {
-            //g_app->GetWorld()->AddWorldMessage( m_objectId, m_teamId,
+            //world->AddWorldMessage( m_objectId, m_teamId,
             //    m_states[m_currentState]->GetPreparingName(), WorldMessage::TypeObjectState, false );                                   
         }
     }
         
-    for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i ) 
+    for( int i = 0; i < world->m_teams.Size(); ++i ) 
     {
-        Team *team = g_app->GetWorld()->m_teams[i];
+        Team *team = world->m_teams[i];
         if(m_visible[team->m_teamId])
         {
-            m_lastKnownPosition[team->m_teamId] = Vector3<Fixed>( m_longitude, m_latitude, 0 );
+            m_lastKnownPosition[team->m_teamId] = Vector2<Fixed>( m_longitude, m_latitude );
             m_lastKnownVelocity[team->m_teamId] = m_vel;
             m_lastSeenTime[team->m_teamId] = m_ghostFadeTime;
             m_lastSeenState[team->m_teamId] = m_currentState;
@@ -329,15 +333,15 @@ bool WorldObject::Update()
         float realTimeNow = GetHighResTime();
         if( realTimeNow > m_nukeCountTimer )
         {
-            g_app->GetWorld()->GetNumNukers( m_objectId, &m_numNukesInFlight, &m_numNukesInQueue );
+            world->GetNumNukers( m_objectId, &m_numNukesInFlight, &m_numNukesInQueue );
             m_nukeCountTimer = realTimeNow + 2.0f;
         }
     }
 
-    m_aiTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+    m_aiTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
     if( m_retargetTimer > 0 )
     {
-        m_retargetTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+        m_retargetTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
         m_retargetTimer = max( m_retargetTimer, 0 );
     }
 
@@ -345,7 +349,7 @@ bool WorldObject::Update()
     {
         if( m_fleetId != -1 )
         {
-            Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+            Fleet *fleet = world->GetTeam( m_teamId )->GetFleet( m_fleetId );
             if( fleet )
             {
                 fleet->m_lastHitByTeamId.PutData( m_lastHitByTeamId );
@@ -400,16 +404,16 @@ void WorldObject::Render ()
     // Current selection?
 
     colour.Set(255,255,255,255);
-    int selectionId = g_app->GetMapRenderer()->GetCurrentSelectionId();
+    WorldObject *selection = g_app->GetWorld()->GetWorldObject(g_app->GetMapRenderer()->GetCurrentSelectionId());
+    
     for( int i = 0; i < 2; ++i )
     {
         if( i == 1 )
         {
-            int highlightId = g_app->GetMapRenderer()->GetCurrentHighlightId();
-            if( highlightId == selectionId ) break;
-            selectionId = highlightId;
+            WorldObject* highlight = g_app->GetWorld()->GetWorldObject(g_app->GetMapRenderer()->GetCurrentHighlightId());
+            if( highlight == selection ) break;
+            selection = highlight;
         }
-        WorldObject *selection = g_app->GetWorld()->GetWorldObject(selectionId);
 
         if( selection )
         {
@@ -655,7 +659,7 @@ bool WorldObject::UsingNukes()
     return false;
 }
 
-void WorldObject::Retaliate( int attackerId )
+void WorldObject::Retaliate( WorldObjectReference const & attackerId )
 {
 }
 
@@ -677,6 +681,7 @@ void WorldObject::FireGun( Fixed range )
     bullet->m_distanceToTarget = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude );
     bullet->m_attackOdds = g_app->GetWorld()->GetAttackOdds( m_type, targetObject->m_type, m_objectId );
     g_app->GetWorld()->m_gunfire.PutData( bullet );
+    m_stateTimer = m_states[ m_currentState ]->m_timeToReload;
 }
 
 int WorldObject::GetAttackOdds( int _defenderType )
@@ -721,7 +726,7 @@ void WorldObject::ClearLastAction()
     }
 }
 
-void WorldObject::SetTargetObjectId( int targetObjectId )
+void WorldObject::SetTargetObjectId( WorldObjectReference const & targetObjectId )
 {
 	m_targetObjectId = targetObjectId;
 }
@@ -731,11 +736,11 @@ int WorldObject::GetTargetObjectId()
     return m_targetObjectId;
 }
 
-void WorldObject::FleetAction( int targetObjectId )
+void WorldObject::FleetAction( WorldObjectReference const & targetObjectId )
 {
 }
 
-bool WorldObject::LaunchBomber( int targetObjectId, Fixed longitude, Fixed latitude )
+bool WorldObject::LaunchBomber( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     Bomber *bomber = new Bomber();
     bomber->SetTeamId( m_teamId );
@@ -798,8 +803,9 @@ bool WorldObject::LaunchBomber( int targetObjectId, Fixed longitude, Fixed latit
     return true;
 }
 
-bool WorldObject::LaunchFighter( int targetObjectId, Fixed longitude, Fixed latitude )
+bool WorldObject::LaunchFighter( WorldObjectReference const & _targetObjectId, Fixed longitude, Fixed latitude )
 {
+    WorldObjectReference targetObjectId = _targetObjectId;
     if( targetObjectId >= OBJECTID_CITYS )
     {
         targetObjectId = -1;
@@ -934,6 +940,14 @@ bool WorldObject::SetWaypointOnAction()
 
 static char tempStateName[256];
 
+WorldObjectState::~WorldObjectState()
+{
+    if( m_stateName )
+    {
+        free( m_stateName );
+    }
+}
+
 char *WorldObjectState::GetStateName()
 {
     sprintf( tempStateName, "%s", m_stateName );
@@ -985,7 +999,7 @@ char *WorldObject::LogState()
 
     static char s_result[10240];
     snprintf( s_result, 10240, "obj[%d] [%10s] team[%d] fleet[%d] long[%s] lat[%s] velX[%s] velY[%s] state[%d] target[%d] life[%d] timer[%s] retarget[%s] ai[%s]",
-                m_objectId,
+                (int) m_objectId,
                 GetName(m_type),
                 m_teamId,
                 m_fleetId,
@@ -994,7 +1008,7 @@ char *WorldObject::LogState()
                 HashDouble( m_vel.x.DoubleValue(), buf3 ),
                 HashDouble( m_vel.y.DoubleValue(), buf4 ),
                 m_currentState,
-                m_targetObjectId,
+                (int) m_targetObjectId,
                 m_life,
                 HashDouble( m_stateTimer.DoubleValue(), buf5 ),
                 HashDouble( m_retargetTimer.DoubleValue(), buf6 ),

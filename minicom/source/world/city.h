@@ -17,6 +17,7 @@ public:
     
 public:    
     City();
+    ~City();
     
     bool    Update();
     bool    NuclearStrike( int causedBy, Fixed intensity, Fixed range, bool directHitPossible );

@@ -41,7 +41,7 @@ Fighter::Fighter()
 }
 
 
-void Fighter::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Fighter::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {   
     m_targetObjectId = -1;
 
@@ -84,13 +84,13 @@ bool Fighter::Update()
                 if( targetObject->m_type == WorldObject::TypeCarrier ||
                     targetObject->m_type == WorldObject::TypeAirBase )
                 {
-                    Land( m_targetObjectId );
+                    Land( targetObject );
                 }
                 m_targetObjectId = -1;
             }
             else
             {
-                if( !m_isRetaliating )
+                if( m_targetLongitude == 0 && m_targetLatitude == 0 )
                 {
                     SetWaypoint( targetObject->m_lastKnownPosition[m_teamId].x, 
                                  targetObject->m_lastKnownPosition[m_teamId].y );
@@ -114,7 +114,6 @@ bool Fighter::Update()
                         if( distanceSqd <= GetActionRangeSqd() )
                         {
                             FireGun( GetActionRange() );
-                            m_stateTimer = m_states[ m_currentState ]->m_timeToReload;
                         }
                     }
                     else
@@ -147,15 +146,20 @@ bool Fighter::Update()
         }
     }
 
-    if( IsIdle() )
+    if( m_targetObjectId == -1 && m_retargetTimer <= 0 )
     {
+        m_retargetTimer = 10;
         WorldObject *obj = g_app->GetWorld()->GetWorldObject( GetTarget( ( m_range < 40 ) ? m_range : 40 ) );
         if( obj )
         {
-            SetWaypoint( obj->m_longitude, obj->m_latitude );
+            // follow object if there are no other orders
+            if( IsIdle() )
+            {
+                SetWaypoint( obj->m_longitude, obj->m_latitude );
+            }
             m_targetObjectId = obj->m_objectId;
         }
-        else
+        else if( IsIdle() )
         {
             Land( GetClosestLandingPad() );
         }
@@ -195,17 +199,6 @@ void Fighter::RunAI()
 int Fighter::GetAttackState()
 {
     return 0;
-}
-
-
-void Fighter::Land( int targetId )
-{
-    WorldObject *target = g_app->GetWorld()->GetWorldObject(targetId);
-    if( target )
-    {
-        SetWaypoint( target->m_longitude, target->m_latitude );
-        m_isLanding = targetId;
-    }
 }
 
 bool Fighter::UsingGuns()
@@ -253,6 +246,10 @@ int Fighter::IsValidCombatTarget( int _objectId )
     return MovingObject::IsValidCombatTarget( _objectId );
 }
 
+void Fighter::Retaliate( WorldObjectReference const & attackerId )
+{
+    // fighters are expendable and never retaliate
+}
 
 bool Fighter::SetWaypointOnAction()
 {

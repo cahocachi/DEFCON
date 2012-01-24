@@ -88,7 +88,7 @@ PreferencesItem::PreferencesItem(char *_line)
 		m_str = newStr(value);
 
         int len = strlen(m_str);
-        if( m_str[len-1] == '\n' || m_str[len-1] == '\r' ) 
+        if( len > 0 && ( m_str[len-1] == '\n' || m_str[len-1] == '\r' ) ) 
         {
             m_str[len-1] = '\x0';
         }
@@ -106,6 +106,7 @@ PreferencesItem::PreferencesItem(char *_key, char *_str)
 
 PreferencesItem::PreferencesItem(char *_key, float _float)
 :	m_type(TypeFloat),
+    m_str(NULL),
 	m_float(_float)
 {
 	m_key = newStr(_key);
@@ -114,6 +115,7 @@ PreferencesItem::PreferencesItem(char *_key, float _float)
 
 PreferencesItem::PreferencesItem(char *_key, int _int)
 :	m_type(TypeInt),
+    m_str(NULL),
 	m_int(_int)
 {
 	m_key = newStr(_key);
@@ -426,20 +428,20 @@ void Preferences::AddLine(char *_line)
 		{
 			c[0] = '\0';
 		}
-		PreferencesItem *item = new PreferencesItem(localCopy);
+		PreferencesItem item(localCopy);
 		//m_items.PutData(item->m_key, item);
 
-        if( !DoesKeyExist(item->m_key) )
+        if( !DoesKeyExist(item.m_key) )
         {
   	        char *lineCopy = newStr(_line);
             m_fileText.PutData(lineCopy);
         }
 
-        switch( item->m_type )
+        switch( item.m_type )
         {
-            case PreferencesItem::TypeInt:      SetInt( item->m_key, item->m_int );         break;
-            case PreferencesItem::TypeFloat:    SetFloat( item->m_key, item->m_float );     break;
-            case PreferencesItem::TypeString:   SetString( item->m_key, item->m_str );      break;
+            case PreferencesItem::TypeInt:      SetInt( item.m_key, item.m_int );         break;
+            case PreferencesItem::TypeFloat:    SetFloat( item.m_key, item.m_float );     break;
+            case PreferencesItem::TypeString:   SetString( item.m_key, item.m_str );      break;
         }
 	}  
     else

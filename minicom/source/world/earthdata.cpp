@@ -15,6 +15,12 @@ EarthData::EarthData()
 {
 }
 
+EarthData::~EarthData()
+{
+    m_borders.EmptyAndDelete();
+    m_cities.EmptyAndDelete();
+    m_islands.EmptyAndDelete();
+}
 
 void EarthData::Initialise()
 {        
@@ -52,7 +58,7 @@ void EarthData::LoadBorders()
         {
             float longitude, latitude;
             sscanf( line, "%f %f", &longitude, &latitude );
-            island->m_points.PutData( new Vector3<float>( longitude, latitude, 0.0f ) );
+            island->m_points.PutData( Vector2<float>( longitude, latitude ) );
         }
     }
     
@@ -164,7 +170,7 @@ void EarthData::LoadCoastlines()
         {
             float longitude, latitude;
             sscanf( line, "%f %f", &longitude, &latitude );
-            island->m_points.PutData( new Vector3<float>( longitude, latitude, 0.0f ) );            
+            island->m_points.PutData( Vector2<float>( longitude, latitude ) );            
         }
     }
 
@@ -172,4 +178,8 @@ void EarthData::LoadCoastlines()
 
     double totalTime = GetHighResTime() - startTime;
     AppDebugOut( "Parsing Coastline data (%d islands) : %dms\n", numIslands, int( totalTime * 1000.0f ) );
+}
+
+Island::~Island()
+{
 }

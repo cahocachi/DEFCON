@@ -113,9 +113,13 @@ bool Team::IsValidName( char *name )
 	return len <= MAX_TEAM_NAME && !isBlank;
 }
 
-Colour Team::GetTeamColour()
+void Team::UpdateTeamColour()
 {
-    if( m_allianceId == -1 ) return DarkGray;
+    if( m_allianceId == -1 ) 
+    {
+        m_teamColour = DarkGray;
+        return;
+    }
     
     Colour allianceColour = g_app->GetWorld()->GetAllianceColour( m_allianceId );
 
@@ -131,7 +135,7 @@ Colour Team::GetTeamColour()
         allianceColour.m_b *= 0.5;
     }       
            
-    return allianceColour;
+    m_teamColour = allianceColour;
     
 
 //    int fadedColour = 100 + 100 * m_teamColourFader;
@@ -185,12 +189,14 @@ char *Team::GetTeamName()
 
 int Team::GetRemainingPopulation()
 {
+    World * world = g_app->GetWorld();
+
     int pop = 0;
-    for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
+    for( int i = 0; i < world->m_cities.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_cities.ValidIndex(i) )
+        if( world->m_cities.ValidIndex(i) )
         {
-            City *city = g_app->GetWorld()->m_cities[i];
+            City *city = world->m_cities[i];
             if( city->m_teamId == m_teamId )
             {
                 pop += city->m_population;
@@ -205,6 +211,8 @@ int Team::GetRemainingPopulation()
 int Team::GetPlacementPriority()
 {
     Fixed gameScale = World::GetGameScale();
+
+    World * world = g_app->GetWorld();
 
     int territoriesPerTeam = g_app->GetGame()->GetOptionValue("TerritoriesPerTeam");
 
@@ -243,13 +251,13 @@ int Team::GetPlacementPriority()
     if( m_unitCredits > 0 &&
         g_app->GetGame()->GetOptionValue("VariableUnitCounts") == 1)
     {
-        if( m_unitCredits >= g_app->GetWorld()->GetUnitValue( WorldObject::TypeSilo ) )
+        if( m_unitCredits >= world->GetUnitValue( WorldObject::TypeSilo ) )
             return WorldObject::TypeSilo;
 
-        if( m_unitCredits >= g_app->GetWorld()->GetUnitValue( WorldObject::TypeAirBase ) )
+        if( m_unitCredits >= world->GetUnitValue( WorldObject::TypeAirBase ) )
             return WorldObject::TypeAirBase;
 
-        if( m_unitCredits >= g_app->GetWorld()->GetUnitValue( WorldObject::TypeRadarStation) )
+        if( m_unitCredits >= world->GetUnitValue( WorldObject::TypeRadarStation) )
             return WorldObject::TypeRadarStation;
     }
 
@@ -284,7 +292,10 @@ void Team::CheckPanicState()
 void Team::RunAI()
 {
     START_PROFILE("TeamAI");
-    if( g_app->GetWorld()->GetTimeScaleFactor() == 0 )
+
+    World * world = g_app->GetWorld();
+
+    if( world->GetTimeScaleFactor() == 0 )
     {
         END_PROFILE("TeamAI");
         return;
@@ -296,10 +307,10 @@ void Team::RunAI()
     if( m_targetTeam == -1 )
     {
         LList<int> validTargetTeams;
-        for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+        for( int i = 0; i < world->m_teams.Size(); ++i )
         {
-            int teamId = g_app->GetWorld()->m_teams[i]->m_teamId;
-            if( !g_app->GetWorld()->IsFriend( m_teamId, teamId ) )
+            int teamId = world->m_teams[i]->m_teamId;
+            if( !world->IsFriend( m_teamId, teamId ) )
             {
                 validTargetTeams.PutData(teamId);
             }
@@ -313,24 +324,24 @@ void Team::RunAI()
     }
 
 
-    Team *targetTeam = g_app->GetWorld()->GetTeam( m_targetTeam );
+    Team *targetTeam = world->GetTeam( m_targetTeam );
     if( targetTeam )
     {
         int populationThreshold = g_app->GetGame()->GetOptionValue( "PopulationPerTerritory" ) * 
                                   g_app->GetGame()->GetOptionValue( "TerritoriesPerTeam" ) * 1000000 * 0.25f;
         if( targetTeam->GetRemainingPopulation() < populationThreshold )
         {
-            if( g_app->GetWorld()->m_teams.Size() > 2 )
+            if( world->m_teams.Size() > 2 )
             {
                 int oldTeam = m_targetTeam;
                 m_targetTeam = -1;
                 int pop = 0.0f;
-                for( int i = 0; i < g_app->GetWorld()->m_teams.Size(); ++i )
+                for( int i = 0; i < world->m_teams.Size(); ++i )
                 {
-                    Team *team = g_app->GetWorld()->m_teams[i];
-                    if( !g_app->GetWorld()->IsFriend( m_teamId, team->m_teamId ) )
+                    Team *team = world->m_teams[i];
+                    if( !world->IsFriend( m_teamId, team->m_teamId ) )
                     {
-                        int teamPop = g_app->GetWorld()->GetTeam(team->m_teamId)->GetRemainingPopulation();
+                        int teamPop = world->GetTeam(team->m_teamId)->GetRemainingPopulation();
                         if( teamPop > pop )
                         {
                             pop = teamPop;
@@ -360,13 +371,13 @@ void Team::RunAI()
     {
         m_validTargetPopulation = 0;
     }
-    m_aiAssaultTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+    m_aiAssaultTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
     if( m_currentState >= StateStrike )
     {
-        m_siloSwitchTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+        m_siloSwitchTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
     }
 
-    m_aiActionTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
+    m_aiActionTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor();
 
     if( m_aiActionTimer <= 0 )
     {
@@ -402,11 +413,11 @@ void Team::RunAI()
         //
         // Object AI 
         
-        for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+        for( int i = 0; i < world->m_objects.Size(); ++i )
         {
-            if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+            if( world->m_objects.ValidIndex(i) )
             {
-                WorldObject *obj = g_app->GetWorld()->m_objects[i];
+                WorldObject *obj = world->m_objects[i];
                 if( obj->m_teamId == m_teamId )
                 {
                     obj->RunAI();
@@ -424,6 +435,8 @@ void Team::RunAI()
 /////////////////////
 void Team::PlacementAI()
 {
+    World * world = g_app->GetWorld();
+
     int objectPriority = GetPlacementPriority();
     if( objectPriority != -1 )
     {
@@ -490,18 +503,18 @@ void Team::PlacementAI()
                 }
 
                 LList<int> validPointsList;
-                for( int i = 0; i < g_app->GetWorld()->m_aiPlacementPoints.Size(); ++i )
+                for( int i = 0; i < world->m_aiPlacementPoints.Size(); ++i )
                 {
-                    Vector3<Fixed> *point = g_app->GetWorld()->m_aiPlacementPoints[i];
-                    if( g_app->GetMapRenderer()->GetTerritory( point->x, point->y, true ) == m_teamId )
+                    Vector2<Fixed> const & point = world->m_aiPlacementPoints[i];
+                    if( g_app->GetMapRenderer()->GetTerritory( point.x, point.y, true ) == m_teamId )
                     {
                         //Fixed distance = Fixed::MAX;
                         //for( int j = 0; j < m_fleets.Size(); ++j )
                         //{
                         //    Fleet *fleet = GetFleet(j);
-                        //    if( g_app->GetWorld()->GetDistance( fleet->m_longitude, fleet->m_latitude, point->x, point->y ) < distance )
+                        //    if( world->GetDistance( fleet->m_longitude, fleet->m_latitude, point->x, point->y ) < distance )
                         //    {
-                        //        distance = g_app->GetWorld()->GetDistance( fleet->m_longitude, fleet->m_latitude, point->x, point->y );
+                        //        distance = world->GetDistance( fleet->m_longitude, fleet->m_latitude, point->x, point->y );
                         //    }
                         //}
                         //Fixed maxDistance = 2 / worldScale;
@@ -517,11 +530,11 @@ void Team::PlacementAI()
                 while( attempt > 0 && validPointsList.Size() )
                 {
                     int pointId = syncrand() % validPointsList.Size();
-                    Vector3<Fixed> *point = g_app->GetWorld()->m_aiPlacementPoints[ validPointsList[pointId]];
-                    Fixed longitude = point->x + syncsfrand(10);
-                    Fixed latitude = point->y + syncsfrand(10);
+                    Vector2<Fixed> const & point = world->m_aiPlacementPoints[ validPointsList[pointId]];
+                    Fixed longitude = point.x + syncsfrand(10);
+                    Fixed latitude = point.y + syncsfrand(10);
                     if( m_fleets[id]->ValidFleetPlacement(longitude, latitude) &&
-                        g_app->GetWorld()->GetClosestNode( longitude, latitude ) != -1 )
+                        world->GetClosestNode( longitude, latitude ) != -1 )
                     {
                         m_fleets[id]->PlaceFleet(longitude, latitude );    
                         success = true;
@@ -533,9 +546,9 @@ void Team::PlacementAI()
                 if( !success && validPointsList.Size() )
                 {
                     int pointId = syncrand() % validPointsList.Size();
-                    Vector3<Fixed> *point = g_app->GetWorld()->m_aiPlacementPoints[ validPointsList[pointId]];
-                    m_fleets[id]->PlaceFleet( point->x, point->y );
-                    AppDebugOut( "Failed to find good spot, fell back on %2.2f %2.2f\n", point->x.DoubleValue(), point->y.DoubleValue() );
+                    Vector2<Fixed> const & point = world->m_aiPlacementPoints[ validPointsList[pointId]];
+                    m_fleets[id]->PlaceFleet( point.x, point.y );
+                    AppDebugOut( "Failed to find good spot, fell back on %2.2f %2.2f\n", point.x.DoubleValue(), point.y.DoubleValue() );
                 }
             }
         }
@@ -552,7 +565,7 @@ void Team::PlacementAI()
                 {
                     if( GetUncoveredArea( objectPriority == WorldObject::TypeRadarStation, &longitude, &latitude) )
                     {
-                        g_app->GetWorld()->ObjectPlacement( m_teamId, objectPriority, longitude, latitude, 255 );
+                        world->ObjectPlacement( m_teamId, objectPriority, longitude, latitude, 255 );
                     }
                     else
                     {
@@ -571,10 +584,10 @@ void Team::PlacementAI()
                         }
                         Fixed newLong = longitude + syncsfrand(10);
                         Fixed newLat = latitude + syncsfrand(10);
-                        if( g_app->GetWorld()->IsValidPlacement( m_teamId, newLong, newLat, objectPriority ) &&
+                        if( world->IsValidPlacement( m_teamId, newLong, newLat, objectPriority ) &&
                             IsSafeLocation( newLong, newLat) )
                         {
-                            g_app->GetWorld()->ObjectPlacement( m_teamId, objectPriority, newLong, newLat, 255 );
+                            world->ObjectPlacement( m_teamId, objectPriority, newLong, newLat, 255 );
                             break;
                         }
                     }
@@ -604,10 +617,10 @@ void Team::PlacementAI()
                             }
                             Fixed newLong = longitude + syncsfrand(10);
                             Fixed newLat = latitude + syncsfrand(10);
-                            if( g_app->GetWorld()->IsValidPlacement( m_teamId, newLong, newLat, objectPriority ) &&
+                            if( world->IsValidPlacement( m_teamId, newLong, newLat, objectPriority ) &&
                                 IsSafeLocation( newLong, newLat) )
                             {
-                                g_app->GetWorld()->ObjectPlacement( m_teamId, objectPriority, newLong, newLat, 255 );
+                                world->ObjectPlacement( m_teamId, objectPriority, newLong, newLat, 255 );
                                 break;
                             }
                         }
@@ -631,27 +644,27 @@ void Team::PlacementAI()
                         
                         int randTerritory = syncrand() % World::NumTerritories;
                         int x = 0;
-                        while((g_app->GetWorld()->GetTerritoryOwner(randTerritory) == m_teamId ||
-                               g_app->GetWorld()->GetTerritoryOwner(randTerritory) == -1 ) &&
+                        while((world->GetTerritoryOwner(randTerritory) == m_teamId ||
+                               world->GetTerritoryOwner(randTerritory) == -1 ) &&
                                x < 20 )
                         {
                             randTerritory = syncrand() % World::NumTerritories;
                             x++;
                         }
                         
-                        if( g_app->GetWorld()->IsValidPlacement( m_teamId, longitude, latitude, objectPriority ) &&
+                        if( world->IsValidPlacement( m_teamId, longitude, latitude, objectPriority ) &&
                             g_app->GetMapRenderer()->IsCoastline( longitude, latitude ) &&
                             g_app->GetMapRenderer()->IsValidTerritory( m_teamId, longitude, latitude, false ))
                         {
-                            if( g_app->GetWorld()->GetDistanceSqd( longitude, latitude, 
-                                                                    g_app->GetWorld()->m_populationCenter[randTerritory].x, 
-                                                                    g_app->GetWorld()->m_populationCenter[randTerritory].y) < 90 * 90 )
+                            if( world->GetDistanceSqd( longitude, latitude, 
+                                                                    world->m_populationCenter[randTerritory].x, 
+                                                                    world->m_populationCenter[randTerritory].y) < 90 * 90 )
                             {
-                                int index = g_app->GetWorld()->GetNearestObject( m_teamId, longitude, latitude, objectPriority );
-                                WorldObject *obj = g_app->GetWorld()->GetWorldObject( index );
+                                int index = world->GetNearestObject( m_teamId, longitude, latitude, objectPriority );
+                                WorldObject *obj = world->GetWorldObject( index );
                                 if( obj )
                                 {
-                                    if( g_app->GetWorld()->GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude ) > minDistance * minDistance )
+                                    if( world->GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude ) > minDistance * minDistance )
                                     {
                                         success = true;
                                         break;
@@ -672,7 +685,7 @@ void Team::PlacementAI()
 
 	                    WorldObject *newUnit = WorldObject::CreateObject( objectPriority );
 		                newUnit->SetTeamId(m_teamId);
-		                g_app->GetWorld()->AddWorldObject( newUnit ); 
+		                world->AddWorldObject( newUnit ); 
 		                newUnit->SetPosition( longitude, latitude );
                         newUnit->m_offensive = true;
                     }
@@ -691,15 +704,15 @@ void Team::PlacementAI()
                     }
                     longitude = syncsfrand(360);
                     latitude = syncsfrand(180);
-                    int index = g_app->GetWorld()->GetNearestObject( m_teamId, longitude, latitude, objectPriority );
-                    WorldObject *obj = g_app->GetWorld()->GetWorldObject( index );
+                    int index = world->GetNearestObject( m_teamId, longitude, latitude, objectPriority );
+                    WorldObject *obj = world->GetWorldObject( index );
                                         
-                    if( g_app->GetWorld()->IsValidPlacement( m_teamId, longitude, latitude, objectPriority ) )
+                    if( world->IsValidPlacement( m_teamId, longitude, latitude, objectPriority ) )
                     {
                         if (!obj || 
-                             g_app->GetWorld()->GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude ) > minDistance * minDistance )
+                             world->GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude ) > minDistance * minDistance )
                         {
-                            g_app->GetWorld()->ObjectPlacement( m_teamId, objectPriority, longitude, latitude, 255 );
+                            world->ObjectPlacement( m_teamId, objectPriority, longitude, latitude, 255 );
                             break;
                         }
                     }
@@ -1265,13 +1278,15 @@ int Team::CountTargettedUnits( int targetId )
 
 int Team::GetNumTargets()
 {
+    World * world = g_app->GetWorld();
+
     int num = 0;
-    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    for( int i = 0; i < world->m_objects.Size(); ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *obj = g_app->GetWorld()->m_objects[i];
-            if( !g_app->GetWorld()->IsFriend(obj->m_teamId, m_teamId ) &&
+            WorldObject *obj = world->m_objects[i];
+            if( !world->IsFriend(obj->m_teamId, m_teamId ) &&
                 ( obj->m_visible[m_teamId] || obj->m_seen[m_teamId] ) &&
                 ( obj->m_type == WorldObject::TypeSilo ||
                   obj->m_type == WorldObject::TypeRadarStation ||
@@ -1332,13 +1347,14 @@ void Team::AddTerritory( int territoryId )
 void Team::AssignAITerritory()
 {
     int territoriesPerTeam = g_app->GetGame()->GetOptionValue("TerritoriesPerTeam");
+    World * world = g_app->GetWorld();
 
     for( int i = m_territories.Size(); i < territoriesPerTeam; ++i )
     {
         while(true)
         {
             int randTerritory = syncrand() % World::NumTerritories;
-            if( g_app->GetWorld()->GetTerritoryOwner(randTerritory) == -1 )
+            if( world->GetTerritoryOwner(randTerritory) == -1 )
             {
                 AddTerritory(randTerritory);
                 break;

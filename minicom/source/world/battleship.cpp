@@ -41,7 +41,7 @@ BattleShip::BattleShip()
     InitialiseTimers();
 }
 
-void BattleShip::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void BattleShip::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {
@@ -88,7 +88,6 @@ bool BattleShip::Update()
                         if( m_stateTimer <= 0 )
                         {
                             FireGun( GetActionRange() );
-                            m_stateTimer = m_states[ m_currentState ]->m_timeToReload;
                             fleet->FleetAction( m_targetObjectId );
                         }
                     }
@@ -161,17 +160,19 @@ bool BattleShip::UsingGuns()
 
 int BattleShip::GetTarget( Fixed range )
 {
+    World * world = g_app->GetWorld();
+
     LList<int> targets;
-    Team *team = g_app->GetWorld()->GetTeam( m_teamId );
+    Team *team = world->GetTeam( m_teamId );
     Fleet *fleet = team->GetFleet( m_fleetId );
     WorldObject *currentTarget = NULL;
 
-    int objectsSize = g_app->GetWorld()->m_objects.Size();
+    int objectsSize = world->m_objects.Size();
     for( int i = 0; i < objectsSize; ++i )
     {
-        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        if( world->m_objects.ValidIndex(i) )
         {
-            WorldObject *obj = g_app->GetWorld()->m_objects[i];
+            WorldObject *obj = world->m_objects[i];
             if( obj->m_teamId != TEAMID_SPECIALOBJECTS )
             {
                 bool validNewTarget = !currentTarget ||
@@ -180,9 +181,9 @@ int BattleShip::GetTarget( Fixed range )
                 if( validNewTarget &&
                     obj->m_visible[m_teamId] &&
                     !team->m_ceaseFire[ obj->m_teamId ] &&
-                    !g_app->GetWorld()->IsFriend( obj->m_teamId, m_teamId ) &&                    
-                    g_app->GetWorld()->GetAttackOdds( m_type, obj->m_type, m_objectId ) > 0 &&
-                    g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) < range * range )
+                    !world->IsFriend( obj->m_teamId, m_teamId ) &&                    
+                    world->GetAttackOdds( m_type, obj->m_type, this ) > 0 &&
+                    world->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) < range * range )
                 {
                     currentTarget = obj;
                 }
@@ -199,7 +200,7 @@ int BattleShip::GetTarget( Fixed range )
     }
 }
 
-void BattleShip::FleetAction( int targetObjectId )
+void BattleShip::FleetAction( WorldObjectReference const & targetObjectId )
 {
     if( m_targetObjectId == -1 )
     {

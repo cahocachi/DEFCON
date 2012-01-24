@@ -54,8 +54,8 @@ protected:
 
     float   m_totalZoom;
 
-    int     m_currentHighlightId;
-    int     m_currentSelectionId;
+    WorldObjectReference m_currentHighlightId;
+    WorldObjectReference m_currentSelectionId;
     int     m_currentStateId;
     float   m_highlightTime;
 
@@ -160,7 +160,7 @@ public:
     void    Update();
     void    UpdateCameraControl     ( float _mouseX, float _mouseY );
     bool    UpdatePlanning          ( float _mouseX, float _mouseY );
-    int     GetNearestObjectToMouse ( float _mouseX, float _mouseY );
+    WorldObjectReference GetNearestObjectToMouse ( float _mouseX, float _mouseY );
     void    HandleObjectAction      ( float _mouseX, float _mouseY, int _underMouseId );
     void    HandleSetWaypoint       ( float _mouseX, float _mouseY );
     void    HandleSelectObject      ( int _underMouseId );
@@ -222,10 +222,10 @@ public:
     int     GetTerritoryId( Fixed longitude, Fixed latitude );
     int     GetTerritoryIdUnique( Fixed longitude, Fixed latitude );
 
-    int     GetCurrentSelectionId();
+    WorldObjectReference const & GetCurrentSelectionId();
     void    SetCurrentSelectionId( int id );
 
-    int     GetCurrentHighlightId();
+    WorldObjectReference const & GetCurrentHighlightId();
 
     void    CenterViewport( float longitude, float latitude, int zoom = 20, int camSpeed = 200 );
     void    CenterViewport( int objectId, int zoom = 20, int camSpeed = 200 );

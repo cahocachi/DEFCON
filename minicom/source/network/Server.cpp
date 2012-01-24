@@ -785,7 +785,7 @@ void Server::AdvanceSender()
                 AppDebugOut( "Largest server letter sent : %d bytes\n", s_largest );
             }
 
-            delete linearisedLetter;
+            delete[] linearisedLetter;
             delete letter;                                        
         }
 
@@ -1412,7 +1412,7 @@ bool Server::CheckForExploits( Directory *message )
         unsigned char teamId = 255;
         int clientId = GetClientId( message->GetDataString(NET_DEFCON_FROMIP), message->GetDataInt(NET_DEFCON_FROMPORT));
         // find the team the client is on
-        LList<Team *> teams = g_app->GetWorld()->m_teams;
+        DArray<Team *> & teams = g_app->GetWorld()->m_teams;
         for( int i = 0; i <  teams.Size(); ++i )
         {
             Team *team = teams[i];
