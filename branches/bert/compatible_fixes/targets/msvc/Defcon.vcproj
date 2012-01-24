@@ -2458,6 +2458,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\contrib\systemIV\lib\math\vector2.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\contrib\systemIV\lib\math\vector2.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\contrib\SystemIV\lib\math\vector3.cpp"
 					>
 					<FileConfiguration
