@@ -21,8 +21,8 @@ class Bitmap;
 
 class Image
 {
-public:
     Bitmap  *m_bitmap;
+public:
     int     m_textureID;
     bool    m_mipmapping;
     
@@ -33,6 +33,8 @@ public:
 
     int Width();
     int Height();    
+
+    const Bitmap * GetBitmap() const { return m_bitmap; }
 
     void MakeTexture( bool mipmapping, bool masked );
     
