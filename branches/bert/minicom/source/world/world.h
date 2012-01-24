@@ -8,6 +8,7 @@
 #include "lib/tosser/fast_darray.h"
 #include "lib/tosser/bounded_array.h"
 #include "lib/math/vector3.h"
+#include "lib/math/vector2.h"
 
 #include "renderer/animated_icon.h"
 
@@ -97,14 +98,14 @@ public:
     FastDArray      <Explosion *>       m_explosions;    
     LList           <WorldMessage *>    m_messages;   
     LList           <ChatMessage *>     m_chat;   
-    LList           <Team *>            m_teams;
+    DArray          <Team *>            m_teams;
     LList           <Spectator *>       m_spectators;
-    BoundedArray    <Vector3<Fixed> >   m_populationCenter;     // Indedex on territory
+    BoundedArray    <Vector2<Fixed> >   m_populationCenter;     // Indedex on territory
 
-    LList           <Vector3<Fixed> *>  m_aiPlacementPoints;
-    LList           <Vector3<Fixed> *>  m_aiTargetPoints;
+    LList           <Vector2<Fixed> >   m_aiPlacementPoints;
+    LList           <Vector2<Fixed> >   m_aiTargetPoints;
 
-    LList           <Vector3<Fixed> *>  m_radiation;
+    LList           <Vector2<Fixed> >   m_radiation;
     LList           <int>               m_populationTotals;     // used for resetting cities in the tutorial
 
     int             m_myTeamId;
@@ -123,6 +124,7 @@ public:
 
 public:   
     World();
+    ~World();
 
     void Init();
     void Shutdown();
@@ -155,15 +157,19 @@ public:
     int    CountAllianceMembers ( int _allianceId );
     int    FindFreeAllianceId   ();
 
-    int  AddWorldObject     ( WorldObject *wobj );
+    WorldObjectReference const & AddWorldObject( WorldObject *wobj );
     WorldObject *GetWorldObject( int _uniqueId );
+    
+    WorldObject *GetWorldObject( WorldObjectReference const & reference );
+    WorldObjectReference GetObjectReference( int arrayIndex );
 
     bool IsValidPlacement   ( int teamId, Fixed longitude, Fixed latitude, int objectType );    
-    int  GetNearestObject   ( int teamId, Fixed longitude, Fixed latitude, int objectType=-1, bool enemyTeam = false );
+    WorldObjectReference  GetNearestObject   ( int teamId, Fixed longitude, Fixed latitude, int objectType=-1, bool enemyTeam = false );
     void LaunchNuke         ( int teamId, int objId, Fixed longitude, Fixed latitude, Fixed range );
     void CreateExplosion    ( int teamId, Fixed longitude, Fixed latitude, Fixed intensity, int targetTeamId=-1 );
 
     bool IsVisible          ( Fixed longitude, Fixed latitude, int teamId );
+    void IsVisible          ( Fixed longitude, Fixed latitude, BoundedArray<bool> & visibility );
 
     void ObjectPlacement        ( int teamId, int unitType, Fixed longitude, Fixed latitude, int fleetId );
     void ObjectStateChange      ( int objectId, int newState );
@@ -180,6 +186,7 @@ public:
     void AssignTerritory    ( int territoryId, int teamId, int addOrRemove );
     void RequestAlliance    ( int teamId, int allianceId );
 
+    int  GetAttackOdds      ( int attackerType, int defenderType, WorldObject * attacker );
     int  GetAttackOdds      ( int attackerType, int defenderType, int attackerId );
     int  GetAttackOdds      ( int attackerType, int defenderType );
     
@@ -210,7 +217,7 @@ public:
 
     // makes sure toLongitude is wrapped around the seam in such a way that the absolute difference
     // between it and fromLongitude is minimal
-    static void SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
+    static void SanitiseTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
 
     // Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     // Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
@@ -219,7 +226,7 @@ public:
     Fixed GetSailDistance           ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetSailDistanceSlow       ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     
-    // void  GetSeamCrossLatitude  ( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude );
+    // void  GetSeamCrossLatitude  ( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude );
     int   GetTerritoryOwner     ( int territoryId );
 
     int  GetUnitValue( int _type );

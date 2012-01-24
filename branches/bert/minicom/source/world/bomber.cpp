@@ -50,7 +50,7 @@ Bomber::Bomber()
 }
 
 
-void Bomber::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Bomber::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {
@@ -142,7 +142,7 @@ bool Bomber::Update()
     //
     // Do we move ?
     
-    Vector3<Fixed> oldVel = m_vel;
+    Direction oldVel = m_vel;
 
     bool hasTarget = false;
     if( m_targetObjectId != -1 )
@@ -158,7 +158,7 @@ bool Bomber::Update()
                         targetObject->m_type == WorldObject::TypeAirBase )
                     {
                         SetWaypoint( targetObject->m_longitude, targetObject->m_latitude );
-                        Land( m_targetObjectId );
+                        Land( targetObject );
                     }
                     m_targetObjectId = -1;
                 }
@@ -178,7 +178,6 @@ bool Bomber::Update()
                             if( distanceSqd <= GetActionRangeSqd() )
                             {
                                 FireGun( GetActionRange() );
-                                m_stateTimer = m_states[0]->m_timeToReload;
                             }
                         }
                     }
@@ -243,10 +242,24 @@ bool Bomber::Update()
         SetState(1);
     }
 
-    if( (m_bombingRun && m_states[1]->m_numTimesPermitted ==  0) ||
-        IsIdle() )
+    // bombing run over? return to base.
+    if( m_bombingRun && m_states[1]->m_numTimesPermitted ==  0 )
     {
         Land( GetClosestLandingPad() );
+    }
+    
+    // nothing to do?
+    if( IsIdle() )
+    {
+        // wait, wasn't there something to nuke?
+        if( m_bombingRun && m_states[1]->m_numTimesPermitted != 0 )
+        {
+            SetWaypoint( m_nukeTargetLongitude, m_nukeTargetLatitude );
+        }
+        else
+        {
+            Land( GetClosestLandingPad() );
+        }
     }
 
     if( m_currentState == 1 )
@@ -279,16 +292,6 @@ bool Bomber::Update()
         }
 
     }*/
-
-    // Empty the action queue. Bomber actions just set targets and don't actually do anything.
-    // (unless they are explicitly allowed to)
-    if( m_actionQueue.Size() > 0 )
-    {
-        ActionOrder *action = m_actionQueue[0];
-        Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );
-        m_actionQueue.RemoveData(0);
-        delete action;
-    }
 
     return MovingObject::Update();   
 }
@@ -334,16 +337,6 @@ void Bomber::RunAI()
 
 
 
-void Bomber::Land( int targetId )
-{
-    WorldObject *target = g_app->GetWorld()->GetWorldObject(targetId);
-    if( target )
-    {
-        SetWaypoint( target->m_longitude, target->m_latitude );
-        m_isLanding = targetId;
-    }
-}
-
 bool Bomber::UsingNukes()
 {
     if( m_currentState == 1 )
@@ -362,7 +355,7 @@ void Bomber::SetNukeTarget( Fixed longitude, Fixed latitude )
     m_nukeTargetLatitude = latitude;
 }
 
-void Bomber::Retaliate( int attackerId )
+void Bomber::Retaliate( WorldObjectReference const & attackerId )
 {
     if( g_app->GetWorld()->GetTeam( m_teamId )->m_type == Team::TypeAI )
     {

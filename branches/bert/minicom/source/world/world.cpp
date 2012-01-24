@@ -77,7 +77,18 @@ World::World()
     {
         m_achievementCitiesNuked[i] = false;
     }
+}
 
+World::~World()
+{
+    ClearWorld();
+    
+    m_nodes.EmptyAndDelete();
+
+    for( int i = m_teams.Size()-1; i >= 0; --i )
+    {
+        delete m_teams[i];
+    }
 }
 
 int World::GenerateUniqueId() 
@@ -108,6 +119,9 @@ void World::LoadNodes()
     int pixelX = 0;
     int pixelY = 0;
     int numNodes = 0;
+
+    m_nodes.EmptyAndDelete();
+
     for ( int x = 0; x < 800; ++x )
     {
         for( int y = 0; y < 400; ++y )
@@ -180,15 +194,15 @@ void World::LoadNodes()
             if( col.m_r > 200 ||
                 col.m_g > 200 )
             {
-                Vector3<Fixed> *point = new Vector3<Fixed>;
+                Vector2<Fixed> point;
                 Fixed width = 360;
                 Fixed height = 200;
 
                 Fixed longitude = x * (width/aiMarkers->Width()) - 180;
                 Fixed latitude = y * ( height/aiMarkers->Height()) - 100;
 
-                point->x = longitude;
-                point->y = latitude;
+                point.x = longitude;
+                point.y = latitude;
 
                 if( col.m_r > 200 )
                 {
@@ -206,9 +220,7 @@ void World::LoadNodes()
 
 Fixed World::GetGameScale()
 {
-    GameOption *option = g_app->GetGame()->GetOption( "WorldScale" );
-    Fixed gameScale = Fixed::FromDouble(option->m_currentValue / option->m_default);
-    return gameScale;
+    return g_app->GetGame()->GetGameScale();
 }
 
 
@@ -243,10 +255,6 @@ void World::AssignCities()
         team->m_desiredGameSpeed = 20;
 #endif
 
-        team->m_unitCredits = 53 * g_app->GetGame()->GetOptionValue("TerritoriesPerTeam");
-
-        if( !g_app->GetGame()->GetOptionValue("VariableUnitCounts") ) team->m_unitCredits = 999999;
-
         if( team->m_territories.Size() < g_app->GetGame()->GetOptionValue("TerritoriesPerTeam") )
         {
             if( !g_app->GetTutorial() )
@@ -273,6 +281,7 @@ void World::AssignCities()
         {
             for( int j = 0; j < m_teams.Size(); ++j )
             {
+                m_teams[j]->m_unitCredits = 999999;
                 if( i == WorldObject::TypeAirBase )
                 {
                     m_teams[j]->m_unitsAvailable[i] = (4 * territoriesPerTeam * worldScale).IntValue();
@@ -303,24 +312,27 @@ void World::AssignCities()
         {
             for( int j = 0; j < m_teams.Size(); ++j )
             {
-                m_teams[j]->m_unitCredits = 120 * g_app->GetGame()->GetOptionValue( "TerritoriesPerTeam" );
+                Fixed scale = territoriesPerTeam * worldScale;
+                m_teams[j]->m_unitCredits = (120 * scale).IntValue();
                 if( i == WorldObject::TypeAirBase )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 8 * territoriesPerTeam;
+                    m_teams[j]->m_unitsAvailable[i] = (8 * scale).IntValue();
                 }
                 else if( i == WorldObject::TypeRadarStation )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 12 * territoriesPerTeam;
+                    m_teams[j]->m_unitsAvailable[i] = (12 * scale).IntValue();
                 }
                 else if( i == WorldObject::TypeSilo )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 10 * territoriesPerTeam;
+                    m_teams[j]->m_unitsAvailable[i] = (10 * scale).IntValue();
                 }
                 else if(i == WorldObject::TypeBattleShip ||
                         i == WorldObject::TypeCarrier ||
                         i == WorldObject::TypeSub )
                 {
-                    m_teams[j]->m_unitsAvailable[i] = 18 * territoriesPerTeam;
+                    Fixed shipsAvailable = 18 * territoriesPerTeam * sqrt(worldScale*worldScale*worldScale);
+                    // Round before truncating to int, to eliminate floating point error
+                    m_teams[j]->m_unitsAvailable[i] = int( shipsAvailable.DoubleValue() + 0.5f );
                 }
             }
         }
@@ -386,8 +398,8 @@ void World::AssignCities()
                     thisCity->m_capital = false;
                 }
 
-                Fixed distanceSqd = (Vector3<Fixed>(city->m_longitude, city->m_latitude,0) -
-                                  Vector3<Fixed>(thisCity->m_longitude, thisCity->m_latitude,0)).MagSquared();
+                Fixed distanceSqd = (Vector2<Fixed>(city->m_longitude, city->m_latitude) -
+                                  Vector2<Fixed>(thisCity->m_longitude, thisCity->m_latitude)).MagSquared();
 
                 if( distanceSqd < 2 * 2 )
                 {
@@ -464,7 +476,7 @@ void World::AssignCities()
         }
         if( totalLong != 0 && totalLat != 0 )
         {
-            Vector3<Fixed> center = Vector3<Fixed>( totalLong/tempList[i].Size(), totalLat/tempList[i].Size(), 0 );
+            Vector2<Fixed> center = Vector2<Fixed>( totalLong/tempList[i].Size(), totalLat/tempList[i].Size() );
             m_populationCenter[i] = center;
         }
     }
@@ -647,6 +659,7 @@ void World::RequestAlliance( int teamId, int allianceId )
     if( team )
     {
         team->m_allianceId = allianceId;
+        team->UpdateTeamColour();
     }
 }
 
@@ -683,6 +696,8 @@ void World::InitialiseTeam ( int teamId, int teamType, int clientId )
     team->m_allianceId = FindFreeAllianceId();
     team->m_clientId = clientId;
     team->m_readyToStart = false;
+
+    team->UpdateTeamColour();
  
     if( teamType == Team::TypeLocalPlayer )
     {
@@ -909,13 +924,28 @@ void World::RemoveAITeam( int _teamId )
 
 void World::RemoveTeam( int _teamId )
 {
+    // completely rebuild team list to avoid holes.
+    // slow, but this is called far, far less often than team queries
+
+    BoundedArray< Team * > oldTeamList;
+    oldTeamList.Initialise( m_teams.Size() );
     for( int i = 0; i < m_teams.Size(); ++i )
     {
-        Team *team = m_teams[i];
+        oldTeamList[i] = m_teams[i];
+    }
+    
+    m_teams.Empty();
+
+    for( int i = 0; i < oldTeamList.Size(); ++i )
+    {
+        Team *team = oldTeamList[i];
         if( team->m_teamId == _teamId )
         {
-            m_teams.RemoveData(i);
             delete team;
+        }
+        else
+        {
+            m_teams.PutData( team );
         }
     }
 }
@@ -1148,9 +1178,9 @@ void World::LaunchNuke( int teamId, int objId, Fixed longitude, Fixed latitude, 
     }
 }
 
-int World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
+WorldObjectReference World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
 {
-    int result = -1;
+    WorldObjectReference result = -1;
     Fixed nearestSqd = Fixed::MAX;
 
     for( int i = 0; i < m_objects.Size(); ++i )
@@ -1168,7 +1198,7 @@ int World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int ob
                 Fixed distanceSqd = GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude);
                 if( distanceSqd < nearestSqd )
                 {
-                    result = obj->m_objectId;
+                    result = GetObjectReference(i);
                     nearestSqd = distanceSqd;
                 }
             }
@@ -1254,15 +1284,18 @@ Team *World::GetMyTeam()
 }
 
 
-int World::AddWorldObject( WorldObject *obj )
+WorldObjectReference const &  World::AddWorldObject( WorldObject *obj )
 {
     Team *team = GetTeam( obj->m_teamId );
     if( team )
     {
         team->m_unitsInPlay[ obj->m_type ]++;
     }
-    m_objects.PutData( obj);
-    obj->m_objectId = GenerateUniqueId();
+    int index = m_objects.PutData( obj);
+
+    obj->m_objectId.m_uniqueId = GenerateUniqueId();
+    obj->m_objectId.m_index = index;
+
     return obj->m_objectId;
 }
 
@@ -1294,6 +1327,62 @@ WorldObject *World::GetWorldObject( int _uniqueId )
     return NULL;
 }
 
+WorldObject * World::GetWorldObject( WorldObjectReference const & reference )
+{
+    if( reference.m_uniqueId == -1 )
+    {
+        return NULL;
+    }
+
+    if( reference.m_index >= 0 )
+    {
+        if( m_objects.ValidIndex(reference.m_index) )
+        {
+            WorldObject *obj = m_objects[reference.m_index];
+            if( obj->m_objectId == reference.m_uniqueId )
+            {
+                return obj;
+            }
+        }
+
+        // array indices never change, so here we can quit.
+        return NULL;
+    }
+    
+    if( reference.m_uniqueId >= OBJECTID_CITYS )
+    {
+        return m_cities[reference.m_uniqueId - OBJECTID_CITYS];
+    }
+    
+    for( int i = 0; i < m_objects.Size(); ++i )
+    {
+        if( m_objects.ValidIndex(i) )
+        {
+            WorldObject *obj = m_objects[i];
+            if( obj->m_objectId == reference.m_uniqueId )
+            {
+                reference.m_index = i;
+                return obj;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+WorldObjectReference World::GetObjectReference( int arrayIndex )
+{
+    WorldObjectReference ret;
+
+    if( m_objects.ValidIndex( arrayIndex ) )
+    {
+        ret.m_index = arrayIndex;
+        ret.m_uniqueId = m_objects[arrayIndex]->m_objectId;
+    }
+
+    return ret;
+}
+
 void World::Shutdown()
 {
     // TODO : destruct the world object
@@ -1308,7 +1397,7 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
     explosion->m_targetTeamId = targetTeamId;
 
     int expId = m_explosions.PutData( explosion );
-    explosion->m_objectId = expId;
+    explosion->m_objectId.m_uniqueId = expId;
     
 
     //
@@ -1354,9 +1443,9 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
 
         if( intensity > 50 )
         {
-            Vector3<Fixed> *pos = new Vector3<Fixed>();
-            pos->x = longitude;
-            pos->y = latitude;
+            Vector2<Fixed> pos;
+            pos.x = longitude;
+            pos.y = latitude;
             m_radiation.PutData(pos);
         }
     
@@ -1498,7 +1587,7 @@ void World::ObjectSpecialAction( int objectId, int targetObjectId, int specialAc
                 if( wobj->IsMovingObject() )
                 {
                     MovingObject *mobj = (MovingObject *) wobj;
-                    mobj->Land( targetObjectId );
+                    mobj->Land( mobj );
                 }
                 break;
 
@@ -1785,6 +1874,8 @@ void World::Update()
     int shareAllianceRadar = g_app->GetGame()->GetOptionValue( "RadarSharing" );
     for(int i = 0; i < m_teams.Size(); ++i )
     {
+        m_teams[i]->UpdateTeamColour();
+
         if( shareAllianceRadar == 0 )
         {
             // Always off
@@ -2175,6 +2266,50 @@ bool World::IsVisible( Fixed longitude, Fixed latitude, int teamId )
     return false;
 }
 
+void World::IsVisible( Fixed longitude, Fixed latitude, BoundedArray<bool> & visibility )
+{
+    if( visibility.Size() != m_teams.Size() )
+    {
+        visibility.Initialise( m_teams.Size() );
+    }
+
+    // get basic coverage
+    static BoundedArray< int > coverage;
+    m_radarGrid.GetMultiCoverage( longitude, latitude, coverage );
+    
+    for( int teamId = 0; teamId < m_teams.Size(); ++teamId )
+    {
+        visibility[teamId] = false;
+
+        //
+        // Check our own radar first
+
+        if( coverage[teamId] > 0 )
+        {
+            visibility[teamId] = true;
+        }
+
+        //
+        // Not on our radar - but maybe its on our allies radar
+        // And maybe our allies are nice enough to share their radar (the fools)
+
+        for( int t = 0; t < m_teams.Size(); ++t )
+        {
+            Team *team = m_teams[t];
+            if( teamId != team->m_teamId &&
+                teamId != -1 &&
+                team->m_sharingRadar[teamId] &&
+                coverage[ team->m_teamId ] > 0 )
+            {
+                visibility[teamId] = true;
+            }
+        }
+
+        //
+        // Nope, can't see it
+    }
+}
+
 
 void World::UpdateRadar()
 {
@@ -2212,6 +2347,7 @@ void World::UpdateRadar()
         return;
     }
 
+    BoundedArray<bool> visibility;
     
     //
     // Update gunfire visibility
@@ -2221,10 +2357,13 @@ void World::UpdateRadar()
         if( m_gunfire.ValidIndex(j) )
         {
             WorldObject *potential = m_gunfire[j];
+
+            IsVisible( potential->m_longitude, potential->m_latitude, visibility );
+
             for( int k = 0; k < m_teams.Size(); ++k )
             {
                 Team *team = m_teams[k];
-                potential->m_visible[team->m_teamId] = IsVisible( potential->m_longitude, potential->m_latitude, team->m_teamId );
+                potential->m_visible[team->m_teamId] = visibility[ team->m_teamId ];
             }
         }
     }
@@ -2239,12 +2378,12 @@ void World::UpdateRadar()
             SonarPing *ping = (SonarPing *)g_app->GetMapRenderer()->m_animations[j];
             if( ping->m_animationType == MapRenderer::AnimationTypeSonarPing )
             {
+                IsVisible( Fixed::FromDouble(ping->m_longitude), Fixed::FromDouble(ping->m_latitude), visibility );
                 for( int k = 0; k < m_teams.Size(); ++k )
                 {
                     Team *team = m_teams[k];
                     ping->m_visible[team->m_teamId] = (team->m_teamId == ping->m_teamId) ||
-                                                       IsVisible( Fixed::FromDouble(ping->m_longitude),
-																  Fixed::FromDouble(ping->m_latitude), team->m_teamId );
+                                                       visibility[team->m_teamId];
                 }
             }
         }
@@ -2259,6 +2398,8 @@ void World::UpdateRadar()
         if( m_explosions.ValidIndex(j) )
         {
             Explosion *explosion = m_explosions[j];
+
+            IsVisible( explosion->m_longitude, explosion->m_latitude, visibility );
             
             for( int k = 0; k < g_app->GetWorld()->m_teams.Size(); ++k )
             {
@@ -2266,7 +2407,7 @@ void World::UpdateRadar()
                 explosion->m_visible[team->m_teamId] = explosion->m_targetTeamId == team->m_teamId ||
                                                        explosion->m_teamId == team->m_teamId ||
                                                        explosion->m_initialIntensity > 30 ||
-                                                       IsVisible( explosion->m_longitude, explosion->m_latitude, team->m_teamId );
+                                                       visibility[ team->m_teamId ];
             }
         }
     }
@@ -2281,6 +2422,8 @@ void World::UpdateRadar()
         {
             WorldObject *wobj = m_objects[i];
             
+            IsVisible( wobj->m_longitude, wobj->m_latitude, visibility );
+
             for( int t = 0; t < m_teams.Size(); ++t )
             {
                 Team *team = m_teams[t];
@@ -2294,7 +2437,7 @@ void World::UpdateRadar()
                 }
 
                 if( wobj->m_teamId == TEAMID_SPECIALOBJECTS ||
-                    IsVisible( wobj->m_longitude, wobj->m_latitude, team->m_teamId ) )
+                    visibility[ team->m_teamId ] )
                 {
                     int permitDefection = g_app->GetGame()->GetOptionValue("PermitDefection");
                     if( !wobj->IsHiddenFrom() || 
@@ -2467,8 +2610,8 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
     }
    
 
-    Vector3<Fixed> vel = (Vector3<Fixed>( actualToLongitude, actualToLatitude, 0 ) -
-                          Vector3<Fixed>( longitude, latitude, 0 ));
+    Vector2<Fixed> vel = (Vector2<Fixed>( actualToLongitude, actualToLatitude ) -
+                          Vector2<Fixed>( longitude, latitude ));
     Fixed velMag = vel.Mag();
     int nbIterations = 0;
 
@@ -2524,7 +2667,7 @@ bool World::IsSailableSlow( Fixed const &fromLongitude, Fixed const &fromLatitud
     }
 
 
-    Vector3<Fixed> vel;
+    MovingObject::Direction vel;
     while(true)
     {
         Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
@@ -2536,8 +2679,8 @@ bool World::IsSailableSlow( Fixed const &fromLongitude, Fixed const &fromLatitud
         Fixed factor1 = Fixed::Hundredths(1) * timePerUpdate / 10;
         Fixed factor2 = 1 - factor1;
 
-        Vector3<Fixed> targetDir = (Vector3<Fixed>( actualToLongitude, actualToLatitude, 0 ) -
-            Vector3<Fixed>( longitude, latitude, 0 )).Normalise();  
+        MovingObject::Direction targetDir = (MovingObject::Direction( actualToLongitude, actualToLatitude ) -
+                                             MovingObject::Direction( longitude, latitude )).Normalise();  
 
         vel = ( targetDir * factor1 ) + ( vel * factor2 );
         vel.Normalise();
@@ -2642,7 +2785,7 @@ int World::GetClosestNodeSlow( Fixed const &longitude, Fixed const &latitude )
     return nodeId;
 }
 
-void World::SanitizeTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude )
+void World::SanitiseTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude )
 {
     // move the target longitude across the seam to make sure if the unit slavishly
     // goes for it using euclidean geometry and topology, it'll take the shorter way
@@ -2889,7 +3032,7 @@ Fixed World::GetSailDistance( Fixed const &fromLongitude, Fixed const &fromLatit
 }
 
 /*
-void World::GetSeamCrossLatitude( Vector3<Fixed> _to, Vector3<Fixed> _from, Fixed *longitude, Fixed *latitude )
+void World::GetSeamCrossLatitude( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude )
 {
 //    y = mx + c
 //    c = y - mx
@@ -3371,9 +3514,8 @@ void World::ParseCityDataFile()
 }
 
 
-int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
+int World::GetAttackOdds( int attackerType, int defenderType, WorldObject * attacker )
 {
-    WorldObject *attacker = GetWorldObject( attackerId );
     if( attacker )
     {
         return attacker->GetAttackOdds( defenderType );
@@ -3382,6 +3524,11 @@ int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
     {
         return GetAttackOdds( attackerType, defenderType );
     }
+}
+
+int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
+{
+    return GetAttackOdds( attackerType, defenderType, GetWorldObject( attackerId ) );
 }
 
 int World::GetAttackOdds( int attackerType, int defenderType )
@@ -3451,18 +3598,12 @@ void World::WriteNodeCoverageFile()
 
 void World::ClearWorld()
 {
-    for( int i = 0; i < m_objects.Size(); ++i )
-    {
-        if( m_objects.ValidIndex(i) )
-        {
-            m_objects[i]->m_life = 0;
-        }
-    }
-    Update();
     m_objects.EmptyAndDelete();
     m_gunfire.EmptyAndDelete();
     m_explosions.EmptyAndDelete();
-    m_radiation.EmptyAndDelete();
+    m_radiation.Empty();
+    m_aiTargetPoints.Empty();
+    m_aiPlacementPoints.Empty();
     for( int i = 0; i < m_teams.Size(); ++i )
     {
         Team *team = m_teams[i];

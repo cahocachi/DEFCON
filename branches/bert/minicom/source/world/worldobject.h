@@ -4,12 +4,31 @@
 
 #include "lib/tosser/llist.h"
 #include "lib/tosser/bounded_array.h"
-#include "lib/math/vector3.h"
+#include "lib/math/vector2.h"
 #include "lib/math/fixed.h"
 
 class Image;
 class WorldObjectState;
 class ActionOrder;
+
+class WorldObject;
+
+// cached world object queries
+class WorldObjectReference
+{
+    int m_uniqueId;          // the real unique ID
+    mutable int m_index;     // the index in the array
+
+public:
+    WorldObjectReference() { m_uniqueId = -1; m_index = -1; }
+    WorldObjectReference( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; }
+    operator int() const { return m_uniqueId; }
+    WorldObjectReference & operator = ( WorldObjectReference const & other ) { m_uniqueId = other.m_uniqueId; m_index = other.m_index; return *this; }
+    WorldObjectReference & operator = ( WorldObject const * obj );
+    WorldObjectReference & operator = ( int uniqueId ) { m_uniqueId = uniqueId; m_index = -1; return *this; }
+
+    friend class World;
+};
 
 class WorldObject
 {
@@ -48,14 +67,15 @@ public:
 
     int     m_type;
     int     m_teamId;
-    int     m_objectId;
+    WorldObjectReference m_objectId;
     Fixed   m_longitude;
     Fixed   m_latitude;
     int     m_life;                                     // Cities population, or 1/0 for sea units, or 0-30 for ground units
 	int		m_lastHitByTeamId;
     bool    m_selectable;
     
-    Vector3<Fixed> m_vel;
+    typedef Vector2<Fixed> Direction;
+    Direction m_vel;
 
     LList   <WorldObjectState *> m_states;
     int     m_currentState;
@@ -65,8 +85,8 @@ public:
 
     BoundedArray<bool>      m_visible;
     BoundedArray<bool>      m_seen;                     // seen objects memory
-    BoundedArray<Vector3<Fixed> >   m_lastKnownPosition;
-    BoundedArray<Vector3<Fixed> >   m_lastKnownVelocity;
+    BoundedArray<Vector2<Fixed> >   m_lastKnownPosition;
+    BoundedArray<Direction>         m_lastKnownVelocity;
     BoundedArray<Fixed>     m_lastSeenTime;
     BoundedArray<int>       m_lastSeenState;
     
@@ -78,7 +98,7 @@ public:
     Fixed   m_aiTimer;
     Fixed   m_aiSpeed;
     Fixed   m_ghostFadeTime;
-    int     m_targetObjectId;
+    WorldObjectReference m_targetObjectId;
     bool    m_isRetaliating;
     bool    m_forceAction;              // forces ai unit to act on a certain state regardless of team/fleet state
 
@@ -97,7 +117,7 @@ protected:
     
 public:
     WorldObject();
-    ~WorldObject();
+    virtual ~WorldObject();
 
     virtual void        InitialiseTimers();
 
@@ -116,8 +136,8 @@ public:
     virtual bool        IsActionable    ();
     virtual Fixed       GetActionRange  ();
     virtual Fixed       GetActionRangeSqd();
-    virtual void        Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
-    virtual void        FleetAction     ( int targetObjectId );
+    virtual void        Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
+    virtual void        FleetAction     ( WorldObjectReference const & targetObjectId );
     virtual bool        IsHiddenFrom    ();
 
     virtual bool        Update          ();
@@ -143,9 +163,9 @@ public:
     virtual bool        UsingGuns       ();
     virtual void        NukeStrike      ();
 
-    virtual void        Retaliate       ( int attackerId );
+    virtual void        Retaliate       ( WorldObjectReference const & attackerId );
 
-    void                SetTargetObjectId ( int targetObjectId );
+    void                SetTargetObjectId ( WorldObjectReference const & targetObjectId );
     int                 GetTargetObjectId ();
 
     virtual bool        IsPinging();
@@ -162,8 +182,8 @@ public:
 
     virtual bool        CanLaunchFighter();
     virtual bool        CanLaunchBomber ();
-    bool                LaunchBomber    ( int targetObjectId, Fixed longitude, Fixed latitude );
-    bool                LaunchFighter   ( int targetObjectId, Fixed longitude, Fixed latitude );
+    bool                LaunchBomber    ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
+    bool                LaunchFighter   ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     virtual bool        SetWaypointOnAction();
 
     virtual void        CeaseFire       ( int teamId );
@@ -197,6 +217,8 @@ public:
     int     m_numTimesPermitted;            // Number of times a particular state can be used
     int     m_defconPermitted;              // The required defcon level before this state is usable
 
+    ~WorldObjectState();
+
     char *GetStateName();                   // "Launch ICBM"
     char *GetPrepareName();                 // "Prepare to Launch ICBM"
     char *GetPreparingName();               // "Preparing to Launch ICBM"
@@ -210,7 +232,7 @@ public:
 class ActionOrder
 {
 public:
-    int     m_targetObjectId;
+    WorldObjectReference m_targetObjectId;
     Fixed   m_longitude;
     Fixed   m_latitude;
     bool    m_pursueTarget;   // tells the objects fleet to pursue target
@@ -224,5 +246,17 @@ public:
     {
     }
 };
+
+inline WorldObjectReference &  WorldObjectReference::operator = ( WorldObject const * obj )
+{
+    if( obj )
+    {
+        return operator = ( obj->m_objectId );
+    }
+    else
+    {
+        return operator = ( -1 );
+    }
+}
 
 #endif

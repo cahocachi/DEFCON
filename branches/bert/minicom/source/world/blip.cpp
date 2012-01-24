@@ -94,7 +94,7 @@ bool Blip::Update()
         if( m_longitude > -180 ||
             m_longitude < 180 )
         {
-            m_history.PutDataAtStart( new Vector3<Fixed>(m_longitude, m_latitude, 0) );
+            m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
             m_historyTimer = Fixed::Hundredths(1);
         }
     }
@@ -161,7 +161,7 @@ void Blip::SetWaypoint( Fixed longitude, Fixed latitude )
     // this thing moves at sea and the MovingObject base function
     // only corrects the target longitude for planes, so we need to
     // do it manually here.
-    World::SanitizeTargetLongitude( m_longitude, longitude );
+    World::SanitiseTargetLongitude( m_longitude, longitude );
 
     MovingObject::SetWaypoint( longitude, latitude );
 }

@@ -13,7 +13,7 @@ public:
     int         m_fleetId;
     int         m_teamId;
     //int         m_fleetLeader;
-    LList<int>  m_fleetMembers;
+    LList<WorldObjectReference>  m_fleetMembers;
     LList<int>  m_memberType;
     LList<int>  m_lastHitByTeamId;
     bool        m_active;
@@ -91,7 +91,7 @@ public:
 
     void AlterWaypoints             ( Fixed longitude, Fixed latitude, bool checkNewWaypoint );
     void MoveFleet                  ( Fixed longitude, Fixed latitude, bool cancelPursuits = true );
-    void FleetAction                ( int targetObjectId );
+    void FleetAction                ( WorldObjectReference const & targetObjectId );
     bool IsValidFleetPosition       ( Fixed longitude, Fixed latitude );
     bool ValidFleetPlacement        ( Fixed longitude, Fixed latitude );
     bool FindGoodAttackSpotSlow     ( Fixed &_longitude, Fixed &_latitude );

@@ -57,7 +57,7 @@ public:
 	void		PutDataAtStart	( const T &newdata );	
 	void		PutDataAtIndex	( const T &newdata, int index );
 
-    inline T	GetData			( int index ) const;	// slow unless sequential
+    inline T const & GetData	( int index ) const;	// slow unless sequential
     inline T   *GetPointer		( int index ) const;	// slow unless sequential
 	void		RemoveData		( int index );			// slow unless sequential
 	inline void	RemoveDataAtEnd	();
@@ -68,8 +68,10 @@ public:
 
     void		Empty			();						// Resets the array to empty    
     void		EmptyAndDelete	();						// As above, deletes all data as well
+    void		EmptyAndDeleteArray	();	   				// As above, delete[]s all data as well
+    void		EmptyAndFree	();						// As above, deletes all data as well using free()
 
-    inline T operator [] (int index);
+    inline T const & operator [] (int index) const;
 };
 
 

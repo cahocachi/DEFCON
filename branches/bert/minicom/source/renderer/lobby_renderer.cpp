@@ -536,13 +536,13 @@ void LobbyRenderer::RenderGlobe()
             glBegin( GL_LINE_STRIP );
             for( int j = 0; j < island->m_points.Size(); j++ )
             {
-                Vector3<float> *thePoint = island->m_points[j];
+                Vector2<float> const & thePoint = island->m_points[j];
             
                 Vector3<float> thisPoint(0,0,1);
-                thisPoint.RotateAroundY( thePoint->x/180.0f * M_PI );
+                thisPoint.RotateAroundY( thePoint.x/180.0f * M_PI );
                 Vector3<float> right = thisPoint ^ Vector3<float>::UpVector();   
                 right.Normalise();
-                thisPoint.RotateAround( right * thePoint->y/180.0f * M_PI );
+                thisPoint.RotateAround( right * thePoint.y/180.0f * M_PI );
             
                 glVertex3fv( thisPoint.GetData() );
             }
@@ -564,13 +564,13 @@ void LobbyRenderer::RenderGlobe()
                 glBegin( GL_LINE_STRIP );
                 for( int j = 0; j < island->m_points.Size(); j++ )
                 {
-                    Vector3<float> *thePoint = island->m_points[j];
+                    Vector2<float> const & thePoint = island->m_points[j];
                 
                     Vector3<float> thisPoint(0,0,1);
-                    thisPoint.RotateAroundY( thePoint->x/180.0f * M_PI );
+                    thisPoint.RotateAroundY( thePoint.x/180.0f * M_PI );
                     Vector3<float> right = thisPoint ^ Vector3<float>::UpVector();   
                     right.Normalise();
-                    thisPoint.RotateAround( right * thePoint->y/180.0f * M_PI );
+                    thisPoint.RotateAround( right * thePoint.y/180.0f * M_PI );
                 
                     glVertex3fv( thisPoint.GetData() );
                 }

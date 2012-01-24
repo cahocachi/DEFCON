@@ -32,7 +32,8 @@ Game::Game()
     m_gameTimeWarning(false),
     m_lockVictoryTimer(false),
     m_lastKnownDefcon(5),
-    m_gameMode(-1)
+    m_gameMode(-1),
+    m_gameScale(NULL)
 {
     //
     // Load game options
@@ -105,6 +106,7 @@ Game::Game()
     GetOption("MaxGameRealTime")->m_currentValue = 15;
 #endif
 
+    m_gameScale = GetOption( "WorldScale" );
 
     m_score.Initialise(MAX_TEAMS);
     m_nukeCount.Initialise(MAX_TEAMS);
@@ -118,6 +120,10 @@ Game::Game()
     }
 }
 
+Game::~Game()
+{
+    m_options.EmptyAndDelete();
+}
 
 void Game::ResetOptions()
 {
@@ -141,6 +147,11 @@ GameOption *Game::GetOption( char *_name )
     }
 
     return NULL;
+}
+
+Fixed Game::GetGameScale() const
+{
+    return Fixed::FromDouble(m_gameScale->m_currentValue / m_gameScale->m_default);
 }
 
 
@@ -396,7 +407,7 @@ void Game::CalculateScores()
     //
     // Work out the scores based on the weightings
 
-    int startingPopulation = GetOptionValue( "PopulationPerTerritory" ) * 1000000.0f;
+    Fixed startingPopulation = GetOptionValue( "PopulationPerTerritory" ) * 1000000;
     startingPopulation *= GetOptionValue( "TerritoriesPerTeam" );
 
     for( int t = 0; t < g_app->GetWorld()->m_teams.Size(); ++t )
@@ -404,12 +415,12 @@ void Game::CalculateScores()
         Team *team = g_app->GetWorld()->m_teams[t];
 
         m_score[team->m_teamId] = (startingPopulation - team->m_friendlyDeaths) * m_pointsPerSurvivor +
-                                     team->m_friendlyDeaths * m_pointsPerDeath +
-                                     team->m_enemyKills * m_pointsPerKill +
-                                     m_nukeCount[team->m_teamId] * m_pointsPerNuke * 1000000.0f +
-                                     team->m_collatoralDamage * m_pointsPerCollatoral;
+                                     team->m_friendlyDeaths * Fixed(m_pointsPerDeath) +
+                                     team->m_enemyKills * Fixed(m_pointsPerKill) +
+                                     m_nukeCount[team->m_teamId] * m_pointsPerNuke * Fixed(1000000) +
+                                     team->m_collatoralDamage * Fixed(m_pointsPerCollatoral);
 
-        m_score[team->m_teamId] /= 1000000.0f;
+        m_score[team->m_teamId] /= Fixed(1000000);
     }
 }
 
@@ -551,12 +562,13 @@ void Game::Update()
     
                 m_winner = -1;
                 bool draw = false;
-                int winningScore = 0;
+                Fixed winningScore = 0;
                 for( int t = 0; t < g_app->GetWorld()->m_teams.Size(); ++t )
                 {
                     Team *team = g_app->GetWorld()->m_teams[t];
-                    int score = GetScore(team->m_teamId);
-                    g_app->GetClientToServer()->SendTeamScore( team->m_teamId, score );
+                    int intScore = GetScore(team->m_teamId);
+                    g_app->GetClientToServer()->SendTeamScore( team->m_teamId, intScore );
+                    Fixed score = m_score[team->m_teamId];
                     if( score > winningScore )
                     {
                         winningScore = score;
@@ -617,7 +629,7 @@ void Game::Update()
 
 int Game::GetScore( int _teamId )
 {
-    return m_score[_teamId];
+    return m_score[_teamId].IntValue();
 }
 
 void Game::ResetGame()

@@ -3,6 +3,7 @@
 #define _included_animatedicon_h
 
 #include "world/world.h"
+#include "world/worldobject.h"
 
 class AnimatedIcon
 {
@@ -59,7 +60,7 @@ class NukePointer : public AnimatedIcon
 {
 public:
     float m_lifeTime;
-    int   m_targetId;
+    WorldObjectReference  m_targetId;
     int   m_mode;
     bool  m_offScreen;
     bool  m_seen;

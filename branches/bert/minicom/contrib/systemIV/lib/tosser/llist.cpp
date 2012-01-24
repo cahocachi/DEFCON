@@ -1,3 +1,5 @@
+#include "type_traits.h"
+
 //*****************************************************************************
 // Class LListItem
 //*****************************************************************************
@@ -181,7 +183,7 @@ int LList<T>::Size() const
 
 
 template <class T>
-T LList<T>::GetData(int index) const
+T const & LList<T>::GetData(int index) const
 {
     LListItem<T> const *item = GetItem(index);
     if (item)
@@ -189,9 +191,8 @@ T LList<T>::GetData(int index) const
 	    return item->m_data;
 	}
 
-	return (T) 0;
+	return DefaultValueSupplier::DefaultValue<T>();
 }
-
 
 template <class T>
 T *LList<T>::GetPointer(int index) const
@@ -272,7 +273,7 @@ LListItem<T> *LList<T>::GetItem(int index) const
 
 
 template <class T>
-T LList<T>::operator [] (int index)
+T const & LList<T>::operator [] (int index) const
 {
     return GetData(index);    
 }
@@ -320,6 +321,28 @@ void LList<T>::EmptyAndDelete()
         T theData = GetData(0);
         RemoveData(0);
         delete theData;
+    }
+}
+
+template <class T>
+void LList<T>::EmptyAndDeleteArray()
+{
+    while(Size() > 0)
+    {
+        T theData = GetData(0);
+        RemoveData(0);
+        delete[] theData;
+    }
+}
+
+template <class T>
+void LList<T>::EmptyAndFree()
+{
+    while(Size() > 0)
+    {
+        T theData = GetData(0);
+        RemoveData(0);
+        free(theData);
     }
 }
 

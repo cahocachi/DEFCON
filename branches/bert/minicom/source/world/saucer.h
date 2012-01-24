@@ -18,7 +18,7 @@ public:
 
     Saucer();
 
-    void    Action          ( int targetObjectId, Fixed longitude, Fixed latitude );
+    void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     Fixed   GetActionRange  ();
     bool    Update          ();
     void    Render          ();

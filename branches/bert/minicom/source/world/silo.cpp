@@ -43,16 +43,16 @@ Silo::Silo()
     InitialiseTimers();
 }
 
-void Silo::Action( int targetObjectId, Fixed longitude, Fixed latitude )
+void Silo::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
     if( !CheckCurrentState() )
     {
         return;
     }
 
-    if( m_stateTimer <= 0 )
+    if( m_currentState == 0 )
     {
-        if( m_currentState == 0 )
+        if( m_stateTimer <= 0 )
         {
             g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, 360 );
             m_numNukesLaunched++;
@@ -63,32 +63,38 @@ void Silo::Action( int targetObjectId, Fixed longitude, Fixed latitude )
                 m_lastSeenTime[team->m_teamId] = m_ghostFadeTime;
                 m_seen[team->m_teamId] = true;
             }
-    
         }
-        else if( m_currentState == 1 )
+        else
         {
-            WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(targetObjectId);
-            if( targetObject )
+            return;
+        }
+    }
+    else if( m_currentState == 1 )
+    {
+        WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(targetObjectId);
+        if( targetObject )
+        {
+            if( targetObject->m_visible[m_teamId] &&                     
+                g_app->GetWorld()->GetAttackOdds( m_type, targetObject->m_type ) > 0 &&
+                g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude) <= GetActionRange() )
             {
-                if( targetObject->m_visible[m_teamId] &&                     
-                    g_app->GetWorld()->GetAttackOdds( m_type, targetObject->m_type ) > 0 &&
-                    g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude) <= GetActionRange() )
-                {
-                    m_targetObjectId = targetObjectId;
-                }
-                else
-                {
-                    return;
-                }
+                m_targetObjectId = targetObjectId;
+
+                // manual target selection; don't retarget.
+                m_retargetTimer = Fixed::MAX;
             }
             else
             {
                 return;
             }
         }
-
-        WorldObject::Action( targetObjectId, longitude, latitude );
+        else
+        {
+            return;
+        }
     }
+
+    WorldObject::Action( targetObjectId, longitude, latitude );
 }
 
 void Silo::SetState( int state )
@@ -123,10 +129,13 @@ bool Silo::Update()
 
     if( m_stateTimer <= 0 )
     {
-        if( m_retargetTimer <= 0 )
+        static const Fixed retargetTime(10);
+
+        // retarget if the timer is up or a manually selected target was just destroyed
+        if( m_retargetTimer <= 0 || ( m_retargetTimer > retargetTime && m_targetObjectId == -1 ) )
         {
-            m_retargetTimer = 10;
             AirDefense();
+            m_retargetTimer = retargetTime;
         }
         if( m_targetObjectId != -1  )
         {
@@ -138,7 +147,6 @@ bool Silo::Update()
                     g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude) <= GetActionRange() )
                 {
                     FireGun( GetActionRange() );
-                    m_stateTimer = m_states[1]->m_timeToReload;
                 }
                 else
                 {
@@ -301,7 +309,7 @@ void Silo::AirDefense()
     {
         Fixed actionRangeSqd = GetActionRangeSqd();
 
-        int nukeId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeNuke, true );
+        WorldObjectReference nukeId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeNuke, true );
         WorldObject *nuke = g_app->GetWorld()->GetWorldObject( nukeId );
         if( nuke )
         {
@@ -312,7 +320,7 @@ void Silo::AirDefense()
             }
         }
         
-        int bomberId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeBomber, true );
+        WorldObjectReference bomberId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeBomber, true );
         WorldObject *bomber = g_app->GetWorld()->GetWorldObject( bomberId );
         if( bomber )
         {
@@ -324,7 +332,7 @@ void Silo::AirDefense()
         }
         
         
-        int fighterId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeFighter, true );
+        WorldObjectReference fighterId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeFighter, true );
         WorldObject *fighter = g_app->GetWorld()->GetWorldObject( fighterId );
         if( fighter )
         {
