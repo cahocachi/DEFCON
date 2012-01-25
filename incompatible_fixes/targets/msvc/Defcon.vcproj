@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib opengl32.lib glu32.lib dsound.lib dxguid.lib dxerr.lib dbghelp.lib winmm.lib Ws2_32.lib"
-				OutputFile="../../Defcon.exe"
+				OutputFile="../../Defcon_debug.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="libcd;libc;libcp"
