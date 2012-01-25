@@ -115,7 +115,7 @@ bool BattleShip::Update()
 }
 
 /*
-void BattleShip::Render(float xOffset )
+void BattleShip::Render(RenderInfo & renderInfo )
 {
     MovingObject::Render( xOffset );
 }

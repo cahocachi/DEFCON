@@ -534,29 +534,20 @@ void MovingObject::CrossSeam()
     }
 }
 
-void MovingObject::Render( float xOffset )
+void MovingObject::Render( RenderInfo & renderInfo )
 {    
-    float predictionTime = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-    Vector2< float > predictedPos( m_longitude.DoubleValue()+xOffset,  m_latitude.DoubleValue() );
-    Vector2< float > vel( m_vel.x.DoubleValue(), m_vel.y.DoubleValue() );
-    predictedPos += vel * predictionTime;
-
-    //
-    // Render history
-    if( g_preferences->GetInt( PREFS_GRAPHICS_TRAILS ) == 1 )
-    {
-        RenderHistory( predictedPos, xOffset );
-    }
-    
     if( m_movementType == MovementTypeAir )
     {
+        // already done by map renderer
+        // renderInfo.FillPosition(this);
+
         // float angle = atan( -m_vel.x.DoubleValue() / m_vel.y.DoubleValue() );
         // if( m_vel.y < 0 ) angle += M_PI;
         
-        Vector2< float > dir( vel );
-        dir /= dir.Mag();
+        renderInfo.m_direction = renderInfo.m_velocity;
+        renderInfo.m_direction /= renderInfo.m_velocity.Mag();
 
-        Vector2< float > displayPos( predictedPos + vel * 2 );
+        Vector2< float > displayPos( renderInfo.m_position + renderInfo.m_velocity * 2 );
         float size = GetSize().DoubleValue();
 
         Team *team = g_app->GetWorld()->GetTeam(m_teamId);
@@ -565,13 +556,13 @@ void MovingObject::Render( float xOffset )
         
         Image *bmpImage = g_resource->GetImage( bmpImageFilename );
         g_renderer->Blit( bmpImage, 
-                          predictedPos.x,
-                          predictedPos.y,
+                          renderInfo.m_position.x,
+                          renderInfo.m_position.y,
                           size/2, 
                           size/2, 
                           colour, 
-                          dir.y,
-                          -dir.x );
+                          renderInfo.m_direction.y,
+                          -renderInfo.m_direction.x );
 
 
         //
@@ -592,13 +583,13 @@ void MovingObject::Render( float xOffset )
             {
                 bmpImage = g_resource->GetImage( GetBmpBlurFilename() );
                 g_renderer->Blit( bmpImage, 
-                                predictedPos.x,
-                                predictedPos.y,
+                                renderInfo.m_position.x,
+                                renderInfo.m_position.y,
                                 size/2, 
                                 size/2, 
                                 colour, 
-                                dir.y,
-                                -dir.x );
+                                renderInfo.m_direction.y,
+                                -renderInfo.m_direction.x );
 
             }
             colour.m_a *= 0.5f;
@@ -606,44 +597,49 @@ void MovingObject::Render( float xOffset )
     }
     else
     {
-        WorldObject::Render( xOffset );
+        WorldObject::Render( renderInfo );
+    }
+
+    //
+    // Render history
+    if( g_preferences->GetInt( PREFS_GRAPHICS_TRAILS ) == 1 )
+    {
+        RenderHistory( renderInfo );
     }
 }
 
-static int s_maxHistoryRender[WorldObject::NumObjectTypes];
-
-void MovingObject::PrepareRenderHistory()
+void MovingObject::PrepareRender( RenderInfo & renderInfo )
 {
     int sizeCap = (int)(80 * g_app->GetMapRenderer()->GetZoomFactor() );
     sizeCap /= World::GetGameScale().DoubleValue();
 
     for( int i = NumObjectTypes-1; i >= 0; --i )
     {
-        s_maxHistoryRender[i] = sizeCap;
+        renderInfo.m_maxHistoryRender[i] = sizeCap;
     }
 
     if( g_app->GetGame()->GetOptionValue("GameMode") == GAMEMODE_BIGWORLD )
     {
-        s_maxHistoryRender[TypeNuke] = 12 * g_app->GetMapRenderer()->GetZoomFactor();
+        renderInfo.m_maxHistoryRender[TypeNuke] = 12 * g_app->GetMapRenderer()->GetZoomFactor();
         if( g_app->GetMapRenderer()->GetZoomFactor() < 0.25f )
         {
-            s_maxHistoryRender[TypeNuke] = 0;
+            renderInfo.m_maxHistoryRender[TypeNuke] = 0;
         }
 
         for( int i = NumObjectTypes-1; i >= 0; --i )
         {
-            if( s_maxHistoryRender[i] < 2 )
+            if( renderInfo.m_maxHistoryRender[i] < 2 )
             {
-                s_maxHistoryRender[i] = 0;
+                renderInfo.m_maxHistoryRender[i] = 0;
             }
         }
     }
 }
 
-void MovingObject::RenderHistory( Vector2<float> const & predictedPos, float xOffset )
+void MovingObject::RenderHistory( RenderInfo & renderInfo )
 {
     int maxSize = m_history.Size();
-    int sizeCap = s_maxHistoryRender[m_type];
+    int sizeCap = renderInfo.m_maxHistoryRender[m_type];
     maxSize = ( maxSize > sizeCap ? sizeCap : maxSize );
 
     if( maxSize <= 0 )
@@ -671,12 +667,12 @@ void MovingObject::RenderHistory( Vector2<float> const & predictedPos, float xOf
         maxSize = min( maxSize, 4 );
     }
 
-    Vector2<float> lastPos( predictedPos );
+    Vector2<float> lastPos( renderInfo.m_position );
 
     for( int i = 0; i < maxSize; ++i )
     {
         Vector2<float> thisPos = m_history[i];;
-        thisPos.x += xOffset;
+        thisPos.x += renderInfo.m_xOffset;
         
         Vector2<float> diff = thisPos - lastPos;
         lastPos += diff * 0.1f;
@@ -703,17 +699,17 @@ bool MovingObject::IsIdle()
 }
 
 
-void MovingObject::RenderGhost( int teamId, float xOffset )
+void MovingObject::RenderGhost( int teamId, RenderInfo & renderInfo )
 {
     if( m_lastSeenTime[teamId] != 0)
     {
         if( m_movementType == MovementTypeAir ||
             m_movementType == MovementTypeSea )
         {		
-            Fixed predictionTime = m_ghostFadeTime - m_lastSeenTime[teamId];
-            predictionTime += Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-            float predictedLongitude = (m_lastKnownPosition[teamId].x + m_lastKnownVelocity[teamId].x * predictionTime).DoubleValue() + xOffset;
-            float predictedLatitude = (m_lastKnownPosition[teamId].y + m_lastKnownVelocity[teamId].y * predictionTime).DoubleValue();
+            renderInfo.m_position.x = m_longitude.DoubleValue()+renderInfo.m_xOffset;
+            renderInfo.m_position.y = m_latitude.DoubleValue();
+            Vector2< float > vel( m_vel.x.DoubleValue(), m_vel.y.DoubleValue() );
+            renderInfo.m_position += vel * renderInfo.m_predictionTime;
 
             float size = GetSize().DoubleValue();       
             float thisSize = size;
@@ -739,11 +735,11 @@ void MovingObject::RenderGhost( int teamId, float xOffset )
             }
 
             Image *bmpImage = g_resource->GetImage( bmpImageFilename );
-            g_renderer->Blit( bmpImage, predictedLongitude, predictedLatitude, thisSize, size, col, angle);
+            g_renderer->Blit( bmpImage, renderInfo.m_position.x, renderInfo.m_position.y, thisSize, size, col, angle);
         }
         else
         {
-            WorldObject::RenderGhost( teamId, xOffset );
+            WorldObject::RenderGhost( teamId, renderInfo );
         }
     }
 }
