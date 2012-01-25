@@ -602,6 +602,14 @@ void App::Render()
     // Flip
 
     START_PROFILE( "GL Flip" );
+	
+    // flush buffers before swap; this gives
+    // one frame input lag max and does not reduce
+    // throughput as much as doing it after the swap.
+    // Yes, some sources say glFinish never needs to be called.
+    // They're wrong.
+    glFinish();
+
     g_windowManager->Flip();
     END_PROFILE( "GL Flip" );   
     
