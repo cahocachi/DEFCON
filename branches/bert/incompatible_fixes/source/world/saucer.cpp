@@ -145,18 +145,19 @@ bool Saucer::Update()
     return MovingObject::Update();   
 }
 
-void Saucer::Render()
+void Saucer::Render( float xOffset )
 {
     Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue();
+    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue() + xOffset;
     float predictedLatitude = ( m_latitude + m_vel.y * predictionTime ).DoubleValue(); 
     float size = 8.0f;
 
+    Vector2<float> predictedPos( predictedLongitude, predictedLatitude );
 
     Colour colour       = COLOUR_SPECIALOBJECTS;
     if( m_currentState == 0 )
     {
-        RenderHistory(); 
+        RenderHistory( predictedPos, xOffset ); 
     }
     
     m_angle += 0.01f;

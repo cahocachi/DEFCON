@@ -15,7 +15,7 @@ public:
     DepthCharge( Fixed range );
 
     bool    Update          ();
-    void    Render          ();
+    void    Render          ( float xOffset );
     void    Impact();
 }; 
 

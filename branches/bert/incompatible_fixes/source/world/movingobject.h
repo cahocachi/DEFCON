@@ -47,12 +47,14 @@ public:
     void            InitialiseTimers();
 
     bool            Update();
+    void            UpdateHistory();
 
     bool            IsValidPosition ( Fixed longitude, Fixed latitude );
     bool            MoveToWaypoint  ();                                   // returns true upon arrival
-    void            Render          ();
-    void            RenderGhost     ( int teamId );
-    void            RenderHistory   ();
+    void            Render          ( float xOffset );
+    void            RenderGhost     ( int teamId, float xOffset );
+    static void     PrepareRenderHistory();
+    void            RenderHistory   ( Vector2<float> const & predictedPos, float xOffset );
 
     virtual void    SetWaypoint     ( Fixed longitude, Fixed latitude );
 

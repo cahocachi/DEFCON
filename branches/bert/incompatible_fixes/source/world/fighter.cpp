@@ -183,10 +183,12 @@ bool Fighter::Update()
     return amIDead;
 }
 
-void Fighter::Render()
+/*
+void Fighter::Render( float xOffset )
 {
-    MovingObject::Render();
+    MovingObject::Render( xOffset );
 }
+*/
 
 void Fighter::RunAI()
 {

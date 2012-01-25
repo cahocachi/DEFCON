@@ -18,7 +18,7 @@ public:
     GunFire( Fixed range );
 
     virtual bool    Update          ();
-    virtual void    Render          ();
+    virtual void    Render          ( float xOffset );
     virtual void    Impact          ();
     bool            MoveToWaypoint  ();
     void            CalculateNewPosition( Fixed *newLongitude,Fixed *newLatitude, Fixed *newDistance );

@@ -52,35 +52,17 @@ bool GunFire::Update()
         m_targetLatitude = m_latitude + m_vel.y * 10;
     }
 
-    //
-    // Update history  
-    
-    m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
-    if( m_historyTimer <= 0 )
-    {
-        if( m_longitude > -180 ||
-            m_longitude < 180 )
-        {
-            m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
-            m_historyTimer = Fixed::Hundredths(10);
-        }
-    }
+    bool ret = MoveToWaypoint();
 
-    m_maxHistorySize = 10;
-    
-    while( m_maxHistorySize != -1 && 
-           m_history.ValidIndex(m_maxHistorySize) )
-    {
-        m_history.RemoveData(m_maxHistorySize);
-    }
+    UpdateHistory();
 
-    return MoveToWaypoint();
+    return ret;
 }
 
-void GunFire::Render()
+void GunFire::Render( float xOffset )
 {
     Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = (m_longitude + m_vel.x * Fixed(predictionTime)).DoubleValue();
+    float predictedLongitude = (m_longitude + m_vel.x * Fixed(predictionTime)).DoubleValue()+xOffset;
     float predictedLatitude = (m_latitude + m_vel.y * Fixed(predictionTime)).DoubleValue(); 
     float size = 2;
     if( g_app->GetMapRenderer()->GetZoomFactor() <= 0.25f )
@@ -107,19 +89,8 @@ void GunFire::Render()
 		lastPos = m_history[i-1];
         thisPos = m_history[i];
 
-        if( lastPos.x < -170 && thisPos.x > 170 )
-        {
-            thisPos.x = -180 - ( 180 - thisPos.x );
-        }
-
-        if( lastPos.x > 170 && thisPos.x < -170 )
-        {
-            thisPos.x = 180 + ( 180 - fabs(thisPos.x) );
-        }
-
-        Vector2<float> diff = thisPos - lastPos;        
         colour.m_a = 255 - 255 * (float) i / (float) maxSize;
-        g_renderer->Line( lastPos.x, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
+        g_renderer->Line( lastPos.x+xOffset, lastPos.y, thisPos.x+xOffset, thisPos.y, colour, 0.2f );
     }
 
     if( m_history.Size() > 0 )
@@ -129,18 +100,8 @@ void GunFire::Render()
 		lastPos = m_history[ 0 ];
         thisPos = Vector2<float>( predictedLongitude, predictedLatitude );
         
-        if( lastPos.x < -170 && thisPos.x > 170 )
-        {
-            thisPos.x = -180 - ( 180 - thisPos.x );
-        }
-
-        if( lastPos.x > 170 && thisPos.x < -170 )
-        {
-            thisPos.x = 180 + ( 180 - fabs(thisPos.x) );
-        }
-
         colour.m_a = 255;
-        g_renderer->Line( lastPos.x, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
+        g_renderer->Line( lastPos.x+xOffset, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
     }
 
     g_renderer->Line( predictedLongitude, predictedLatitude, 

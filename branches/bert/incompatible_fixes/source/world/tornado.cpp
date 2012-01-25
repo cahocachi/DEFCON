@@ -108,10 +108,10 @@ Fixed Tornado::GetActionRange()
 }
 
 
-void Tornado::Render()
+void Tornado::Render( float xOffset )
 {
     Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue();
+    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue() + xOffset;
     float predictedLatitude = ( m_latitude + m_vel.y * predictionTime ).DoubleValue(); 
 
     Colour colour       = COLOUR_SPECIALOBJECTS;         

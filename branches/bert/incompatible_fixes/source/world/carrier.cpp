@@ -720,9 +720,9 @@ int Carrier::CountIncomingFighters()
 }
 
 
-void Carrier::Render()
+void Carrier::Render( float xOffset )
 {
-    MovingObject::Render();
+    MovingObject::Render(xOffset);
 
 
     //
@@ -743,7 +743,7 @@ void Carrier::Render()
         if( m_currentState == 0 ) bmpImage = g_resource->GetImage("graphics/smallfighter.bmp" );
 
         Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-        float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue();
+        float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue() + xOffset;
         float predictedLatitude = (m_latitude + m_vel.y * predictionTime).DoubleValue(); 
 
         if( bmpImage )
