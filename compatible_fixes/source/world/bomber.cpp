@@ -470,9 +470,9 @@ void Bomber::CeaseFire( int teamId )
 }
 
 
-void Bomber::Render(float xOffset )
+void Bomber::Render( RenderInfo & renderInfo )
 {
-    MovingObject::Render( xOffset );
+    MovingObject::Render( renderInfo );
 
 
     //
@@ -483,13 +483,6 @@ void Bomber::Render(float xOffset )
         g_app->GetGame()->m_winner != -1 ) &&
         m_states[1]->m_numTimesPermitted > 0 )
     {
-        Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-        float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue() + xOffset;
-        float predictedLatitude = (m_latitude + m_vel.y * predictionTime).DoubleValue(); 
-    
-        float angle = atan( -m_vel.x.DoubleValue() / m_vel.y.DoubleValue() );
-        if( m_vel.y < 0 ) angle += M_PI;
-    
         Team *team = g_app->GetWorld()->GetTeam(m_teamId);
         Colour colour = team->GetTeamColour();            
         colour.m_a = 150;
@@ -497,9 +490,11 @@ void Bomber::Render(float xOffset )
         Image *bmpImage = g_resource->GetImage( "graphics/smallnuke.bmp" );
 
         float size = GetSize().DoubleValue() * 0.4f;
-        
-        g_renderer->Blit( bmpImage, predictedLongitude + m_vel.x.DoubleValue() * 4, predictedLatitude + m_vel.y.DoubleValue() * 4,
-						  size/2, size/2, colour, angle );
+
+        Vector2< float > pos = renderInfo.m_position + renderInfo.m_velocity * 4;
+
+        g_renderer->Blit( bmpImage, pos.x, pos.y,
+						  size/2, size/2, colour, renderInfo.m_direction.y, -renderInfo.m_direction.x );
     }
 }
 

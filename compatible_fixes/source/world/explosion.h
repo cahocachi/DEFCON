@@ -17,7 +17,7 @@ public:
     Explosion();
 
     bool Update();
-    void Render( float xOffset );
+    void Render( RenderInfo & renderInfo );
 
     bool IsActionable() { return false; }
 

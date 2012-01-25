@@ -30,7 +30,7 @@ public:
     Fixed GetSize();
     bool Update();
     void SetWaypoint( Fixed longitude, Fixed latitude );
-    void Render( float xOffset );
+    void Render( RenderInfo & renderInfo );
 }; 
 
 #endif

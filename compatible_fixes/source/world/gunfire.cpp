@@ -59,11 +59,10 @@ bool GunFire::Update()
     return ret;
 }
 
-void GunFire::Render( float xOffset )
+void GunFire::Render( RenderInfo & renderInfo )
 {
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = (m_longitude + m_vel.x * Fixed(predictionTime)).DoubleValue()+xOffset;
-    float predictedLatitude = (m_latitude + m_vel.y * Fixed(predictionTime)).DoubleValue(); 
+    renderInfo.FillPosition(this);
+
     float size = 2;
     if( g_app->GetMapRenderer()->GetZoomFactor() <= 0.25f )
     {
@@ -90,7 +89,7 @@ void GunFire::Render( float xOffset )
         thisPos = m_history[i];
 
         colour.m_a = 255 - 255 * (float) i / (float) maxSize;
-        g_renderer->Line( lastPos.x+xOffset, lastPos.y, thisPos.x+xOffset, thisPos.y, colour, 0.2f );
+        g_renderer->Line( lastPos.x+renderInfo.m_xOffset, lastPos.y, thisPos.x+renderInfo.m_xOffset, thisPos.y, colour, 0.2f );
     }
 
     if( m_history.Size() > 0 )
@@ -98,15 +97,15 @@ void GunFire::Render( float xOffset )
         Vector2<float> lastPos, thisPos;
 		
 		lastPos = m_history[ 0 ];
-        thisPos = Vector2<float>( predictedLongitude, predictedLatitude );
+        thisPos = renderInfo.m_position;
         
         colour.m_a = 255;
-        g_renderer->Line( lastPos.x+xOffset, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
+        g_renderer->Line( lastPos.x+renderInfo.m_xOffset, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
     }
 
-    g_renderer->Line( predictedLongitude, predictedLatitude, 
-                                predictedLongitude-m_vel.x.DoubleValue(), 
-                                predictedLatitude-m_vel.y.DoubleValue(), colour, 2.0f );
+    g_renderer->Line( renderInfo.m_position.x, renderInfo.m_position.y, 
+                                renderInfo.m_position.x - renderInfo.m_velocity.x, 
+                                renderInfo.m_position.y - renderInfo.m_velocity.y, colour, 2.0f );
 }
 
 bool GunFire::MoveToWaypoint()

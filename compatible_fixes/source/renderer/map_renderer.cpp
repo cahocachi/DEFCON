@@ -453,6 +453,9 @@ void MapRenderer::RenderExplosions()
     int myTeamId = g_app->GetWorld()->m_myTeamId;
     World * world = g_app->GetWorld();
     
+    WorldObject::RenderInfo info;
+    WorldObject::PrepareRender( info );
+
     for( int i = 0; i < world->m_explosions.Size(); ++i )
     {
         if( world->m_explosions.ValidIndex(i) )
@@ -464,7 +467,8 @@ void MapRenderer::RenderExplosions()
                     explosion->m_visible[myTeamId] || 
                     m_renderEverything )
                 {
-                    explosion->Render( GetOffset( explosion, m_middleX ) );
+                    info.m_xOffset = GetOffset( explosion, m_middleX );
+                    explosion->Render( info );
                 }
             }
         }
@@ -594,6 +598,9 @@ void MapRenderer::RenderGunfire()
 
     int myTeamId = g_app->GetWorld()->m_myTeamId;
 
+    WorldObject::RenderInfo info;
+    WorldObject::PrepareRender( info );
+
     for( int i = 0; i < g_app->GetWorld()->m_gunfire.Size(); ++i )
     {
         if( g_app->GetWorld()->m_gunfire.ValidIndex(i) )
@@ -605,7 +612,8 @@ void MapRenderer::RenderGunfire()
                  gunFire->m_visible[myTeamId] ||
                  m_renderEverything ) )
             {
-                gunFire->Render(GetOffset( gunFire, m_middleX ) );
+                info.m_xOffset = GetOffset( gunFire, m_middleX ); 
+                gunFire->Render( info );
             }
         }
     }
@@ -2566,7 +2574,9 @@ void MapRenderer::RenderObjects()
 {
     START_PROFILE( "Objects" );
 
-    MovingObject::PrepareRenderHistory();
+    MovingObject::RenderInfo info;
+    WorldObject::PrepareRender( info );
+    MovingObject::PrepareRender( info );
 
     World * world = g_app->GetWorld();
 
@@ -2581,20 +2591,21 @@ void MapRenderer::RenderObjects()
 
             g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
-            bool onScreen = IsOnScreen( wobj->m_longitude.DoubleValue(), wobj->m_latitude.DoubleValue() );
-            if( onScreen || wobj->m_type == WorldObject::TypeNuke )
+            info.m_xOffset = GetOffset( wobj, m_middleX );
+            info.FillPosition(wobj);
+            bool onScreen = IsOnScreen( info, wobj->m_type == WorldObject::TypeNuke ? 50 : 2 );
+            if( onScreen )
             {
-                float offset = GetOffset( wobj, m_middleX );
                 if( myTeamId == -1 ||
                     wobj->m_teamId == myTeamId ||
                     wobj->m_visible[myTeamId] ||
                     m_renderEverything )
                 {
-                    wobj->Render( offset );
+                    wobj->Render( info );
                 }
                 else
                 {
-                    wobj->RenderGhost( myTeamId, offset );
+                    wobj->RenderGhost( myTeamId, info );
                 }
             }
 
@@ -3942,7 +3953,7 @@ void MapRenderer::GetWindowBounds( float *left, float *right, float *top, float 
 {
     float width = 360.0f * m_zoomFactor;    
     float aspect = (float) g_windowManager->WindowH() / (float) g_windowManager->WindowW();
-    float height = (360.0f * aspect) * m_zoomFactor;
+    float height = width * aspect;
 
     *left = m_middleX - width/2.0f;
     *top = m_middleY + height/2.0f;
@@ -4702,6 +4713,20 @@ bool MapRenderer::IsOnScreen( float _longitude, float _latitude, float _expandSc
         }
     }
     return false;
+}
+
+bool MapRenderer::IsOnScreen( WorldObject::RenderInfo const & info, float _expandScreen )
+{
+    float left, right, top, bottom;
+    GetWindowBounds( &left, &right, &top, &bottom );
+
+    left -= _expandScreen;
+    right += _expandScreen;
+    top += _expandScreen;
+    bottom -= _expandScreen;
+
+    return info.m_position.x > left && info.m_position.x < right &&
+           info.m_position.y > bottom && info.m_position.y < top;
 }
 
 bool MapRenderer::GetShowWhiteBoard() const
