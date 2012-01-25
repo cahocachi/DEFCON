@@ -248,6 +248,7 @@ public:
     void    MoveCam();
 
     bool    IsOnScreen( float _longitude, float _latitude, float _expandScreen = 2.0f );
+    bool    IsOnScreen( WorldObject::RenderInfo const & info, float _expandScreen = 2.0f );
 
 	bool	GetShowWhiteBoard() const;
 	void	SetShowWhiteBoard( bool showWhiteBoard );

@@ -145,19 +145,16 @@ bool Saucer::Update()
     return MovingObject::Update();   
 }
 
-void Saucer::Render( float xOffset )
+void Saucer::Render( RenderInfo & renderInfo )
 {
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue() + xOffset;
-    float predictedLatitude = ( m_latitude + m_vel.y * predictionTime ).DoubleValue(); 
-    float size = 8.0f;
+    renderInfo.FillPosition(this);
 
-    Vector2<float> predictedPos( predictedLongitude, predictedLatitude );
+    float size = 8.0f;
 
     Colour colour       = COLOUR_SPECIALOBJECTS;
     if( m_currentState == 0 )
     {
-        RenderHistory( predictedPos, xOffset ); 
+        RenderHistory( renderInfo ); 
     }
     
     m_angle += 0.01f;
@@ -165,12 +162,12 @@ void Saucer::Render( float xOffset )
     Image *bmpImage = g_resource->GetImage( bmpImageFilename );
     if( m_currentState == 0 )
     {  
-        g_renderer->Blit( bmpImage, predictedLongitude + m_vel.x.DoubleValue() * 2,
-						  predictedLatitude + m_vel.y.DoubleValue() * 2, size/2, size/2, colour, m_angle );
+        g_renderer->Blit( bmpImage, renderInfo.m_position.x + renderInfo.m_velocity.x * 2,
+						  renderInfo.m_position.y + renderInfo.m_velocity.y * 2, size/2, size/2, colour, m_angle );
     }
     else
     {
-        g_renderer->Blit( bmpImage, m_longitude.DoubleValue(), m_latitude.DoubleValue(), size/2, size/2, colour, m_angle );
+        g_renderer->Blit( bmpImage, renderInfo.m_position.x, renderInfo.m_position.y, size/2, size/2, colour, m_angle );
     }
     
     if( m_currentState == 1 )

@@ -188,9 +188,9 @@ bool Sub::Update()
     return MovingObject::Update();
 }
 
-void Sub::Render( float xOffset )
+void Sub::Render( RenderInfo & renderInfo )
 {
-    MovingObject::Render( xOffset );
+    MovingObject::Render( renderInfo );
 
 
 
@@ -201,10 +201,6 @@ void Sub::Render( float xOffset )
         g_app->GetWorld()->m_myTeamId == -1 ||
         g_app->GetGame()->m_winner != -1 )
     {   
-        float predictionTime = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-        float predictedLongitude = m_longitude.DoubleValue() + m_vel.x.DoubleValue() * predictionTime + xOffset;
-        float predictedLatitude = m_latitude.DoubleValue() + m_vel.y.DoubleValue() * predictionTime; 
-
         int numNukesInStore = m_states[2]->m_numTimesPermitted;
         int numNukesInQueue = m_actionQueue.Size();
 
@@ -215,8 +211,8 @@ void Sub::Render( float xOffset )
         Image *bmpImage = g_resource->GetImage("graphics/smallnuke.bmp");
         if( bmpImage )
         {
-            float x = predictedLongitude - GetSize().DoubleValue() * 0.2f;
-            float y = predictedLatitude;       
+            float x = renderInfo.m_position.x - GetSize().DoubleValue() * 0.2f;
+            float y = renderInfo.m_position.y;       
             float nukeSize = GetSize().DoubleValue() * 0.35f;
             float dx = nukeSize * 0.5f;
             

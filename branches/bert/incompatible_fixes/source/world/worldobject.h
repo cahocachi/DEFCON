@@ -141,12 +141,31 @@ public:
     virtual bool        IsHiddenFrom    ();
 
     virtual bool        Update          ();
-    virtual void        Render          ( float xOffset );
+
+    // information passed around on rendering so nothing has to be calculated twice
+    struct RenderInfo
+    {
+        // filled by outside caller:
+        float m_xOffset; // add this to all x coordinates to get the object into the viewport
+
+        // filled by WorldObject/MovingObject:
+        Vector2< float > m_position; // actual position with offset applied
+        Vector2< float > m_velocity; // velocity as float vector
+        Vector2< float > m_direction; // normalised velocity, only used for planes
+
+        // filled by MovingObject::PrepareRender
+        int m_maxHistoryRender[WorldObject::NumObjectTypes]; // maximal history size per object type
+        float m_predictionTime; // time to extrapolate for
+
+        inline void FillPosition( WorldObject * object );
+    };
+
+    static void         PrepareRender   ( RenderInfo & renderInfo );
+    virtual void        Render          ( RenderInfo & renderInfo );
     
 	virtual void		RunAI			();
-
     void                RenderCounter   ( int counter );
-    virtual void        RenderGhost     ( int teamId, float xOffset );
+    virtual void        RenderGhost     ( int teamId, RenderInfo & renderInfo );
 
     virtual Fixed       GetSize         ();
     bool                CheckCurrentState();
@@ -257,6 +276,15 @@ inline WorldObjectReference &  WorldObjectReference::operator = ( WorldObject co
     {
         return operator = ( -1 );
     }
+}
+
+inline void WorldObject::RenderInfo::FillPosition( WorldObject * object )
+{
+    m_position.x = object->m_longitude.DoubleValue()+m_xOffset;
+    m_position.y = object->m_latitude.DoubleValue();
+    m_velocity.x = object->m_vel.x.DoubleValue();
+    m_velocity.y = object->m_vel.y.DoubleValue();
+    m_position += m_velocity * m_predictionTime;
 }
 
 #endif

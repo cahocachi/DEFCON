@@ -184,7 +184,7 @@ bool Fighter::Update()
 }
 
 /*
-void Fighter::Render( float xOffset )
+void Fighter::Render( RenderInfo & renderInfo )
 {
     MovingObject::Render( xOffset );
 }

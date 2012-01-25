@@ -183,23 +183,18 @@ bool Nuke::Update()
     return MovingObject::Update();
 }
 
-void Nuke::Render( float xOffset )
+void Nuke::Render( RenderInfo & renderInfo )
 {
-    MovingObject::Render(xOffset);
+    MovingObject::Render(renderInfo);
 
     // nukes have extra long trails. Render them twice.
     if( m_history.Size() > 0 && g_preferences->GetInt( PREFS_GRAPHICS_TRAILS ) == 1 )
     {
-        float predictionTime = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-        Vector2< float > predictedPos( m_longitude.DoubleValue(),  m_latitude.DoubleValue()+xOffset );
+        float offset = ( renderInfo.m_position.x - renderInfo.m_xOffset > m_history[m_history.Size()-1].x ) ? 360 : -360;
+        renderInfo.m_position.x += offset;
+        renderInfo.m_xOffset += offset;
 
-        xOffset += ( predictedPos.x > m_history[m_history.Size()-1].x ) ? 360 : -360;
-        predictedPos.x += xOffset;
-
-        Vector2< float > vel( m_vel.x.DoubleValue(), m_vel.y.DoubleValue() );
-        predictedPos += vel * predictionTime;
-
-        RenderHistory( predictedPos, xOffset );
+        RenderHistory( renderInfo );
     }
 
 }

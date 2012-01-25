@@ -108,19 +108,17 @@ Fixed Tornado::GetActionRange()
 }
 
 
-void Tornado::Render( float xOffset )
+void Tornado::Render( RenderInfo & renderInfo )
 {
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue() + xOffset;
-    float predictedLatitude = ( m_latitude + m_vel.y * predictionTime ).DoubleValue(); 
+    renderInfo.FillPosition(this);
 
     Colour colour       = COLOUR_SPECIALOBJECTS;         
 
     m_angle += 0.05f;
 
     Image *bmpImage = g_resource->GetImage( bmpImageFilename );
-    g_renderer->Blit( bmpImage, predictedLongitude + m_vel.x.DoubleValue() * 10,
-					  predictedLatitude + m_vel.y.DoubleValue() * 10, m_size.DoubleValue()/2, m_size.DoubleValue()/2,
+    g_renderer->Blit( bmpImage, renderInfo.m_position.y + renderInfo.m_velocity.x * 10,
+					  renderInfo.m_position.y + renderInfo.m_velocity.y * 10, m_size.DoubleValue()/2, m_size.DoubleValue()/2,
 					  colour, m_angle );
 }
 
