@@ -21,7 +21,7 @@ public:
     bool UsingNukes();
     void NukeStrike();
     bool Update();
-    void Render();
+    void Render( float xOffset );
     bool CanLaunchFighter();
     bool CanLaunchBomber();
     

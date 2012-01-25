@@ -22,7 +22,7 @@ public:
 
     void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    Update          ();
-    void    Render          ();
+    void    Render          ( float xOffset );
 
     void    SetWaypoint     ( Fixed longitude, Fixed latitude );
     

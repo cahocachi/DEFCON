@@ -1,6 +1,7 @@
 #include "lib/universal_include.h"
 #include "lib/language_table.h"
 #include "lib/sound/soundsystem.h"
+#include "lib/preferences.h"
 #include "lib/math/math_utils.h"
 
 #include <math.h>
@@ -183,9 +184,25 @@ bool Nuke::Update()
     return MovingObject::Update();
 }
 
-void Nuke::Render()
+void Nuke::Render( float xOffset )
 {
-    MovingObject::Render();
+    MovingObject::Render(xOffset);
+
+    // nukes have extra long trails. Render them twice.
+    if( m_history.Size() > 0 && g_preferences->GetInt( PREFS_GRAPHICS_TRAILS ) == 1 )
+    {
+        float predictionTime = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+        Vector2< float > predictedPos( m_longitude.DoubleValue(),  m_latitude.DoubleValue()+xOffset );
+
+        xOffset += ( predictedPos.x > m_history[m_history.Size()-1].x ) ? 360 : -360;
+        predictedPos.x += xOffset;
+
+        Vector2< float > vel( m_vel.x.DoubleValue(), m_vel.y.DoubleValue() );
+        predictedPos += vel * predictionTime;
+
+        RenderHistory( predictedPos, xOffset );
+    }
+
 }
 
 void Nuke::FindTarget( int team, int targetTeam, int launchedBy, Fixed range, Fixed *longitude, Fixed *latitude )

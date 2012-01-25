@@ -114,10 +114,12 @@ bool BattleShip::Update()
     return amIDead;
 }
 
-void BattleShip::Render()
+/*
+void BattleShip::Render(float xOffset )
 {
-    MovingObject::Render();
+    MovingObject::Render( xOffset );
 }
+*/
 
 void BattleShip::RunAI()
 {

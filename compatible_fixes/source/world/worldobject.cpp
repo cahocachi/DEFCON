@@ -359,10 +359,10 @@ char *WorldObject::GetBmpBlurFilename()
 }
 
 
-void WorldObject::Render ()
+void WorldObject::Render ( float xOffset )
 {
     Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue();
+    float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue() + xOffset;
     float predictedLatitude = (m_latitude + m_vel.y * predictionTime).DoubleValue(); 
     float size = GetSize().DoubleValue();
 
@@ -576,7 +576,7 @@ void WorldObject::RunAI()
 
 }
 
-void WorldObject::RenderGhost( int teamId )
+void WorldObject::RenderGhost( int teamId, float xOffset )
 {
     if( m_lastSeenTime[teamId] != 0)
     {
@@ -586,7 +586,7 @@ void WorldObject::RenderGhost( int teamId )
         Colour col = Colour(150, 150, 150, transparency);
         Image *img = GetBmpImage( m_lastSeenState[ teamId ] );
 
-        float x = m_lastKnownPosition[teamId].x.DoubleValue() - size;
+        float x = m_lastKnownPosition[teamId].x.DoubleValue() - size + xOffset;
         float y = m_lastKnownPosition[teamId].y.DoubleValue() + size;
         float thisSize = size*2;
 
@@ -594,7 +594,7 @@ void WorldObject::RenderGhost( int teamId )
 
         if( team->m_territories[0] >= 3 )
         {
-            x = m_lastKnownPosition[teamId].x.DoubleValue() + size;
+            x = m_lastKnownPosition[teamId].x.DoubleValue() + size + xOffset;
             thisSize = size*-2;
         }       
 

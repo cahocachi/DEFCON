@@ -42,7 +42,7 @@ bool DepthCharge::Update()
     return (m_timer == 0);
 }
 
-void DepthCharge::Render()
+void DepthCharge::Render( float xOffset )
 {
     float predictedTimer = m_timer.DoubleValue() - g_app->GetWorld()->GetTimeScaleFactor().DoubleValue() * g_predictionTime;
 
@@ -58,7 +58,7 @@ void DepthCharge::Render()
     
     float angle = sinf(g_gameTime*1.5f) * 0.2f;
     Image *bmpImage = g_resource->GetImage( bmpImageFilename );
-    g_renderer->Blit( bmpImage, m_longitude.DoubleValue(), m_latitude.DoubleValue(), size, size, colour, angle);
+    g_renderer->Blit( bmpImage, m_longitude.DoubleValue()+xOffset, m_latitude.DoubleValue(), size, size, colour, angle);
 }
 
 void DepthCharge::Impact()

@@ -20,7 +20,7 @@ public:
     void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     Fixed   GetActionRange  ();
     bool    Update          ();
-    void    Render          ();
+    void    Render          ( float xOffset );
     void    RunAI           ();
     void    Land            ( WorldObjectReference const & targetId );
     bool    UsingNukes      ();

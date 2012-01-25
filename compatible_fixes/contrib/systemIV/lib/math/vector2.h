@@ -176,6 +176,13 @@ public:
 		return !Compare(b);
 	}
 
+    // fast rotation if sin and cos of the angle are known
+	void RotateAroundZ (T angleCos, T angleSin )
+	{
+        Vector2 result( angleCos*x - angleSin*y, angleCos*y + angleSin*x );
+        *this = result;
+	}
+
 	void RotateAroundZ (T _angle)
 	{
         // delegate to Vector3 for sync compatibility.

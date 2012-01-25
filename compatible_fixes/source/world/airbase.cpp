@@ -518,9 +518,9 @@ int AirBase::IsValidMovementTarget( Fixed longitude, Fixed latitude )
 }
 
 
-void AirBase::Render()
+void AirBase::Render( float xOffset )
 {
-    WorldObject::Render();
+    WorldObject::Render( xOffset );
 
 
     //
@@ -542,7 +542,7 @@ void AirBase::Render()
 
         if( bmpImage )
         {
-            float x = m_longitude.DoubleValue() - GetSize().DoubleValue() * 0.5f;
+            float x = m_longitude.DoubleValue() - GetSize().DoubleValue() * 0.5f + xOffset;
             float y = m_latitude.DoubleValue() - GetSize().DoubleValue() * 0.3f;    
             float size = GetSize().DoubleValue() * 0.35f;
             
