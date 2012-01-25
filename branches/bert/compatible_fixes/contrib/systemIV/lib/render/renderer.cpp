@@ -11,6 +11,7 @@
 #include "lib/resource/image.h"
 #include "lib/resource/bitmap.h"
 #include "lib/math/vector3.h"
+#include "lib/math/vector2.h"
 #include "lib/math/math_utils.h"
 #include "lib/hi_res_time.h"
 #include "lib/debug_utils.h"
@@ -643,22 +644,16 @@ void Renderer::Blit( Image *image, float x, float y, Colour const &col )
 }
 
 
-void Renderer::Blit ( Image *src, float x, float y, float w, float h, Colour const &col, float angle)
+void Renderer::Blit ( Image *src, float x, float y, float w, float h, Colour const &col, float angleCos, float angleSin )
 {    
-    Vector3<float> vert1( -w, +h,0 );
-    Vector3<float> vert2( +w, +h,0 );
-    Vector3<float> vert3( +w, -h,0 );
-    Vector3<float> vert4( -w, -h,0 );
+    Vector2<float> left( -w * angleCos, -w * angleSin );
+    Vector2<float> up( -h * angleSin, h * angleCos );
+    Vector2<float> pos( x, y );
 
-    vert1.RotateAroundZ(angle);
-    vert2.RotateAroundZ(angle);
-    vert3.RotateAroundZ(angle);
-    vert4.RotateAroundZ(angle);
-
-    vert1 += Vector3<float>( x, y, 0 );
-    vert2 += Vector3<float>( x, y, 0 );
-    vert3 += Vector3<float>( x, y, 0 );
-    vert4 += Vector3<float>( x, y, 0 );
+    Vector2<float> vert1( pos + left + up);
+    Vector2<float> vert2( pos - left + up );
+    Vector2<float> vert3( pos - left - up );
+    Vector2<float> vert4( pos + left - up );
 
     glColor4ub      ( col.m_r, col.m_g, col.m_b, col.m_a );   
     glEnable        ( GL_TEXTURE_2D );
@@ -681,6 +676,10 @@ void Renderer::Blit ( Image *src, float x, float y, float w, float h, Colour con
     glDisable       ( GL_TEXTURE_2D );
 }
 
+void Renderer::Blit ( Image *src, float x, float y, float w, float h, Colour const &col, float angle)
+{
+    Blit( src, x, y, w, h, col, cos(angle), sin(angle) );
+}
 
 void Renderer::SaveScreenshot()
 {

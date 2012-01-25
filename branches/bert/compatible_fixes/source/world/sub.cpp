@@ -192,9 +192,9 @@ bool Sub::Update()
     return MovingObject::Update();
 }
 
-void Sub::Render()
+void Sub::Render( float xOffset )
 {
-    MovingObject::Render();
+    MovingObject::Render( xOffset );
 
 
 
@@ -206,7 +206,7 @@ void Sub::Render()
         g_app->GetGame()->m_winner != -1 )
     {   
         float predictionTime = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-        float predictedLongitude = m_longitude.DoubleValue() + m_vel.x.DoubleValue() * predictionTime;
+        float predictedLongitude = m_longitude.DoubleValue() + m_vel.x.DoubleValue() * predictionTime + xOffset;
         float predictedLatitude = m_latitude.DoubleValue() + m_vel.y.DoubleValue() * predictionTime; 
 
         int numNukesInStore = m_states[2]->m_numTimesPermitted;

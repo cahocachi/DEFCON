@@ -299,6 +299,23 @@ void MapRenderer::Render()
 
     // Now go through and render objects on top of the landscape.
     GetWindowBounds( &left, &right, &top, &bottom );
+    {
+        g_renderer->Set2DViewport( left, right, bottom, top, m_pixelX, m_pixelY, m_pixelW, m_pixelH );
+
+        RenderObjects();
+        RenderGunfire();    
+        // RenderBlips();        
+
+        g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
+
+        RenderExplosions();
+        
+        if( m_highlightUnit != -1 )
+        {
+            RenderUnitHighlight( m_highlightUnit );
+        }
+    }    
+
     for( int x = 0; x < 2; ++x )
     {
         g_renderer->Set2DViewport( left, right, bottom, top, m_pixelX, m_pixelY, m_pixelW, m_pixelH );
@@ -306,10 +323,7 @@ void MapRenderer::Render()
         if( m_showPopulation )          RenderPopulationDensity();
         if( m_showNukeUnits )           RenderNukeUnits();
         
-        RenderObjects();
-        RenderGunfire();    
         RenderCities(); 
-        RenderBlips();        
         RenderWorldMessages();
 
         if( m_showRadar )               RenderRadar();
@@ -317,7 +331,6 @@ void MapRenderer::Render()
 
         g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
-        RenderExplosions();
         RenderAnimations();
         
         bool showRadiation  = g_preferences->GetInt( PREFS_GRAPHICS_RADIATION );
@@ -335,11 +348,6 @@ void MapRenderer::Render()
                 angle = 0;
                 g_renderer->Blit( boom, pos.x.DoubleValue(), pos.y.DoubleValue(), 15.0f, 15.0f, col, angle );
             }
-        }
-
-        if( m_highlightUnit != -1 )
-        {
-            RenderUnitHighlight( m_highlightUnit );
         }
 
         RenderWhiteBoard();
@@ -432,6 +440,12 @@ void MapRenderer::RenderPlacementDetails()
     }    
 }
 
+static inline float GetOffset( WorldObject * object, float middleX )
+{
+    float objectX = object->m_longitude.DoubleValue();
+    float diff = objectX - middleX;
+    return (diff < -180) ? 360 : ((diff > 180) ? -360 : 0 );
+}
 
 void MapRenderer::RenderExplosions()
 {
@@ -450,7 +464,7 @@ void MapRenderer::RenderExplosions()
                     explosion->m_visible[myTeamId] || 
                     m_renderEverything )
                 {
-                    world->m_explosions[i]->Render();
+                    explosion->Render( GetOffset( explosion, m_middleX ) );
                 }
             }
         }
@@ -591,7 +605,7 @@ void MapRenderer::RenderGunfire()
                  gunFire->m_visible[myTeamId] ||
                  m_renderEverything ) )
             {
-                g_app->GetWorld()->m_gunfire[i]->Render();
+                gunFire->Render(GetOffset( gunFire, m_middleX ) );
             }
         }
     }
@@ -2552,6 +2566,8 @@ void MapRenderer::RenderObjects()
 {
     START_PROFILE( "Objects" );
 
+    MovingObject::PrepareRenderHistory();
+
     World * world = g_app->GetWorld();
 
     int myTeamId = world->m_myTeamId;
@@ -2568,16 +2584,17 @@ void MapRenderer::RenderObjects()
             bool onScreen = IsOnScreen( wobj->m_longitude.DoubleValue(), wobj->m_latitude.DoubleValue() );
             if( onScreen || wobj->m_type == WorldObject::TypeNuke )
             {
+                float offset = GetOffset( wobj, m_middleX );
                 if( myTeamId == -1 ||
                     wobj->m_teamId == myTeamId ||
                     wobj->m_visible[myTeamId] ||
                     m_renderEverything )
                 {
-                    wobj->Render();
+                    wobj->Render( offset );
                 }
                 else
                 {
-                    wobj->RenderGhost(myTeamId);
+                    wobj->RenderGhost( myTeamId, offset );
                 }
             }
 

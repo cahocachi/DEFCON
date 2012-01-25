@@ -30,7 +30,7 @@ public:
     void    Action          ( WorldObjectReference const & targetObjectId, float longitude, float latitude );
     Fixed   GetActionRange  ();
     bool    Update          ();
-    void    Render          ();
+    void    Render          ( float xOffset );
 
 	Fixed	GetSize();
 	void	SetSize( Fixed size );
