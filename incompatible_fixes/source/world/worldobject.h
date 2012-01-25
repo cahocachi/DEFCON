@@ -141,12 +141,12 @@ public:
     virtual bool        IsHiddenFrom    ();
 
     virtual bool        Update          ();
-    virtual void        Render          ();
+    virtual void        Render          ( float xOffset );
     
 	virtual void		RunAI			();
 
     void                RenderCounter   ( int counter );
-    virtual void        RenderGhost     ( int teamId );
+    virtual void        RenderGhost     ( int teamId, float xOffset );
 
     virtual Fixed       GetSize         ();
     bool                CheckCurrentState();

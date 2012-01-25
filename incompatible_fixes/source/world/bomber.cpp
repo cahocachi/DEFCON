@@ -466,9 +466,9 @@ void Bomber::CeaseFire( int teamId )
 }
 
 
-void Bomber::Render()
+void Bomber::Render(float xOffset )
 {
-    MovingObject::Render();
+    MovingObject::Render( xOffset );
 
 
     //
@@ -480,7 +480,7 @@ void Bomber::Render()
         m_states[1]->m_numTimesPermitted > 0 )
     {
         Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-        float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue();
+        float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue() + xOffset;
         float predictedLatitude = (m_latitude + m_vel.y * predictionTime).DoubleValue(); 
     
         float angle = atan( -m_vel.x.DoubleValue() / m_vel.y.DoubleValue() );

@@ -169,9 +169,9 @@ bool Silo::Update()
     return WorldObject::Update();
 }
 
-void Silo::Render()
+void Silo::Render( float xOffset )
 {
-    WorldObject::Render();
+    WorldObject::Render( xOffset );
 
 
     //
@@ -191,7 +191,7 @@ void Silo::Render()
         Image *bmpImage = g_resource->GetImage("graphics/smallnuke.bmp");
         if( bmpImage )
         {
-            float x = m_longitude.DoubleValue();
+            float x = m_longitude.DoubleValue() + xOffset;
             float y = m_latitude.DoubleValue() - GetSize().DoubleValue() * 0.9f;       
             float nukeSize = GetSize().DoubleValue() * 0.35f;
             x -= GetSize().DoubleValue()*0.95f;

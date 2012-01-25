@@ -20,7 +20,7 @@ public:
     void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    IsHiddenFrom    ();
     bool    Update          ();
-    void    Render          ();   
+    void    Render          ( float xOffset );   
     void    RunAI           ();
     int     GetAttackState  ();
     bool    IsIdle          ();

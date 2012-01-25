@@ -16,12 +16,12 @@ public:
     char m_selectionVersion[256];
     bool m_truncatePaths;
 
-    Bitmap      *m_bitmap;
     Image       *m_image;
     ScrollBar   *m_scrollbar;
 
 public:
     ModWindow();
+    ~ModWindow();
 
     void SelectMod( char *_name, char *_version );
 

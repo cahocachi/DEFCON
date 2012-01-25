@@ -73,13 +73,34 @@ static int RoomInside( WorldObject * pad, int type )
     return 0;
 }
 
-bool MovingObject::Update()
+void MovingObject::UpdateHistory()
 {
-    World * world = g_app->GetWorld();
+    // adapt history so it does not cross the seam
+    {
+        float lastX = m_longitude.DoubleValue();
+        for( int i = 0; i < m_history.Size(); ++i )
+        {
+            Vector2< float > & item = *m_history.GetPointer(i);
+            float gap = item.x - lastX;
+            if( gap < -180 )
+            {
+                item.x += 360;
+            }
+            else if( gap > 180 )
+            {
+                item.x -= 360;
+            }
+            else
+            {
+                break;
+            }
+            lastX = item.x;
+        }
+    }
 
     //
     // Update history    
-    m_historyTimer -= SERVER_ADVANCE_PERIOD * world->GetTimeScaleFactor() / 10;
+    m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
     if( m_historyTimer <= 0 )
     {
         m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
@@ -91,7 +112,13 @@ bool MovingObject::Update()
     {
         m_history.RemoveData(m_maxHistorySize);
     }
+}
 
+bool MovingObject::Update()
+{
+    World * world = g_app->GetWorld();
+    
+    UpdateHistory();
 
     for( int i = 0; i < world->m_teams.Size(); ++i )
     {
@@ -536,23 +563,29 @@ void MovingObject::CrossSeam()
     }
 }
 
-void MovingObject::Render()
+void MovingObject::Render( float xOffset )
 {    
+    float predictionTime = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+    Vector2< float > predictedPos( m_longitude.DoubleValue()+xOffset,  m_latitude.DoubleValue() );
+    Vector2< float > vel( m_vel.x.DoubleValue(), m_vel.y.DoubleValue() );
+    predictedPos += vel * predictionTime;
+
     //
     // Render history
     if( g_preferences->GetInt( PREFS_GRAPHICS_TRAILS ) == 1 )
     {
-        RenderHistory();
+        RenderHistory( predictedPos, xOffset );
     }
     
     if( m_movementType == MovementTypeAir )
     {
-        float angle = atan( -m_vel.x.DoubleValue() / m_vel.y.DoubleValue() );
-        if( m_vel.y < 0 ) angle += M_PI;
+        // float angle = atan( -m_vel.x.DoubleValue() / m_vel.y.DoubleValue() );
+        // if( m_vel.y < 0 ) angle += M_PI;
         
-        Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-        float predictedLongitude = (m_longitude + m_vel.x * Fixed(predictionTime)).DoubleValue();
-        float predictedLatitude = (m_latitude + m_vel.y * Fixed(predictionTime)).DoubleValue();
+        Vector2< float > dir( vel );
+        dir /= dir.Mag();
+
+        Vector2< float > displayPos( predictedPos + vel * 2 );
         float size = GetSize().DoubleValue();
 
         Team *team = g_app->GetWorld()->GetTeam(m_teamId);
@@ -561,12 +594,13 @@ void MovingObject::Render()
         
         Image *bmpImage = g_resource->GetImage( bmpImageFilename );
         g_renderer->Blit( bmpImage, 
-                          predictedLongitude + m_vel.x.DoubleValue() * 2, 
-                          predictedLatitude + m_vel.y.DoubleValue() * 2, 
+                          predictedPos.x,
+                          predictedPos.y,
                           size/2, 
                           size/2, 
                           colour, 
-                          angle );
+                          dir.y,
+                          -dir.x );
 
 
         //
@@ -587,12 +621,13 @@ void MovingObject::Render()
             {
                 bmpImage = g_resource->GetImage( GetBmpBlurFilename() );
                 g_renderer->Blit( bmpImage, 
-                                predictedLongitude + m_vel.x.DoubleValue() * 2, 
-                                predictedLatitude + m_vel.y.DoubleValue() * 2, 
+                                predictedPos.x,
+                                predictedPos.y,
                                 size/2, 
                                 size/2, 
                                 colour, 
-                                angle );
+                                dir.y,
+                                -dir.x );
 
             }
             colour.m_a *= 0.5f;
@@ -600,47 +635,51 @@ void MovingObject::Render()
     }
     else
     {
-        WorldObject::Render();
+        WorldObject::Render( xOffset );
     }
 }
 
-void MovingObject::RenderHistory()
-{
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = (m_longitude + m_vel.x * Fixed(predictionTime)).DoubleValue();
-    float predictedLatitude = (m_latitude + m_vel.y * Fixed(predictionTime)).DoubleValue(); 
+static int s_maxHistoryRender[WorldObject::NumObjectTypes];
 
-    int maxSize = m_history.Size();
-    
+void MovingObject::PrepareRenderHistory()
+{
     int sizeCap = (int)(80 * g_app->GetMapRenderer()->GetZoomFactor() );
     sizeCap /= World::GetGameScale().DoubleValue();
 
-    if( g_app->GetGame()->GetOptionValue("GameMode") == GAMEMODE_BIGWORLD )
+    for( int i = NumObjectTypes-1; i >= 0; --i )
     {
-        switch( m_type )
-        {
-            case TypeNuke:
-                sizeCap = 12 * g_app->GetMapRenderer()->GetZoomFactor();
-                if( g_app->GetMapRenderer()->GetZoomFactor() < 0.25f )
-                {
-                    return;
-                }
-                break;
-
-            case TypeBattleShip:
-            case TypeCarrier:
-            case TypeSub:
-                break;
-
-            default:
-                return;
-        }
-
-        if( sizeCap < 2 ) return;
+        s_maxHistoryRender[i] = sizeCap;
     }
 
+    if( g_app->GetGame()->GetOptionValue("GameMode") == GAMEMODE_BIGWORLD )
+    {
+        s_maxHistoryRender[TypeNuke] = 12 * g_app->GetMapRenderer()->GetZoomFactor();
+        if( g_app->GetMapRenderer()->GetZoomFactor() < 0.25f )
+        {
+            s_maxHistoryRender[TypeNuke] = 0;
+        }
+
+        for( int i = NumObjectTypes-1; i >= 0; --i )
+        {
+            if( s_maxHistoryRender[i] < 2 )
+            {
+                s_maxHistoryRender[i] = 0;
+            }
+        }
+    }
+}
+
+void MovingObject::RenderHistory( Vector2<float> const & predictedPos, float xOffset )
+{
+    int maxSize = m_history.Size();
+    int sizeCap = s_maxHistoryRender[m_type];
     maxSize = ( maxSize > sizeCap ? sizeCap : maxSize );
-        
+
+    if( maxSize <= 0 )
+    {
+        return;
+    }
+
     Team *team = g_app->GetWorld()->GetTeam(m_teamId);
     Colour colour;
     if( team )
@@ -661,25 +700,19 @@ void MovingObject::RenderHistory()
         maxSize = min( maxSize, 4 );
     }
 
-    if( m_history.Size() > 0 )
+    Vector2<float> lastPos( predictedPos );
+
+    for( int i = 0; i < maxSize; ++i )
     {
-        Vector2<float> lastPos( predictedLongitude, predictedLatitude );
-
-        for( int i = 0; i < maxSize; ++i )
-        {
-            Vector2<float> const & historyPos = m_history[i];
-			Vector2<float> thisPos = historyPos;
-
-            if( lastPos.x < -170 && thisPos.x > 170 )       thisPos.x = -180 - ( 180 - thisPos.x );        
-            if( lastPos.x > 170 && thisPos.x < -170 )       thisPos.x = 180 + ( 180 - fabs(thisPos.x) );        
-
-            Vector2<float> diff = thisPos - lastPos;
-            lastPos += diff * 0.1f;
-            colour.m_a = 255 - 255 * (float) i / (float) maxSize;
-            
-            g_renderer->Line( lastPos.x, lastPos.y, thisPos.x, thisPos.y, colour, 2.0f );        
-            lastPos = historyPos;
-        }
+        Vector2<float> thisPos = m_history[i];;
+        thisPos.x += xOffset;
+        
+        Vector2<float> diff = thisPos - lastPos;
+        lastPos += diff * 0.1f;
+        colour.m_a = 255 - 255 * (float) i / (float) maxSize;
+        
+        g_renderer->Line( lastPos.x, lastPos.y, thisPos.x, thisPos.y, colour, 2.0f );        
+        lastPos = thisPos;
     }
 }
 
@@ -699,7 +732,7 @@ bool MovingObject::IsIdle()
 }
 
 
-void MovingObject::RenderGhost( int teamId )
+void MovingObject::RenderGhost( int teamId, float xOffset )
 {
     if( m_lastSeenTime[teamId] != 0)
     {
@@ -708,7 +741,7 @@ void MovingObject::RenderGhost( int teamId )
         {		
             Fixed predictionTime = m_ghostFadeTime - m_lastSeenTime[teamId];
             predictionTime += Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-            float predictedLongitude = (m_lastKnownPosition[teamId].x + m_lastKnownVelocity[teamId].x * predictionTime).DoubleValue();
+            float predictedLongitude = (m_lastKnownPosition[teamId].x + m_lastKnownVelocity[teamId].x * predictionTime).DoubleValue() + xOffset;
             float predictedLatitude = (m_lastKnownPosition[teamId].y + m_lastKnownVelocity[teamId].y * predictionTime).DoubleValue();
 
             float size = GetSize().DoubleValue();       
@@ -739,7 +772,7 @@ void MovingObject::RenderGhost( int teamId )
         }
         else
         {
-            WorldObject::RenderGhost( teamId );
+            WorldObject::RenderGhost( teamId, xOffset );
         }
     }
 }
