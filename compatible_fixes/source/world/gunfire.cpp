@@ -28,7 +28,7 @@ GunFire::GunFire( Fixed range )
     m_range = range;
     m_speed = Fixed::Hundredths(48);
     m_turnRate = Fixed::Hundredths(80);
-    m_maxHistorySize = -1;
+    m_maxHistorySize = 10;
     m_movementType = MovementTypeAir;
     
     strcpy( bmpImageFilename, "graphics/laser.bmp" );
@@ -52,11 +52,7 @@ bool GunFire::Update()
         m_targetLatitude = m_latitude + m_vel.y * 10;
     }
 
-    bool ret = MoveToWaypoint();
-
-    UpdateHistory();
-
-    return ret;
+    return MoveToWaypoint();
 }
 
 void GunFire::Render( RenderInfo & renderInfo )
@@ -68,8 +64,6 @@ void GunFire::Render( RenderInfo & renderInfo )
     {
         size *= g_app->GetMapRenderer()->GetZoomFactor() * 4;
     }
-    float angle = atan( -m_vel.x.DoubleValue() / m_vel.y.DoubleValue() );
-    if( m_vel.y < 0 ) angle += M_PI;
 
     //g_app->4()->Blit( bmpImage, predictedLongitude, predictedLatitude, size/2, size/2, g_app->GetWorld()->GetTeam( m_teamId )->GetTeamColour(), angle );
     //g_app->GetRenderer()->CircleFill( predictedLongitude, predictedLatitude, 0.3f * size, 8, White );
@@ -126,6 +120,8 @@ bool GunFire::MoveToWaypoint()
         CrossSeam();
         CalculateNewPosition( &newLongitude, &newLatitude, &newDistance );
     }
+
+    UpdateHistory( Fixed::Hundredths(10) );
 
     if( newDistance <= distToTarget && 
         newDistance < Fixed::Hundredths(48) &&
