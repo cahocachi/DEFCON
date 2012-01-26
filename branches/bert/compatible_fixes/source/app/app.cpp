@@ -490,15 +490,6 @@ void App::InitialiseWindow()
 
 void App::ReinitialiseWindow()
 {
-#ifdef TARGET_OS_LINUX
-    // Resolution/Fullscreen switching is broken on linux, pop up a dialog box
-    // asking the user to restart to get the effect.
-
-    EclRegisterWindow( new MessageDialog( "Restart Required", "dialog_restart_required_caption", true, "dialog_restart_required_title", true ) );
-    return;
-#endif
-    
-
 	g_windowManager->DestroyWin();
     g_resource->Restart();
 
