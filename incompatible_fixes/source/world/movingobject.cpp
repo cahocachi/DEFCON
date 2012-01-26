@@ -75,6 +75,11 @@ static int RoomInside( WorldObject * pad, int type )
 
 void MovingObject::UpdateHistory()
 {
+    UpdateHistory( 2 );
+}
+
+void MovingObject::UpdateHistory( Fixed const & interval )
+{
     // adapt history so it does not cross the seam
     {
         float lastX = m_longitude.DoubleValue();
@@ -104,7 +109,7 @@ void MovingObject::UpdateHistory()
     if( m_historyTimer <= 0 )
     {
         m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
-        m_historyTimer = 2;
+        m_historyTimer = interval;
     }
 
     while( m_maxHistorySize != -1 && 

@@ -24,6 +24,8 @@ public:
 
     ScrollBar *m_scrollbar;
 
+    int     m_lastNumMessages;
+    float   m_lastWidth;
 protected:    
     void    RenderWindow();
     void    RenderTeams();

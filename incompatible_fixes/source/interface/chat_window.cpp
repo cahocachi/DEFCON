@@ -47,7 +47,9 @@ ChatWindow::ChatWindow()
     m_channel(CHATCHANNEL_PUBLIC),
     m_hasFocus(false),
     m_typingMessage(false),
-    m_minimised(false)
+    m_minimised(false),
+    m_lastNumMessages(0),
+    m_lastWidth(-1)
 {
     SetSize( 500, 200 );   
     SetPosition( 0, g_windowManager->WindowH()-m_h );
@@ -439,20 +441,38 @@ void ChatWindow::RenderMessages()
     
     EclButton *clip = GetButton("Invert");
 
-    if( !m_minimised )
+    float clipYMin = m_y+clip->m_y;
+    float clipH = clip->m_h;
+    if( m_minimised )
     {
-        g_renderer->SetClip( m_x+clip->m_x, m_y+clip->m_y, clip->m_w, clip->m_h );
+        clipYMin = m_y+m_h-200;
+        clipH = m_y+m_h;
     }
-    else
-    {
-        g_renderer->SetClip( m_x+clip->m_x, m_y+m_h-200, clip->m_w, m_y+m_h );
-    }
-    
-    int extraLines = 0;
 
-    for( int i = 0; i <= g_app->GetWorld()->m_chat.Size(); i++ )
+    g_renderer->SetClip( m_x+clip->m_x, clipYMin, clip->m_w, clipH );
+
+    float clipYMax = clipYMin + clipH + h;
+    clipYMin -= h;
+
+    LList <ChatMessage *> & chat = g_app->GetWorld()->m_chat;
+    int minProcess = chat.Size() - m_lastNumMessages;
+    m_lastNumMessages = chat.Size();
+
+    // reprocess all chat messages if the 
+    bool fullScan = ( clip->m_w != m_lastWidth );
+    m_lastWidth = clip->m_w;
+    if( fullScan )
     {
-        ChatMessage *chatMsg = g_app->GetWorld()->m_chat[i];
+        minProcess = 0;
+    }
+
+    bool viewingLatest = ( m_scrollbar->m_currentValue == m_scrollbar->m_numRows - m_scrollbar->m_winSize ) ||
+                           m_scrollbar->m_winSize >= m_scrollbar->m_numRows;
+
+
+    for( int i = 0; i <= chat.Size() && (fullScan || y >= clipYMin || i <= minProcess ); i++ )
+    {
+        ChatMessage *chatMsg = chat[i];
 
         if( chatMsg && chatMsg->m_visible )
         {
@@ -517,10 +537,8 @@ void ChatWindow::RenderMessages()
             MultiLineText wrapped( newMsg, width, 12, true );
 
             bool done = false;
-            extraLines += wrapped.Size() - 1;
             for( int w = wrapped.Size()-1; w>=0; --w )
             {
-                done = true;
                 int xPos = x;
                 if( !action )
                 {
@@ -528,8 +546,9 @@ void ChatWindow::RenderMessages()
                 }
                 xPos += teamW;
                 
-                if( y >= 0 && y <= g_windowManager->WindowH() )
+                if( y >= clipYMin && y <= clipYMax && i >= minProcess )
                 {
+                    done = true;
                     g_renderer->TextSimple( xPos, y, teamCol, 12, wrapped[w] );
                 }
                 if( w>0) y -= h;
@@ -549,11 +568,24 @@ void ChatWindow::RenderMessages()
                 if( !action )
                 {
                     g_renderer->Text( textX, y, teamCol, 12, "%s:", chatMsg->m_playerName );
-                    g_renderer->Text( textX, y, teamCol, 12, "%s:", chatMsg->m_playerName );                
                 }
+            }
             
+            if( wrapped.Size() > 0 )
+            {
                 y -=h;
             }
+        }
+
+        if( i == minProcess - 1 )
+        {
+            // adapt scroll bar incrementally
+            m_scrollbar->SetNumRows( m_scrollbar->m_numRows + startingY - y );
+
+            // so far, we haven't rendered anything; good because we didn't know how
+            // many lines the new messages would have taken. Reset y to the start,
+            // render essentially like the last frame.
+            y = startingY;
         }
     }
 
@@ -564,10 +596,11 @@ void ChatWindow::RenderMessages()
         BeginTypingMessage();
     }
 
-    bool viewingLatest = ( m_scrollbar->m_currentValue == m_scrollbar->m_numRows - m_scrollbar->m_winSize ) ||
-                           m_scrollbar->m_winSize >= m_scrollbar->m_numRows;
-
-    m_scrollbar->SetNumRows(startingY - y);
+    if( fullScan )
+    {
+        // adapt scroll bar in one go
+        m_scrollbar->SetNumRows(startingY - y);
+    }
 
     if( viewingLatest )
     {
