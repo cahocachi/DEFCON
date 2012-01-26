@@ -1504,6 +1504,33 @@ void World::ObjectStateChange( int objectId, int newState )
     }
 }
 
+#ifdef _DEBUG
+static void CreateDebugAnimation( int objectId, Fixed longitude, Fixed latitude, int targetId )
+{
+    World * world = g_app->GetWorld();
+    if( world->m_myTeamId == -1 )
+    {
+        int animid = g_app->GetMapRenderer()->CreateAnimation( 
+            MapRenderer::AnimationTypeActionMarker, objectId,
+            longitude.DoubleValue(), latitude.DoubleValue() );
+        ActionMarker *action = (ActionMarker *) g_app->GetMapRenderer()->m_animations[animid];
+        action->m_targetType = WorldObject::TargetTypeValid;
+        if( targetId >= 0 )
+        {
+            action->m_combatTarget = targetId;
+            WorldObject * target = world->GetWorldObject( targetId );
+            WorldObject * source = world->GetWorldObject( objectId );
+            if( target && source && target->m_teamId == source->m_teamId )
+            {
+                action->m_targetType = WorldObject::TargetTypeLand;
+            }
+        }
+    }
+}
+#else
+#define CreateDebugAnimation(x,y,z,w) {}
+#endif
+
 void World::ObjectAction( int objectId, int targetObjectId, Fixed longitude, Fixed latitude, bool pursue )
 {
     if( latitude > 100 || latitude < -100 ) 
@@ -1534,6 +1561,8 @@ void World::ObjectAction( int objectId, int targetObjectId, Fixed longitude, Fix
 
         wobj->RequestAction( action );
 
+        CreateDebugAnimation( objectId, longitude, latitude, targetObjectId );
+
         //
         // If that was the last possible action deselect this unit now
         // (assuming we have it selected)
@@ -1556,6 +1585,8 @@ void World::ObjectSetWaypoint  ( int objectId, Fixed longitude, Fixed latitude )
     WorldObject *wobj = GetWorldObject(objectId);
     if( wobj && wobj->IsMovingObject() )
     {
+        CreateDebugAnimation( objectId, longitude, latitude, -1 );
+
         MovingObject *mobj = (MovingObject *) wobj;
         mobj->SetWaypoint( longitude, latitude );
     }
@@ -1581,6 +1612,14 @@ void World::ObjectSpecialAction( int objectId, int targetObjectId, int specialAc
 
     if( wobj )
     {
+#ifdef _DEBUG
+        WorldObject * target = GetWorldObject( targetObjectId );
+        if( target )
+        {
+            CreateDebugAnimation( objectId, target->m_longitude, target->m_latitude, targetObjectId );
+        }
+#endif
+
         switch( specialActionType )
         {
             case SpecialActionLandingAircraft:
