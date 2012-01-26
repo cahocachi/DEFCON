@@ -51,6 +51,7 @@ public:
 
     bool            Update();
     void            UpdateHistory();
+    void            UpdateHistory( Fixed const & interval );
 
     bool            IsValidPosition ( Fixed longitude, Fixed latitude );
     bool            MoveToWaypoint  ();                                   // returns true upon arrival
