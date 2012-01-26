@@ -73,6 +73,8 @@ void WindowManagerSDL::ListAllDisplayModes()
 void WindowManagerSDL::SaveDesktop()
 {
     const SDL_VideoInfo* info = SDL_GetVideoInfo();
+    const SDL_version *linkedVersion;
+    linkedVersion = SDL_Linked_Version();
 
     m_desktopColourDepth = info->vfmt->BitsPerPixel;
     m_desktopRefresh = 60;
@@ -82,10 +84,17 @@ void WindowManagerSDL::SaveDesktop()
     m_desktopScreenW = rect.size.width;
     m_desktopScreenH = rect.size.height;
 #else
-	#warning "Need to do code for linux to determine default WindowResolution"
-
-    m_desktopScreenW = 1024;
-    m_desktopScreenH = 768;
+    //We need SDL 1.2.10 or higher to determine desktop resolution.
+    if (linkedVersion->major * 1000 + linkedVersion->minor * 100 + linkedVersion->patch < 1210)
+    {
+        m_desktopScreenW = 1024;
+        m_desktopScreenH = 768;
+    }
+    else
+    {
+        m_desktopScreenW = info->current_w;
+        m_desktopScreenH = info->current_h;
+    }
 #endif
 }
 
