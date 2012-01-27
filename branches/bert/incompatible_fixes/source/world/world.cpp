@@ -1190,10 +1190,20 @@ WorldObjectReference World::GetNearestObject( int teamId, Fixed longitude, Fixed
             WorldObject *obj = m_objects[i];
             bool isFriend = IsFriend( obj->m_teamId, teamId );
 
-            if( ( (isFriend && !enemyTeam) || (!isFriend && enemyTeam )) &&
-                ( objectType == -1 || obj->m_type == objectType) &&
-                ( (enemyTeam && obj->m_visible[teamId] ) || !enemyTeam ) &&
-                !GetTeam( teamId )->m_ceaseFire[obj->m_teamId])
+            bool valid = false;
+            if( obj->m_teamId == TEAMID_SPECIALOBJECTS )
+            {
+                valid = obj->m_type == WorldObject::TypeSaucer;
+            }
+            else if( ( (isFriend && !enemyTeam) || (!isFriend && enemyTeam )) &&
+                     ( objectType == -1 || obj->m_type == objectType) &&
+                     ( (enemyTeam && obj->m_visible[teamId] ) || !enemyTeam ) &&
+                     !GetTeam( teamId )->m_ceaseFire[obj->m_teamId])
+            {
+                valid = true;
+            }
+
+            if( valid )
             {
                 Fixed distanceSqd = GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude);
                 if( distanceSqd < nearestSqd )
@@ -1416,20 +1426,11 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
                     wobj->m_life > 0 &&
                     GetDistance( longitude, latitude, wobj->m_longitude, wobj->m_latitude) <= intensity/50 )
                 {
-                    if( wobj->IsMovingObject() ) 
-                    {
-                        wobj->m_life = 0;
-
-						wobj->m_lastHitByTeamId = teamId;
-                    }
-                    else
-                    {
-                        int damageDone = 10;
-                        wobj->m_life -= damageDone;
-                        wobj->m_life = max( wobj->m_life, 0 );
-						wobj->m_lastHitByTeamId = teamId;
-                        wobj->NukeStrike();
-                    }
+                    int damageDone = 10;
+                    wobj->m_life -= damageDone;
+                    wobj->m_life = max( wobj->m_life, 0 );
+                    wobj->m_lastHitByTeamId = teamId;
+                    wobj->NukeStrike();
 
                     if( !wobj->IsMovingObject() &&
                         wobj->m_life <= 0 )
@@ -2172,7 +2173,7 @@ void World::Update()
     int worldEvents = g_app->GetGame()->GetOptionValue("EnableWorldEvents");
     if( worldEvents == 1 )
     {
-        if( GetDefcon() == 1 )
+        if( GetDefcon() == 1 && g_app->GetGame()->m_winner != -1 )
         {
             if( syncfrand( 100000 ) <= 100 )
             {
@@ -3600,7 +3601,7 @@ int World::GetAttackOdds( int attackerType, int defenderType )
                                         0,  0, 10,  0,  0,  0,  0, 20,  0, 30,  0,  0,  0, 50,  // Bomber
                                         0,  0,  0,  0, 99,  0, 20, 20,  0, 10, 25,  0,  0, 50,  // Carrier
                                         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  // Tornado
-                                        0,  0, 10,  0,  0,  0,  0, 10,  0, 10,  0,  0,  0,  0,  // Saucer
+                                        0,  0,  5,  0,  0,  0,  0, 10,  0, 50,  0,  0,  0,  0,  // Saucer
                                     };
 
 

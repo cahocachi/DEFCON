@@ -1503,22 +1503,35 @@ int MovingObject::GetTarget( Fixed range )
         if( world->m_objects.ValidIndex(i) )
         {
             WorldObject *obj = world->m_objects[i];
+            bool valid = false;
             if( obj->m_teamId != TEAMID_SPECIALOBJECTS )
             {
                 if( !world->IsFriend( obj->m_teamId, m_teamId ) &&
-                    world->GetAttackOdds( m_type, obj->m_type ) > 0 &&
                     obj->m_visible[m_teamId] &&
                     !world->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ] )
                 {
-                    Fixed distanceSqd = world->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
-                    if( distanceSqd < GetActionRangeSqd() )
-                    {
-                        closeTargets.PutData(obj->m_objectId );
-                    }
-                    else if( distanceSqd < range * range )
-                    {
-                        farTargets.PutData( obj->m_objectId );
-                    }
+                    valid = true;
+                }
+            }
+            else
+            {
+                valid = obj->m_type == TypeSaucer;
+            }
+            if( !world->GetAttackOdds( m_type, obj->m_type ) > 0 )
+            {
+                valid = false;
+            }
+
+            if( valid )
+            {
+                Fixed distanceSqd = world->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
+                if( distanceSqd < GetActionRangeSqd() )
+                {
+                    closeTargets.PutData(obj->m_objectId );
+                }
+                else if( distanceSqd < range * range )
+                {
+                    farTargets.PutData( obj->m_objectId );
                 }
             }
         }

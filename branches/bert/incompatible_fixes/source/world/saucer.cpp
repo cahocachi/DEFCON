@@ -31,7 +31,7 @@ Saucer::Saucer()
     m_maxHistorySize = 10;
     m_range = 2000;
 
-    m_life = 10;
+    m_life = 50;
 
     m_explosionSize = Fixed::Hundredths(5);
     m_damageTimer = 20;
