@@ -1683,6 +1683,14 @@ void MapRenderer::RenderMouse()
             
             float lineX = ( actionCursorLongitude - predictedLongitude );
             float lineY = ( actionCursorLatitude - predictedLatitude );
+            if( lineX < -180 )
+            {
+                lineX += 360;
+            }
+            else if( lineX > 180 )
+            {
+                lineX -= 360;
+            }
 
             float angle = atan( -lineX / lineY );
             if( lineY < 0.0f ) angle += M_PI;
@@ -2382,6 +2390,14 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
 
                     float lineX = ( targetLongitude - predictedLongitude );
                     float lineY = ( targetLatitude - predictedLatitude );
+                    if( lineX < -180 )
+                    {
+                        lineX += 360;
+                    }
+                    else if( lineX > 180 )
+                    {
+                        lineX -= 360;
+                    }
 
                     float angle = atan( -lineX / lineY );
                     if( lineY < 0.0f ) angle += M_PI;
