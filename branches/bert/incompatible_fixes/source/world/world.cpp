@@ -2585,7 +2585,7 @@ void World::GenerateWorldEvent()
 {
     //return;
 
-    int num = 1;// syncrand() % 2;
+    int num = syncrand() % 2;
     char msg[128];
     switch(num)
     {
@@ -2594,8 +2594,8 @@ void World::GenerateWorldEvent()
                 int numTornados = 1 + syncrand() % 2;
                 for( int i = 0; i < numTornados; i++ )
                 {
-                    Fixed longitude = syncsfrand(360)-180;
-                    Fixed latitude = syncsfrand(180)-90;
+                    Fixed longitude = syncsfrand(360);
+                    Fixed latitude = syncsfrand(180);
                     Tornado *tornado = new Tornado();
                     tornado->SetSize( 15 + syncsfrand(5) );
                     tornado->SetTeamId( TEAMID_SPECIALOBJECTS );
@@ -2608,8 +2608,8 @@ void World::GenerateWorldEvent()
             break;
         case 1:
             {
-                Fixed longitude = syncsfrand(360)-180;
-                Fixed latitude = syncsfrand(180)-90;
+                Fixed longitude = syncsfrand(360);
+                Fixed latitude = syncsfrand(180);
                 Saucer *saucer = new Saucer();
                 saucer->SetTeamId( TEAMID_SPECIALOBJECTS );
                 saucer->SetPosition( longitude, latitude );

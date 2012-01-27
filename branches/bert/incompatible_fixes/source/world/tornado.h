@@ -22,7 +22,8 @@ protected:
 	float	m_angle;
 
 	Fixed	m_size;
-
+    
+    LList< int > m_deflectedNukeIds;
     
 public:
     Tornado();
