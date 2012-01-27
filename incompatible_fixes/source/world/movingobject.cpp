@@ -404,7 +404,7 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
             // make sure the "don't turn too soon" code doesn't get triggered
             distanceSquared = 100000000;
         }
-        else
+        else if ( m_vel.MagSquared() > 0 )
         {
             // already going back in enough; go straight
             distanceSquared = 0;

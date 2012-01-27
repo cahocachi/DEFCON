@@ -2367,10 +2367,12 @@ void World::UpdateRadar()
                  
                     wobj->m_visible[thisTeamId] = false;
 
-                    bool showObject = ( wobj->m_teamId == thisTeamId );
+                    int otherTeamId = wobj->m_teamId;
+                    bool showObject = ( otherTeamId == thisTeamId );
 
-                    if( GetTeam( wobj->m_teamId )->m_sharingRadar[ thisTeamId ] &&
-                        wobj->m_type != WorldObject::TypeSub )
+                    if( otherTeamId == TEAMID_SPECIALOBJECTS ||
+                        ( GetTeam( otherTeamId )->m_sharingRadar[ thisTeamId ] &&
+                          wobj->m_type != WorldObject::TypeSub ) )
                     {
                         showObject = true;
                     }
@@ -2470,7 +2472,7 @@ void World::UpdateRadar()
 
                 Team *owner = GetTeam(wobj->m_teamId);
                 
-                if( owner->m_teamId != TEAMID_SPECIALOBJECTS )
+                if( owner && owner->m_teamId != TEAMID_SPECIALOBJECTS )
                 {
                     wobj->m_visible[owner->m_teamId] = true;
                 }
@@ -2592,8 +2594,8 @@ void World::GenerateWorldEvent()
                 int numTornados = 1 + syncrand() % 2;
                 for( int i = 0; i < numTornados; i++ )
                 {
-                    Fixed longitude = syncsfrand(360);
-                    Fixed latitude = syncsfrand(180);
+                    Fixed longitude = syncsfrand(360)-180;
+                    Fixed latitude = syncsfrand(180)-90;
                     Tornado *tornado = new Tornado();
                     tornado->SetSize( 15 + syncsfrand(5) );
                     tornado->SetTeamId( TEAMID_SPECIALOBJECTS );
@@ -2606,8 +2608,8 @@ void World::GenerateWorldEvent()
             break;
         case 1:
             {
-                Fixed longitude = syncsfrand(360);
-                Fixed latitude = syncsfrand(180);
+                Fixed longitude = syncsfrand(360)-180;
+                Fixed latitude = syncsfrand(180)-90;
                 Saucer *saucer = new Saucer();
                 saucer->SetTeamId( TEAMID_SPECIALOBJECTS );
                 saucer->SetPosition( longitude, latitude );
