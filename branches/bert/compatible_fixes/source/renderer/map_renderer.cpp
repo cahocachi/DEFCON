@@ -3268,7 +3268,7 @@ void MapRenderer::UpdateCameraControl( float longitude, float latitude )
 
 
     float maxWidth = 360.0f;    
-    float maxHeight = 201;
+    float maxHeight = 210 + zoomFactor * 20;
 
     if( m_middleX > maxWidth/2 ) m_middleX = -maxWidth/2 + m_middleX-maxWidth/2;
     if( m_middleX < -maxWidth/2 ) m_middleX = 180 - m_middleX/-maxWidth/2;
