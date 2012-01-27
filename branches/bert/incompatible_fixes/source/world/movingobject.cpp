@@ -414,7 +414,7 @@ void MovingObject::CalculateNewPosition( Fixed *newLongitude, Fixed *newLatitude
     Fixed timePerUpdate = SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor();
     if( distanceSquared > 0 )
     {
-        targetDir /= sqrt(distanceSquared );
+        targetDir.Normalise();
 
         Fixed dotProduct = targetDir * m_vel;
         Fixed factor1 = m_turnRate * timePerUpdate / 10;
