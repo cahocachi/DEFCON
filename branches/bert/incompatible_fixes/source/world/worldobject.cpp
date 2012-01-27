@@ -246,7 +246,7 @@ bool WorldObject::Update()
     if( m_targetObjectId >= 0 )
     {
         WorldObject *obj = world->GetWorldObject( m_targetObjectId );
-        if( !obj || !obj->m_visible[ m_teamId ] )
+        if( m_teamId != TEAMID_SPECIALOBJECTS && ( !obj || !obj->m_visible[ m_teamId ] ) )
         {
             m_targetObjectId = -1;
         }

@@ -23,6 +23,8 @@ public:
     bool    Update          ();
     void    Render          ( RenderInfo & renderInfo );
 
+    void    Retaliate       ( WorldObjectReference const & attackerId );
+
     void    GetNewTarget    ();
 
 };

@@ -60,8 +60,8 @@ bool Tornado::Update()
 				Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, nuke->m_longitude, nuke->m_latitude);
 				if( distance <= GetActionRange() )
 				{
-					Fixed targetLongitude = syncsfrand(360);
-					Fixed targetLatitude = syncsfrand(180);  
+					Fixed targetLongitude = syncsfrand(360)-180;
+					Fixed targetLatitude = syncsfrand(180)-90;  
 					nuke->SetWaypoint(targetLongitude, targetLatitude);
 				}
 			}
@@ -135,6 +135,6 @@ void Tornado::SetSize( Fixed size )
 void Tornado::GetNewTarget()
 {
     Fixed targetLongitude = syncsfrand(360);
-	Fixed targetLatitude = syncsfrand(180);  
+	Fixed targetLatitude = syncsfrand(180)-90;  
     SetWaypoint( targetLongitude, targetLatitude );
 }

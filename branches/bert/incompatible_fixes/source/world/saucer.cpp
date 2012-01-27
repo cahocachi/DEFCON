@@ -72,22 +72,22 @@ bool Saucer::Update()
     {    
         Direction oldVel = m_vel;
 
-        if( m_targetLongitude != 0 || m_targetLatitude != 0 )
+        bool arrived = MoveToWaypoint();
+        if( arrived )
         {
-            bool arrived = MoveToWaypoint();
-            if( arrived )
+            if( m_targetObjectId >= 0 )
             {
-                m_vel = oldVel;
+                m_vel.x = m_vel.y = 0;
                 m_targetLongitude = 0;
                 m_targetLatitude = 0;
                 int targetId = m_targetObjectId;
                 SetState( 1 );    
                 m_targetObjectId = targetId;
             }
-        }
-        else
-        {
-            GetNewTarget();
+            else
+            {
+                GetNewTarget();
+            }
         }
     }
     else 
@@ -113,9 +113,11 @@ bool Saucer::Update()
                         {
                             city->m_population = 0;
                         }
-                        /*char caption[256];
+                        /*
+                        char caption[256];
                         sprintf( caption, "ALIEN ATTACK on %s, %u dead", city->m_name, deaths );
-                        g_app->GetInterface()->ShowMessage( m_longitude, m_latitude, TEAMID_SPECIALOBJECTS, caption, false);*/
+                        g_app->GetInterface()->ShowMessage( m_longitude, m_latitude, TEAMID_SPECIALOBJECTS, caption, false);
+                        */
                         m_damageTimer = 20;
                     }
                 }
@@ -185,6 +187,11 @@ void Saucer::Render( RenderInfo & renderInfo )
 Fixed Saucer::GetActionRange()
 {
     return 0;
+}
+
+void Saucer::Retaliate( WorldObjectReference const & attackerId )
+{
+    // do nothing for now.
 }
 
 void Saucer::GetNewTarget()

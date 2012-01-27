@@ -26,7 +26,7 @@ public:
 
     int     IsValidCombatTarget( int _objectId );                                      // returns TargetType...
 
-    virtual void    Retaliate       ( WorldObjectReference const & attackerId );
+    void    Retaliate       ( WorldObjectReference const & attackerId );
 
     bool    SetWaypointOnAction();
 };
