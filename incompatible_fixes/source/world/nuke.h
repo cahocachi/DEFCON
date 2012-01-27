@@ -7,6 +7,8 @@
 
 class Nuke : public MovingObject
 {
+    friend class Tornado;
+
 protected:
     Fixed   m_totalDistance;
     Fixed   m_curveDirection;

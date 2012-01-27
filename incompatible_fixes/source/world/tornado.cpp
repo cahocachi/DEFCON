@@ -58,11 +58,13 @@ bool Tornado::Update()
 			{
 				Nuke *nuke = (Nuke *)g_app->GetWorld()->m_objects[i];
 				Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, nuke->m_longitude, nuke->m_latitude);
-				if( distance <= GetActionRange() )
+				if( distance <= GetActionRange() && -1 == m_deflectedNukeIds.FindData(nuke->m_objectId) )
 				{
-					Fixed targetLongitude = syncsfrand(360)-180;
-					Fixed targetLatitude = syncsfrand(180)-90;  
+					Fixed targetLongitude = syncsfrand(360);
+					Fixed targetLatitude = syncsfrand(180);  
+                    nuke->m_targetLocked = false;
 					nuke->SetWaypoint(targetLongitude, targetLatitude);
+                    m_deflectedNukeIds.PutDataAtStart(nuke->m_objectId);
 				}
 			}
 			else if( g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeTornado )
@@ -117,7 +119,7 @@ void Tornado::Render( RenderInfo & renderInfo )
     m_angle += 0.05f;
 
     Image *bmpImage = g_resource->GetImage( bmpImageFilename );
-    g_renderer->Blit( bmpImage, renderInfo.m_position.y + renderInfo.m_velocity.x * 10,
+    g_renderer->Blit( bmpImage, renderInfo.m_position.x + renderInfo.m_velocity.x * 10,
 					  renderInfo.m_position.y + renderInfo.m_velocity.y * 10, m_size.DoubleValue()/2, m_size.DoubleValue()/2,
 					  colour, m_angle );
 }
@@ -135,6 +137,6 @@ void Tornado::SetSize( Fixed size )
 void Tornado::GetNewTarget()
 {
     Fixed targetLongitude = syncsfrand(360);
-	Fixed targetLatitude = syncsfrand(180)-90;  
+	Fixed targetLatitude = syncsfrand(180);  
     SetWaypoint( targetLongitude, targetLatitude );
 }
