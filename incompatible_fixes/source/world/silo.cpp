@@ -342,6 +342,17 @@ void Silo::AirDefense()
                 return;
             }
         }
+
+        WorldObjectReference saucerId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeSaucer, true );
+        WorldObject *saucer = g_app->GetWorld()->GetWorldObject( saucerId );
+        if( saucer )
+        {
+            if( g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, saucer->m_longitude, saucer->m_latitude ) <= actionRangeSqd )
+            {
+                Action( saucer->m_objectId, -1, -1 );
+                return;
+            }
+        }
     }
 }
 
