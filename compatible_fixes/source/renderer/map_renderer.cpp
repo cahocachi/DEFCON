@@ -304,7 +304,6 @@ void MapRenderer::Render()
 
         RenderObjects();
         RenderGunfire();    
-        // RenderBlips();        
 
         g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
@@ -325,6 +324,7 @@ void MapRenderer::Render()
         
         RenderCities(); 
         RenderWorldMessages();
+        RenderBlips();        
 
         if( m_showRadar )               RenderRadar();
         RenderNodes();
@@ -2769,6 +2769,10 @@ void MapRenderer::RenderObjects()
 void MapRenderer::RenderBlips()
 {
     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
+
+    MovingObject::RenderInfo info;
+    WorldObject::PrepareRender( info );
+    MovingObject::PrepareRender( info );
     
     int teamId = g_app->GetWorld()->m_myTeamId;
     Team *team = g_app->GetWorld()->GetTeam( teamId );
@@ -2787,6 +2791,11 @@ void MapRenderer::RenderBlips()
                         fleet->m_movementBlips.RemoveData(j);
                         j--;
                         delete blip;
+                    }
+                    else
+                    {
+                        info.FillPosition(blip);
+                        blip->Render(info);
                     }
                 }
             }
