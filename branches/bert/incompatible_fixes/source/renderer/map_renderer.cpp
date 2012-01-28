@@ -1683,6 +1683,14 @@ void MapRenderer::RenderMouse()
             
             float lineX = ( actionCursorLongitude - predictedLongitude );
             float lineY = ( actionCursorLatitude - predictedLatitude );
+            if( lineX < -180 )
+            {
+                lineX += 360;
+            }
+            else if( lineX > 180 )
+            {
+                lineX -= 360;
+            }
 
             float angle = atan( -lineX / lineY );
             if( lineY < 0.0f ) angle += M_PI;
@@ -2265,24 +2273,43 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
             }
             // render bomber nuke targets
             bool vetoNavTarget = false;
+            bool renderBomberNukeTarget = false;
             if( mobj->m_type == WorldObject::TypeBomber &&
                 mobj->m_currentState == 1 )
             {
                 Bomber * bomber = dynamic_cast< Bomber * >( mobj );
-                if( bomber && bomber->m_bombingRun && ( bomber->m_nukeTargetLongitude != 0 || bomber->m_nukeTargetLatitude != 0 ) )
+                AppDebugAssert( bomber );
+
+                float actionCursorLongitude = bomber->m_nukeTargetLongitude.DoubleValue();
+                float actionCursorLatitude = bomber->m_nukeTargetLatitude.DoubleValue();                   
+
+                if( bomber->m_bombingRun && ( bomber->m_nukeTargetLongitude != 0 || bomber->m_nukeTargetLatitude != 0 ) )
+                {
+                    renderBomberNukeTarget = true;
+                }
+                else if( bomber->m_actionQueue.Size() )
+                {
+                    renderBomberNukeTarget = true;
+
+                    ActionOrder * action = bomber->m_actionQueue[bomber->m_actionQueue.Size()-1];
+                    actionCursorLongitude = action->m_longitude.DoubleValue();
+                    actionCursorLatitude  = action->m_latitude.DoubleValue();                   
+                }
+
+                if( renderBomberNukeTarget )
                 {
                     Colour actionCursorCol( 255,0,0,150 );
                     float actionCursorSize = 2.0f;
                     float actionCursorAngle = 0;
 
-                    vetoNavTarget = ( bomber->m_nukeTargetLongitude == bomber->m_targetLongitude ||
-                                      bomber->m_nukeTargetLongitude == bomber->m_targetLongitude + 360 ||
-                                      bomber->m_nukeTargetLongitude == bomber->m_targetLongitude - 360 ) &&
-                    bomber->m_nukeTargetLatitude == bomber->m_targetLatitude;
+                    float navTargetLongitude  = bomber->m_targetLongitude.DoubleValue();
+                    float navTargetLatitude   = bomber->m_targetLatitude.DoubleValue();
 
-                    float actionCursorLongitude = bomber->m_nukeTargetLongitude.DoubleValue();
-                    float actionCursorLatitude = bomber->m_nukeTargetLatitude.DoubleValue();                   
-
+                    vetoNavTarget = actionCursorLatitude == navTargetLatitude &&
+                    ( actionCursorLongitude == navTargetLongitude ||
+                      actionCursorLongitude == navTargetLongitude + 360 ||
+                      actionCursorLongitude == navTargetLongitude - 360 );
+                    
                     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
                     Image *img = g_resource->GetImage( "graphics/cursor_target.bmp" );
@@ -2308,6 +2335,15 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                 if( mobj->m_type == WorldObject::TypeNuke )
                 {
                     actionCursorCol.Set( 255,0,0,150 );
+                }
+
+                if( mobj->m_type == WorldObject::TypeBomber &&
+                    mobj->m_currentState == 1 && 
+                    !renderBomberNukeTarget )
+                {
+                    {
+                        actionCursorCol.Set( 255,255,0,150 );
+                    }
                 }
 
                 Image *img = g_resource->GetImage( "graphics/cursor_target.bmp" );
@@ -2370,6 +2406,14 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
 
                     float lineX = ( targetLongitude - predictedLongitude );
                     float lineY = ( targetLatitude - predictedLatitude );
+                    if( lineX < -180 )
+                    {
+                        lineX += 360;
+                    }
+                    else if( lineX > 180 )
+                    {
+                        lineX -= 360;
+                    }
 
                     float angle = atan( -lineX / lineY );
                     if( lineY < 0.0f ) angle += M_PI;
@@ -3276,7 +3320,7 @@ void MapRenderer::UpdateCameraControl( float longitude, float latitude )
 
 
     float maxWidth = 360.0f;    
-    float maxHeight = 201;
+    float maxHeight = 210 + zoomFactor * 20;
 
     if( m_middleX > maxWidth/2 ) m_middleX = -maxWidth/2 + m_middleX-maxWidth/2;
     if( m_middleX < -maxWidth/2 ) m_middleX = 180 - m_middleX/-maxWidth/2;

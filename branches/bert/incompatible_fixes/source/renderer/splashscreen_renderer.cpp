@@ -82,8 +82,8 @@ void SplashScreenRenderer::Update()
 
 void SplashScreenRenderer::Render()
 {
-	float x = (g_windowManager->WindowW() - m_logo->m_bitmap->m_width) / 2;
-	float y = (g_windowManager->WindowH() - m_logo->m_bitmap->m_height) / 2;
+	float x = (g_windowManager->WindowW() - m_logo->GetBitmap()->m_width) / 2;
+	float y = (g_windowManager->WindowH() - m_logo->GetBitmap()->m_height) / 2;
 	
 	g_renderer->Reset2DViewport();
 	g_renderer->SetBlendMode(Renderer::BlendModeNormal);
