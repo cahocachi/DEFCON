@@ -153,10 +153,13 @@ public:
         Vector2< float > m_velocity; // velocity as float vector
         Vector2< float > m_direction; // normalised velocity, only used for planes
 
-        // filled by MovingObject::PrepareRender
-        int m_maxHistoryRender[WorldObject::NumObjectTypes]; // maximal history size per object type
+        // filled by WorldObject::PrepareRender
         float m_predictionTime; // time to extrapolate for
 
+        // filled by MovingObject::PrepareRender
+        int m_maxHistoryRender[WorldObject::NumObjectTypes]; // maximal history size per object type
+
+        inline void FillPosition( WorldObject * object, Vector2< float > & position );
         inline void FillPosition( WorldObject * object );
     };
 
@@ -276,6 +279,16 @@ inline WorldObjectReference &  WorldObjectReference::operator = ( WorldObject co
     {
         return operator = ( -1 );
     }
+}
+
+inline void WorldObject::RenderInfo::FillPosition( WorldObject * object, Vector2< float > & position )
+{
+    position.x = object->m_longitude.DoubleValue()+m_xOffset;
+    position.y = object->m_latitude.DoubleValue();
+    Vector2< float > velocity;
+    velocity.x = object->m_vel.x.DoubleValue();
+    velocity.y = object->m_vel.y.DoubleValue();
+    position += velocity * m_predictionTime;
 }
 
 inline void WorldObject::RenderInfo::FillPosition( WorldObject * object )

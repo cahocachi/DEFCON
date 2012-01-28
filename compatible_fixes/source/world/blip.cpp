@@ -88,17 +88,6 @@ bool Blip::Update()
         }
     }
 
-    m_historyTimer -= SERVER_ADVANCE_PERIOD / 10;
-    if( m_historyTimer <= 0 )
-    {
-        if( m_longitude > -180 ||
-            m_longitude < 180 )
-        {
-            m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
-            m_historyTimer = Fixed::Hundredths(1);
-        }
-    }
-
     // Render();
     m_pathCheckTimer -= SERVER_ADVANCE_PERIOD;
     if( m_pathCheckTimer <= 0 )
@@ -153,7 +142,9 @@ bool Blip::Update()
         }
     }
 
-    return MoveToWaypoint();
+    bool ret = MoveToWaypoint();
+    UpdateHistory(Fixed::Hundredths(1));
+    return ret;
 }
 
 void Blip::SetWaypoint( Fixed longitude, Fixed latitude )

@@ -186,6 +186,17 @@ public:
     void    RenderUnitHighlight( int _objectId );
     void    RenderNukeUnits();
 
+    struct TargetsRenderInfo: public WorldObject::RenderInfo
+    {
+        float m_maxLongitude, m_minLongitude;
+        
+        TargetsRenderInfo();
+        inline void AddLongitude( float longitude );
+        inline void FillPosition( WorldObject * object );
+    };
+
+    void    RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo );
+    void    RenderWorldObjectTargets   ( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo );
     void    RenderWorldObjectTargets   ( WorldObject *wobj, bool maxRanges=true );
     void    RenderWorldObjectDetails   ( WorldObject *wobj );
     void    GetWorldObjectStatePosition( WorldObject *wobj, int state,
@@ -261,5 +272,22 @@ public:
 	void    RenderWhiteBoard();
 };
 
+inline void MapRenderer::TargetsRenderInfo::AddLongitude( float longitude )
+{
+    if( m_minLongitude > longitude )
+    {
+        m_minLongitude = longitude;
+    }
+    if( m_maxLongitude < longitude )
+    {
+        m_maxLongitude = longitude;
+    }
+}
+
+inline void MapRenderer::TargetsRenderInfo::FillPosition( WorldObject * object )
+{
+    WorldObject::RenderInfo::FillPosition( object );
+    m_minLongitude = m_maxLongitude = m_position.x;
+}
 
 #endif
