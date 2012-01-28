@@ -2021,29 +2021,16 @@ void MapRenderer::RenderTooltip( char *_tooltip )
 void MapRenderer::RenderActionLine( float fromLong, float fromLat, float toLong, float toLat, Colour col, float width, bool animate )
 {
 #ifndef NON_PLAYABLE
-    float distance      = g_app->GetWorld()->GetDistance( Fixed::FromDouble(fromLong), Fixed::FromDouble(fromLat),
-														  Fixed::FromDouble(toLong), Fixed::FromDouble(toLat), true ).DoubleValue();
-    float distanceLeft  = g_app->GetWorld()->GetDistance( Fixed::FromDouble(fromLong), Fixed::FromDouble(fromLat),
-														  Fixed::FromDouble(toLong - 360), Fixed::FromDouble(toLat), true ).DoubleValue();
-    float distanceRight = g_app->GetWorld()->GetDistance( Fixed::FromDouble(fromLong), Fixed::FromDouble(fromLat),
-														  Fixed::FromDouble(toLong + 360), Fixed::FromDouble(toLat), true ).DoubleValue();
-    if( distanceLeft < distance )
+    while( toLong > fromLong + 180 )
     {
-        if( fromLong < 0.0f && toLong > 0.0f )
-        {
-            toLong -= 360.0f;
-        }
+        toLong -= 360;
     }
-    else if( distanceRight < distance )
+    while( toLong < fromLong - 180 )
     {
-        if( fromLong > 0.0f && toLong < 0.0f )
-        {
-            toLong += 360.0f;
-        }
+        toLong += 360;
     }
-
+    
     g_renderer->Line( fromLong, fromLat, toLong, toLat, col, width );
-    g_renderer->Line( fromLong+GetLongitudeMod(), fromLat, toLong+GetLongitudeMod(), toLat, col, width );
 
 
     if( animate )
@@ -2130,18 +2117,50 @@ void MapRenderer::RenderActionLine( float fromLong, float fromLat, float toLong,
 #endif
 }
 
-
 void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
 {
+    TargetsRenderInfo renderInfo;
+    WorldObject::PrepareRender(renderInfo);
+    renderInfo.m_xOffset = GetOffset( wobj, m_middleX );
+    
+    RenderWorldObjectTargets( wobj, maxRanges, renderInfo );
+}
+
+void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo )
+{
+    float xOffset = renderInfo.m_xOffset;
+    
+    float left, right, top, bottom;
+    GetWindowBounds( &left, &right, &top, &bottom );
+
+    // render it once
+    RenderWorldObjectTargetsSingle( wobj, maxRanges, renderInfo );
+
+    // determine whether further renderings are required
+    bool west = renderInfo.m_minLongitude + 360 < right;
+    bool east = renderInfo.m_maxLongitude - 360 > left;
+    
+    if( west )
+    {
+        // move view west
+        renderInfo.m_xOffset = xOffset + 360;
+        RenderWorldObjectTargetsSingle( wobj, maxRanges, renderInfo );
+    }
+    if( east )
+    {
+        renderInfo.m_xOffset = xOffset - 360;
+        RenderWorldObjectTargetsSingle( wobj, maxRanges, renderInfo );
+    }
+}
+
+void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo )
+{
 #ifndef NON_PLAYABLE
+    renderInfo.FillPosition( wobj );
+
     if( wobj->m_teamId == g_app->GetWorld()->m_myTeamId ||
         g_app->GetWorld()->m_myTeamId == -1 )
     {
-        float predictedLongitude = wobj->m_longitude.DoubleValue() +
-								   wobj->m_vel.x.DoubleValue() * g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-        float predictedLatitude = wobj->m_latitude.DoubleValue() +
-								  wobj->m_vel.y.DoubleValue() * g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-
         if( maxRanges )
         {
             int renderTooltip = g_preferences->GetInt( PREFS_INTERFACE_TOOLTIPS );
@@ -2165,12 +2184,15 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
             if( range <= 180.0f && range > 0.0f )
             {
                 Colour col(255,0,0,255);
-                g_renderer->Circle( predictedLongitude, predictedLatitude, range, 40, col, 1.0f );
+                g_renderer->Circle( renderInfo.m_position.x, renderInfo.m_position.y, range, 40, col, 1.0f );
+
+                renderInfo.AddLongitude( renderInfo.m_position.x + range );
+                renderInfo.AddLongitude( renderInfo.m_position.x - range );
                 
                 if( renderTooltip )
                 {
                     g_renderer->SetFont( "kremlin", true );
-                    g_renderer->TextCentreSimple( predictedLongitude, predictedLatitude+range, col, 1, LANGUAGEPHRASE("dialog_mapr_combat_range") );
+                    g_renderer->TextCentreSimple( renderInfo.m_position.x, renderInfo.m_position.y+range, col, 1, LANGUAGEPHRASE("dialog_mapr_combat_range") );
                     g_renderer->SetFont();
                 }
             }
@@ -2185,14 +2207,18 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                 if( mobj->m_range <= 180 && mobj->m_range > 0 )
                 {                    
                     float predictedRange = mobj->m_range.DoubleValue();
+                    predictedRange -= renderInfo.m_predictionTime * mobj->m_vel.Mag().DoubleValue();
 
                     Colour col(0,0,255,255);
-                    g_renderer->Circle( predictedLongitude, predictedLatitude, predictedRange, 50, col, 2.0f );
+                    g_renderer->Circle( renderInfo.m_position.x, renderInfo.m_position.y, predictedRange, 50, col, 2.0f );
+
+                    renderInfo.AddLongitude( renderInfo.m_position.x + predictedRange );
+                    renderInfo.AddLongitude( renderInfo.m_position.x - predictedRange );
 
                     if( renderTooltip )
                     {
                         g_renderer->SetFont( "kremlin", true );
-                        g_renderer->TextCentreSimple( predictedLongitude, predictedLatitude+predictedRange, col, 1, LANGUAGEPHRASE("dialog_mapr_fuel_range") );
+                        g_renderer->TextCentreSimple( renderInfo.m_position.x, renderInfo.m_position.y+predictedRange, col, 1, LANGUAGEPHRASE("dialog_mapr_fuel_range") );
                         g_renderer->SetFont();
                     }
                 }
@@ -2207,12 +2233,9 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
         WorldObject *targetObject = g_app->GetWorld()->GetWorldObject( targetObjectId );
         if( targetObject )
         {
-            float TpredictedLongitude = targetObject->m_longitude.DoubleValue() + 
-										targetObject->m_vel.x.DoubleValue() * g_predictionTime *
-										g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-            float TpredictedLatitude = targetObject->m_latitude.DoubleValue() + 
-									   targetObject->m_vel.y.DoubleValue() * g_predictionTime * 
-									   g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+            Vector2< float > targetPosition;
+            renderInfo.WorldObject::RenderInfo::FillPosition( targetObject, targetPosition );
+            renderInfo.AddLongitude( targetPosition.x );
 
             Colour actionCursorCol( 255,0,0,150 );
             float actionCursorSize = 2.0f;
@@ -2221,14 +2244,15 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
             g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
             Image *img = g_resource->GetImage( "graphics/cursor_target.bmp" );
-            g_renderer->Blit( img, TpredictedLongitude, TpredictedLatitude, 
+            
+            g_renderer->Blit( img, targetPosition.x, targetPosition.y, 
                                 actionCursorSize, actionCursorSize, 
                                 actionCursorCol, actionCursorAngle );
 
             g_renderer->SetBlendMode( Renderer::BlendModeNormal );            
 
-            RenderActionLine( predictedLongitude, predictedLatitude, 
-                              TpredictedLongitude, TpredictedLatitude, 
+            RenderActionLine( renderInfo.m_position.x, renderInfo.m_position.y, 
+                              targetPosition.x, targetPosition.y, 
                               actionCursorCol, 0.5f );
         }
         
@@ -2239,7 +2263,7 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
         if( !targetObject && wobj->IsMovingObject() )
         {
             MovingObject *mobj = (MovingObject *) wobj;
-            float actionCursorLongitude = mobj->m_targetLongitude.DoubleValue();
+            float actionCursorLongitude = mobj->m_targetLongitude.DoubleValue() + renderInfo.m_xOffset;
             float actionCursorLatitude = mobj->m_targetLatitude.DoubleValue();
 
             if( mobj->m_fleetId != -1 )
@@ -2249,12 +2273,13 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                     fleet->m_targetLongitude != 0 && 
                     fleet->m_targetLatitude != 0 )
                 {
-                    //predictedLongitude = fleet->m_longitude;
-                    //predictedLatitude = fleet->m_latitude;
-                    actionCursorLongitude = fleet->m_targetLongitude.DoubleValue();
+                    actionCursorLongitude = fleet->m_targetLongitude.DoubleValue() + renderInfo.m_xOffset;
                     actionCursorLatitude = fleet->m_targetLatitude.DoubleValue();                    
                 }
             }
+
+            renderInfo.AddLongitude( actionCursorLongitude );
+
             // render bomber nuke targets
             bool vetoNavTarget = false;
             bool renderBomberNukeTarget = false;
@@ -2264,7 +2289,7 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                 Bomber * bomber = dynamic_cast< Bomber * >( mobj );
                 AppDebugAssert( bomber );
 
-                float actionCursorLongitude = bomber->m_nukeTargetLongitude.DoubleValue();
+                float actionCursorLongitude = bomber->m_nukeTargetLongitude.DoubleValue() + renderInfo.m_xOffset;
                 float actionCursorLatitude = bomber->m_nukeTargetLatitude.DoubleValue();                   
 
                 if( bomber->m_bombingRun && ( bomber->m_nukeTargetLongitude != 0 || bomber->m_nukeTargetLatitude != 0 ) )
@@ -2276,9 +2301,11 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                     renderBomberNukeTarget = true;
 
                     ActionOrder * action = bomber->m_actionQueue[bomber->m_actionQueue.Size()-1];
-                    actionCursorLongitude = action->m_longitude.DoubleValue();
+                    actionCursorLongitude = action->m_longitude.DoubleValue() + renderInfo.m_xOffset;
                     actionCursorLatitude  = action->m_latitude.DoubleValue();                   
                 }
+
+                renderInfo.AddLongitude( actionCursorLongitude );
 
                 if( renderBomberNukeTarget )
                 {
@@ -2286,7 +2313,7 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                     float actionCursorSize = 2.0f;
                     float actionCursorAngle = 0;
 
-                    float navTargetLongitude  = bomber->m_targetLongitude.DoubleValue();
+                    float navTargetLongitude  = bomber->m_targetLongitude.DoubleValue() + renderInfo.m_xOffset;
                     float navTargetLatitude   = bomber->m_targetLatitude.DoubleValue();
 
                     vetoNavTarget = actionCursorLatitude == navTargetLatitude &&
@@ -2303,12 +2330,12 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
 
                     g_renderer->SetBlendMode( Renderer::BlendModeNormal );            
 
-                    RenderActionLine( predictedLongitude, predictedLatitude, 
+                    RenderActionLine( renderInfo.m_position.x, renderInfo.m_position.y, 
                                       actionCursorLongitude, actionCursorLatitude, 
                                       actionCursorCol, 0.5f );
                 }
             }
-            if( !vetoNavTarget && ( actionCursorLongitude != 0.0f || actionCursorLatitude != 0.0f ) )
+            if( !vetoNavTarget && ( actionCursorLongitude != renderInfo.m_xOffset || actionCursorLatitude != 0.0f ) )
             {
                 Colour actionCursorCol( 0,0,255,150 );
                 float actionCursorSize = 2.0f;
@@ -2337,7 +2364,7 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
 
                 g_renderer->SetBlendMode( Renderer::BlendModeNormal );            
 
-                RenderActionLine( predictedLongitude, predictedLatitude, 
+                RenderActionLine( renderInfo.m_position.x, renderInfo.m_position.y, 
                                   actionCursorLongitude, actionCursorLatitude, 
                                   actionCursorCol, 0.5f );
             }
@@ -2374,22 +2401,20 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                 for( int i = 0; i < wobj->m_actionQueue.Size(); ++i )
                 {
                     ActionOrder *order = wobj->m_actionQueue[i];
-                    float targetLongitude = order->m_longitude.DoubleValue();
-                    float targetLatitude = order->m_latitude.DoubleValue();
+                    
+                    Vector2< float > targetPosition;
+                    targetPosition.x = order->m_longitude.DoubleValue() + renderInfo.m_xOffset;
+                    targetPosition.y = order->m_latitude.DoubleValue();
 
                     WorldObject *targetObject = g_app->GetWorld()->GetWorldObject( order->m_targetObjectId );
                     if( targetObject )
                     {
-                        targetLongitude = targetObject->m_longitude.DoubleValue() +
-										   targetObject->m_vel.x.DoubleValue() * g_predictionTime *
-										   g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
-                        targetLatitude = targetObject->m_latitude.DoubleValue() +
-										 targetObject->m_vel.y.DoubleValue() * g_predictionTime *
-										 g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+                        renderInfo.WorldObject::RenderInfo::FillPosition( targetObject, targetPosition );
                     }
+                    renderInfo.AddLongitude( targetPosition.x );
 
-                    float lineX = ( targetLongitude - predictedLongitude );
-                    float lineY = ( targetLatitude - predictedLatitude );
+                    float lineX = ( targetPosition.x - renderInfo.m_position.x );
+                    float lineY = ( targetPosition.y - renderInfo.m_position.y );
                     if( lineX < -180 )
                     {
                         lineX += 360;
@@ -2403,10 +2428,10 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                     if( lineY < 0.0f ) angle += M_PI;
                 
                     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
-                    g_renderer->Blit( img, targetLongitude, targetLatitude, size, size, col, angle );
+                    g_renderer->Blit( img, targetPosition.x, targetPosition.y, size, size, col, angle );
                     g_renderer->SetBlendMode( Renderer::BlendModeNormal );
-                    RenderActionLine( predictedLongitude, predictedLatitude,
-                                      targetLongitude, targetLatitude,
+                    RenderActionLine( renderInfo.m_position.x, renderInfo.m_position.y,
+                                      targetPosition.x, targetPosition.y,
                                       col, 0.5f );
                 }
             }
@@ -5136,4 +5161,9 @@ void MapRenderer::RenderWhiteBoard()
 	}
 
 	END_PROFILE( "WhiteBoard" );
+}
+
+MapRenderer::TargetsRenderInfo::TargetsRenderInfo()
+: m_maxLongitude(-720), m_minLongitude( 720 )
+{
 }
