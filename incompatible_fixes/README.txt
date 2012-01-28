@@ -31,6 +31,7 @@ Forum name         | Real name           | contact/aliases
 amoskvin           | ?                   |
 bert_the_turtle    | Manuel Moos         | z-man@users.sf.net / z-man
 jhkrischel         | ?                   | 
+multimania         | ?                   |
 sysctl             | ?                   |
 
 ================================================
