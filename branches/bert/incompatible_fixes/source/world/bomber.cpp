@@ -386,6 +386,7 @@ void Bomber::SetState( int state )
     if( m_currentState != 1 )
     {
         m_bombingRun = false;
+        m_nukeTargetLongitude = m_nukeTargetLatitude = 0;
     }
 }
 
