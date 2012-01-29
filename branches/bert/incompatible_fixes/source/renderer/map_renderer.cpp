@@ -2260,9 +2260,23 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
         //
         // Render blue action line to our movement target
 
-        if( !targetObject && wobj->IsMovingObject() )
+        if( wobj->IsMovingObject() )
         {
+            bool vetoNavTarget = false;
+
             MovingObject *mobj = (MovingObject *) wobj;
+
+            if( targetObject )
+            {
+                // don't render nav target if is reasonably close to the combat target
+                Vector2< Fixed > targetWaypointDifference( targetObject->m_longitude - mobj->m_targetLongitude,
+                                                           targetObject->m_latitude - mobj->m_targetLatitude );
+                if( targetWaypointDifference.MagSquared() <= targetObject->m_vel.MagSquared()*25 )
+                {
+                    vetoNavTarget = true;
+                }
+            }
+
             float actionCursorLongitude = mobj->m_targetLongitude.DoubleValue() + renderInfo.m_xOffset;
             float actionCursorLatitude = mobj->m_targetLatitude.DoubleValue();
 
@@ -2297,7 +2311,6 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
             renderInfo.AddLongitude( actionCursorLongitude );
 
             // render bomber nuke targets
-            bool vetoNavTarget = false;
             bool renderBomberNukeTarget = false;
             if( mobj->m_type == WorldObject::TypeBomber &&
                 mobj->m_currentState == 1 )
@@ -2332,7 +2345,7 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
                     float navTargetLongitude  = bomber->m_targetLongitude.DoubleValue() + renderInfo.m_xOffset;
                     float navTargetLatitude   = bomber->m_targetLatitude.DoubleValue();
 
-                    vetoNavTarget = actionCursorLatitude == navTargetLatitude &&
+                    vetoNavTarget |= actionCursorLatitude == navTargetLatitude &&
                     ( actionCursorLongitude == navTargetLongitude ||
                       actionCursorLongitude == navTargetLongitude + 360 ||
                       actionCursorLongitude == navTargetLongitude - 360 );

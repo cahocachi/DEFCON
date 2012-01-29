@@ -6,6 +6,8 @@
 
 DIR=$(dirname $0)
 
+test -r language && exit
+
 VERSION_RAW=$({ echo \#define TARGET_OS_LINUX; cat ./source/lib/universal_include.h; echo APPVERSION=APP_VERSION; } | cpp | grep APPVERSION | sed -e s,APPVERSION=,, -e "s, *LINUX,," -e s,\",,g)
 VERSION=$(echo $VERSION_RAW | sed -e "s, ,_,g")
 NAME=defcon-$VERSION
@@ -91,7 +93,12 @@ pushd ${TARNAME}
 rm -rf ../sounds.dat ../main.dat 
 rar a -r -s ../${BINNAME}/sounds.dat data/sounds || exit -1
 rm -rf data/sounds
+mv data/language .
+mkdir data/language
+mv language/english.txt data/language
 rar a -r -s ../${BINNAME}/main.dat data || exit -1
+mv language/* data/language
+rmdir language
 popd
 
 # package up
@@ -113,7 +120,8 @@ sed < targets/msvc/Defcon.nsi -e "s,define PRODUCT_VERSION.*,define PRODUCT_VERS
 todos ${TARNAME}/*.txt || exit -1
 todos ${TARNAME}/targets/msvc/Defcon.nsi || exit -1
 if test -z "$DONTTAR"; then
-  tar -cjf ./${TARNAME}-windows.tbz ./$TARNAME || exit -1
+  #tar -cjf ./${TARNAME}-windows.tbz ./$TARNAME || exit -1
+  zip -r ./${TARNAME}-windows.zip ./$TARNAME || exit -1
 
   # cleanup
   rm -rf ${TARNAME} ${BINNAME}
