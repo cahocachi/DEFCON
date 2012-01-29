@@ -2296,8 +2296,7 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
 
             // render bomber nuke targets
             bool renderBomberNukeTarget = false;
-            if( mobj->m_type == WorldObject::TypeBomber &&
-                mobj->m_currentState == 1 )
+            if( mobj->m_type == WorldObject::TypeBomber )
             {
                 Bomber * bomber = dynamic_cast< Bomber * >( mobj );
                 AppDebugAssert( bomber );
@@ -2323,6 +2322,11 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
                 if( renderBomberNukeTarget )
                 {
                     Colour actionCursorCol( 255,0,0,150 );
+                    // if( mobj->m_currentState != 1 )
+                    // {
+                    // actionCursorCol = Colour( 255,255,0,150 );
+                    // }
+
                     float actionCursorSize = 2.0f;
                     float actionCursorAngle = 0;
 
