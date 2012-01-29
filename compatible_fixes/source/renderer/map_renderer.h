@@ -196,7 +196,7 @@ public:
     };
 
     void    RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo );
-    void    RenderWorldObjectTargets   ( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo );
+    void    RenderWorldObjectTargets   ( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo, float left, float right );
     void    RenderWorldObjectTargets   ( WorldObject *wobj, bool maxRanges=true );
     void    RenderWorldObjectDetails   ( WorldObject *wobj );
     void    GetWorldObjectStatePosition( WorldObject *wobj, int state,

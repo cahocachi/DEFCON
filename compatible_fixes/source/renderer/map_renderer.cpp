@@ -2123,16 +2123,16 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
     WorldObject::PrepareRender(renderInfo);
     renderInfo.m_xOffset = GetOffset( wobj, m_middleX );
     
-    RenderWorldObjectTargets( wobj, maxRanges, renderInfo );
-}
-
-void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo )
-{
-    float xOffset = renderInfo.m_xOffset;
-    
     float left, right, top, bottom;
     GetWindowBounds( &left, &right, &top, &bottom );
 
+    RenderWorldObjectTargets( wobj, maxRanges, renderInfo, left, right );
+}
+
+void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo, float left, float right )
+{
+    float xOffset = renderInfo.m_xOffset;
+    
     // render it once
     RenderWorldObjectTargetsSingle( wobj, maxRanges, renderInfo );
 
@@ -2643,9 +2643,12 @@ void MapRenderer::RenderObjects()
 {
     START_PROFILE( "Objects" );
 
-    MovingObject::RenderInfo info;
+    TargetsRenderInfo info;
     WorldObject::PrepareRender( info );
     MovingObject::PrepareRender( info );
+
+    float left, right, top, bottom;
+    GetWindowBounds( &left, &right, &top, &bottom );
 
     World * world = g_app->GetWorld();
 
@@ -2683,7 +2686,7 @@ void MapRenderer::RenderObjects()
             {
                 if(myTeamId == -1 || wobj->m_teamId == myTeamId )                
                 {
-                    RenderWorldObjectTargets(wobj, false);                // This shows ALL object orders on screen at once
+                    RenderWorldObjectTargets(wobj, false, info, left, right );                // This shows ALL object orders on screen at once
                 }
             }
 
@@ -2796,6 +2799,7 @@ void MapRenderer::RenderBlips()
     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
     MovingObject::RenderInfo info;
+    info.m_xOffset = 0;
     WorldObject::PrepareRender( info );
     MovingObject::PrepareRender( info );
     
