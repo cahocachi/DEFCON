@@ -1214,7 +1214,14 @@ WorldObject * MovingObject::GetClosestLandingPad()
     else
     {
         // no landing spot free. Head for nearest base, hope it gets free when we get there.
-        return nearestNonViable;
+        if( nearestNonViable )
+        {
+            return nearestNonViable;
+        }
+        else
+        {
+            return goFor;
+        }
     }
 }
 
