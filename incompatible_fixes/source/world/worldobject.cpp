@@ -108,6 +108,14 @@ void WorldObject::InitialiseTimers()
         m_nukeCountTimer += (double)GetHighResTime();
 
         m_radarRange /= World::GetGameScale();       
+
+        // don't fire right after launch (the test limits this to those
+        // object types that fire guns. No special reason for that.)
+        Fixed reloadTimer = m_states[ m_currentState ]->m_timeToReload;
+        if( reloadTimer <m_states[ m_currentState ]->m_timeToPrepare )
+        {
+            m_stateTimer = reloadTimer;
+        }
     }
 }
 
