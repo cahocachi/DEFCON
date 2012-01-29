@@ -252,9 +252,16 @@ bool Bomber::Update()
     if( IsIdle() )
     {
         // wait, wasn't there something to nuke?
-        if( m_bombingRun && m_states[1]->m_numTimesPermitted != 0 )
+        if( m_bombingRun && m_currentState == 1 && m_states[1]->m_numTimesPermitted != 0 )
         {
-            SetWaypoint( m_nukeTargetLongitude, m_nukeTargetLatitude );
+            // determine whether we'll get too close to the target
+            // if we turn now
+            Fixed distanceSquared = Vector2<Fixed>( m_longitude - m_nukeTargetLongitude, m_latitude - m_nukeTargetLatitude ).MagSquared();
+            Fixed actionRange = m_states[1]->m_actionRange - 5 + m_speed * m_stateTimer;
+            if( distanceSquared > actionRange * actionRange )
+            {
+                SetWaypoint( m_nukeTargetLongitude, m_nukeTargetLatitude );
+            }
         }
         else
         {
