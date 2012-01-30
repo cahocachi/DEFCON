@@ -333,7 +333,6 @@ class VisitModWebsiteButton : public EclButton
 ModWindow::ModWindow()
 :   InterfaceWindow( "Mods", "dialog_mod", true ),
     m_image(NULL),
-    m_bitmap(NULL),
 #ifdef TARGET_OS_MACOSX
     m_truncatePaths(true)
 #else
@@ -344,6 +343,11 @@ ModWindow::ModWindow()
 
     m_selectionName[0] = '\x0';
     m_selectionVersion[0] = '\x0';
+}
+
+ModWindow::~ModWindow()
+{
+    delete m_image;
 }
 
 
@@ -456,12 +460,6 @@ void ModWindow::SelectMod( char *_name, char *_version )
         m_image = NULL;
     }
 
-    if( m_bitmap )
-    {
-        delete m_bitmap;
-        m_bitmap = NULL;
-    }
-
 
     //
     // Get the mod
@@ -482,8 +480,8 @@ void ModWindow::SelectMod( char *_name, char *_version )
     if( DoesFileExist(fullFilename) )
     {
         BinaryFileReader reader( fullFilename );
-        m_bitmap = new Bitmap( &reader, "bmp" );
-        m_image = new Image( m_bitmap );
+        Bitmap * bitmap = new Bitmap( &reader, "bmp" );
+        m_image = new Image( bitmap );
         m_image->MakeTexture(true,false);
     }
 }

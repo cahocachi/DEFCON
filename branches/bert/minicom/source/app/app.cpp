@@ -490,15 +490,6 @@ void App::InitialiseWindow()
 
 void App::ReinitialiseWindow()
 {
-#ifdef TARGET_OS_LINUX
-    // Resolution/Fullscreen switching is broken on linux, pop up a dialog box
-    // asking the user to restart to get the effect.
-
-    EclRegisterWindow( new MessageDialog( "Restart Required", "dialog_restart_required_caption", true, "dialog_restart_required_title", true ) );
-    return;
-#endif
-    
-
 	g_windowManager->DestroyWin();
     g_resource->Restart();
 
@@ -602,6 +593,14 @@ void App::Render()
     // Flip
 
     START_PROFILE( "GL Flip" );
+	
+    // flush buffers before swap; this gives
+    // one frame input lag max and does not reduce
+    // throughput as much as doing it after the swap.
+    // Yes, some sources say glFinish never needs to be called.
+    // They're wrong.
+    glFinish();
+
     g_windowManager->Flip();
     END_PROFILE( "GL Flip" );   
     

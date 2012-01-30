@@ -47,12 +47,15 @@ public:
     void            InitialiseTimers();
 
     bool            Update();
+    void            UpdateHistory();
+    void            UpdateHistory( Fixed const & interval );
 
     bool            IsValidPosition ( Fixed longitude, Fixed latitude );
     bool            MoveToWaypoint  ();                                   // returns true upon arrival
-    void            Render          ();
-    void            RenderGhost     ( int teamId );
-    void            RenderHistory   ();
+    void            Render          ( RenderInfo & renderInfo );
+    void            RenderGhost     ( int teamId, RenderInfo & renderInfo );
+    static void     PrepareRender   ( RenderInfo & renderInfo );
+    void            RenderHistory   ( RenderInfo & renderInfo );
 
     virtual void    SetWaypoint     ( Fixed longitude, Fixed latitude );
 

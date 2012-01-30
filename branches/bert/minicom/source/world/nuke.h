@@ -7,6 +7,8 @@
 
 class Nuke : public MovingObject
 {
+    friend class Tornado;
+
 protected:
     Fixed   m_totalDistance;
     Fixed   m_curveDirection;
@@ -22,7 +24,7 @@ public:
 
     void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    Update          ();
-    void    Render          ();
+    void    Render          ( RenderInfo & renderInfo );
 
     void    SetWaypoint     ( Fixed longitude, Fixed latitude );
     

@@ -58,11 +58,13 @@ bool Tornado::Update()
 			{
 				Nuke *nuke = (Nuke *)g_app->GetWorld()->m_objects[i];
 				Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, nuke->m_longitude, nuke->m_latitude);
-				if( distance <= GetActionRange() )
+				if( distance <= GetActionRange() && -1 == m_deflectedNukeIds.FindData(nuke->m_objectId) )
 				{
 					Fixed targetLongitude = syncsfrand(360);
 					Fixed targetLatitude = syncsfrand(180);  
+                    nuke->m_targetLocked = false;
 					nuke->SetWaypoint(targetLongitude, targetLatitude);
+                    m_deflectedNukeIds.PutDataAtStart(nuke->m_objectId);
 				}
 			}
 			else if( g_app->GetWorld()->m_objects[i]->m_type == WorldObject::TypeTornado )
@@ -108,19 +110,17 @@ Fixed Tornado::GetActionRange()
 }
 
 
-void Tornado::Render()
+void Tornado::Render( RenderInfo & renderInfo )
 {
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue();
-    float predictedLatitude = ( m_latitude + m_vel.y * predictionTime ).DoubleValue(); 
+    renderInfo.FillPosition(this);
 
     Colour colour       = COLOUR_SPECIALOBJECTS;         
 
     m_angle += 0.05f;
 
     Image *bmpImage = g_resource->GetImage( bmpImageFilename );
-    g_renderer->Blit( bmpImage, predictedLongitude + m_vel.x.DoubleValue() * 10,
-					  predictedLatitude + m_vel.y.DoubleValue() * 10, m_size.DoubleValue()/2, m_size.DoubleValue()/2,
+    g_renderer->Blit( bmpImage, renderInfo.m_position.x + renderInfo.m_velocity.x * 10,
+					  renderInfo.m_position.y + renderInfo.m_velocity.y * 10, m_size.DoubleValue()/2, m_size.DoubleValue()/2,
 					  colour, m_angle );
 }
 

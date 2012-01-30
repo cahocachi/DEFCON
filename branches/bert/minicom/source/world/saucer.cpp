@@ -31,7 +31,7 @@ Saucer::Saucer()
     m_maxHistorySize = 10;
     m_range = 2000;
 
-    m_life = 10;
+    m_life = 50;
 
     m_explosionSize = Fixed::Hundredths(5);
     m_damageTimer = 20;
@@ -72,22 +72,22 @@ bool Saucer::Update()
     {    
         Direction oldVel = m_vel;
 
-        if( m_targetLongitude != 0 || m_targetLatitude != 0 )
+        bool arrived = MoveToWaypoint();
+        if( arrived )
         {
-            bool arrived = MoveToWaypoint();
-            if( arrived )
+            if( m_targetObjectId >= 0 )
             {
-                m_vel = oldVel;
+                m_vel.x = m_vel.y = 0;
                 m_targetLongitude = 0;
                 m_targetLatitude = 0;
                 int targetId = m_targetObjectId;
                 SetState( 1 );    
                 m_targetObjectId = targetId;
             }
-        }
-        else
-        {
-            GetNewTarget();
+            else
+            {
+                GetNewTarget();
+            }
         }
     }
     else 
@@ -113,9 +113,11 @@ bool Saucer::Update()
                         {
                             city->m_population = 0;
                         }
-                        /*char caption[256];
+                        /*
+                        char caption[256];
                         sprintf( caption, "ALIEN ATTACK on %s, %u dead", city->m_name, deaths );
-                        g_app->GetInterface()->ShowMessage( m_longitude, m_latitude, TEAMID_SPECIALOBJECTS, caption, false);*/
+                        g_app->GetInterface()->ShowMessage( m_longitude, m_latitude, TEAMID_SPECIALOBJECTS, caption, false);
+                        */
                         m_damageTimer = 20;
                     }
                 }
@@ -145,18 +147,16 @@ bool Saucer::Update()
     return MovingObject::Update();   
 }
 
-void Saucer::Render()
+void Saucer::Render( RenderInfo & renderInfo )
 {
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue();
-    float predictedLatitude = ( m_latitude + m_vel.y * predictionTime ).DoubleValue(); 
-    float size = 8.0f;
+    renderInfo.FillPosition(this);
 
+    float size = 8.0f;
 
     Colour colour       = COLOUR_SPECIALOBJECTS;
     if( m_currentState == 0 )
     {
-        RenderHistory(); 
+        RenderHistory( renderInfo ); 
     }
     
     m_angle += 0.01f;
@@ -164,12 +164,12 @@ void Saucer::Render()
     Image *bmpImage = g_resource->GetImage( bmpImageFilename );
     if( m_currentState == 0 )
     {  
-        g_renderer->Blit( bmpImage, predictedLongitude + m_vel.x.DoubleValue() * 2,
-						  predictedLatitude + m_vel.y.DoubleValue() * 2, size/2, size/2, colour, m_angle );
+        g_renderer->Blit( bmpImage, renderInfo.m_position.x + renderInfo.m_velocity.x * 2,
+						  renderInfo.m_position.y + renderInfo.m_velocity.y * 2, size/2, size/2, colour, m_angle );
     }
     else
     {
-        g_renderer->Blit( bmpImage, m_longitude.DoubleValue(), m_latitude.DoubleValue(), size/2, size/2, colour, m_angle );
+        g_renderer->Blit( bmpImage, renderInfo.m_position.x, renderInfo.m_position.y, size/2, size/2, colour, m_angle );
     }
     
     if( m_currentState == 1 )
@@ -187,6 +187,11 @@ void Saucer::Render()
 Fixed Saucer::GetActionRange()
 {
     return 0;
+}
+
+void Saucer::Retaliate( WorldObjectReference const & attackerId )
+{
+    // do nothing for now.
 }
 
 void Saucer::GetNewTarget()

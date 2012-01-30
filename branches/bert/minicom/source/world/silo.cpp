@@ -169,9 +169,9 @@ bool Silo::Update()
     return WorldObject::Update();
 }
 
-void Silo::Render()
+void Silo::Render( RenderInfo & renderInfo )
 {
-    WorldObject::Render();
+    WorldObject::Render( renderInfo );
 
 
     //
@@ -191,8 +191,8 @@ void Silo::Render()
         Image *bmpImage = g_resource->GetImage("graphics/smallnuke.bmp");
         if( bmpImage )
         {
-            float x = m_longitude.DoubleValue();
-            float y = m_latitude.DoubleValue() - GetSize().DoubleValue() * 0.9f;       
+            float x = renderInfo.m_position.x;
+            float y = renderInfo.m_position.y - GetSize().DoubleValue() * 0.9f;       
             float nukeSize = GetSize().DoubleValue() * 0.35f;
             x -= GetSize().DoubleValue()*0.95f;
 
@@ -339,6 +339,17 @@ void Silo::AirDefense()
             if( g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, fighter->m_longitude, fighter->m_latitude ) <= actionRangeSqd )
             {
                 Action( fighter->m_objectId, -1, -1 );
+                return;
+            }
+        }
+
+        WorldObjectReference saucerId = g_app->GetWorld()->GetNearestObject( m_teamId, m_longitude, m_latitude, WorldObject::TypeSaucer, true );
+        WorldObject *saucer = g_app->GetWorld()->GetWorldObject( saucerId );
+        if( saucer )
+        {
+            if( g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, saucer->m_longitude, saucer->m_latitude ) <= actionRangeSqd )
+            {
+                Action( saucer->m_objectId, -1, -1 );
                 return;
             }
         }

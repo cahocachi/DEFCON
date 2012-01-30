@@ -1190,10 +1190,20 @@ WorldObjectReference World::GetNearestObject( int teamId, Fixed longitude, Fixed
             WorldObject *obj = m_objects[i];
             bool isFriend = IsFriend( obj->m_teamId, teamId );
 
-            if( ( (isFriend && !enemyTeam) || (!isFriend && enemyTeam )) &&
-                ( objectType == -1 || obj->m_type == objectType) &&
-                ( (enemyTeam && obj->m_visible[teamId] ) || !enemyTeam ) &&
-                !GetTeam( teamId )->m_ceaseFire[obj->m_teamId])
+            bool valid = false;
+            if( obj->m_teamId == TEAMID_SPECIALOBJECTS )
+            {
+                valid = obj->m_type == WorldObject::TypeSaucer;
+            }
+            else if( ( (isFriend && !enemyTeam) || (!isFriend && enemyTeam )) &&
+                     ( objectType == -1 || obj->m_type == objectType) &&
+                     ( (enemyTeam && obj->m_visible[teamId] ) || !enemyTeam ) &&
+                     !GetTeam( teamId )->m_ceaseFire[obj->m_teamId])
+            {
+                valid = true;
+            }
+
+            if( valid )
             {
                 Fixed distanceSqd = GetDistanceSqd( longitude, latitude, obj->m_longitude, obj->m_latitude);
                 if( distanceSqd < nearestSqd )
@@ -1416,20 +1426,11 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
                     wobj->m_life > 0 &&
                     GetDistance( longitude, latitude, wobj->m_longitude, wobj->m_latitude) <= intensity/50 )
                 {
-                    if( wobj->IsMovingObject() ) 
-                    {
-                        wobj->m_life = 0;
-
-						wobj->m_lastHitByTeamId = teamId;
-                    }
-                    else
-                    {
-                        int damageDone = 10;
-                        wobj->m_life -= damageDone;
-                        wobj->m_life = max( wobj->m_life, 0 );
-						wobj->m_lastHitByTeamId = teamId;
-                        wobj->NukeStrike();
-                    }
+                    int damageDone = 10;
+                    wobj->m_life -= damageDone;
+                    wobj->m_life = max( wobj->m_life, 0 );
+                    wobj->m_lastHitByTeamId = teamId;
+                    wobj->NukeStrike();
 
                     if( !wobj->IsMovingObject() &&
                         wobj->m_life <= 0 )
@@ -1504,6 +1505,33 @@ void World::ObjectStateChange( int objectId, int newState )
     }
 }
 
+#ifdef _DEBUG
+static void CreateDebugAnimation( int objectId, Fixed longitude, Fixed latitude, int targetId )
+{
+    World * world = g_app->GetWorld();
+    if( world->m_myTeamId == -1 )
+    {
+        int animid = g_app->GetMapRenderer()->CreateAnimation( 
+            MapRenderer::AnimationTypeActionMarker, objectId,
+            longitude.DoubleValue(), latitude.DoubleValue() );
+        ActionMarker *action = (ActionMarker *) g_app->GetMapRenderer()->m_animations[animid];
+        action->m_targetType = WorldObject::TargetTypeValid;
+        if( targetId >= 0 )
+        {
+            action->m_combatTarget = targetId;
+            WorldObject * target = world->GetWorldObject( targetId );
+            WorldObject * source = world->GetWorldObject( objectId );
+            if( target && source && target->m_teamId == source->m_teamId )
+            {
+                action->m_targetType = WorldObject::TargetTypeLand;
+            }
+        }
+    }
+}
+#else
+#define CreateDebugAnimation(x,y,z,w) {}
+#endif
+
 void World::ObjectAction( int objectId, int targetObjectId, Fixed longitude, Fixed latitude, bool pursue )
 {
     if( latitude > 100 || latitude < -100 ) 
@@ -1534,6 +1562,8 @@ void World::ObjectAction( int objectId, int targetObjectId, Fixed longitude, Fix
 
         wobj->RequestAction( action );
 
+        CreateDebugAnimation( objectId, longitude, latitude, targetObjectId );
+
         //
         // If that was the last possible action deselect this unit now
         // (assuming we have it selected)
@@ -1556,6 +1586,8 @@ void World::ObjectSetWaypoint  ( int objectId, Fixed longitude, Fixed latitude )
     WorldObject *wobj = GetWorldObject(objectId);
     if( wobj && wobj->IsMovingObject() )
     {
+        CreateDebugAnimation( objectId, longitude, latitude, -1 );
+
         MovingObject *mobj = (MovingObject *) wobj;
         mobj->SetWaypoint( longitude, latitude );
     }
@@ -1581,6 +1613,14 @@ void World::ObjectSpecialAction( int objectId, int targetObjectId, int specialAc
 
     if( wobj )
     {
+#ifdef _DEBUG
+        WorldObject * target = GetWorldObject( targetObjectId );
+        if( target )
+        {
+            CreateDebugAnimation( objectId, target->m_longitude, target->m_latitude, targetObjectId );
+        }
+#endif
+
         switch( specialActionType )
         {
             case SpecialActionLandingAircraft:
@@ -2133,7 +2173,7 @@ void World::Update()
     int worldEvents = g_app->GetGame()->GetOptionValue("EnableWorldEvents");
     if( worldEvents == 1 )
     {
-        if( GetDefcon() == 1 )
+        if( GetDefcon() == 1 && g_app->GetGame()->m_winner != -1 )
         {
             if( syncfrand( 100000 ) <= 100 )
             {
@@ -2328,10 +2368,12 @@ void World::UpdateRadar()
                  
                     wobj->m_visible[thisTeamId] = false;
 
-                    bool showObject = ( wobj->m_teamId == thisTeamId );
+                    int otherTeamId = wobj->m_teamId;
+                    bool showObject = ( otherTeamId == thisTeamId );
 
-                    if( GetTeam( wobj->m_teamId )->m_sharingRadar[ thisTeamId ] &&
-                        wobj->m_type != WorldObject::TypeSub )
+                    if( otherTeamId == TEAMID_SPECIALOBJECTS ||
+                        ( GetTeam( otherTeamId )->m_sharingRadar[ thisTeamId ] &&
+                          wobj->m_type != WorldObject::TypeSub ) )
                     {
                         showObject = true;
                     }
@@ -2431,7 +2473,7 @@ void World::UpdateRadar()
 
                 Team *owner = GetTeam(wobj->m_teamId);
                 
-                if( owner->m_teamId != TEAMID_SPECIALOBJECTS )
+                if( owner && owner->m_teamId != TEAMID_SPECIALOBJECTS )
                 {
                     wobj->m_visible[owner->m_teamId] = true;
                 }
@@ -2544,7 +2586,7 @@ void World::GenerateWorldEvent()
 {
     //return;
 
-    int num = 1;// syncrand() % 2;
+    int num = syncrand() % 2;
     char msg[128];
     switch(num)
     {
@@ -3559,7 +3601,7 @@ int World::GetAttackOdds( int attackerType, int defenderType )
                                         0,  0, 10,  0,  0,  0,  0, 20,  0, 30,  0,  0,  0, 50,  // Bomber
                                         0,  0,  0,  0, 99,  0, 20, 20,  0, 10, 25,  0,  0, 50,  // Carrier
                                         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  // Tornado
-                                        0,  0, 10,  0,  0,  0,  0, 10,  0, 10,  0,  0,  0,  0,  // Saucer
+                                        0,  0,  5,  0,  0,  0,  0, 10,  0, 50,  0,  0,  0,  0,  // Saucer
                                     };
 
 

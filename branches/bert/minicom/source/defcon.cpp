@@ -76,6 +76,21 @@ void UpdateAdvanceTime()
 	g_gameTime = realTime;
     g_predictionTime = float(realTime - g_lastServerAdvance) - 0.1f;
     g_predictionTime = min( g_predictionTime, 1.0f );
+
+    static int troubleCount = 0;
+    if( g_predictionTime > .8 )
+    {
+        troubleCount++;
+    }
+    else
+    {
+        troubleCount = 0;
+    }
+    if( troubleCount > 100 )
+    {
+        // we're lagging heavily, only predict half a simulation frame.
+        g_predictionTime = 0.05;
+    }
 }
 
 

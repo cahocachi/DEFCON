@@ -14,7 +14,7 @@ public:
     Silo();
 
     void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
-    void    Render          ();    
+    void    Render          ( RenderInfo & renderInfo );    
     bool    Update          ();
 	void	RunAI			();
     int     GetTargetObjectId();

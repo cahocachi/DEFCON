@@ -124,6 +124,7 @@ public:
     void    Blit                ( Image *src, float x, float y, Colour const &col);
     void    Blit                ( Image *src, float x, float y, float w, float h, Colour const &col);
     void    Blit                ( Image *src, float x, float y, float w, float h, Colour const &col, float angle);
+    void    Blit                ( Image *src, float x, float y, float w, float h, Colour const &col, float angleCos, float angleSin);
 
 protected:
     char *ScreenshotsDirectory();
