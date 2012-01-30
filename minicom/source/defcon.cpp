@@ -162,8 +162,9 @@ void DumpSyncLogs( char *syncId )
         s_lastDump = GetHighResTime();
 
         char filename[256];
-        sprintf( filename, "synclog %s c%d.txt", 
-                            syncId, 
+        sprintf( filename, "%ssynclog %s c%d.txt", 
+							App::GetPrefsDirectory(),
+							syncId, 
                             g_app->GetClientToServer()->m_clientId );
         
         if( !DoesFileExist( filename ) )
@@ -959,7 +960,7 @@ void AppMain()
     {
         DefconMain();
     }
-    catch(App::Exit const & e)
+    catch(App::Exit const &)
     {
         // do nothing, exit cleanly
     }

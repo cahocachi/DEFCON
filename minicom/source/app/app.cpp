@@ -8,6 +8,7 @@
 #include "lib/gucci/window_manager.h"
 #ifdef TARGET_MSVC 
 #include "lib/gucci/window_manager_win32.h"
+#include "Shlobj.h"
 #endif
 #include "lib/gucci/input.h"
 #include "lib/resource/resource.h"
@@ -196,6 +197,7 @@ static void InitialiseFloatingPointUnit()
 void App::MinimalInit()
 {
 #ifdef DUMP_DEBUG_LOG
+	GetPrefsDirectory();
 	AppDebugOutRedirect("debug.txt");
 #endif
     AppDebugOut("Defcon %s built %s\n", APP_VERSION, __DATE__ );
@@ -1033,36 +1035,64 @@ Tutorial *App::GetTutorial()
     return m_tutorial;
 }
 
-static const char *GetPrefsDirectory()
+static const char *GetPrefsDirectoryRaw()
 {		
 #if defined(TARGET_OS_MACOSX)
-	static char userdir[256];
+	static char userdir[1000];
 	const char *home = getenv("HOME");
 	if (home != NULL) {
-		sprintf(userdir, "%s/Library/Preferences/", home);
+		snprintf(userdir, 1000, "%s/Library/Preferences/", home);
 
 		return userdir;
 	}
 #elif defined(TARGET_OS_LINUX)
-	static char userdir[256];
+	static char userdir[1000];
 	const char *home = getenv("HOME");
 	if (home != NULL) {
-		sprintf(userdir, "%s/.defcon/", home);
+		snprintf(userdir, 1000, "%s/.defcon/", home);
 		mkdir(userdir, 0770);
 		return userdir;
 	}
+#elif defined(TARGET_MSVC)
+#ifndef _DEBUG
+	char documents[MAX_PATH+1];
+	if ( S_OK == SHGetFolderPath(NULL, CSIDL_MYDOCUMENTS, NULL, SHGFP_TYPE_CURRENT, documents ) )
+	{
+	    static char ret[MAX_PATH+1+100];
+		char * fullPath = ConcatPaths( documents, "My Games", APP_NAME, "", NULL );
+		strncpy(ret, fullPath, MAX_PATH+100);
+		delete[] fullPath;
+		return ret;
+	}
+#endif
 #endif
 	return "";
 }
 
+const char *App::GetPrefsDirectory()
+{
+	static const char * directory = NULL;
+	if( !directory )
+	{
+		directory =	GetPrefsDirectoryRaw();
+		CreateDirectoryRecursively( directory );
+		SetAppDebugOutPath( directory );
+	}
+	return directory;
+}
+
 const char *App::GetPrefsPath()
 {
-	static char temp[256];
-	sprintf( temp, "%s%s", GetPrefsDirectory(), 
+	static char temp[1000];
+	snprintf( temp, 1000, "%s%s", GetPrefsDirectory(), 
 #if defined(TARGET_OS_MACOSX)
 		"uk.co.introversion.defcon.prefs" 
 #else 
+#ifdef _DEBUG
 		"preferences.txt"
+#else
+		"preferences_debug.txt"
+#endif
 #endif
 	);
 	return temp;
@@ -1070,12 +1100,25 @@ const char *App::GetPrefsPath()
 
 const char *App::GetAuthKeyPath()
 {
-	static char temp[256];
-	sprintf( temp, "%s%s", GetPrefsDirectory(), 
+	static char temp[1000];
+	snprintf( temp, 1000, "%s%s", GetPrefsDirectory(), 
 #if defined(TARGET_OS_MACOSX)
 		"uk.co.introversion.defcon.authkey" 
 #else
 		"authkey"
+#endif
+	);
+	return temp;
+}
+
+const char *App::GetGameHistoryPath()
+{
+	static char temp[1000];
+	snprintf( temp, 1000, "%s%s", GetPrefsDirectory(), 
+#if defined(TARGET_OS_MACOSX)
+		"uk.co.introversion.defcon.gamehistory" 
+#else 
+		"game-history.txt"
 #endif
 	);
 	return temp;

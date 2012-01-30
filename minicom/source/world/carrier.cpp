@@ -468,6 +468,7 @@ void Carrier::Retaliate( WorldObjectReference const & attackerId )
     {
         WorldObject *obj = g_app->GetWorld()->GetWorldObject( attackerId );
         if( obj &&
+            m_teamId != obj->m_teamId &&
             obj->m_visible[ m_teamId ] && 
             !g_app->GetWorld()->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ])
         {

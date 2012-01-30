@@ -354,6 +354,7 @@ dialog_place_fleet                  Place Fleet
 dialog_paused                       PAUSED
 dialog_gameover                     GAME OVER
 dialog_saved_screenshot             /me saved a screenshot
+dialog_saved_screenshot_failed      /me failed to save a screenshot
 # /me will be replaced by the Team Name
 dialog_synchronisation_error        SYNCHRONISATION ERROR
 dialog_connection_problem_seconds   CONNECTION PROBLEM (*S SECS)

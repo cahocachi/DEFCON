@@ -67,7 +67,7 @@ public:
     void    BeginScene          ();
     void    ClearScreen         ( bool _colour, bool _depth );
 
-    void    SaveScreenshot      ();
+    bool    SaveScreenshot      ();
 
 
     //

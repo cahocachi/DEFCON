@@ -252,9 +252,16 @@ bool Bomber::Update()
     if( IsIdle() )
     {
         // wait, wasn't there something to nuke?
-        if( m_bombingRun && m_states[1]->m_numTimesPermitted != 0 )
+        if( m_bombingRun && m_currentState == 1 && m_states[1]->m_numTimesPermitted != 0 )
         {
-            SetWaypoint( m_nukeTargetLongitude, m_nukeTargetLatitude );
+            // determine whether we'll get too close to the target
+            // if we turn now
+            Fixed distanceSquared = Vector2<Fixed>( m_longitude - m_nukeTargetLongitude, m_latitude - m_nukeTargetLatitude ).MagSquared();
+            Fixed actionRange = m_states[1]->m_actionRange - 5 + m_speed * m_stateTimer;
+            if( distanceSquared > actionRange * actionRange )
+            {
+                SetWaypoint( m_nukeTargetLongitude, m_nukeTargetLatitude );
+            }
         }
         else
         {
@@ -386,6 +393,7 @@ void Bomber::SetState( int state )
     if( m_currentState != 1 )
     {
         m_bombingRun = false;
+        m_nukeTargetLongitude = m_nukeTargetLatitude = 0;
     }
 }
 
@@ -487,7 +495,9 @@ void Bomber::Render( RenderInfo & renderInfo )
 
         float size = GetSize().DoubleValue() * 0.4f;
 
-        Vector2< float > pos = renderInfo.m_position + renderInfo.m_velocity * 4;
+        static float nukeOffset = .15; // m_speed.DoubleValue()*4/size;
+
+        Vector2< float > pos = renderInfo.m_position + renderInfo.m_direction * size * nukeOffset;
 
         g_renderer->Blit( bmpImage, pos.x, pos.y,
 						  size/2, size/2, colour, renderInfo.m_direction.y, -renderInfo.m_direction.x );

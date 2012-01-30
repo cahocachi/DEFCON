@@ -1610,11 +1610,11 @@ void World::ObjectClearLastAction( int objectId )
 void World::ObjectSpecialAction( int objectId, int targetObjectId, int specialActionType )
 {
     WorldObject *wobj = GetWorldObject(objectId);
+    WorldObject *target = GetWorldObject(targetObjectId);
 
     if( wobj )
     {
 #ifdef _DEBUG
-        WorldObject * target = GetWorldObject( targetObjectId );
         if( target )
         {
             CreateDebugAnimation( objectId, target->m_longitude, target->m_latitude, targetObjectId );
@@ -1627,7 +1627,7 @@ void World::ObjectSpecialAction( int objectId, int targetObjectId, int specialAc
                 if( wobj->IsMovingObject() )
                 {
                     MovingObject *mobj = (MovingObject *) wobj;
-                    mobj->Land( mobj );
+                    mobj->Land( target );
                 }
                 break;
 
