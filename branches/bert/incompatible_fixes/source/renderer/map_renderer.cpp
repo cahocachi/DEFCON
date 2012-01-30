@@ -2312,8 +2312,7 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
 
             // render bomber nuke targets
             bool renderBomberNukeTarget = false;
-            if( mobj->m_type == WorldObject::TypeBomber &&
-                mobj->m_currentState == 1 )
+            if( mobj->m_type == WorldObject::TypeBomber )
             {
                 Bomber * bomber = dynamic_cast< Bomber * >( mobj );
                 AppDebugAssert( bomber );
@@ -2339,6 +2338,11 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
                 if( renderBomberNukeTarget )
                 {
                     Colour actionCursorCol( 255,0,0,150 );
+                    // if( mobj->m_currentState != 1 )
+                    // {
+                    // actionCursorCol = Colour( 255,255,0,150 );
+                    // }
+
                     float actionCursorSize = 2.0f;
                     float actionCursorAngle = 0;
 
@@ -4365,18 +4369,24 @@ int MapRenderer::CreateAnimation( int animationType, int _fromObjectId, float lo
     int index = m_animations.PutData( anim );
     return index;
 }
-    
+
+// clips x and y so that the point stays on the same line through middleX/Y, but
+// is no further away than clipX
+inline void Clip( float middleX, float middleY, float clipX, float & x, float & y )
+{
+    // check whether x is outside the clip bounds
+    if ((x-clipX)*(clipX-middleX) > 0 )
+    {
+        float clipFactor = (clipX-middleX)/(x-middleX);
+        x = clipX;
+        y = middleY + clipFactor * (y-middleY);
+    }
+}
 
 void MapRenderer::FindScreenEdge( Vector3<float> const &_line, float *_posX, float *_posY )
 {
-//    y = mx + c
-//    c = y - mx
-//    x = (y - c) / m
- 
-
     float left, right, top, bottom;
     g_app->GetMapRenderer()->GetWindowBounds( &left, &right, &top, &bottom );
-
 
     // shrink screen slightly so arrow renders fully onscreen
 
@@ -4385,57 +4395,12 @@ void MapRenderer::FindScreenEdge( Vector3<float> const &_line, float *_posX, flo
     bottom += 2.5f * m_drawScale;
     left += 2.5f * m_drawScale;
 
-    float m = (_line.y - m_middleY) / (_line.x - m_middleX);
-    float c = m_middleY - m * m_middleX;
-    
-    if( _line.y > top )
-    {
-        // Intersect with top view plane
-        float x = ( top - c ) / m;
-        if( x >= left && x <= right )
-        {
-            *_posX = x;
-            *_posY = top;
-            return;
-        }
-    }
-    else
-    {
-        // Intersect with the bottom view plane
-        float x = ( bottom - c ) / m;
-        if( x >= left && x <= right )
-        {
-            *_posX = x;
-            *_posY = bottom;
-            return;
-        }        
-    }
- 
-    if( _line.x < left )
-    {
-        // Intersect with left view plane 
-        float y = m * left + c;
-        if( y >= bottom && y <= top ) 
-        {
-            *_posX = left;
-            *_posY = y;
-            return;
-        }
-    }
-    else
-    {
-        // Intersect with right view plane
-        float y = m * right + c;
-        if( y >= bottom && y <= top ) 
-        {
-            *_posX = right;
-            *_posY = y;
-            return;
-        }        
-    }
- 
-    // We should never ever get here
-    AppAbort( "We should never ever get here" );
+    *_posX = _line.x;
+    *_posY = _line.y;
+    Clip( m_middleX, m_middleY, right , *_posX, *_posY );
+    Clip( m_middleX, m_middleY, left  , *_posX, *_posY );
+    Clip( m_middleY, m_middleX, top   , *_posY, *_posX );
+    Clip( m_middleY, m_middleX, bottom, *_posY, *_posX );
 }
 
 void MapRenderer::UpdateMouseIdleTime()
