@@ -443,17 +443,6 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
         
     if( IsOnSameSideOfSeam() )
     {
-        m_targetNodeId = g_app->GetWorld()->GetClosestNode( longitude, latitude );
-    
-        m_targetLongitude = longitude;
-        m_targetLatitude = latitude;
-
-        Node *node = g_app->GetWorld()->m_nodes[ g_app->GetWorld()->GetClosestNode( m_longitude, m_latitude )];
-        if( !node )
-        {
-            END_PROFILE( "MoveFleet" );
-            return;
-        }
         Fixed newLong = 0;
         Fixed newLat = 0;
 
@@ -465,10 +454,21 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
         }
         else
         {
+            Node *node = g_app->GetWorld()->m_nodes[ g_app->GetWorld()->GetClosestNode( m_longitude, m_latitude )];
+            if( !node )
+            {
+                END_PROFILE( "MoveFleet" );
+                return;
+            }
+
             newLong = node->m_longitude;
             newLat = node->m_latitude;
             sailable = g_app->GetWorld()->IsSailable( m_longitude, m_latitude, newLong, newLat );
         }
+
+        m_targetNodeId = g_app->GetWorld()->GetClosestNode( longitude, latitude );
+        m_targetLongitude = longitude;
+        m_targetLatitude = latitude;
 
         if( sailable )
         {
@@ -509,12 +509,6 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
                 {
                     World::SanitiseTargetLongitude( obj->m_longitude, longitude );
 
-                    Node *node = g_app->GetWorld()->m_nodes[ g_app->GetWorld()->GetClosestNode( obj->m_longitude, obj->m_latitude )];
-                    if( !node )
-                    {
-                        END_PROFILE( "MoveFleet" );
-                        return;
-                    }
                     Fixed newLong = 0;
                     Fixed newLat = 0;
                     if( g_app->GetWorld()->IsSailable( obj->m_longitude, obj->m_latitude, longitude, latitude ) )
@@ -524,6 +518,13 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
                     }
                     else
                     {
+                        Node *node = g_app->GetWorld()->m_nodes[ g_app->GetWorld()->GetClosestNode( obj->m_longitude, obj->m_latitude )];
+                        if( !node )
+                        {
+                            END_PROFILE( "MoveFleet" );
+                            return;
+                        }
+
                         newLong = node->m_longitude;
                         newLat = node->m_latitude;
                     }
