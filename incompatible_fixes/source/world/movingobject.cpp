@@ -1524,7 +1524,7 @@ int MovingObject::GetTarget( Fixed range )
             {
                 valid = obj->m_type == TypeSaucer;
             }
-            if( !world->GetAttackOdds( m_type, obj->m_type ) > 0 )
+            if( world->GetAttackOdds( m_type, obj->m_type ) <= 0 )
             {
                 valid = false;
             }
