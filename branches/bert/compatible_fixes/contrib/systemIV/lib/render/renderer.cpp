@@ -738,9 +738,6 @@ bool Renderer::SaveScreenshot()
             break;
         }
         ++screenshotIndex;
-
-		ret = false;
-		break;
     }
 
     //
@@ -765,7 +762,7 @@ char *Renderer::ScreenshotsDirectory()
 	char path[MAX_PATH+1];
 	if ( S_OK == SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, path ) )
 	{
-		return ConcatPaths( path, "DEFCON", NULL );
+		return ConcatPaths( path, APP_NAME " Screenshots", NULL );
 	}
 #endif
 	return newStr(".");

@@ -101,6 +101,8 @@ public:
     StatusIcon      *GetStatusIcon();
     Tutorial        *GetTutorial();
 
+	static const char *GetPrefsDirectory();
+	static const char *GetGameHistoryPath();
 	static const char *GetAuthKeyPath();
 	static const char *GetPrefsPath();
 
