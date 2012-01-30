@@ -959,7 +959,7 @@ void AppMain()
     {
         DefconMain();
     }
-    catch(App::Exit const & e)
+    catch(App::Exit const &)
     {
         // do nothing, exit cleanly
     }

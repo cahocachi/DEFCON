@@ -325,10 +325,13 @@ void Bitmap::Write24BitLine(FILE *_out, int _y)
 }
 
 
-void Bitmap::SaveBmp(char *_filename)
+bool Bitmap::SaveBmp(char *_filename)
 {
 	FILE *_out = fopen(_filename, "wb");
-	AppAssert( _out );
+	if( !_out )
+	{
+		return false;       
+	}
 
 	WriteBMPFileHeader(_out);
 
@@ -343,6 +346,8 @@ void Bitmap::SaveBmp(char *_filename)
 	}
 
 	fclose(_out);
+
+	return true;
 }
 
 
