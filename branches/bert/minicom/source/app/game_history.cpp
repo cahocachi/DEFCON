@@ -5,6 +5,7 @@
 #include "lib/filesys/text_stream_readers.h"
 #include "lib/string_utils.h"
 
+#include "app.h"
 #include "game_history.h"
 
 #include <cstring>
@@ -105,10 +106,9 @@ int GameHistory::HasJoinedGame( char *_ip, int _port )
     return 0;
 }
 
-
 void GameHistory::Save()
 {
-    FILE *file = fopen( "game-history.txt", "wt" );
+	FILE *file = fopen( App::GetGameHistoryPath(), "wt" );
     if( file )
     {
         for( int i = 0; i < m_servers.Size(); ++i )
@@ -125,7 +125,7 @@ void GameHistory::Save()
 
 void GameHistory::Load()
 {
-    TextFileReader reader( "game-history.txt" );
+    TextFileReader reader( App::GetGameHistoryPath() );
 
     if( reader.IsOpen() )
     {

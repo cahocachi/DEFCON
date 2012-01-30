@@ -1214,7 +1214,14 @@ WorldObject * MovingObject::GetClosestLandingPad()
     else
     {
         // no landing spot free. Head for nearest base, hope it gets free when we get there.
-        return nearestNonViable;
+        if( nearestNonViable )
+        {
+            return nearestNonViable;
+        }
+        else
+        {
+            return goFor;
+        }
     }
 }
 
@@ -1368,7 +1375,7 @@ void MovingObject::GetInterceptionPoint( WorldObject *target, Fixed *interceptLo
 void MovingObject::Retaliate( WorldObjectReference const & attackerId )
 {
     WorldObject *obj = g_app->GetWorld()->GetWorldObject( attackerId );
-    if( obj && !g_app->GetWorld()->IsFriend( m_teamId, attackerId ) &&
+    if( obj && m_teamId != obj->m_teamId &&
         !g_app->GetWorld()->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ])
     {
         if( UsingGuns() && m_targetObjectId == -1 )
@@ -1517,7 +1524,7 @@ int MovingObject::GetTarget( Fixed range )
             {
                 valid = obj->m_type == TypeSaucer;
             }
-            if( !world->GetAttackOdds( m_type, obj->m_type ) > 0 )
+            if( world->GetAttackOdds( m_type, obj->m_type ) <= 0 )
             {
                 valid = false;
             }
