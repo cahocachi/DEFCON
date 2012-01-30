@@ -22,7 +22,8 @@ protected:
 	float	m_angle;
 
 	Fixed	m_size;
-
+    
+    LList< int > m_deflectedNukeIds;
     
 public:
     Tornado();
@@ -30,7 +31,7 @@ public:
     void    Action          ( WorldObjectReference const & targetObjectId, float longitude, float latitude );
     Fixed   GetActionRange  ();
     bool    Update          ();
-    void    Render          ();
+    void    Render          ( RenderInfo & renderInfo );
 
 	Fixed	GetSize();
 	void	SetSize( Fixed size );

@@ -287,7 +287,7 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		002F39FD09D0883400EBEB88 /* Copy Frameworks into .app bundle */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
@@ -297,7 +297,7 @@
 				27F9DA530BAA0BD200C120A6 /* splashscreen_renderer.h in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4989F7781358E2C900BE16BD /* Copy Steam */ = {
 			isa = PBXCopyFilesBuildPhase;

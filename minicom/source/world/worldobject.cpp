@@ -246,7 +246,7 @@ bool WorldObject::Update()
     if( m_targetObjectId >= 0 )
     {
         WorldObject *obj = world->GetWorldObject( m_targetObjectId );
-        if( !obj || !obj->m_visible[ m_teamId ] )
+        if( m_teamId != TEAMID_SPECIALOBJECTS && ( !obj || !obj->m_visible[ m_teamId ] ) )
         {
             m_targetObjectId = -1;
         }
@@ -370,22 +370,26 @@ char *WorldObject::GetBmpBlurFilename()
     return blurFilename;
 }
 
-
-void WorldObject::Render ()
+void WorldObject::PrepareRender( RenderInfo & renderInfo )
 {
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = (m_longitude + m_vel.x * predictionTime).DoubleValue();
-    float predictedLatitude = (m_latitude + m_vel.y * predictionTime).DoubleValue(); 
+    renderInfo.m_predictionTime = g_predictionTime * g_app->GetWorld()->GetTimeScaleFactor().DoubleValue();
+}
+
+void WorldObject::Render ( RenderInfo & renderInfo )
+{
+    // already done by map renderer
+    // renderInfo.FillPosition(this);
+
     float size = GetSize().DoubleValue();
 
-    float x = predictedLongitude-size;
-    float y = predictedLatitude+size;
+    float x = renderInfo.m_position.x-size;
+    float y = renderInfo.m_position.y+size;
     float thisSize = size*2;
 
     Team *team = g_app->GetWorld()->GetTeam(m_teamId);
     if( team->m_territories[0] >= 3 )
     {
-        x = predictedLongitude+size;
+        x = renderInfo.m_position.x+size;
         thisSize = size*-2;
     }       
 
@@ -442,7 +446,7 @@ void WorldObject::RenderCounter( int counter )
     float size = GetSize().DoubleValue();
     Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
     float predictedLongitude = ( m_longitude + m_vel.x * predictionTime ).DoubleValue();
-    float predictedLatitude = ( m_latitude + m_vel.y * predictionTime ).DoubleValue();
+    float predictedLatitude  = ( m_latitude + m_vel.y * predictionTime ).DoubleValue();
 
     g_renderer->SetFont( "kremlin", true );
 
@@ -588,7 +592,7 @@ void WorldObject::RunAI()
 
 }
 
-void WorldObject::RenderGhost( int teamId )
+void WorldObject::RenderGhost( int teamId, RenderInfo & renderInfo )
 {
     if( m_lastSeenTime[teamId] != 0)
     {
@@ -598,7 +602,7 @@ void WorldObject::RenderGhost( int teamId )
         Colour col = Colour(150, 150, 150, transparency);
         Image *img = GetBmpImage( m_lastSeenState[ teamId ] );
 
-        float x = m_lastKnownPosition[teamId].x.DoubleValue() - size;
+        float x = m_lastKnownPosition[teamId].x.DoubleValue() - size + renderInfo.m_xOffset;
         float y = m_lastKnownPosition[teamId].y.DoubleValue() + size;
         float thisSize = size*2;
 
@@ -606,7 +610,7 @@ void WorldObject::RenderGhost( int teamId )
 
         if( team->m_territories[0] >= 3 )
         {
-            x = m_lastKnownPosition[teamId].x.DoubleValue() + size;
+            x = m_lastKnownPosition[teamId].x.DoubleValue() + size + renderInfo.m_xOffset;
             thisSize = size*-2;
         }       
 

@@ -40,26 +40,26 @@ Fighter::Fighter()
     InitialiseTimers();
 }
 
-
 void Fighter::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {   
     m_targetObjectId = -1;
+    World * world = g_app->GetWorld();
 
     if( m_currentState == 0 )
     {
         //SetWaypoint( longitude, latitude );
-        WorldObject *target = g_app->GetWorld()->GetWorldObject( targetObjectId );
+        WorldObject *target = world->GetWorldObject( targetObjectId );
         if( target )
         {
             if( target->m_visible[m_teamId] &&
-                g_app->GetWorld()->GetAttackOdds( m_type, target->m_type ) > 0)
+                world->GetAttackOdds( m_type, target->m_type ) > 0)
             {
                 m_targetObjectId = targetObjectId;
             }
         }
     }
 
-    if( m_teamId == g_app->GetWorld()->m_myTeamId &&
+    if( m_teamId == world->m_myTeamId &&
         targetObjectId == -1 )
     {
         g_app->GetMapRenderer()->CreateAnimation( MapRenderer::AnimationTypeActionMarker, m_objectId,
@@ -183,10 +183,12 @@ bool Fighter::Update()
     return amIDead;
 }
 
-void Fighter::Render()
+/*
+void Fighter::Render( RenderInfo & renderInfo )
 {
-    MovingObject::Render();
+    MovingObject::Render( xOffset );
 }
+*/
 
 void Fighter::RunAI()
 {

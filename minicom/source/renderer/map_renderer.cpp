@@ -299,6 +299,23 @@ void MapRenderer::Render()
 
     // Now go through and render objects on top of the landscape.
     GetWindowBounds( &left, &right, &top, &bottom );
+    {
+        g_renderer->Set2DViewport( left, right, bottom, top, m_pixelX, m_pixelY, m_pixelW, m_pixelH );
+
+        RenderObjects();
+        RenderGunfire();    
+        // RenderBlips();        
+
+        g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
+
+        RenderExplosions();
+        
+        if( m_highlightUnit != -1 )
+        {
+            RenderUnitHighlight( m_highlightUnit );
+        }
+    }    
+
     for( int x = 0; x < 2; ++x )
     {
         g_renderer->Set2DViewport( left, right, bottom, top, m_pixelX, m_pixelY, m_pixelW, m_pixelH );
@@ -306,10 +323,7 @@ void MapRenderer::Render()
         if( m_showPopulation )          RenderPopulationDensity();
         if( m_showNukeUnits )           RenderNukeUnits();
         
-        RenderObjects();
-        RenderGunfire();    
         RenderCities(); 
-        RenderBlips();        
         RenderWorldMessages();
 
         if( m_showRadar )               RenderRadar();
@@ -317,7 +331,6 @@ void MapRenderer::Render()
 
         g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
-        RenderExplosions();
         RenderAnimations();
         
         bool showRadiation  = g_preferences->GetInt( PREFS_GRAPHICS_RADIATION );
@@ -335,11 +348,6 @@ void MapRenderer::Render()
                 angle = 0;
                 g_renderer->Blit( boom, pos.x.DoubleValue(), pos.y.DoubleValue(), 15.0f, 15.0f, col, angle );
             }
-        }
-
-        if( m_highlightUnit != -1 )
-        {
-            RenderUnitHighlight( m_highlightUnit );
         }
 
         RenderWhiteBoard();
@@ -432,6 +440,12 @@ void MapRenderer::RenderPlacementDetails()
     }    
 }
 
+static inline float GetOffset( WorldObject * object, float middleX )
+{
+    float objectX = object->m_longitude.DoubleValue();
+    float diff = objectX - middleX;
+    return (diff < -180) ? 360 : ((diff > 180) ? -360 : 0 );
+}
 
 void MapRenderer::RenderExplosions()
 {
@@ -439,6 +453,9 @@ void MapRenderer::RenderExplosions()
     int myTeamId = g_app->GetWorld()->m_myTeamId;
     World * world = g_app->GetWorld();
     
+    WorldObject::RenderInfo info;
+    WorldObject::PrepareRender( info );
+
     for( int i = 0; i < world->m_explosions.Size(); ++i )
     {
         if( world->m_explosions.ValidIndex(i) )
@@ -450,7 +467,8 @@ void MapRenderer::RenderExplosions()
                     explosion->m_visible[myTeamId] || 
                     m_renderEverything )
                 {
-                    world->m_explosions[i]->Render();
+                    info.m_xOffset = GetOffset( explosion, m_middleX );
+                    explosion->Render( info );
                 }
             }
         }
@@ -580,6 +598,9 @@ void MapRenderer::RenderGunfire()
 
     int myTeamId = g_app->GetWorld()->m_myTeamId;
 
+    WorldObject::RenderInfo info;
+    WorldObject::PrepareRender( info );
+
     for( int i = 0; i < g_app->GetWorld()->m_gunfire.Size(); ++i )
     {
         if( g_app->GetWorld()->m_gunfire.ValidIndex(i) )
@@ -591,7 +612,8 @@ void MapRenderer::RenderGunfire()
                  gunFire->m_visible[myTeamId] ||
                  m_renderEverything ) )
             {
-                g_app->GetWorld()->m_gunfire[i]->Render();
+                info.m_xOffset = GetOffset( gunFire, m_middleX ); 
+                gunFire->Render( info );
             }
         }
     }
@@ -1661,6 +1683,14 @@ void MapRenderer::RenderMouse()
             
             float lineX = ( actionCursorLongitude - predictedLongitude );
             float lineY = ( actionCursorLatitude - predictedLatitude );
+            if( lineX < -180 )
+            {
+                lineX += 360;
+            }
+            else if( lineX > 180 )
+            {
+                lineX -= 360;
+            }
 
             float angle = atan( -lineX / lineY );
             if( lineY < 0.0f ) angle += M_PI;
@@ -2243,24 +2273,43 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
             }
             // render bomber nuke targets
             bool vetoNavTarget = false;
+            bool renderBomberNukeTarget = false;
             if( mobj->m_type == WorldObject::TypeBomber &&
                 mobj->m_currentState == 1 )
             {
                 Bomber * bomber = dynamic_cast< Bomber * >( mobj );
-                if( bomber && bomber->m_bombingRun && ( bomber->m_nukeTargetLongitude != 0 || bomber->m_nukeTargetLatitude != 0 ) )
+                AppDebugAssert( bomber );
+
+                float actionCursorLongitude = bomber->m_nukeTargetLongitude.DoubleValue();
+                float actionCursorLatitude = bomber->m_nukeTargetLatitude.DoubleValue();                   
+
+                if( bomber->m_bombingRun && ( bomber->m_nukeTargetLongitude != 0 || bomber->m_nukeTargetLatitude != 0 ) )
+                {
+                    renderBomberNukeTarget = true;
+                }
+                else if( bomber->m_actionQueue.Size() )
+                {
+                    renderBomberNukeTarget = true;
+
+                    ActionOrder * action = bomber->m_actionQueue[bomber->m_actionQueue.Size()-1];
+                    actionCursorLongitude = action->m_longitude.DoubleValue();
+                    actionCursorLatitude  = action->m_latitude.DoubleValue();                   
+                }
+
+                if( renderBomberNukeTarget )
                 {
                     Colour actionCursorCol( 255,0,0,150 );
                     float actionCursorSize = 2.0f;
                     float actionCursorAngle = 0;
 
-                    vetoNavTarget = ( bomber->m_nukeTargetLongitude == bomber->m_targetLongitude ||
-                                      bomber->m_nukeTargetLongitude == bomber->m_targetLongitude + 360 ||
-                                      bomber->m_nukeTargetLongitude == bomber->m_targetLongitude - 360 ) &&
-                    bomber->m_nukeTargetLatitude == bomber->m_targetLatitude;
+                    float navTargetLongitude  = bomber->m_targetLongitude.DoubleValue();
+                    float navTargetLatitude   = bomber->m_targetLatitude.DoubleValue();
 
-                    float actionCursorLongitude = bomber->m_nukeTargetLongitude.DoubleValue();
-                    float actionCursorLatitude = bomber->m_nukeTargetLatitude.DoubleValue();                   
-
+                    vetoNavTarget = actionCursorLatitude == navTargetLatitude &&
+                    ( actionCursorLongitude == navTargetLongitude ||
+                      actionCursorLongitude == navTargetLongitude + 360 ||
+                      actionCursorLongitude == navTargetLongitude - 360 );
+                    
                     g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
                     Image *img = g_resource->GetImage( "graphics/cursor_target.bmp" );
@@ -2286,6 +2335,15 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
                 if( mobj->m_type == WorldObject::TypeNuke )
                 {
                     actionCursorCol.Set( 255,0,0,150 );
+                }
+
+                if( mobj->m_type == WorldObject::TypeBomber &&
+                    mobj->m_currentState == 1 && 
+                    !renderBomberNukeTarget )
+                {
+                    {
+                        actionCursorCol.Set( 255,255,0,150 );
+                    }
                 }
 
                 Image *img = g_resource->GetImage( "graphics/cursor_target.bmp" );
@@ -2348,6 +2406,14 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges )
 
                     float lineX = ( targetLongitude - predictedLongitude );
                     float lineY = ( targetLatitude - predictedLatitude );
+                    if( lineX < -180 )
+                    {
+                        lineX += 360;
+                    }
+                    else if( lineX > 180 )
+                    {
+                        lineX -= 360;
+                    }
 
                     float angle = atan( -lineX / lineY );
                     if( lineY < 0.0f ) angle += M_PI;
@@ -2568,6 +2634,10 @@ void MapRenderer::RenderObjects()
 {
     START_PROFILE( "Objects" );
 
+    MovingObject::RenderInfo info;
+    WorldObject::PrepareRender( info );
+    MovingObject::PrepareRender( info );
+
     World * world = g_app->GetWorld();
 
     int myTeamId = world->m_myTeamId;
@@ -2581,19 +2651,21 @@ void MapRenderer::RenderObjects()
 
             g_renderer->SetBlendMode( Renderer::BlendModeAdditive );
 
-            bool onScreen = IsOnScreen( wobj->m_longitude.DoubleValue(), wobj->m_latitude.DoubleValue() );
-            if( onScreen || wobj->m_type == WorldObject::TypeNuke )
+            info.m_xOffset = GetOffset( wobj, m_middleX );
+            info.FillPosition(wobj);
+            bool onScreen = IsOnScreen( info, wobj->m_type == WorldObject::TypeNuke ? 50 : 2 );
+            if( onScreen )
             {
                 if( myTeamId == -1 ||
                     wobj->m_teamId == myTeamId ||
                     wobj->m_visible[myTeamId] ||
                     m_renderEverything )
                 {
-                    wobj->Render();
+                    wobj->Render( info );
                 }
                 else
                 {
-                    wobj->RenderGhost(myTeamId);
+                    wobj->RenderGhost( myTeamId, info );
                 }
             }
 
@@ -3248,7 +3320,7 @@ void MapRenderer::UpdateCameraControl( float longitude, float latitude )
 
 
     float maxWidth = 360.0f;    
-    float maxHeight = 201;
+    float maxHeight = 210 + zoomFactor * 20;
 
     if( m_middleX > maxWidth/2 ) m_middleX = -maxWidth/2 + m_middleX-maxWidth/2;
     if( m_middleX < -maxWidth/2 ) m_middleX = 180 - m_middleX/-maxWidth/2;
@@ -3961,7 +4033,7 @@ void MapRenderer::GetWindowBounds( float *left, float *right, float *top, float 
 {
     float width = 360.0f * m_zoomFactor;    
     float aspect = (float) g_windowManager->WindowH() / (float) g_windowManager->WindowW();
-    float height = (360.0f * aspect) * m_zoomFactor;
+    float height = width * aspect;
 
     *left = m_middleX - width/2.0f;
     *top = m_middleY + height/2.0f;
@@ -4721,6 +4793,20 @@ bool MapRenderer::IsOnScreen( float _longitude, float _latitude, float _expandSc
         }
     }
     return false;
+}
+
+bool MapRenderer::IsOnScreen( WorldObject::RenderInfo const & info, float _expandScreen )
+{
+    float left, right, top, bottom;
+    GetWindowBounds( &left, &right, &top, &bottom );
+
+    left -= _expandScreen;
+    right += _expandScreen;
+    top += _expandScreen;
+    bottom -= _expandScreen;
+
+    return info.m_position.x > left && info.m_position.x < right &&
+           info.m_position.y > bottom && info.m_position.y < top;
 }
 
 bool MapRenderer::GetShowWhiteBoard() const

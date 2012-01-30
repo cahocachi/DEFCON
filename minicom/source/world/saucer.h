@@ -21,7 +21,9 @@ public:
     void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     Fixed   GetActionRange  ();
     bool    Update          ();
-    void    Render          ();
+    void    Render          ( RenderInfo & renderInfo );
+
+    void    Retaliate       ( WorldObjectReference const & attackerId );
 
     void    GetNewTarget    ();
 

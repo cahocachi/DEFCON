@@ -15,7 +15,7 @@ public:
 
     void    Action          ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
     bool    Update          ();
-    void    Render          ();
+    // void    Render          ( RenderInfo & renderInfo );
 
 	void	RunAI			();
 
@@ -26,7 +26,7 @@ public:
 
     int     IsValidCombatTarget( int _objectId );                                      // returns TargetType...
 
-    virtual void    Retaliate       ( WorldObjectReference const & attackerId );
+    void    Retaliate       ( WorldObjectReference const & attackerId );
 
     bool    SetWaypointOnAction();
 };

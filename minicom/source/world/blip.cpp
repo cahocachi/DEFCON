@@ -99,7 +99,7 @@ bool Blip::Update()
         }
     }
 
-    Render();
+    // Render();
     m_pathCheckTimer -= SERVER_ADVANCE_PERIOD;
     if( m_pathCheckTimer <= 0 )
     {
@@ -173,9 +173,9 @@ Fixed Blip::GetSize()
 }
 
 
-void Blip::Render()
+void Blip::Render( RenderInfo & renderInfo )
 {
-    MovingObject::Render();
+    MovingObject::Render( renderInfo );
 
     Team *team = g_app->GetWorld()->GetMyTeam();
     Fleet *fleet = team->GetFleet( m_origin );
@@ -193,8 +193,8 @@ void Blip::Render()
                 longitude += m_vel.x * Fixed::FromDouble(g_predictionTime);
                 latitude += m_vel.y * Fixed::FromDouble(g_predictionTime);
                 Image *img = g_resource->GetImage( g_app->GetMapRenderer()->m_imageFiles[ member->m_type ] );
-                g_renderer->Blit( img, m_longitude.DoubleValue() + longitude.DoubleValue() - size,
-								  m_latitude.DoubleValue() + latitude.DoubleValue() + size,
+                g_renderer->Blit( img, renderInfo.m_position.x + longitude.DoubleValue() - size,
+								  renderInfo.m_position.y + latitude.DoubleValue() + size,
 								  size*2, size*-2, Colour(100,100,100,200) );
             }
         }

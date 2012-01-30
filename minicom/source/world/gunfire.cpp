@@ -28,7 +28,7 @@ GunFire::GunFire( Fixed range )
     m_range = range;
     m_speed = Fixed::Hundredths(48);
     m_turnRate = Fixed::Hundredths(80);
-    m_maxHistorySize = -1;
+    m_maxHistorySize = 10;
     m_movementType = MovementTypeAir;
     
     strcpy( bmpImageFilename, "graphics/laser.bmp" );
@@ -52,43 +52,18 @@ bool GunFire::Update()
         m_targetLatitude = m_latitude + m_vel.y * 10;
     }
 
-    //
-    // Update history  
-    
-    m_historyTimer -= SERVER_ADVANCE_PERIOD * g_app->GetWorld()->GetTimeScaleFactor() / 10;
-    if( m_historyTimer <= 0 )
-    {
-        if( m_longitude > -180 ||
-            m_longitude < 180 )
-        {
-            m_history.PutDataAtStart( Vector2<float>(m_longitude.DoubleValue(), m_latitude.DoubleValue()) );
-            m_historyTimer = Fixed::Hundredths(10);
-        }
-    }
-
-    m_maxHistorySize = 10;
-    
-    while( m_maxHistorySize != -1 && 
-           m_history.ValidIndex(m_maxHistorySize) )
-    {
-        m_history.RemoveData(m_maxHistorySize);
-    }
-
     return MoveToWaypoint();
 }
 
-void GunFire::Render()
+void GunFire::Render( RenderInfo & renderInfo )
 {
-    Fixed predictionTime = Fixed::FromDouble(g_predictionTime) * g_app->GetWorld()->GetTimeScaleFactor();
-    float predictedLongitude = (m_longitude + m_vel.x * Fixed(predictionTime)).DoubleValue();
-    float predictedLatitude = (m_latitude + m_vel.y * Fixed(predictionTime)).DoubleValue(); 
+    renderInfo.FillPosition(this);
+
     float size = 2;
     if( g_app->GetMapRenderer()->GetZoomFactor() <= 0.25f )
     {
         size *= g_app->GetMapRenderer()->GetZoomFactor() * 4;
     }
-    float angle = atan( -m_vel.x.DoubleValue() / m_vel.y.DoubleValue() );
-    if( m_vel.y < 0 ) angle += M_PI;
 
     //g_app->4()->Blit( bmpImage, predictedLongitude, predictedLatitude, size/2, size/2, g_app->GetWorld()->GetTeam( m_teamId )->GetTeamColour(), angle );
     //g_app->GetRenderer()->CircleFill( predictedLongitude, predictedLatitude, 0.3f * size, 8, White );
@@ -107,19 +82,8 @@ void GunFire::Render()
 		lastPos = m_history[i-1];
         thisPos = m_history[i];
 
-        if( lastPos.x < -170 && thisPos.x > 170 )
-        {
-            thisPos.x = -180 - ( 180 - thisPos.x );
-        }
-
-        if( lastPos.x > 170 && thisPos.x < -170 )
-        {
-            thisPos.x = 180 + ( 180 - fabs(thisPos.x) );
-        }
-
-        Vector2<float> diff = thisPos - lastPos;        
         colour.m_a = 255 - 255 * (float) i / (float) maxSize;
-        g_renderer->Line( lastPos.x, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
+        g_renderer->Line( lastPos.x+renderInfo.m_xOffset, lastPos.y, thisPos.x+renderInfo.m_xOffset, thisPos.y, colour, 0.2f );
     }
 
     if( m_history.Size() > 0 )
@@ -127,25 +91,15 @@ void GunFire::Render()
         Vector2<float> lastPos, thisPos;
 		
 		lastPos = m_history[ 0 ];
-        thisPos = Vector2<float>( predictedLongitude, predictedLatitude );
+        thisPos = renderInfo.m_position;
         
-        if( lastPos.x < -170 && thisPos.x > 170 )
-        {
-            thisPos.x = -180 - ( 180 - thisPos.x );
-        }
-
-        if( lastPos.x > 170 && thisPos.x < -170 )
-        {
-            thisPos.x = 180 + ( 180 - fabs(thisPos.x) );
-        }
-
         colour.m_a = 255;
-        g_renderer->Line( lastPos.x, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
+        g_renderer->Line( lastPos.x+renderInfo.m_xOffset, lastPos.y, thisPos.x, thisPos.y, colour, 0.2f );
     }
 
-    g_renderer->Line( predictedLongitude, predictedLatitude, 
-                                predictedLongitude-m_vel.x.DoubleValue(), 
-                                predictedLatitude-m_vel.y.DoubleValue(), colour, 2.0f );
+    g_renderer->Line( renderInfo.m_position.x, renderInfo.m_position.y, 
+                                renderInfo.m_position.x - renderInfo.m_velocity.x, 
+                                renderInfo.m_position.y - renderInfo.m_velocity.y, colour, 2.0f );
 }
 
 bool GunFire::MoveToWaypoint()
@@ -166,6 +120,8 @@ bool GunFire::MoveToWaypoint()
         CrossSeam();
         CalculateNewPosition( &newLongitude, &newLatitude, &newDistance );
     }
+
+    UpdateHistory( Fixed::Hundredths(10) );
 
     if( newDistance <= distToTarget && 
         newDistance < Fixed::Hundredths(48) 

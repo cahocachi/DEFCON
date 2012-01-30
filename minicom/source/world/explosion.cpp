@@ -47,7 +47,7 @@ bool Explosion::Update()
     return( m_intensity <= 0 );
 }
 
-void Explosion::Render()
+void Explosion::Render( RenderInfo & renderInfo )
 {
     Image *bmpImage = g_resource->GetImage( bmpImageFilename );
     if( bmpImage )
@@ -75,7 +75,7 @@ void Explosion::Render()
         float size = predictedIntensity / 20.0f;
         size /= g_app->GetWorld()->GetGameScale().DoubleValue();
 
-        float predictedLongitude = m_longitude.DoubleValue();
+        float predictedLongitude = m_longitude.DoubleValue()+renderInfo.m_xOffset;
         float predictedLatitude = m_latitude.DoubleValue();
 
         g_renderer->Blit( bmpImage, predictedLongitude-size, predictedLatitude-size,
