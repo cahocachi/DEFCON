@@ -24,6 +24,13 @@
 
 
 static char *s_debugOutRedirect = NULL;
+static char *s_debugOutPath     = NULL;
+
+void    SetAppDebugOutPath      (char const *_path)
+{
+	delete[] s_debugOutPath;
+	s_debugOutPath = newStr( _path );
+}
 
 //
 // Returns a new string containing the full path name for the log file _filename, inside the
@@ -75,8 +82,16 @@ char *AppDebugLogPath(const char *_filename)
 	strcat(path, _filename);
 	return path;
 #else
-	// Use the current directory
-	return newStr(_filename);
+	if( s_debugOutPath )
+	{
+		// use stored debug path
+		return ConcatPaths(s_debugOutPath, _filename, NULL);
+	}
+	else
+	{
+		// Use the current directory
+		return newStr(_filename);
+	}
 #endif
 }
 

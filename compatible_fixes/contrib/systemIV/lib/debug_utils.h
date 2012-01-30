@@ -45,8 +45,7 @@ void    AppGenerateBlackBox    (char *_filename, char *_msg );
 
 void    AppDebugOutRedirect     (char *_filename);
 
-
-
+void    SetAppDebugOutPath      (char const *_path);
 
 #endif
 
