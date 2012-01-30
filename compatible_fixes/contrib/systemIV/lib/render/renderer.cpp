@@ -758,6 +758,12 @@ char *Renderer::ScreenshotsDirectory()
 	if ( getenv("HOME") )
 		return ConcatPaths( getenv("HOME"), "Pictures", NULL );
 #endif
+#ifdef TARGET_OS_LINUX
+	const char *home = getenv("HOME");
+	if (home != NULL) {
+        return ConcatPaths( home, ".defcon/", NULL );
+	}
+#endif
 #ifdef TARGET_MSVC
 	char path[MAX_PATH+1];
 	if ( S_OK == SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, path ) )
