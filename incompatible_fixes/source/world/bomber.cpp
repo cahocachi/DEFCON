@@ -495,7 +495,9 @@ void Bomber::Render( RenderInfo & renderInfo )
 
         float size = GetSize().DoubleValue() * 0.4f;
 
-        Vector2< float > pos = renderInfo.m_position + renderInfo.m_velocity * 4;
+        static float nukeOffset = .15; // m_speed.DoubleValue()*4/size;
+
+        Vector2< float > pos = renderInfo.m_position + renderInfo.m_direction * size * nukeOffset;
 
         g_renderer->Blit( bmpImage, pos.x, pos.y,
 						  size/2, size/2, colour, renderInfo.m_direction.y, -renderInfo.m_direction.x );
