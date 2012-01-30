@@ -1038,18 +1038,18 @@ Tutorial *App::GetTutorial()
 static const char *GetPrefsDirectoryRaw()
 {		
 #if defined(TARGET_OS_MACOSX)
-	static char userdir[256];
+	static char userdir[1000];
 	const char *home = getenv("HOME");
 	if (home != NULL) {
-		sprintf(userdir, "%s/Library/Preferences/", home);
+		snprintf(userdir, 1000, "%s/Library/Preferences/", home);
 
 		return userdir;
 	}
 #elif defined(TARGET_OS_LINUX)
-	static char userdir[256];
+	static char userdir[1000];
 	const char *home = getenv("HOME");
 	if (home != NULL) {
-		sprintf(userdir, "%s/.defcon/", home);
+		snprintf(userdir, 1000, "%s/.defcon/", home);
 		mkdir(userdir, 0770);
 		return userdir;
 	}
@@ -1088,7 +1088,11 @@ const char *App::GetPrefsPath()
 #if defined(TARGET_OS_MACOSX)
 		"uk.co.introversion.defcon.prefs" 
 #else 
+#ifdef _DEBUG
 		"preferences.txt"
+#else
+		"preferences_debug.txt"
+#endif
 #endif
 	);
 	return temp;
