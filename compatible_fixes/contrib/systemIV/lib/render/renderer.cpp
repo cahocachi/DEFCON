@@ -20,6 +20,9 @@
 #include "lib/filesys/filesys_utils.h"
 #include "lib/language_table.h"
 
+#ifdef TARGET_MSVC
+#include "Shlobj.h"
+#endif
 
 #include "renderer.h"
 #include "colour.h"
@@ -681,10 +684,11 @@ void Renderer::Blit ( Image *src, float x, float y, float w, float h, Colour con
     Blit( src, x, y, w, h, col, cos(angle), sin(angle) );
 }
 
-void Renderer::SaveScreenshot()
+bool Renderer::SaveScreenshot()
 {
     float timeNow = GetHighResTime();
 	char *screenshotsDir = ScreenshotsDirectory();
+	CreateDirectoryRecursively(screenshotsDir);
 
     int screenW = g_windowManager->WindowW();
     int screenH = g_windowManager->WindowH();    
@@ -713,6 +717,8 @@ void Renderer::SaveScreenshot()
     //
     // Save the bitmap to a file
 
+	bool ret = false;
+
     int screenshotIndex = 1;
     while( true )
     {
@@ -728,10 +734,13 @@ void Renderer::SaveScreenshot()
                                 screenshotIndex );
         if( !DoesFileExist(filename) )
         {
-            bitmap.SaveBmp( filename );
+            ret = bitmap.SaveBmp( filename );
             break;
         }
         ++screenshotIndex;
+
+		ret = false;
+		break;
     }
 
     //
@@ -743,6 +752,7 @@ void Renderer::SaveScreenshot()
 	float timeTaken = GetHighResTime() - timeNow;
     AppDebugOut( "Screenshot %dms\n", int(timeTaken*1000) );
 
+	return ret;
 }
 
 char *Renderer::ScreenshotsDirectory()
@@ -750,6 +760,13 @@ char *Renderer::ScreenshotsDirectory()
 #ifdef TARGET_OS_MACOSX
 	if ( getenv("HOME") )
 		return ConcatPaths( getenv("HOME"), "Pictures", NULL );
+#endif
+#ifdef TARGET_MSVC
+	char path[MAX_PATH+1];
+	if ( S_OK == SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, path ) )
+	{
+		return ConcatPaths( path, "DEFCON", NULL );
+	}
 #endif
 	return newStr(".");
 }
