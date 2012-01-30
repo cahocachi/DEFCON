@@ -231,17 +231,20 @@ void Interface::Update()
         !UsingChatWindow() &&
         g_app->m_gameRunning )
     {
-        g_renderer->SaveScreenshot();
+        bool success = g_renderer->SaveScreenshot();
+
+        char const * lookup = success ? "dialog_saved_screenshot" : "dialog_saved_screenshot_failed";
+        char * message = LANGUAGEPHRASE( (char *)lookup );
 
         if( g_app->GetWorld()->AmISpectating() )
         {
             int teamId = g_app->GetClientToServer()->m_clientId;
-            g_app->GetClientToServer()->SendChatMessageReliably( teamId, 100, LANGUAGEPHRASE("dialog_saved_screenshot"), true );
+			g_app->GetClientToServer()->SendChatMessageReliably( teamId, 100,message , true );
         }
         else
         {
             int teamId = g_app->GetWorld()->m_myTeamId;
-            g_app->GetClientToServer()->SendChatMessageReliably( teamId, 100, LANGUAGEPHRASE("dialog_saved_screenshot"), false );
+            g_app->GetClientToServer()->SendChatMessageReliably( teamId, 100, message, false );
         }
     }
 
