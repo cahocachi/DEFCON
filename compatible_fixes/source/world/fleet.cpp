@@ -609,6 +609,11 @@ void Fleet::FleetAction( WorldObjectReference const & targetObjectId )
 
 bool Fleet::ValidFleetPlacement( Fixed longitude, Fixed latitude )
 {	
+    if( -1 == g_app->GetWorld()->GetClosestNode( longitude, latitude ) )
+    {
+        return false;
+    }
+    
     for( int i = 0; i < m_memberType.Size(); ++i )
     {
         Fixed thisLong = longitude;
