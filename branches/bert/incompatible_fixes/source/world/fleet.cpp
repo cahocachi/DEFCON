@@ -441,16 +441,16 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
 
     World::SanitiseTargetLongitude( m_longitude, longitude );
         
-    if( IsOnSameSideOfSeam() )
+    if( true || IsOnSameSideOfSeam() )
     {
         Fixed newLong = 0;
         Fixed newLat = 0;
 
-        bool sailable = g_app->GetWorld()->IsSailable( m_longitude, m_latitude, m_targetLongitude, m_targetLatitude );
+        bool sailable = g_app->GetWorld()->IsSailable( m_longitude, m_latitude, longitude, latitude );
         if( sailable )
         {
-            newLong = m_targetLongitude;
-            newLat = m_targetLatitude;
+            newLong = longitude;
+            newLat = latitude;
         }
         else
         {
