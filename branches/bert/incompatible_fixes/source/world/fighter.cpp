@@ -79,13 +79,11 @@ bool Fighter::Update()
         WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(m_targetObjectId);  
         if( targetObject )
         {
-            if( targetObject->m_teamId == m_teamId )
+            if( targetObject->m_teamId == m_teamId &&
+                ( targetObject->m_type == WorldObject::TypeCarrier ||
+                  targetObject->m_type == WorldObject::TypeAirBase ) )
             {
-                if( targetObject->m_type == WorldObject::TypeCarrier ||
-                    targetObject->m_type == WorldObject::TypeAirBase )
-                {
-                    Land( targetObject );
-                }
+                Land( targetObject );
                 m_targetObjectId = -1;
             }
             else
