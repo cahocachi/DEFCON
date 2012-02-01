@@ -2623,15 +2623,6 @@ void World::GenerateWorldEvent()
     g_app->GetInterface()->ShowMessage( 0, 0, -1, msg, true );
 }
 
-// properly clip to* coordinates to the intersection of the from* - to* line with the vertical
-// line at finalLongitude
-static void ClipTarget( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed &toLongitude, Fixed &toLatitude, Fixed const &finalLongitude )
-{
-    Fixed factor = ( toLongitude - finalLongitude ) / ( toLongitude - fromLongitude );
-    toLatitude -= factor*( toLatitude - fromLatitude );
-    toLongitude = finalLongitude;
-}
-
 bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
     Fixed timeScaleFactor = g_app->GetWorld()->GetTimeScaleFactor();
@@ -2639,20 +2630,10 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
 
     Fixed longitude = fromLongitude;
     Fixed latitude = fromLatitude;
-    Fixed actualToLongitude = toLongitude;
-    Fixed actualToLatitude = toLatitude;
+    Fixed realToLongitude = toLongitude;
+    SanitiseTargetLongitude( fromLongitude, realToLongitude );
 
-    if( actualToLongitude < -180 )
-    {
-        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, -180 );
-    }
-    else if( actualToLongitude > 180 )
-    {
-        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, 180 );
-    }
-   
-
-    Vector2<Fixed> vel = (Vector2<Fixed>( actualToLongitude, actualToLatitude ) -
+    Vector2<Fixed> vel = (Vector2<Fixed>( realToLongitude, toLatitude ) -
                           Vector2<Fixed>( longitude, latitude ));
     Fixed velMag = vel.Mag();
     int nbIterations = 0;
@@ -2676,6 +2657,15 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
     {
         longitude += vel.x;
         latitude += vel.y;
+
+        if( longitude < -180 )
+        {
+            longitude += 360;
+        }
+        if( longitude > 180 )
+        {
+            longitude -= 360;
+        }
 
         // For debugging purposes
         //glVertex2f( longitude.DoubleValue(), latitude.DoubleValue() );

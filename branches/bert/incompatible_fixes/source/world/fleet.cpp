@@ -438,8 +438,8 @@ void Fleet::MoveFleet( Fixed longitude, Fixed latitude, bool cancelPursuits )
         return;
     }
 
-
-    World::SanitiseTargetLongitude( m_longitude, longitude );
+    // Fixed saneLongitude = longitude;
+    // World::SanitiseTargetLongitude( m_longitude, saneLongitude );
         
     if( true || IsOnSameSideOfSeam() )
     {
