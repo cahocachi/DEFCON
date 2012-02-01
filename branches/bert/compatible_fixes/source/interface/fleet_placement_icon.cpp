@@ -80,15 +80,23 @@ void FleetPlacementIconButton::Render( int realX, int realY, bool highlighted, b
     {
         colour = Colour(50,50,50,200);
 
-        g_app->GetMapRenderer()->m_tooltip->PutData( LANGUAGEPHRASE("tooltip_invalidplacement") );
+        if( g_app->GetMapRenderer()->m_tooltip )
+        {
+            g_app->GetMapRenderer()->m_tooltip->PutData( LANGUAGEPHRASE("tooltip_invalidplacement") );
+        }
     }
     else
     {
-        g_app->GetMapRenderer()->m_tooltip->PutData( LANGUAGEPHRASE("tooltip_placefleet") );
+        if( g_app->GetMapRenderer()->m_tooltip )
+        {
+            g_app->GetMapRenderer()->m_tooltip->PutData( LANGUAGEPHRASE("tooltip_placefleet") );
+        }
     }
 
-    g_app->GetMapRenderer()->m_tooltip->PutData( LANGUAGEPHRASE("tooltip_spacetocancel") );
-
+    if( g_app->GetMapRenderer()->m_tooltip )
+    {
+        g_app->GetMapRenderer()->m_tooltip->PutData( LANGUAGEPHRASE("tooltip_spacetocancel") );
+    }
 
     for( int i = 0; i < team->m_fleets[m_fleetId]->m_memberType.Size(); ++i )
     {
