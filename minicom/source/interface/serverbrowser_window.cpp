@@ -200,10 +200,16 @@ bool ProtocolMatch( Directory * server )
         }
     }
     
+    char *theirVersion = server->GetDataString( NET_METASERVER_GAMEVERSION );
+    // game history always has unknown version. Accept that.
+    if( !theirVersion || 0 == strcmp( "unknown", theirVersion ) )
+    {
+        return true;
+    }
+    
     // the metaserver seems to think all versions not in its database are mutually
     // compatible. Correct that, no community builds are going to be in the list.
     // First check, the branch needs to match.
-    char *theirVersion = server->GetDataString( NET_METASERVER_GAMEVERSION );
     if( !strstr( theirVersion, BRANCH_VERSION ) )
     {
         return false;
