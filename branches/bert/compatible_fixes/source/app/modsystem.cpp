@@ -30,12 +30,13 @@ ModSystem *g_modSystem = NULL;
 
 ModSystem::ModSystem()
 {
-	m_modsDir = newStr("mods");
+	m_modsDirSystem = newStr("mods");
+    m_modsDirUser = ConcatPaths( App::GetPrefsDirectory(), "mods", NULL );
 #ifdef TARGET_OS_MACOSX
     if ( getenv("HOME") )
 	{
-		delete[] m_modsDir;
-		m_modsDir = ConcatPaths( getenv("HOME"), "Library/Application Support/DEFCON/mods", NULL );
+        delete[] m_modsDirUser;
+		m_modsDirUser = ConcatPaths( getenv("HOME"), "Library/Application Support/DEFCON/mods", NULL );
 	}
 #endif
 }
@@ -43,7 +44,8 @@ ModSystem::ModSystem()
 
 ModSystem::~ModSystem()
 {
-	delete[] m_modsDir;
+	delete[] m_modsDirSystem;
+	delete[] m_modsDirUser;
 }
 
 
@@ -51,6 +53,9 @@ void ModSystem::Initialise()
 {
     //
     // Load the critical file list
+
+    // clear data path just in case, don't want a mod to be able to mess with this
+    g_fileSystem->ClearSearchPath();
 
     TextFileReader *reader = (TextFileReader *)g_fileSystem->GetTextReader( "data/critical_files.txt" );
     if( reader )
@@ -64,12 +69,8 @@ void ModSystem::Initialise()
         delete reader;
     }
 
-	// Ensure mods directory exists, just as a convenience to the
-	// user. Wouldn't hurt to do this on Win32, but I didn't want
-	// to change existing behavior.
-#ifdef TARGET_OS_MACOSX
-	CreateDirectoryRecursively(m_modsDir);
-#endif
+	// Ensure user mods directory exists, just as a convenience.
+	CreateDirectoryRecursively(m_modsDirUser);
 
     //
     // Load installed mods and set up
@@ -95,14 +96,19 @@ void ModSystem::LoadInstalledMods()
 {
     //
     // Clear out all known mods
-
+    
     m_mods.EmptyAndDelete();
+    
+    LoadInstalledMods( m_modsDirUser );
+    LoadInstalledMods( m_modsDirSystem );
+}
 
-
+void ModSystem::LoadInstalledMods( char const * modsDir )
+{
     //
     // Explore the mods directory, looking for installed mods
 
-    LList<char *> *subDirs = ListSubDirectoryNames( m_modsDir );
+    LList<char *> *subDirs = ListSubDirectoryNames( modsDir );
 
     for( int i = 0; i < subDirs->Size(); ++i )
     {
@@ -110,7 +116,7 @@ void ModSystem::LoadInstalledMods()
 
         InstalledMod *mod = new InstalledMod();
         sprintf( mod->m_name, thisSubDir );
-        sprintf( mod->m_path, "%s/%s/", m_modsDir, thisSubDir );
+        sprintf( mod->m_path, "%s/%s/", modsDir, thisSubDir );
         sprintf( mod->m_version, "v1.0" );
 
         LoadModData( mod, mod->m_path );

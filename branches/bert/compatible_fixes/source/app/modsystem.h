@@ -15,7 +15,8 @@ public:
     LList<char *> m_criticalFiles;
 	
 protected:
-    char *m_modsDir;
+    char *m_modsDirSystem;
+    char *m_modsDirUser;
 
 public:
     ModSystem();
@@ -23,6 +24,7 @@ public:
 
     void Initialise();        
     void LoadInstalledMods();
+    void LoadInstalledMods( char const * path );
     
     LList<char *>  *ParseModPath( char *_modPath );                             // _modPath is modified        
 
