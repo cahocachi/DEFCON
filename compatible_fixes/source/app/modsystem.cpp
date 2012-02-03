@@ -696,10 +696,11 @@ void ModSystem::Commit()
 		// We need to make sure the sound callback isn't running while
 		// we do this, so we don't swap out sounds that it's playing
 		g_soundSystem->EnableCallback(false);
+        g_soundSystem->m_sounds.EmptyAndDelete();
         g_soundSystem->m_blueprints.ClearAll();
+        g_soundSampleBank->EmptyCache();
         g_soundSystem->m_blueprints.LoadEffects();
         g_soundSystem->m_blueprints.LoadBlueprints();
-        g_soundSampleBank->EmptyCache();
         g_soundSystem->PropagateBlueprints(true);
 		g_soundSystem->EnableCallback(true);
 

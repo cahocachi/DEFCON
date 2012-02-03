@@ -130,7 +130,7 @@ public:
     
 public:
     SoundInstance();
-    ~SoundInstance();
+    virtual ~SoundInstance();
     
     void    SetSoundName        ( char const *_name );
     void    SetEventName        ( char const *_objectType, char const *_eventName );
