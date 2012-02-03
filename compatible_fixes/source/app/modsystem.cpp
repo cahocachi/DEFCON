@@ -24,6 +24,7 @@
 #include "modsystem.h"
 
 #include "world/earthdata.h"
+#include "world/worldoption.h"
 
 
 ModSystem *g_modSystem = NULL;
@@ -685,6 +686,8 @@ void ModSystem::Commit()
 
         g_app->GetEarthData()->LoadCoastlines();
         g_app->GetEarthData()->LoadBorders();
+
+        WorldOptionBase::LoadAll();
 
         if( !g_app->m_gameRunning )
         {
