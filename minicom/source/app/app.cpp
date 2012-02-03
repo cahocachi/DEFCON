@@ -1116,9 +1116,9 @@ const char *App::GetGameHistoryPath()
 	static char temp[1000];
 	snprintf( temp, 1000, "%s%s", GetPrefsDirectory(), 
 #if defined(TARGET_OS_MACOSX)
-		"uk.co.introversion.defcon.gamehistory" 
+		"uk.co.introversion.defcon.gamehistory-minicom" 
 #else 
-		"game-history.txt"
+		"game-history-minicom.txt"
 #endif
 	);
 	return temp;
