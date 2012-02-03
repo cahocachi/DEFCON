@@ -1,0 +1,8 @@
+# World options that influence little details of how the world works;
+# they're too fine grained to be game options. Instead, put a modified
+# version of this file into a MOD and distribute that.
+# worldoptions.txt is read from ALL active mods, higher priority mods
+# overwrite lower priority ones and those overwrite settings in this file.
+# So if you only want to mod a part of the rules, delete the ones you 
+# do not care about.
+

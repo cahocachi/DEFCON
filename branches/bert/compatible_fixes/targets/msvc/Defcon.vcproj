@@ -5424,6 +5424,14 @@
 				RelativePath="..\..\source\world\worldobject.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\source\world\worldoption.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\world\worldoption.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="docs"

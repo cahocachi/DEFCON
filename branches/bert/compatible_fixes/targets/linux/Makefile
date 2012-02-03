@@ -76,6 +76,7 @@ source/world/saucer.cpp \
 source/world/whiteboard.cpp \
 source/world/world.cpp \
 source/world/worldobject.cpp \
+source/world/worldoption.cpp \
 source/world/blip.cpp \
 source/world/sub.cpp \
 source/world/earthdata.cpp \
