@@ -955,10 +955,25 @@ bool MovingObject::GetClosestLandingPad( BoundedArray<int> const & alreadyLandin
                             }
                         }
                     }
-                    else
+
                     {
                         // last ditch search
                         bool better = false;
+
+                        // don't distinguish between 1 and 100 free spots
+                        if( roomInside > 1 )
+                        {
+                            roomInside = 1;
+                        }
+
+                        // prefer carriers a bit, they can maybe move into range
+                        if( obj->m_type == TypeCarrier )
+                        {
+                            Fixed ratio = m_speed/(dynamic_cast< MovingObject * >( obj )->m_speed+m_speed);
+                            distSqd *= ratio;
+                            // actually correct would be *= ratio*ratio, of course,
+                            // but we have to assume it can't go pick us up all the way.
+                        }
                         
                         // absolutely prefer objects in range
                         bool newInRange = distSqd < range*range;
