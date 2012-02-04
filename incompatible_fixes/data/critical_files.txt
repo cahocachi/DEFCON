@@ -10,4 +10,5 @@ earth/southamerica.bmp
 earth/southasia.bmp
 earth/travel_nodes.bmp
 gameoptions.txt
+worldoptions.txt
 critical_files.txt

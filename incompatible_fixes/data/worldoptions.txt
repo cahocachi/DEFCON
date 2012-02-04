@@ -1,0 +1,26 @@
+# World options that influence little details of how the world works;
+# they're too fine grained to be game options. Instead, put a modified
+# version of this file into a MOD and distribute that.
+# worldoptions.txt is read from ALL active mods, higher priority mods
+# overwrite lower priority ones and those overwrite settings in this file.
+# So if you only want to mod a part of the rules, delete the ones you 
+# do not care about.
+
+################
+# Interface
+################
+
+# Bombers store the coordinates of their nuke target separately, vanilla
+# Defcon does not show it. If BomberShowNukeTarget is set to 1, the following 
+# changes are made to bomber order rendering:
+# - If valid nuke target coordinates are set, they are marked with
+#   a red attack line. The navigation target is shown in blue, then.
+# - Bombers launched before DEFCON 1 with valid nuke targets mark them
+#   red already instead of blue.
+# - if a bomber is in SRBM mode and no nuke target has been set yet, 
+#   its navigation target turns from blue to yellow so you can still 
+#   identify switched bombers. Vanilla Defcon shows the navigation
+#   marker as red in those situations.
+# A value of 0 returns to the bahaviour of vanilla Defcon.
+
+BomberShowNukeTarget 1
