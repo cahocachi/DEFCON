@@ -42,3 +42,35 @@ NukeShortestPath 1
 # involuntarily by sending fighters at enemy ships. If it is 0, carriers don't care.
 
 CarrierNoPursuit 1
+
+# If ImmediateRetarget is set to 1, attack targets and bomber nuke targets can be
+# reset even while the state timer is ticking down. If it is 0, the retarget action
+# is queued up and will be executed as soon as the timer hits zero.
+
+ImmediateRetarget 1
+
+# If ManualTargetShotLoss is set to 1, manually selecting a target for conventional
+# fire will cause one shot that could be fired to be swallowed up like in vanilla Defcon.
+
+ManualTargetShotLoss 0
+
+# If SiloAllowManualTarget is set to 0, silos will override manually set targets
+# like vanilla Defcon. Unless ManualTargetShotLoss is at 1 and ImmediateRetarget at 0, you
+# still can fire single shots at manually selected targets, though, but only individually.
+
+SiloAllowManualTarget 1
+
+# Bombers only fire at targets while landing if this is set to 1.
+
+BomberFireWhileLanding 1
+
+# Fighters always look for targets if this is 1, otherwise only after they reach a waypoint.
+
+FighterAlwaysAutoTarget 1
+
+# when planes take off (and other units using guns get placed on the map), they need to wait
+# their regular reload time before they can fire their first shot, multiplied by
+# ReloadOnSpawn/100. Vanilla Defcon has no such wait, the appropriate value of
+# ReloadOnSpawn for that would be 0.
+
+ReloadOnSpawn 100

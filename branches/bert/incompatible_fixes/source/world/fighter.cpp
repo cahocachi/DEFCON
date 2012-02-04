@@ -17,6 +17,7 @@
 #include "world/fighter.h"
 #include "world/team.h"
 #include "world/city.h"
+#include "world/worldoption.h"
 
 
 Fighter::Fighter()
@@ -68,6 +69,8 @@ void Fighter::Action( WorldObjectReference const & targetObjectId, Fixed longitu
 
     MovingObject::Action( targetObjectId, longitude, latitude );
 }
+
+static WorldOption< int > s_fighterAlwaysAutoTarget( "FighterAlwaysAutoTarget", 1 );
 
 bool Fighter::Update()
 {   
@@ -144,7 +147,8 @@ bool Fighter::Update()
         }
     }
 
-    if( m_targetObjectId == -1 && m_retargetTimer <= 0 )
+    if( ( s_fighterAlwaysAutoTarget ? ( m_targetObjectId == -1 ) : IsIdle() ) && 
+        m_retargetTimer <= 0 )
     {
         m_retargetTimer = 10;
         WorldObject *obj = g_app->GetWorld()->GetWorldObject( GetTarget( ( m_range < 40 ) ? m_range : 40 ) );
