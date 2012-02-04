@@ -30,6 +30,7 @@
 #include "network/network_defines.h"
 
 #include "world/world.h"
+#include "world/worldoption.h"
 #include "world/explosion.h"
 #include "world/silo.h"
 #include "world/team.h"
@@ -108,6 +109,11 @@ void World::Init()
     // Initialise radar system
 
     m_radarGrid.Initialise( 1, MAX_TEAMS );
+
+    //
+    // load world options
+
+    WorldOptionBase::LoadAll();
 }
 
 
