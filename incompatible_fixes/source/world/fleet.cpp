@@ -17,6 +17,7 @@
 #include "world/fleet.h"
 #include "world/blip.h"
 #include "world/nuke.h"
+#include "world/worldoption.h"
 
 Fleet::Fleet()
 :   m_fleetId(-1),
@@ -45,6 +46,8 @@ Fleet::Fleet()
     m_subNukesLaunched(0)
 {
 }
+
+static WorldOption< int > s_carrierNoPursuit( "CarrierNoPursuit", 1 );
 
 void Fleet::Update()
 {   
@@ -90,16 +93,9 @@ void Fleet::Update()
 
         // the below code is well meaning, but practically never does anything sensible
         // if the fleet contains carriers. Cut out this block once that's fixed.
-        if( m_pursueTarget )
+        if( m_pursueTarget && s_carrierNoPursuit && IsInFleet( WorldObject::TypeCarrier ) )
         {
-            for( int i = 0; i < m_fleetMembers.Size(); ++i )
-            {
-                WorldObject * obj = g_app->GetWorld()->GetWorldObject( m_fleetMembers[i] );
-                if( obj && obj->m_type == WorldObject::TypeCarrier )
-                {
-                    m_pursueTarget = false;
-                }
-            }
+            m_pursueTarget = false;
         }
 
         if( m_pursueTarget )

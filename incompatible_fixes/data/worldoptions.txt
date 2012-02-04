@@ -37,3 +37,8 @@ BomberShowNukeTarget 1
 
 NukeShortestPath 1
 
+# If CarrierNoPursuit is set to 1, fleets with carriers in them never prusue other fleets.
+# This makes sense as they don't need to get close to attack and it is often triggered
+# involuntarily by sending fighters at enemy ships. If it is 0, carriers don't care.
+
+CarrierNoPursuit 1
