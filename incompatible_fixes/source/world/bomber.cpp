@@ -20,6 +20,7 @@
 #include "world/world.h"
 #include "world/bomber.h"
 #include "world/team.h"
+#include "world/worldoption.h"
 
 
 Bomber::Bomber()
@@ -129,6 +130,8 @@ void Bomber::Action( WorldObjectReference const & targetObjectId, Fixed longitud
     MovingObject::Action( targetObjectId, longitude, latitude );
 }
 
+static WorldOption< int > s_bomberFireWhileLanding( "BomberFireWhileLanding", 1 );
+
 bool Bomber::Update()
 {
     Fixed gameScale = World::GetGameScale();
@@ -191,7 +194,8 @@ bool Bomber::Update()
     if( m_currentState == 0 &&
         !hasTarget &&
         m_retargetTimer <= 0 &&
-        !m_bombingRun )
+        !m_bombingRun && 
+        ( s_bomberFireWhileLanding || m_isLanding == -1 ) )
     {
         m_retargetTimer = 10;
         m_targetObjectId = -1;

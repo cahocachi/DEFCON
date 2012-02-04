@@ -19,6 +19,7 @@
 #include "world/silo.h"
 #include "world/city.h"
 #include "world/nuke.h"
+#include "world/worldoption.h"
 
 
 Silo::Silo()
@@ -42,6 +43,8 @@ Silo::Silo()
 
     InitialiseTimers();
 }
+
+static WorldOption< int > s_siloAllowManualTarget( "SiloAllowManualTarget", 1 );
 
 void Silo::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
@@ -81,7 +84,10 @@ void Silo::Action( WorldObjectReference const & targetObjectId, Fixed longitude,
                 m_targetObjectId = targetObjectId;
 
                 // manual target selection; don't retarget.
-                m_retargetTimer = Fixed::MAX;
+                if( s_siloAllowManualTarget )
+                {
+                    m_retargetTimer = Fixed::MAX;
+                }
             }
             else
             {
