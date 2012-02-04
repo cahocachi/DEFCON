@@ -24,3 +24,16 @@
 # A value of 0 returns to the bahaviour of vanilla Defcon.
 
 BomberShowNukeTarget 1
+
+################
+# Bugs
+################
+
+# Some people like some bugs. Here you can re-enable your favourite ones.
+
+# In vanilla Defcon, ICBMs sometimes prefer to take the longer path round the earth;
+# they prefer to cross the map seam. If NukeShortestPath is 0, they still do that. If
+# it is 1, they always take the shortest path.
+
+NukeShortestPath 1
+

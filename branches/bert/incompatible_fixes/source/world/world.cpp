@@ -2844,9 +2844,22 @@ void World::SanitiseTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongi
     }
 }
 
-/*
-Fixed World::GetDistanceAcrossSeamSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
+Fixed World::GetDistanceAcrossSeamSqdBroken( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
+    Fixed targetSeamLatitude;
+    Fixed targetSeamLongitude;
+    GetSeamCrossLatitude( Vector2<Fixed>(toLongitude, toLatitude), Vector2<Fixed>(fromLongitude, fromLatitude), &targetSeamLongitude, &targetSeamLatitude);
+    
+
+    Fixed distanceAcrossSeam = ( Vector3<Fixed>(targetSeamLongitude, targetSeamLatitude,0) -
+                                 Vector3<Fixed>(fromLongitude, fromLatitude, 0) ).MagSquared();
+
+    distanceAcrossSeam += ( Vector3<Fixed>(targetSeamLongitude * -1, targetSeamLatitude,0) -
+                            Vector3<Fixed>(toLongitude, toLatitude, 0) ).MagSquared();
+
+    return distanceAcrossSeam;
+
+    /* Fixed code, nobody needs it. 
     // sensibly move the longitudes around so one seam cross is added
     Fixed _toLongitude = toLongitude;
     if( fromLongitude < toLongitude )
@@ -2860,15 +2873,15 @@ Fixed World::GetDistanceAcrossSeamSqd( Fixed const &fromLongitude, Fixed const &
 
     // delegate
     return GetDistanceSqd( fromLongitude, fromLatitude, _toLongitude, toLatitude, true );
+    */
 }
 
 
-Fixed World::GetDistanceAcrossSeam( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
+Fixed World::GetDistanceAcrossSeamBroken( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
-    Fixed distSqd = GetDistanceAcrossSeamSqd( fromLongitude, fromLatitude, toLongitude, toLatitude );
+    Fixed distSqd = GetDistanceAcrossSeamSqdBroken( fromLongitude, fromLatitude, toLongitude, toLatitude );
     return sqrt( distSqd );
 }
-*/
 
 Fixed World::GetDistanceSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam )
 {
@@ -3069,7 +3082,6 @@ Fixed World::GetSailDistance( Fixed const &fromLongitude, Fixed const &fromLatit
     return totalDistance;
 }
 
-/*
 void World::GetSeamCrossLatitude( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude )
 {
 //    y = mx + c
@@ -3114,7 +3126,6 @@ void World::GetSeamCrossLatitude( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixe
     // We should never ever get here
     AppAssert( false );
 }
-*/
 
 int World::GetTerritoryOwner( int territoryId )
 {
