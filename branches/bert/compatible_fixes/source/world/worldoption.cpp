@@ -73,7 +73,16 @@ void WorldOptionBase::LoadFile( char const * filename )
             if( !in->TokenAvailable() ) continue;
             char * param = in->GetNextToken();
             if( !in->TokenAvailable() ) continue;
-            char * value = in->GetNextToken();
+            char * value = in->GetRestOfLine();
+
+            // discard newlines (yes, this modifies the string in the reader itself; that's
+            // fine, we no longer need it.)
+            int len = strlen(value);
+            while( len > 0 && ( value[len-1] == '\n' || value[len-1] == '\r' ) )
+            {
+                value[len-1] = 0;
+                --len;
+            }
 
             WorldOptionBase * opt = GetWorldOptions().GetData( param );
             if( opt  )
@@ -123,7 +132,33 @@ bool WorldOption<Fixed>::Set( char const * value )
     return end && *end == 0;
 }
 
+template<> WorldOption<char const *>::~WorldOption()
+{
+    delete[] m_data;
+    delete[] m_default;
+}
+
+template<> void WorldOption<char const *>::Reset()
+{
+    delete[] m_data;
+    m_data = newStr(m_default);
+}
+
+template<> WorldOption<char const *>::WorldOption( char const * name, char const * const & def )
+: WorldOptionBase( name ), m_data( newStr(def) ), m_default( newStr(def) )
+{
+}
+
+template<>
+bool WorldOption<char const *>::Set( char const * value )
+{
+    delete[] m_data;
+    m_data = newStr( value );
+    return true;
+}
+
 #ifdef _DEBUG
 WorldOption< int > g_testInt( "TestInt", 1 );
 WorldOption< Fixed > g_testFixed( "TestFixed", 0 );
+WorldOptionString g_testString( "TestString", "Bla" );
 #endif

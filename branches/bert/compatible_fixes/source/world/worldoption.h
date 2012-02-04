@@ -45,5 +45,11 @@ private:
     T m_default;
 };
 
+template<> WorldOption<char const *>::~WorldOption();
+template<> void WorldOption<char const *>::Reset();
+template<> WorldOption<char const *>::WorldOption( char const * name, char const * const & def );
+
+typedef WorldOption<char const *> WorldOptionString;
+
 #endif
 
