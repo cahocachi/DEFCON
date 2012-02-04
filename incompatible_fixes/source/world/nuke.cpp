@@ -23,6 +23,7 @@
 #include "world/team.h"
 #include "world/city.h"
 #include "world/bomber.h"
+#include "world/worldoption.h"
 
 
 Nuke::Nuke()
@@ -55,6 +56,8 @@ void Nuke::Action( WorldObjectReference const & targetObjectId, Fixed longitude,
     //m_newLatitude = latitude;
 }
 
+static WorldOption< int > s_nukeShortestPath( "NukeShortestPath", 1 );
+
 void Nuke::SetWaypoint( Fixed longitude, Fixed latitude )
 {
     if( m_targetLocked )
@@ -62,6 +65,37 @@ void Nuke::SetWaypoint( Fixed longitude, Fixed latitude )
         return;
     }
     MovingObject::SetWaypoint( longitude, latitude );
+
+    if( !s_nukeShortestPath )
+    {
+        // use the old, buggy code of determining the shortest way
+        while( longitude < -180 )
+        {
+            longitude += 360;
+        }
+        while( longitude > 180 )
+        {
+            longitude -= 360;
+        }
+        Fixed distanceDirectSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, longitude, latitude, true );
+        Fixed distanceSeamSqd = g_app->GetWorld()->GetDistanceAcrossSeamSqdBroken( m_longitude, m_latitude, longitude, latitude );
+        if( distanceSeamSqd < distanceDirectSqd )
+        {
+            if( longitude > m_longitude )
+            {
+                longitude -= 360;
+            }
+            else
+            {
+                longitude += 360;
+            }
+        }
+
+        m_targetLongitude = longitude;
+    }
+       
+
+
 
     Vector2<Fixed> target( m_targetLongitude, m_targetLatitude );
     Vector2<Fixed> pos( m_longitude, m_latitude );
