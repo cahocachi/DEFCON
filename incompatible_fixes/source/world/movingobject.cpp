@@ -25,6 +25,8 @@
 #include "world/blip.h"
 #include "world/fleet.h"
 
+#include "world/worldoption.h"
+
 
 MovingObject::MovingObject()
 :   WorldObject(),
@@ -883,6 +885,8 @@ void MovingObject::AutoLand()
     }
 }
 
+static WorldOption< int > s_planeLandingAdvanced( "PlaneLandingAdvanced", 1 );
+
 bool MovingObject::GetClosestLandingPad( BoundedArray<int> const & alreadyLanding, BoundedArray<int> const & alreadyLandingWantingNukes, Fixed const & turnRadius, WorldObject * & goFor, WorldObject * & nearestNonViable )
 {
     WorldObject * nearest = NULL;
@@ -926,7 +930,7 @@ bool MovingObject::GetClosestLandingPad( BoundedArray<int> const & alreadyLandin
                 if( obj->m_type == WorldObject::TypeCarrier ||
                     obj->m_type == WorldObject::TypeAirBase )
                 {
-                    int roomInside = RoomInside( obj, m_type ) - alreadyLanding[obj->m_objectId];
+                    int roomInside = RoomInside( obj, m_type ) - ( s_planeLandingAdvanced ? alreadyLanding[obj->m_objectId] : 0 );
 
                     Fixed distSqd = g_app->GetWorld()->GetDistanceSqd( turnLongitude, turnLatitude, obj->m_longitude, obj->m_latitude );
                     if( roomInside > 0 )
@@ -943,7 +947,17 @@ bool MovingObject::GetClosestLandingPad( BoundedArray<int> const & alreadyLandin
                             AppAssert( obj->m_type == TypeCarrier || obj->m_type == TypeAirBase );
 
                             // get nukes left to distribute: nukes minus bombers
-                            int nukesLeft = obj->m_nukeSupply - obj->m_states[1]->m_numTimesPermitted - alreadyLandingWantingNukes[obj->m_objectId];
+                            int nukesLeft = 0;
+                            if( s_planeLandingAdvanced )
+                            {
+                                // really count nukes
+                                nukesLeft = obj->m_nukeSupply - obj->m_states[1]->m_numTimesPermitted - alreadyLandingWantingNukes[obj->m_objectId];
+                            }
+                            else
+                            {
+                                // one nuke or 10, who cares.
+                                nukesLeft = ( obj->m_nukeSupply - obj->m_states[1]->m_numTimesPermitted > 0 ) ? 1 : 0;
+                            }
 
                             // closer is better, more nukes is even better
                             if ( ( distSqd < nearestWithNukesSqd && nukesLeft >= maxNukeSupply ) ||
@@ -1047,7 +1061,7 @@ bool MovingObject::GetClosestLandingPad( BoundedArray<int> const & alreadyLandin
     // check whether we will have enough fuel to make it
     Fixed fuelLeft = range - g_app->GetWorld()->GetDistance( turnLongitude, turnLatitude, goFor->m_longitude, goFor->m_latitude );
 
-    return fuelLeft > 0;
+    return s_planeLandingAdvanced ? ( fuelLeft > 0 ) : true;
 }
 
 WorldObject * MovingObject::GetClosestLandingPad()
@@ -1327,9 +1341,18 @@ WorldObject * MovingObject::GetClosestLandingPad()
 //    return target;
 //}
 
+static WorldOption< int > s_planeLandingInterceptCarriers( "PlaneLandingInterceptCarriers", 1 );
+
 // calculates the best target point to intercept the other object
 void MovingObject::GetInterceptionPoint( WorldObject *target, Fixed *interceptLongitude, Fixed *interceptLatitude )
 {
+    if( !s_planeLandingInterceptCarriers )
+    {
+        *interceptLongitude = target->m_longitude;
+        *interceptLatitude  = target->m_latitude;
+        return;
+    }
+
     Fixed timeLimit = Fixed::MAX;
     Direction targetVel = target->m_vel;
 

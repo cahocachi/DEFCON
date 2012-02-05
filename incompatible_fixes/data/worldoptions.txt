@@ -26,6 +26,22 @@
 BomberShowNukeTarget 1
 
 ################
+# Plane landing
+################
+
+# If this is set to 1, advanced plane landingpad selection code is activated,
+# if it is 0, planes greedily go for the closest available pad (bombers without nukes
+# prefer pads with supply, though)
+
+PlaneLandingAdvanced 1
+
+# If PlaneLandingInterceptCarriers is on 1, planes landing on moving carriers will head
+# for a suitable rendezvous point ahead on the carrier's course. If it is 0, they will
+# just fly straight at its current location.
+
+PlaneLandingInterceptCarriers 1
+
+################
 # Bugs
 ################
 
