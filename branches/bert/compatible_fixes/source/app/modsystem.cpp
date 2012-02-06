@@ -117,7 +117,7 @@ void ModSystem::LoadInstalledMods( char const * modsDir )
 
         InstalledMod *mod = new InstalledMod();
         sprintf( mod->m_name, thisSubDir );
-		if( m_modsDirSystem == modsDir )
+		if( m_modsDirSystem != modsDir )
 		{
 			sprintf( mod->m_displayPath, "%s", thisSubDir );
 		}
