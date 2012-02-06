@@ -42,6 +42,17 @@ PlaneLandingAdvanced 1
 PlaneLandingInterceptCarriers 1
 
 ################
+# Combat
+################
+
+# when planes take off (and other units using guns get placed on the map), they need to wait
+# their regular reload time before they can fire their first shot, multiplied by
+# ReloadOnSpawn/100. Vanilla Defcon has no such wait, the appropriate value of
+# ReloadOnSpawn for that would be 0.
+
+ReloadOnSpawn 100
+
+################
 # Bugs
 ################
 
@@ -84,9 +95,7 @@ BomberFireWhileLanding 1
 
 FighterAlwaysAutoTarget 1
 
-# when planes take off (and other units using guns get placed on the map), they need to wait
-# their regular reload time before they can fire their first shot, multiplied by
-# ReloadOnSpawn/100. Vanilla Defcon has no such wait, the appropriate value of
-# ReloadOnSpawn for that would be 0.
+# If InvisibleTargetTracking is 1, sometimes invisible objects will be tracked by former
+# attackers and be visible in the orders view.
 
-ReloadOnSpawn 100
+InvisibleTargetTracking 0
