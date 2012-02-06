@@ -70,7 +70,7 @@ mkdir ${BINNAME}
 cp defcon.full ${BINNAME}/defcon.bin || exit -1
 
 # mods
-cp -ax mods ${BINNAME}/ || exit -1
+cp -ax ${TARNAME}/mods ${BINNAME}/ || exit -1
 
 # add launch script
 cp ${DIR}/launch.sh ${BINNAME}/defcon || exit -1
