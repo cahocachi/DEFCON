@@ -1569,7 +1569,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n";
+			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n\ncp -r ${SRCROOT}/../../mods ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \n";
 		};
 		64F9AC5514C2E9C20004E398 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
