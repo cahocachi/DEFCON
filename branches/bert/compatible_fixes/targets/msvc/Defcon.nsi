@@ -86,6 +86,7 @@ Section "MainSection" SEC01
   File /nonfatal "..\..\ChangeLog.txt"
   File /nonfatal "..\..\*.dat"
   File /nonfatal /r "..\..\data"
+  File /nonfatal /r "..\..\mods"
 SectionEnd
 
 Section -AdditionalIcons
