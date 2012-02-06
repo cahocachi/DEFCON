@@ -332,12 +332,7 @@ class VisitModWebsiteButton : public EclButton
 
 ModWindow::ModWindow()
 :   InterfaceWindow( "Mods", "dialog_mod", true ),
-    m_image(NULL),
-#ifdef TARGET_OS_MACOSX
-    m_truncatePaths(true)
-#else
-	m_truncatePaths(false)
-#endif
+    m_image(NULL)
 {
     SetSize( 560, 400 );
 
@@ -532,7 +527,7 @@ void ModWindow::Render( bool _hasFocus )
 
         g_renderer->TextSimple( xPos, yPos, nameColour, fontSize, LANGUAGEPHRASE("dialog_mod_install_dir") );
         g_renderer->TextRightSimple( xPos + w, yPos, White, fontSize,
-                                     m_truncatePaths ? mod->m_name : mod->m_path ); // m_name was generated from dir name
+                                     mod->m_displayPath );
 
         yPos += gap;
 
