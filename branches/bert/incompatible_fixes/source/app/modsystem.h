@@ -62,6 +62,7 @@ public:
     char    m_name      [256];
     char    m_version   [256];    
     char    m_path      [1024];
+    char    m_displayPath[1024];
     char    m_author    [256];
     char    m_website   [256];
     char    m_comment   [10240];
