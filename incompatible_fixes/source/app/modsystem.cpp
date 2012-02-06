@@ -117,6 +117,14 @@ void ModSystem::LoadInstalledMods( char const * modsDir )
 
         InstalledMod *mod = new InstalledMod();
         sprintf( mod->m_name, thisSubDir );
+		if( m_modsDirSystem != modsDir )
+		{
+			sprintf( mod->m_displayPath, "%s", thisSubDir );
+		}
+		else
+		{
+			sprintf( mod->m_displayPath, "SYS/%s", thisSubDir );
+		}
         sprintf( mod->m_path, "%s/%s/", modsDir, thisSubDir );
         sprintf( mod->m_version, "v1.0" );
 
@@ -736,6 +744,7 @@ InstalledMod::InstalledMod()
     sprintf( m_name,    "unknown" );
     sprintf( m_version, "unknown" );
     sprintf( m_path,    "unknown" );
+    sprintf( m_displayPath, "unknown" );
     sprintf( m_author,  "unknown" );
     sprintf( m_website, "unknown" );
     sprintf( m_comment, "unknown" );
