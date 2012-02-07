@@ -1,0 +1,5 @@
+Name        Core
+Version     1
+Author      bert_the_turtle
+Website     http://minicom.simamo.de
+Comment     Core world rules. Only definite bugs are fixed. Elements of original Defcon that are working as designed left as they were.
