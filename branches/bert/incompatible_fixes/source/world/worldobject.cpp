@@ -251,16 +251,22 @@ void WorldObject::SetState( int state )
 
 WorldOption< int > s_immediateRetarget( "ImmediateRetarget", 1 );
 WorldOption< int > s_invisibleTargetTracking( "InvisibleTargetTracking", 0 );
+WorldOption< int > s_impossibleTargetTracking( "ImpossibleTargetTracking", 0 );
 
 bool WorldObject::Update()
 {    
     World * world = g_app->GetWorld();
 
     // forget target if it went invisible
-    if( m_targetObjectId >= 0 && !s_invisibleTargetTracking )
+    if( m_targetObjectId >= 0 )
     {
         WorldObject *obj = world->GetWorldObject( m_targetObjectId );
-        if( m_teamId != TEAMID_SPECIALOBJECTS && ( !obj || !obj->m_visible[ m_teamId ] ) )
+        if( !s_invisibleTargetTracking && m_teamId != TEAMID_SPECIALOBJECTS && ( !obj || !obj->m_visible[ m_teamId ] ) )
+        {
+            m_targetObjectId = -1;
+        }
+
+        if( !s_impossibleTargetTracking && GetAttackOdds( obj->m_type ) <= 0 )
         {
             m_targetObjectId = -1;
         }
