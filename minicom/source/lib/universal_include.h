@@ -19,7 +19,7 @@
 #define PROTOCOL_VERSION "1"
 
 // patch level. Increased on all new builds that don't break sync compatibility
-#define PATCH_VERSION "2"
+#define PATCH_VERSION "3"
 
 // for all of the above, if you change one definition, you can reset everything below it.
 
