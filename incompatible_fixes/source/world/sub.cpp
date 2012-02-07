@@ -74,7 +74,6 @@ void Sub::Action( WorldObjectReference const & targetObjectId, Fixed longitude, 
 
             Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
             if( fleet && success ) fleet->m_subNukesLaunched++;
-
         }
         else 
         {
