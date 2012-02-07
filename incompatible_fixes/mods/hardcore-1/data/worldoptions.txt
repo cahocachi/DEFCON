@@ -1,4 +1,5 @@
 BomberShowNukeTarget 0
+SubLaunchAnywhere 0
 
 NukeShortestPath 0
 CarrierNoPursuit 0
