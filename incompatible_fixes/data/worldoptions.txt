@@ -99,3 +99,8 @@ FighterAlwaysAutoTarget 1
 # attackers and be visible in the orders view.
 
 InvisibleTargetTracking 0
+
+# If ImpossibleTargetTracking is 1, units will happily fire and follow targets they can't
+# possibly harm.
+
+ImpossibleTargetTracking 0

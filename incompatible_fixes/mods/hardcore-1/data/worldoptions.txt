@@ -10,3 +10,4 @@ ReloadOnSpawn 0
 PlaneLandingAdvanced 0
 PlaneLandingInterceptCarriers 0
 InvisibleTargetTracking 1
+ImpossibleTargetTracking 1
