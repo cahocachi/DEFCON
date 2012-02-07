@@ -14,7 +14,6 @@ class ModWindow : public InterfaceWindow
 public:
     char m_selectionName[256];
     char m_selectionVersion[256];
-    bool m_truncatePaths;
 
     Image       *m_image;
     ScrollBar   *m_scrollbar;

@@ -24,18 +24,20 @@
 #include "modsystem.h"
 
 #include "world/earthdata.h"
+#include "world/worldoption.h"
 
 
 ModSystem *g_modSystem = NULL;
 
 ModSystem::ModSystem()
 {
-	m_modsDir = newStr("mods");
+	m_modsDirSystem = newStr("mods");
+    m_modsDirUser = ConcatPaths( App::GetPrefsDirectory(), "mods", NULL );
 #ifdef TARGET_OS_MACOSX
     if ( getenv("HOME") )
 	{
-		delete[] m_modsDir;
-		m_modsDir = ConcatPaths( getenv("HOME"), "Library/Application Support/DEFCON/mods", NULL );
+        delete[] m_modsDirUser;
+		m_modsDirUser = ConcatPaths( getenv("HOME"), "Library/Application Support/DEFCON/mods", NULL );
 	}
 #endif
 }
@@ -43,7 +45,8 @@ ModSystem::ModSystem()
 
 ModSystem::~ModSystem()
 {
-	delete[] m_modsDir;
+	delete[] m_modsDirSystem;
+	delete[] m_modsDirUser;
 }
 
 
@@ -51,6 +54,9 @@ void ModSystem::Initialise()
 {
     //
     // Load the critical file list
+
+    // clear data path just in case, don't want a mod to be able to mess with this
+    g_fileSystem->ClearSearchPath();
 
     TextFileReader *reader = (TextFileReader *)g_fileSystem->GetTextReader( "data/critical_files.txt" );
     if( reader )
@@ -64,12 +70,8 @@ void ModSystem::Initialise()
         delete reader;
     }
 
-	// Ensure mods directory exists, just as a convenience to the
-	// user. Wouldn't hurt to do this on Win32, but I didn't want
-	// to change existing behavior.
-#ifdef TARGET_OS_MACOSX
-	CreateDirectoryRecursively(m_modsDir);
-#endif
+	// Ensure user mods directory exists, just as a convenience.
+	CreateDirectoryRecursively(m_modsDirUser);
 
     //
     // Load installed mods and set up
@@ -95,14 +97,19 @@ void ModSystem::LoadInstalledMods()
 {
     //
     // Clear out all known mods
-
+    
     m_mods.EmptyAndDelete();
+    
+    LoadInstalledMods( m_modsDirUser );
+    LoadInstalledMods( m_modsDirSystem );
+}
 
-
+void ModSystem::LoadInstalledMods( char const * modsDir )
+{
     //
     // Explore the mods directory, looking for installed mods
 
-    LList<char *> *subDirs = ListSubDirectoryNames( m_modsDir );
+    LList<char *> *subDirs = ListSubDirectoryNames( modsDir );
 
     for( int i = 0; i < subDirs->Size(); ++i )
     {
@@ -110,7 +117,15 @@ void ModSystem::LoadInstalledMods()
 
         InstalledMod *mod = new InstalledMod();
         sprintf( mod->m_name, thisSubDir );
-        sprintf( mod->m_path, "%s/%s/", m_modsDir, thisSubDir );
+		if( m_modsDirSystem != modsDir )
+		{
+			sprintf( mod->m_displayPath, "%s", thisSubDir );
+		}
+		else
+		{
+			sprintf( mod->m_displayPath, "SYS/%s", thisSubDir );
+		}
+        sprintf( mod->m_path, "%s/%s/", modsDir, thisSubDir );
         sprintf( mod->m_version, "v1.0" );
 
         LoadModData( mod, mod->m_path );
@@ -680,6 +695,8 @@ void ModSystem::Commit()
         g_app->GetEarthData()->LoadCoastlines();
         g_app->GetEarthData()->LoadBorders();
 
+        WorldOptionBase::LoadAll();
+
         if( !g_app->m_gameRunning )
         {
             // It's only safe to do this when a game is NOT running
@@ -690,10 +707,11 @@ void ModSystem::Commit()
 		// We need to make sure the sound callback isn't running while
 		// we do this, so we don't swap out sounds that it's playing
 		g_soundSystem->EnableCallback(false);
+        g_soundSystem->m_sounds.EmptyAndDelete();
         g_soundSystem->m_blueprints.ClearAll();
+        g_soundSampleBank->EmptyCache();
         g_soundSystem->m_blueprints.LoadEffects();
         g_soundSystem->m_blueprints.LoadBlueprints();
-        g_soundSampleBank->EmptyCache();
         g_soundSystem->PropagateBlueprints(true);
 		g_soundSystem->EnableCallback(true);
 
@@ -726,6 +744,7 @@ InstalledMod::InstalledMod()
     sprintf( m_name,    "unknown" );
     sprintf( m_version, "unknown" );
     sprintf( m_path,    "unknown" );
+    sprintf( m_displayPath, "unknown" );
     sprintf( m_author,  "unknown" );
     sprintf( m_website, "unknown" );
     sprintf( m_comment, "unknown" );

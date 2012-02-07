@@ -48,6 +48,7 @@
 #include "world/bomber.h"
 #include "world/fleet.h"
 #include "world/whiteboard.h"
+#include "world/worldoption.h"
 
 static unsigned char GetOwner( int objectId )
 {
@@ -2153,6 +2154,8 @@ void MapRenderer::RenderWorldObjectTargets( WorldObject *wobj, bool maxRanges, T
     }
 }
 
+static WorldOption< int > s_bomberShowNukeTarget( "BomberShowNukeTarget", 1 );
+
 void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRanges, TargetsRenderInfo & renderInfo )
 {
 #ifndef NON_PLAYABLE
@@ -2335,6 +2338,11 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
 
                 renderInfo.AddLongitude( actionCursorLongitude );
 
+                if( !s_bomberShowNukeTarget )
+                {
+                    renderBomberNukeTarget = false;
+                }
+
                 if( renderBomberNukeTarget )
                 {
                     Colour actionCursorCol( 255,0,0,150 );
@@ -2386,7 +2394,14 @@ void MapRenderer::RenderWorldObjectTargetsSingle( WorldObject *wobj, bool maxRan
                     !renderBomberNukeTarget )
                 {
                     {
-                        actionCursorCol.Set( 255,255,0,150 );
+                        if( s_bomberShowNukeTarget )
+                        {
+                            actionCursorCol.Set( 255,255,0,150 );
+                        }
+                        else
+                        {
+                            actionCursorCol.Set( 255,0,0,150 );
+                        }
                     }
                 }
 
@@ -3607,7 +3622,6 @@ void MapRenderer::HandleClickStateMenu()
     m_stateObjectId = -1;
 }
 
-
 void MapRenderer::HandleObjectAction( float _mouseX, float _mouseY, int underMouseId )
 {
     WorldObject *underMouse = g_app->GetWorld()->GetWorldObject(underMouseId);
@@ -3653,9 +3667,9 @@ void MapRenderer::HandleObjectAction( float _mouseX, float _mouseY, int underMou
                         canAction = false;
                     }
 
-                    if( obj->m_type == WorldObject::TypeSub )
+                    if( obj->m_type == WorldObject::TypeSub || obj->m_type == WorldObject::TypeBomber || obj->m_type == WorldObject::TypeSilo )
                     {
-                        canAction = false;
+                        canAction = World::CanLaunchAnywhere( obj->m_type );
                     }
 
                     if( obj->m_type == WorldObject::TypeCarrier ||

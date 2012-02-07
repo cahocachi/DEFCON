@@ -28,6 +28,36 @@ optional.
 
 ================================================
 
+Some important differences to plain Defcon you should know about:
+
+User configuration files and data are now stored in different locations.
+Windows: Screenshots are stored in <My Pictures>/Defcon Screenshots/,
+  all other data (preferences.txt, authkey, debug.txt) in 
+  <My Documents>/My Games/Defcon.
+Linux: debug.txt is still in /tmp, everything else in ~/.defcon.
+Mac: no changes.
+
+Mods can now be in two places, with the program installation (the System Mods)
+and in the user's home directory (User Mods). User mods override system mods of
+the same name and version. Locations:
+Windows: System mods are in <Installation Directory>/mods, User mods in
+         <My Documents>/My Games/Defcon/mods.
+Linux: System mods are in <Installation Directory>/mods, User mods in
+       ~/.defcon/mods
+Mac: System mods are inside the app bundle and only really useful for bundled mods;
+     User mods are in Library/Application Support/DEFCON/mods.
+It is recommended you use the User Mod directory for your installed mods.
+
+New moddable file data/worldoptions.txt:
+This file stores world rules in greater detail than game options would allow for.
+Its modding rules are slightly different than for normal files: normally, if you
+mod a file, it will be read from the highest priority mod that contains it. This 
+file is read from ALL mods, first from the lower priority ones, last from the 
+higher priority ones. That way, individual settings from higher priority mods
+override individual settings from lower priority mods.
+
+================================================
+
 Contributors outside of Introversion (in alphabetical order):
 
 Forum name         | Real name           | contact/aliases

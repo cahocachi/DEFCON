@@ -20,6 +20,7 @@
 #include "world/world.h"
 #include "world/bomber.h"
 #include "world/team.h"
+#include "world/worldoption.h"
 
 
 Bomber::Bomber()
@@ -111,7 +112,7 @@ void Bomber::Action( WorldObjectReference const & targetObjectId, Fixed longitud
             if( m_stateTimer <= 0 &&
                 g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, longitude, latitude ) <= nukeRange * nukeRange )
             {                
-                g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, nukeRange );
+                g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, nukeRange, targetObjectId );
                 m_nukeTargetLongitude = 0;
                 m_nukeTargetLatitude = 0;
                 m_bombingRun = true;
@@ -128,6 +129,8 @@ void Bomber::Action( WorldObjectReference const & targetObjectId, Fixed longitud
 
     MovingObject::Action( targetObjectId, longitude, latitude );
 }
+
+static WorldOption< int > s_bomberFireWhileLanding( "BomberFireWhileLanding", 1 );
 
 bool Bomber::Update()
 {
@@ -152,14 +155,12 @@ bool Bomber::Update()
             WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(m_targetObjectId);
             if( targetObject )
             {
-                if( targetObject->m_teamId == m_teamId )
+                if( targetObject->m_teamId == m_teamId &&
+                    ( targetObject->m_type == WorldObject::TypeCarrier ||
+                      targetObject->m_type == WorldObject::TypeAirBase ) )
                 {
-                    if( targetObject->m_type == WorldObject::TypeCarrier ||
-                        targetObject->m_type == WorldObject::TypeAirBase )
-                    {
-                        SetWaypoint( targetObject->m_longitude, targetObject->m_latitude );
-                        Land( targetObject );
-                    }
+                    SetWaypoint( targetObject->m_longitude, targetObject->m_latitude );
+                    Land( targetObject );
                     m_targetObjectId = -1;
                 }
                 else
@@ -193,7 +194,8 @@ bool Bomber::Update()
     if( m_currentState == 0 &&
         !hasTarget &&
         m_retargetTimer <= 0 &&
-        !m_bombingRun )
+        !m_bombingRun && 
+        ( s_bomberFireWhileLanding || m_isLanding == -1 ) )
     {
         m_retargetTimer = 10;
         m_targetObjectId = -1;

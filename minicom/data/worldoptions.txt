@@ -1,0 +1,114 @@
+# World options that influence little details of how the world works;
+# they're too fine grained to be game options. Instead, put a modified
+# version of this file into a MOD and distribute that.
+# worldoptions.txt is read from ALL active mods, higher priority mods
+# overwrite lower priority ones and those overwrite settings in this file.
+# So if you only want to mod a part of the rules, delete the ones you 
+# do not care about.
+
+################
+# Interface
+################
+
+# Bombers store the coordinates of their nuke target separately, vanilla
+# Defcon does not show it. If BomberShowNukeTarget is set to 1, the following 
+# changes are made to bomber order rendering:
+# - If valid nuke target coordinates are set, they are marked with
+#   a red attack line. The navigation target is shown in blue, then.
+# - Bombers launched before DEFCON 1 with valid nuke targets mark them
+#   red already instead of blue.
+# - if a bomber is in SRBM mode and no nuke target has been set yet, 
+#   its navigation target turns from blue to yellow so you can still 
+#   identify switched bombers. Vanilla Defcon shows the navigation
+#   marker as red in those situations.
+# A value of 0 returns to the bahaviour of vanilla Defcon.
+
+BomberShowNukeTarget 1
+
+# If these settings are 1, the corresponding units can launch their nukes at
+# any spot in range; it they are 0, they can only fire at confirmed targets.
+# For plain Defcon feel, disable SubLaunchAnywhere.
+
+SubLaunchAnywhere 1
+BombeLaunchAnywhere 1
+SiloLaunchAnywhere 1
+
+################
+# Plane landing
+################
+
+# If this is set to 1, advanced plane landingpad selection code is activated,
+# if it is 0, planes greedily go for the closest available pad (bombers without nukes
+# prefer pads with supply, though)
+
+PlaneLandingAdvanced 1
+
+# If PlaneLandingInterceptCarriers is on 1, planes landing on moving carriers will head
+# for a suitable rendezvous point ahead on the carrier's course. If it is 0, they will
+# just fly straight at its current location.
+
+PlaneLandingInterceptCarriers 1
+
+################
+# Combat
+################
+
+# when planes take off (and other units using guns get placed on the map), they need to wait
+# their regular reload time before they can fire their first shot, multiplied by
+# ReloadOnSpawn/100. Vanilla Defcon has no such wait, the appropriate value of
+# ReloadOnSpawn for that would be 0.
+
+ReloadOnSpawn 100
+
+################
+# Bugs
+################
+
+# Some people like some bugs. Here you can re-enable your favourite ones.
+
+# In vanilla Defcon, ICBMs sometimes prefer to take the longer path round the earth;
+# they prefer to cross the map seam. If NukeShortestPath is 0, they still do that. If
+# it is 1, they always take the shortest path.
+
+NukeShortestPath 1
+
+# If CarrierNoPursuit is set to 1, fleets with carriers in them never prusue other fleets.
+# This makes sense as they don't need to get close to attack and it is often triggered
+# involuntarily by sending fighters at enemy ships. If it is 0, carriers don't care.
+
+CarrierNoPursuit 1
+
+# If ImmediateRetarget is set to 1, attack targets and bomber nuke targets can be
+# reset even while the state timer is ticking down. If it is 0, the retarget action
+# is queued up and will be executed as soon as the timer hits zero.
+
+ImmediateRetarget 1
+
+# If ManualTargetShotLoss is set to 1, manually selecting a target for conventional
+# fire will cause one shot that could be fired to be swallowed up like in vanilla Defcon.
+
+ManualTargetShotLoss 0
+
+# If SiloAllowManualTarget is set to 0, silos will override manually set targets
+# like vanilla Defcon. Unless ManualTargetShotLoss is at 1 and ImmediateRetarget at 0, you
+# still can fire single shots at manually selected targets, though, but only individually.
+
+SiloAllowManualTarget 1
+
+# Bombers only fire at targets while landing if this is set to 1.
+
+BomberFireWhileLanding 1
+
+# Fighters always look for targets if this is 1, otherwise only after they reach a waypoint.
+
+FighterAlwaysAutoTarget 1
+
+# If InvisibleTargetTracking is 1, sometimes invisible objects will be tracked by former
+# attackers and be visible in the orders view.
+
+InvisibleTargetTracking 0
+
+# If ImpossibleTargetTracking is 1, units will happily fire and follow targets they can't
+# possibly harm.
+
+ImpossibleTargetTracking 0
