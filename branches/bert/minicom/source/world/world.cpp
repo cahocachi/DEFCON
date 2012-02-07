@@ -30,6 +30,7 @@
 #include "network/network_defines.h"
 
 #include "world/world.h"
+#include "world/worldoption.h"
 #include "world/explosion.h"
 #include "world/silo.h"
 #include "world/team.h"
@@ -108,6 +109,11 @@ void World::Init()
     // Initialise radar system
 
     m_radarGrid.Initialise( 1, MAX_TEAMS );
+
+    //
+    // load world options
+
+    WorldOptionBase::LoadAll();
 }
 
 
@@ -1078,10 +1084,16 @@ void World::RandomObjects( int teamId )
     AppDebugOut( "Placed objects in %dms", int(totalTime * 1000.0f) );
 }
 
-void World::LaunchNuke( int teamId, int objId, Fixed longitude, Fixed latitude, Fixed range )
+bool World::LaunchNuke( int teamId, WorldObjectReference const & objId, Fixed longitude, Fixed latitude, Fixed range, WorldObjectReference const & targetId )
 {
     WorldObject *from = GetWorldObject(objId);
     AppDebugAssert( from );
+
+    if( targetId < 0 && !CanLaunchAnywhere( from->m_type ) )
+    {
+        // can't launch at unmarked targets
+        return false;
+    }
 
     Nuke *nuke = new Nuke();
     nuke->m_teamId = teamId;
@@ -1176,6 +1188,8 @@ void World::LaunchNuke( int teamId, int objId, Fixed longitude, Fixed latitude, 
             }
         }
     }
+
+    return true;
 }
 
 WorldObjectReference World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
@@ -1468,6 +1482,20 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
     }
 }
 
+static WorldOption< int > s_subLaunchAnywhere( TempName( WorldObject::TypeSub, "LaunchAnywhere" ) , 0 );
+static WorldOption< int > s_bomberLaunchAnywhere( TempName( WorldObject::TypeBomber, "LaunchAnywhere" ), 1 );
+static WorldOption< int > s_siloLaunchAnywhere( TempName( WorldObject::TypeSilo, "LaunchAnywhere" ), 1 );
+
+bool World::CanLaunchAnywhere( int objectType )
+{
+    switch( objectType )
+    {
+    case WorldObject::TypeSub: return s_subLaunchAnywhere;
+    case WorldObject::TypeBomber: return s_bomberLaunchAnywhere;
+    case WorldObject::TypeSilo: return s_siloLaunchAnywhere;
+    default: return true;
+    }
+}
 
 void World::ObjectPlacement( int teamId, int unitType, Fixed longitude, Fixed latitude, int fleetId)
 {
@@ -2623,15 +2651,6 @@ void World::GenerateWorldEvent()
     g_app->GetInterface()->ShowMessage( 0, 0, -1, msg, true );
 }
 
-// properly clip to* coordinates to the intersection of the from* - to* line with the vertical
-// line at finalLongitude
-static void ClipTarget( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed &toLongitude, Fixed &toLatitude, Fixed const &finalLongitude )
-{
-    Fixed factor = ( toLongitude - finalLongitude ) / ( toLongitude - fromLongitude );
-    toLatitude -= factor*( toLatitude - fromLatitude );
-    toLongitude = finalLongitude;
-}
-
 bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
     Fixed timeScaleFactor = g_app->GetWorld()->GetTimeScaleFactor();
@@ -2639,20 +2658,10 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
 
     Fixed longitude = fromLongitude;
     Fixed latitude = fromLatitude;
-    Fixed actualToLongitude = toLongitude;
-    Fixed actualToLatitude = toLatitude;
+    Fixed realToLongitude = toLongitude;
+    SanitiseTargetLongitude( fromLongitude, realToLongitude );
 
-    if( actualToLongitude < -180 )
-    {
-        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, -180 );
-    }
-    else if( actualToLongitude > 180 )
-    {
-        ClipTarget( fromLongitude, fromLatitude, actualToLongitude, actualToLatitude, 180 );
-    }
-   
-
-    Vector2<Fixed> vel = (Vector2<Fixed>( actualToLongitude, actualToLatitude ) -
+    Vector2<Fixed> vel = (Vector2<Fixed>( realToLongitude, toLatitude ) -
                           Vector2<Fixed>( longitude, latitude ));
     Fixed velMag = vel.Mag();
     int nbIterations = 0;
@@ -2676,6 +2685,15 @@ bool World::IsSailable( Fixed const &fromLongitude, Fixed const &fromLatitude, F
     {
         longitude += vel.x;
         latitude += vel.y;
+
+        if( longitude < -180 )
+        {
+            longitude += 360;
+        }
+        if( longitude > 180 )
+        {
+            longitude -= 360;
+        }
 
         // For debugging purposes
         //glVertex2f( longitude.DoubleValue(), latitude.DoubleValue() );
@@ -2848,9 +2866,22 @@ void World::SanitiseTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongi
     }
 }
 
-/*
-Fixed World::GetDistanceAcrossSeamSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
+Fixed World::GetDistanceAcrossSeamSqdBroken( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
+    Fixed targetSeamLatitude;
+    Fixed targetSeamLongitude;
+    GetSeamCrossLatitude( Vector2<Fixed>(toLongitude, toLatitude), Vector2<Fixed>(fromLongitude, fromLatitude), &targetSeamLongitude, &targetSeamLatitude);
+    
+
+    Fixed distanceAcrossSeam = ( Vector3<Fixed>(targetSeamLongitude, targetSeamLatitude,0) -
+                                 Vector3<Fixed>(fromLongitude, fromLatitude, 0) ).MagSquared();
+
+    distanceAcrossSeam += ( Vector3<Fixed>(targetSeamLongitude * -1, targetSeamLatitude,0) -
+                            Vector3<Fixed>(toLongitude, toLatitude, 0) ).MagSquared();
+
+    return distanceAcrossSeam;
+
+    /* Fixed code, nobody needs it. 
     // sensibly move the longitudes around so one seam cross is added
     Fixed _toLongitude = toLongitude;
     if( fromLongitude < toLongitude )
@@ -2864,15 +2895,15 @@ Fixed World::GetDistanceAcrossSeamSqd( Fixed const &fromLongitude, Fixed const &
 
     // delegate
     return GetDistanceSqd( fromLongitude, fromLatitude, _toLongitude, toLatitude, true );
+    */
 }
 
 
-Fixed World::GetDistanceAcrossSeam( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
+Fixed World::GetDistanceAcrossSeamBroken( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude )
 {
-    Fixed distSqd = GetDistanceAcrossSeamSqd( fromLongitude, fromLatitude, toLongitude, toLatitude );
+    Fixed distSqd = GetDistanceAcrossSeamSqdBroken( fromLongitude, fromLatitude, toLongitude, toLatitude );
     return sqrt( distSqd );
 }
-*/
 
 Fixed World::GetDistanceSqd( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam )
 {
@@ -3073,7 +3104,6 @@ Fixed World::GetSailDistance( Fixed const &fromLongitude, Fixed const &fromLatit
     return totalDistance;
 }
 
-/*
 void World::GetSeamCrossLatitude( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude )
 {
 //    y = mx + c
@@ -3118,7 +3148,6 @@ void World::GetSeamCrossLatitude( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixe
     // We should never ever get here
     AppAssert( false );
 }
-*/
 
 int World::GetTerritoryOwner( int territoryId )
 {

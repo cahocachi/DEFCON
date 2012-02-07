@@ -1436,8 +1436,10 @@ void Tutorial::SetupCurrentChapter()
 
         Fixed nyLongitude = 0;
         Fixed nyLatitude = 0;
+        int nyId = -1;
         Fixed chLongitude = 0;
         Fixed chLatitude = 0;
+        int chId = -1;
         bool radarSet = false;
         for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
         {
@@ -1446,17 +1448,19 @@ void Tutorial::SetupCurrentChapter()
             {
                 nyLongitude = city->m_longitude;
                 nyLatitude = city->m_latitude;
+                nyId = city->m_objectId;
             }
 
             if( strcmp( city->m_name, "BERLIN" ) == 0 )
             {
                 chLongitude = city->m_longitude;
                 chLatitude = city->m_latitude;
+                chId = city->m_objectId;
             }
         }
 
-        g_app->GetWorld()->LaunchNuke(0, launchId, nyLongitude, nyLatitude, 0 );
-        g_app->GetWorld()->LaunchNuke(0, launchId, chLongitude, chLatitude, 0 );
+        g_app->GetWorld()->LaunchNuke(0, launchId, nyLongitude, nyLatitude, 0, nyId );
+        g_app->GetWorld()->LaunchNuke(0, launchId, chLongitude, chLatitude, 0, chId );
     }
 
 

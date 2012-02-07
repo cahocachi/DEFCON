@@ -24,7 +24,7 @@ function filterlog()
 
     while line=$(line); do
         if $( echo $line | grep authkey > /dev/null ); then line="        <REDACTED>"; fi
-        if $( echo $line | grep -i "merging" > /dev/null ); then 
+        if $( echo $line | egrep -i "merging|meging" > /dev/null ); then 
             # swallow four lines (this one is included)
             line=$(line)
             lastline2=$(line)
@@ -68,6 +68,9 @@ mkdir ${BINNAME}
 
 # add executable
 cp defcon.full ${BINNAME}/defcon.bin || exit -1
+
+# mods
+cp -ax ${TARNAME}/mods ${BINNAME}/ || exit -1
 
 # add launch script
 cp ${DIR}/launch.sh ${BINNAME}/defcon || exit -1

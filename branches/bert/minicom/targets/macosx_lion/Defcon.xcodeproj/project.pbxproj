@@ -239,6 +239,8 @@
 		49F18D04134FE45900569ECF /* soundsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C01344C95500746827 /* soundsystem.cpp */; };
 		49F18D05134FE45900569ECF /* soundsystem_interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C21344C95900746827 /* soundsystem_interface.cpp */; };
 		49F18D3A134FE5CA00569ECF /* sound_instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968B01344C92400746827 /* sound_instance.cpp */; };
+		64CC624414DC5FF3007B2BD3 /* worldoption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64CC624214DC5FF3007B2BD3 /* worldoption.cpp */; };
+		64CC624514DC5FF3007B2BD3 /* worldoption.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 64CC624314DC5FF3007B2BD3 /* worldoption.h */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8EAE03FB0B9207FA00FAB174 /* macutil.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 8EAE03F90B9207FA00FAB174 /* macutil.h */; };
 		8EAE03FC0B9207FA00FAB174 /* macutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EAE03FA0B9207FA00FAB174 /* macutil.cpp */; };
@@ -272,6 +274,7 @@
 				8EAE03FB0B9207FA00FAB174 /* macutil.h in Copy Frameworks into .app bundle */,
 				27F703980BA7639E00AF60B3 /* multiline_text.h in Copy Frameworks into .app bundle */,
 				27F9DA530BAA0BD200C120A6 /* splashscreen_renderer.h in Copy Frameworks into .app bundle */,
+				64CC624514DC5FF3007B2BD3 /* worldoption.h in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,7 +487,7 @@
 		2743B75E0BCB010E00672CC4 /* DEFCON User Manual.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "DEFCON User Manual.pdf"; path = "../../resources/macosx/DEFCON User Manual.pdf"; sourceTree = SOURCE_ROOT; };
 		27BE86570AC363B2008F67A7 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		27CD0F310AC8B48B00443CA6 /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = SDLMain.nib; path = English.lproj/SDLMain.nib; sourceTree = SOURCE_ROOT; };
-		27CD0F400AC8B4D200443CA6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27CD0F400AC8B4D200443CA6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		27CD0F420AC8B4E600443CA6 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27E954820B091CCB0012741B /* StatusIconEvent.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = StatusIconEvent.icns; path = ../../resources/macosx/StatusIconEvent.icns; sourceTree = SOURCE_ROOT; };
 		27E954830B091CCB0012741B /* StatusIconNuke.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = StatusIconNuke.icns; path = ../../resources/macosx/StatusIconNuke.icns; sourceTree = SOURCE_ROOT; };
@@ -661,6 +664,8 @@
 		49E968D21344C98900746827 /* net_socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_socket.cpp; sourceTree = "<group>"; };
 		49E968D31344C98900746827 /* net_thread_linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_thread_linux.cpp; sourceTree = "<group>"; };
 		49E968D41344C98900746827 /* net_udp_packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_udp_packet.cpp; sourceTree = "<group>"; };
+		64CC624214DC5FF3007B2BD3 /* worldoption.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = worldoption.cpp; path = ../../source/world/worldoption.cpp; sourceTree = SOURCE_ROOT; };
+		64CC624314DC5FF3007B2BD3 /* worldoption.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = worldoption.h; path = ../../source/world/worldoption.h; sourceTree = SOURCE_ROOT; };
 		8D1107320486CEB800E47090 /* DEFCON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEFCON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAE03F90B9207FA00FAB174 /* macutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macutil.h; sourceTree = "<group>"; };
 		8EAE03FA0B9207FA00FAB174 /* macutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macutil.cpp; sourceTree = "<group>"; };
@@ -1365,6 +1370,8 @@
 		29B97315FDCFA39411CA2CEA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				64CC624214DC5FF3007B2BD3 /* worldoption.cpp */,
+				64CC624314DC5FF3007B2BD3 /* worldoption.h */,
 				219938280B8362E600DC54D7 /* world */,
 				2199385F0B8362E600DC54D7 /* renderer */,
 				219938660B8362E600DC54D7 /* network */,
@@ -1485,7 +1492,6 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Defcon" */;
 			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -1773,6 +1779,7 @@
 				49E968D91344C98900746827 /* net_socket.cpp in Sources */,
 				49E968DA1344C98900746827 /* net_thread_linux.cpp in Sources */,
 				49E968DB1344C98900746827 /* net_udp_packet.cpp in Sources */,
+				64CC624414DC5FF3007B2BD3 /* worldoption.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

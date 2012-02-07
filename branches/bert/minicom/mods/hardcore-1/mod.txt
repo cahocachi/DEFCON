@@ -1,0 +1,5 @@
+Name        Hardcore
+Version     1
+Author      bert_the_turtle
+Website     http://minicom.simamo.de
+Comment     Hardcore world rules. Everything possible set to resemble original Defcon, even bugs.

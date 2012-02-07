@@ -254,6 +254,8 @@
 		49F18D04134FE45900569ECF /* soundsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C01344C95500746827 /* soundsystem.cpp */; };
 		49F18D05134FE45900569ECF /* soundsystem_interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968C21344C95900746827 /* soundsystem_interface.cpp */; };
 		49F18D3A134FE5CA00569ECF /* sound_instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49E968B01344C92400746827 /* sound_instance.cpp */; };
+		64CC623314DC5FB6007B2BD3 /* worldoption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64CC623114DC5FB6007B2BD3 /* worldoption.cpp */; };
+		64CC623414DC5FB6007B2BD3 /* worldoption.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 64CC623214DC5FB6007B2BD3 /* worldoption.h */; };
 		64E3B72814C2E40E00B687D3 /* DMGMakefile in Resources */ = {isa = PBXBuildFile; fileRef = 64E3B72714C2E40E00B687D3 /* DMGMakefile */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		8EAE03FB0B9207FA00FAB174 /* macutil.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 8EAE03F90B9207FA00FAB174 /* macutil.h */; };
@@ -295,6 +297,7 @@
 				8EAE03FB0B9207FA00FAB174 /* macutil.h in Copy Frameworks into .app bundle */,
 				27F703980BA7639E00AF60B3 /* multiline_text.h in Copy Frameworks into .app bundle */,
 				27F9DA530BAA0BD200C120A6 /* splashscreen_renderer.h in Copy Frameworks into .app bundle */,
+				64CC623414DC5FB6007B2BD3 /* worldoption.h in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -684,6 +687,8 @@
 		49E968D21344C98900746827 /* net_socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_socket.cpp; sourceTree = "<group>"; };
 		49E968D31344C98900746827 /* net_thread_linux.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_thread_linux.cpp; sourceTree = "<group>"; };
 		49E968D41344C98900746827 /* net_udp_packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net_udp_packet.cpp; sourceTree = "<group>"; };
+		64CC623114DC5FB6007B2BD3 /* worldoption.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = worldoption.cpp; sourceTree = "<group>"; };
+		64CC623214DC5FB6007B2BD3 /* worldoption.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = worldoption.h; sourceTree = "<group>"; };
 		64E3B72714C2E40E00B687D3 /* DMGMakefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = DMGMakefile; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* DEFCON.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DEFCON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAE03F90B9207FA00FAB174 /* macutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macutil.h; sourceTree = "<group>"; };
@@ -851,6 +856,8 @@
 		219938280B8362E600DC54D7 /* world */ = {
 			isa = PBXGroup;
 			children = (
+				64CC623114DC5FB6007B2BD3 /* worldoption.cpp */,
+				64CC623214DC5FB6007B2BD3 /* worldoption.h */,
 				219938290B8362E600DC54D7 /* airbase.cpp */,
 				2199382A0B8362E600DC54D7 /* airbase.h */,
 				2199382B0B8362E600DC54D7 /* battleship.cpp */,
@@ -1562,7 +1569,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n";
+			shellScript = "#!/bin/sh \nif test -r ${SRCROOT}/../../main.dat; then\n  cp ${SRCROOT}/../../*.dat ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nelse\n  ln -sf ${SRCROOT}/../../data ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \nfi\n\ncp -r ${SRCROOT}/../../mods ${TARGET_BUILD_DIR}/DEFCON.app/Contents/Resources \n";
 		};
 		64F9AC5514C2E9C20004E398 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1812,6 +1819,7 @@
 				49E968D91344C98900746827 /* net_socket.cpp in Sources */,
 				49E968DA1344C98900746827 /* net_thread_linux.cpp in Sources */,
 				49E968DB1344C98900746827 /* net_udp_packet.cpp in Sources */,
+				64CC623314DC5FB6007B2BD3 /* worldoption.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

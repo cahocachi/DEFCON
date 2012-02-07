@@ -165,8 +165,10 @@ public:
 
     bool IsValidPlacement   ( int teamId, Fixed longitude, Fixed latitude, int objectType );    
     WorldObjectReference  GetNearestObject   ( int teamId, Fixed longitude, Fixed latitude, int objectType=-1, bool enemyTeam = false );
-    void LaunchNuke         ( int teamId, int objId, Fixed longitude, Fixed latitude, Fixed range );
+    bool LaunchNuke         ( int teamId, WorldObjectReference const & objId, Fixed longitude, Fixed latitude, Fixed range, WorldObjectReference const & targetId );
     void CreateExplosion    ( int teamId, Fixed longitude, Fixed latitude, Fixed intensity, int targetTeamId=-1 );
+
+    static bool CanLaunchAnywhere( int objectType );
 
     bool IsVisible          ( Fixed longitude, Fixed latitude, int teamId );
     void IsVisible          ( Fixed longitude, Fixed latitude, BoundedArray<bool> & visibility );
@@ -219,14 +221,14 @@ public:
     // between it and fromLongitude is minimal
     static void SanitiseTargetLongitude(  Fixed const &fromLongitude, Fixed &toLongitude );
 
-    // Fixed GetDistanceAcrossSeam     ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
-    // Fixed GetDistanceAcrossSeamSqd  ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
+    Fixed GetDistanceAcrossSeamBroken( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
+    Fixed GetDistanceAcrossSeamSqdBroken( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetDistance               ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam = false );
     Fixed GetDistanceSqd            ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude, bool ignoreSeam = false );
     Fixed GetSailDistance           ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     Fixed GetSailDistanceSlow       ( Fixed const &fromLongitude, Fixed const &fromLatitude, Fixed const &toLongitude, Fixed const &toLatitude );
     
-    // void  GetSeamCrossLatitude  ( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude );
+    void  GetSeamCrossLatitude  ( Vector2<Fixed> _to, Vector2<Fixed> _from, Fixed *longitude, Fixed *latitude );
     int   GetTerritoryOwner     ( int territoryId );
 
     int  GetUnitValue( int _type );

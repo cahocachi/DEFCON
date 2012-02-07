@@ -35,7 +35,7 @@ SetCompressor lzma
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
-!define MUI_FINISHPAGE_RUN "$INSTDIR\defcon.exe"
+;!define MUI_FINISHPAGE_RUN "$INSTDIR\defcon.exe"
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
@@ -86,6 +86,7 @@ Section "MainSection" SEC01
   File /nonfatal "..\..\ChangeLog.txt"
   File /nonfatal "..\..\*.dat"
   File /nonfatal /r "..\..\data"
+  File /nonfatal /r "..\..\mods"
 SectionEnd
 
 Section -AdditionalIcons

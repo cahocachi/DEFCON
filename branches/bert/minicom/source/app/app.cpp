@@ -1088,7 +1088,7 @@ const char *App::GetPrefsPath()
 #if defined(TARGET_OS_MACOSX)
 		"uk.co.introversion.defcon.prefs" 
 #else 
-#ifdef _DEBUG
+#ifndef _DEBUG
 		"preferences.txt"
 #else
 		"preferences_debug.txt"

@@ -15,6 +15,7 @@
 
 #include "world/world.h"
 #include "world/worldobject.h"
+#include "world/worldoption.h"
 #include "world/team.h"
 
 #include "interface/interface.h"
@@ -98,6 +99,8 @@ WorldObject::~WorldObject()
     m_states.EmptyAndDelete();
 }
 
+static WorldOption< int > s_reloadOnSpawn( "ReloadOnSpawn", 100 );
+
 void WorldObject::InitialiseTimers()
 {    
     if( m_type != TypeInvalid )
@@ -114,7 +117,7 @@ void WorldObject::InitialiseTimers()
         Fixed reloadTimer = m_states[ m_currentState ]->m_timeToReload;
         if( reloadTimer <m_states[ m_currentState ]->m_timeToPrepare )
         {
-            m_stateTimer = reloadTimer;
+            m_stateTimer = reloadTimer * Fixed::Hundredths( s_reloadOnSpawn );
         }
     }
 }
@@ -183,10 +186,11 @@ Fixed WorldObject::GetRadarRange ()
     return result;
 }
 
+static WorldOption< int > s_manualTargetShotLoss( "ManualTargetShotLoss", 0 );
 
 void WorldObject::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
 {
-    if( IsActionQueueable() )
+    if( s_manualTargetShotLoss || IsActionQueueable() )
     {
         m_stateTimer = m_states[m_currentState]->m_timeToReload;
     }
@@ -245,6 +249,9 @@ void WorldObject::SetState( int state )
     }
 }
 
+WorldOption< int > s_immediateRetarget( "ImmediateRetarget", 1 );
+WorldOption< int > s_invisibleTargetTracking( "InvisibleTargetTracking", 0 );
+WorldOption< int > s_impossibleTargetTracking( "ImpossibleTargetTracking", 0 );
 
 bool WorldObject::Update()
 {    
@@ -254,7 +261,12 @@ bool WorldObject::Update()
     if( m_targetObjectId >= 0 )
     {
         WorldObject *obj = world->GetWorldObject( m_targetObjectId );
-        if( m_teamId != TEAMID_SPECIALOBJECTS && ( !obj || !obj->m_visible[ m_teamId ] ) )
+        if( !s_invisibleTargetTracking && m_teamId != TEAMID_SPECIALOBJECTS && ( !obj || !obj->m_visible[ m_teamId ] ) )
+        {
+            m_targetObjectId = -1;
+        }
+
+        if( !s_impossibleTargetTracking && GetAttackOdds( obj->m_type ) <= 0 )
         {
             m_targetObjectId = -1;
         }
@@ -277,7 +289,7 @@ bool WorldObject::Update()
     }
 
     {
-        while( ( m_stateTimer <= 0 || !IsActionQueueable() ) && m_actionQueue.Size() > 0 )
+        while( ( m_stateTimer <= 0 || ( s_immediateRetarget && !IsActionQueueable() ) ) && m_actionQueue.Size() > 0 )
         {
             ActionOrder *action = m_actionQueue[0];
             Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );
