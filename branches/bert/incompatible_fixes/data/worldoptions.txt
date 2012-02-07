@@ -25,6 +25,14 @@
 
 BomberShowNukeTarget 1
 
+# If these settings are 1, the corresponding units can launch their nukes at
+# any spot in range; it they are 0, they can only fire at confirmed targets.
+# For plain Defcon feel, disable SubLaunchAnywhere.
+
+SubLaunchAnywhere 1
+BombeLaunchAnywhere 1
+SiloLaunchAnywhere 1
+
 ################
 # Plane landing
 ################

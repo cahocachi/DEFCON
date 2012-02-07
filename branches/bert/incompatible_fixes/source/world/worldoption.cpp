@@ -8,6 +8,8 @@
 
 #include "world/worldoption.h"
 
+#include "world/worldobject.h"
+
 #include "lib/math/fixed.h"
 #include <sstream>
 
@@ -155,6 +157,42 @@ bool WorldOption<char const *>::Set( char const * value )
     delete[] m_data;
     m_data = newStr( value );
     return true;
+}
+
+TempName::operator char const *() const
+{
+    return m_name;
+}
+
+static char const * TypeName( int type )
+{
+    switch( type )
+    {
+    case WorldObject::TypeSilo:          return "Silo";
+    case WorldObject::TypeNuke:          return "Nuke";
+    case WorldObject::TypeCity:          return "City";
+    case WorldObject::TypeExplosion:     return "Explosion";
+    case WorldObject::TypeSub:           return "Sub";
+    case WorldObject::TypeRadarStation:  return "Radar";
+    case WorldObject::TypeBattleShip:    return "Battleship";
+    case WorldObject::TypeAirBase:       return "Airbase";
+    case WorldObject::TypeFighter:       return "Fighter";
+    case WorldObject::TypeBomber:        return "Bomber";
+    case WorldObject::TypeCarrier:       return "Carrier";
+    case WorldObject::TypeTornado:       return "Tornado";
+    case WorldObject::TypeSaucer:        return "Saucer";
+    default: return "Unknown";
+    }
+}
+
+TempName::TempName( int type, char const * stem )
+{
+    snprintf( m_name, Len, "%s%s", TypeName( type ), stem );
+}
+
+TempName::TempName( int type1, int type2, char const * stem )
+{
+    snprintf( m_name, Len, "%s%s%s", TypeName( type1 ), TypeName( type2 ), stem );
 }
 
 #ifdef _DEBUG

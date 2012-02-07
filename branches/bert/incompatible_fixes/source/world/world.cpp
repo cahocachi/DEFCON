@@ -1084,10 +1084,16 @@ void World::RandomObjects( int teamId )
     AppDebugOut( "Placed objects in %dms", int(totalTime * 1000.0f) );
 }
 
-void World::LaunchNuke( int teamId, int objId, Fixed longitude, Fixed latitude, Fixed range )
+bool World::LaunchNuke( int teamId, WorldObjectReference const & objId, Fixed longitude, Fixed latitude, Fixed range, WorldObjectReference const & targetId )
 {
     WorldObject *from = GetWorldObject(objId);
     AppDebugAssert( from );
+
+    if( targetId < 0 && !CanLaunchAnywhere( from->m_type ) )
+    {
+        // can't launch at unmarked targets
+        return false;
+    }
 
     Nuke *nuke = new Nuke();
     nuke->m_teamId = teamId;
@@ -1182,6 +1188,8 @@ void World::LaunchNuke( int teamId, int objId, Fixed longitude, Fixed latitude, 
             }
         }
     }
+
+    return true;
 }
 
 WorldObjectReference World::GetNearestObject( int teamId, Fixed longitude, Fixed latitude, int objectType, bool enemyTeam )
@@ -1474,6 +1482,20 @@ void World::CreateExplosion ( int teamId, Fixed longitude, Fixed latitude, Fixed
     }
 }
 
+static WorldOption< int > s_subLaunchAnywhere( TempName( WorldObject::TypeSub, "LaunchAnywhere" ) , 0 );
+static WorldOption< int > s_bomberLaunchAnywhere( TempName( WorldObject::TypeBomber, "LaunchAnywhere" ), 1 );
+static WorldOption< int > s_siloLaunchAnywhere( TempName( WorldObject::TypeSilo, "LaunchAnywhere" ), 1 );
+
+bool World::CanLaunchAnywhere( int objectType )
+{
+    switch( objectType )
+    {
+    case WorldObject::TypeSub: return s_subLaunchAnywhere;
+    case WorldObject::TypeBomber: return s_bomberLaunchAnywhere;
+    case WorldObject::TypeSilo: return s_siloLaunchAnywhere;
+    default: return true;
+    }
+}
 
 void World::ObjectPlacement( int teamId, int unitType, Fixed longitude, Fixed latitude, int fleetId)
 {

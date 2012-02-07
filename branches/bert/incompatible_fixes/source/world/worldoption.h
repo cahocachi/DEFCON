@@ -51,5 +51,16 @@ template<> WorldOption<char const *>::WorldOption( char const * name, char const
 
 typedef WorldOption<char const *> WorldOptionString;
 
+class TempName
+{
+    enum { Len = 100 };
+    char m_name[Len];
+
+public:
+    operator char const *() const;
+    TempName( int type, char const * stem );
+    TempName( int type1, int type2, char const * stem );
+};
+
 #endif
 

@@ -3622,7 +3622,6 @@ void MapRenderer::HandleClickStateMenu()
     m_stateObjectId = -1;
 }
 
-
 void MapRenderer::HandleObjectAction( float _mouseX, float _mouseY, int underMouseId )
 {
     WorldObject *underMouse = g_app->GetWorld()->GetWorldObject(underMouseId);
@@ -3668,9 +3667,9 @@ void MapRenderer::HandleObjectAction( float _mouseX, float _mouseY, int underMou
                         canAction = false;
                     }
 
-                    if( obj->m_type == WorldObject::TypeSub )
+                    if( obj->m_type == WorldObject::TypeSub || obj->m_type == WorldObject::TypeBomber || obj->m_type == WorldObject::TypeSilo )
                     {
-                        canAction = false;
+                        canAction = World::CanLaunchAnywhere( obj->m_type );
                     }
 
                     if( obj->m_type == WorldObject::TypeCarrier ||

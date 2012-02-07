@@ -112,7 +112,7 @@ void Bomber::Action( WorldObjectReference const & targetObjectId, Fixed longitud
             if( m_stateTimer <= 0 &&
                 g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, longitude, latitude ) <= nukeRange * nukeRange )
             {                
-                g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, nukeRange );
+                g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, nukeRange, targetObjectId );
                 m_nukeTargetLongitude = 0;
                 m_nukeTargetLatitude = 0;
                 m_bombingRun = true;

@@ -70,10 +70,10 @@ void Sub::Action( WorldObjectReference const & targetObjectId, Fixed longitude, 
     {
         if( m_stateTimer <= 0 )
         {
-            g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, 90 );
+            bool success = g_app->GetWorld()->LaunchNuke( m_teamId, m_objectId, longitude, latitude, 90, targetObjectId );
 
             Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
-            if( fleet ) fleet->m_subNukesLaunched++;
+            if( fleet && success ) fleet->m_subNukesLaunched++;
 
         }
         else 
