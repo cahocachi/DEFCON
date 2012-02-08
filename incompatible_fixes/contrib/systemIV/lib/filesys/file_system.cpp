@@ -13,12 +13,15 @@ FileSystem *g_fileSystem = NULL;
 
 
 FileSystem::FileSystem()
+: m_writePath( NULL )
 {
 }
 
 
 FileSystem::~FileSystem()
 {
+    delete[] m_writePath;
+    ClearSearchPath();
 }
 
 
@@ -114,6 +117,18 @@ TextReader *FileSystem::GetTextReader(const char *_filename)
 
     if( !reader )
     {
+        reader = GetTextReaderDefault( _filename );
+    }
+
+    return reader;
+}
+
+TextReader *FileSystem::GetTextReaderDefault(const char *_filename)
+{
+	TextReader *reader = NULL;
+
+    if( !reader )
+    {
         if (DoesFileExist(_filename))
         {
             reader = new TextFileReader(_filename);	    
@@ -156,6 +171,18 @@ BinaryReader *FileSystem::GetBinaryReader(const char *_filename)
             reader = new BinaryFileReader(fullFilename);
         }
     }
+
+    if( !reader )
+    {
+        reader = GetBinaryReaderDefault( _filename );
+    }
+
+    return reader;
+}
+
+BinaryReader *FileSystem::GetBinaryReaderDefault(const char *_filename)
+{
+	BinaryReader *reader = NULL;
 
     if( !reader )
     {
@@ -361,12 +388,23 @@ LList<char *> *FileSystem::ListArchive(char *_dir, char *_filter, bool fullFilen
 
 void FileSystem::ClearSearchPath()
 {
-    m_searchPath.EmptyAndDelete();
+    m_searchPath.EmptyAndDeleteArray();
 }
 
 
-void FileSystem::AddSearchPath( char *_path )
+void FileSystem::AddSearchPath( char const *_path )
 {
     m_searchPath.PutData( newStr( _path ) );
 }
 
+void FileSystem::SetWritePath( char const * writePath )
+{
+    char const * newPath = newStr( writePath );
+    delete[] m_writePath;
+    m_writePath = newPath;
+    
+}
+char const * FileSystem::GetWritePath() const
+{
+    return m_writePath;
+}

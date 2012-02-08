@@ -27,7 +27,8 @@ class FileSystem
 {
 protected:
 	BTree <MemMappedFile *>	m_archiveFiles;
-    
+
+    char const * m_writePath;
 public:
     LList <char *> m_searchPath;                                                        // Use to set up mods
 
@@ -40,13 +41,18 @@ public:
     void            ParseArchives		( const char *_dir, const char *_filter );
 
 	TextReader		*GetTextReader	    ( const char *_filename );	                    // Caller must delete the TextReader when done
+	TextReader		*GetTextReaderDefault( const char *_filename );	                    // Ignores MODs
 	BinaryReader	*GetBinaryReader    ( const char *_filename );	                    // Caller must delete the BinaryReader when done
+	BinaryReader	*GetBinaryReaderDefault( const char *_filename );	                // Ignores MODs
 
     LList<char *>   *ListArchive        (char *_dir, char *_filter, bool fullFilename = true);
 
 
     void            ClearSearchPath     ();
-    void            AddSearchPath       ( char *_path );                                // Must be added in order
+    void            AddSearchPath       ( char const *_path );                          // Must be added in order
+
+    void            SetWritePath        ( char const * writePath );
+    char const *    GetWritePath        () const;
 };
 
 

@@ -762,6 +762,11 @@ char *DspBlueprint::GetParameter( int _param, float *_min, float *_max, float *_
 // Class SampleGroup
 //*****************************************************************************
 
+SampleGroup::~SampleGroup()
+{
+    m_samples.EmptyAndFree();
+}
+
 void SampleGroup::SetName( char *_name )
 {
     strcpy( m_name, _name );
