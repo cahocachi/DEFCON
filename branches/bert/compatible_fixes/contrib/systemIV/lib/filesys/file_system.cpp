@@ -13,12 +13,14 @@ FileSystem *g_fileSystem = NULL;
 
 
 FileSystem::FileSystem()
+: m_writePath( NULL )
 {
 }
 
 
 FileSystem::~FileSystem()
 {
+    delete[] m_writePath;
 }
 
 
@@ -389,8 +391,19 @@ void FileSystem::ClearSearchPath()
 }
 
 
-void FileSystem::AddSearchPath( char *_path )
+void FileSystem::AddSearchPath( char const *_path )
 {
     m_searchPath.PutData( newStr( _path ) );
 }
 
+void FileSystem::SetWritePath( char const * writePath )
+{
+    char const * newPath = newStr( writePath );
+    delete[] m_writePath;
+    m_writePath = newPath;
+    
+}
+char const * FileSystem::GetWritePath() const
+{
+    return m_writePath;
+}
