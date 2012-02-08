@@ -198,17 +198,25 @@ bool WindowManagerSDL::CreateWin(int _width, int _height, bool _windowed, int _c
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
 	bool setVideoMode = false;
-	
-	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, _zDepth );
 
  	if ( _antiAlias ) {		
- 		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 2 );
- 		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, 4 );
+        if( _antiAlias < 2 )
+        {
+            _antiAlias = 4;
+        }
+ 		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 1 );
+ 		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, _antiAlias );
+        if( _zDepth == 24 )
+        {
+            _zDepth = 32;
+        }
  	}
 	else {
 		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 0 );
 		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, 0 );
 	}
+
+	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, _zDepth );
 	
 	bpp = SDL_VideoModeOK(m_screenW, m_screenH, _colourDepth, flags);
 	if (!bpp)
@@ -216,20 +224,31 @@ bool WindowManagerSDL::CreateWin(int _width, int _height, bool _windowed, int _c
 	
 	setVideoMode = SDL_SetVideoMode(m_screenW, m_screenH, bpp, flags);
 
-	// Fall back to not antialiased
-	if (!setVideoMode && _antiAlias) {
-		_antiAlias = 0;
-		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 0 );
-		SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, 0 );
-		setVideoMode = SDL_SetVideoMode(m_screenW, m_screenH, bpp, flags);
-	}
-	
 	// Fall back to a 16 bit Z-Buffer
 	if (!setVideoMode && _zDepth != 16) {
 		AppDebugOut ( "SDL_SetVideoMode failed with '%s'. Switching to 16-bit Z-Buffer.\n", SDL_GetError() );
 		_zDepth = 16;
 		SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, _zDepth );
 		setVideoMode = SDL_SetVideoMode(m_screenW, m_screenH, bpp, flags);
+	}
+	
+	// Fall back to not antialiased
+	if (!setVideoMode && _antiAlias) {
+        if( _antiAlias > 2 )
+        {
+            _antiAlias = 2;
+            SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, 2 );
+            setVideoMode = SDL_SetVideoMode(m_screenW, m_screenH, bpp, flags);
+        }
+
+        if( !setVideoMode )
+        {
+            _antiAlias = 0;
+            AppDebugOut ( "SDL_SetVideoMode failed with '%s'. Switching to non-antialiased.\n", SDL_GetError() );
+            SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 0 );
+            SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, 0 );
+            setVideoMode = SDL_SetVideoMode(m_screenW, m_screenH, bpp, flags);
+        }
 	}
 	
 	if (!setVideoMode)
