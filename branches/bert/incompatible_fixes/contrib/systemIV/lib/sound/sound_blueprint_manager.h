@@ -138,6 +138,8 @@ public:
     LList   <char *> m_samples;
 
 public:
+    ~SampleGroup();
+
     void    SetName         ( char *_name );
     void    AddSample       ( char *_sample );
 };

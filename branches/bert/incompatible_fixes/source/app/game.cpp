@@ -648,6 +648,10 @@ void Game::ResetGame()
 
 // ============================================================================
 
+GameOption::~GameOption()
+{
+    m_subOptions.EmptyAndFree();
+}
 
 void GameOption::Copy( GameOption *_option )
 {

@@ -92,6 +92,8 @@ public:
     
     LList   <char *> m_subOptions;
 
+    ~GameOption();
+
     void    Copy( GameOption *_option );
 
 	static char* TranslateValue( char *_value );
