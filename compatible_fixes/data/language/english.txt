@@ -145,6 +145,9 @@ dialog_refreshrate_X                *R Hz
 dialog_resolution_W_H               *W x *H
 # W = Screen Width, H = Screen Height
 dialog_antialias                    Use Anti-Aliasing
+dialog_yes_2x                       Yes(2x)
+dialog_yes_4x                       Yes(4x)
+dialog_yes_8x                       Yes(8x)
 
 dialog_networkoptions               Network
 dialog_networkclientport            Client Port
