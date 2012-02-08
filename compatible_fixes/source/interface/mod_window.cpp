@@ -343,6 +343,7 @@ ModWindow::ModWindow()
 ModWindow::~ModWindow()
 {
     delete m_image;
+    delete m_scrollbar;
 }
 
 
