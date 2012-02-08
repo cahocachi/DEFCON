@@ -27,7 +27,8 @@ class FileSystem
 {
 protected:
 	BTree <MemMappedFile *>	m_archiveFiles;
-    
+
+    char const * m_writePath;
 public:
     LList <char *> m_searchPath;                                                        // Use to set up mods
 
@@ -48,7 +49,10 @@ public:
 
 
     void            ClearSearchPath     ();
-    void            AddSearchPath       ( char *_path );                                // Must be added in order
+    void            AddSearchPath       ( char const *_path );                          // Must be added in order
+
+    void            SetWritePath        ( char const * writePath );
+    char const *    GetWritePath        () const;
 };
 
 
