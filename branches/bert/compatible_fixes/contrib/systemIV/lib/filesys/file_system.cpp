@@ -114,6 +114,18 @@ TextReader *FileSystem::GetTextReader(const char *_filename)
 
     if( !reader )
     {
+        reader = GetTextReaderDefault( _filename );
+    }
+
+    return reader;
+}
+
+TextReader *FileSystem::GetTextReaderDefault(const char *_filename)
+{
+	TextReader *reader = NULL;
+
+    if( !reader )
+    {
         if (DoesFileExist(_filename))
         {
             reader = new TextFileReader(_filename);	    
@@ -156,6 +168,18 @@ BinaryReader *FileSystem::GetBinaryReader(const char *_filename)
             reader = new BinaryFileReader(fullFilename);
         }
     }
+
+    if( !reader )
+    {
+        reader = GetBinaryReaderDefault( _filename );
+    }
+
+    return reader;
+}
+
+BinaryReader *FileSystem::GetBinaryReaderDefault(const char *_filename)
+{
+	BinaryReader *reader = NULL;
 
     if( !reader )
     {
