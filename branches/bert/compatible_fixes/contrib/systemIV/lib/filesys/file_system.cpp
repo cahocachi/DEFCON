@@ -21,6 +21,7 @@ FileSystem::FileSystem()
 FileSystem::~FileSystem()
 {
     delete[] m_writePath;
+    ClearSearchPath();
 }
 
 
@@ -387,7 +388,7 @@ LList<char *> *FileSystem::ListArchive(char *_dir, char *_filter, bool fullFilen
 
 void FileSystem::ClearSearchPath()
 {
-    m_searchPath.EmptyAndDelete();
+    m_searchPath.EmptyAndDeleteArray();
 }
 
 
