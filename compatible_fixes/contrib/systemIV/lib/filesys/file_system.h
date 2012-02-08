@@ -40,7 +40,9 @@ public:
     void            ParseArchives		( const char *_dir, const char *_filter );
 
 	TextReader		*GetTextReader	    ( const char *_filename );	                    // Caller must delete the TextReader when done
+	TextReader		*GetTextReaderDefault( const char *_filename );	                    // Ignores MODs
 	BinaryReader	*GetBinaryReader    ( const char *_filename );	                    // Caller must delete the BinaryReader when done
+	BinaryReader	*GetBinaryReaderDefault( const char *_filename );	                // Ignores MODs
 
     LList<char *>   *ListArchive        (char *_dir, char *_filter, bool fullFilename = true);
 

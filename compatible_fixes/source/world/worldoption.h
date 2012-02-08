@@ -4,6 +4,8 @@
 
 #include "lib/tosser/btree.h"
 
+class TextReader;
+
 class WorldOptionBase
 {
 public:
@@ -16,7 +18,7 @@ public:
 protected:
     char const * m_name;
     
-    static void LoadFile( char const * fullPath );
+    static void Load( TextReader * reader );
 private:
     static BTree< WorldOptionBase * > & GetWorldOptions();
     

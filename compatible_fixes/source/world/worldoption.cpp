@@ -49,23 +49,20 @@ void WorldOptionBase::LoadAll()
     }
 
     // go through search path in reverse order, later changes overide earlier ones
-    LoadFile( s_optionPath );
+    Load( g_fileSystem->GetTextReaderDefault( s_optionPath )  );
     for( int i = g_fileSystem->m_searchPath.Size()-1; i >= 0 ; --i )
     {
         char * fullPath = ConcatPaths( g_fileSystem->m_searchPath[i], s_optionPath, NULL );
-        LoadFile( fullPath );
+        if( !DoesFileExist( fullPath ) )
+        {
+            Load( new TextFileReader( fullPath ) );
+        }
         delete[] fullPath;
     }
 }
 
-void WorldOptionBase::LoadFile( char const * filename )
+void WorldOptionBase::Load( TextReader * in )
 {
-    if ( !DoesFileExist(filename) )
-    {
-        return;
-    }
-
-    TextReader * in = new TextFileReader( filename );
     if( in && in->IsOpen() )
     {
         while( in->ReadLine() )
@@ -89,12 +86,12 @@ void WorldOptionBase::LoadFile( char const * filename )
             {
                 if( !opt->Set( value ) )
                 {
-                    AppDebugOut( "Reading worldoptions from %s:%d: Parsing value '%s' failed.\n", filename, in->m_lineNum, value );
+                    AppDebugOut( "Reading worldoptions from %s:%d: Parsing value '%s' failed.\n", in->GetFilename(), in->m_lineNum, value );
                 }
             }
             else
             {
-                AppDebugOut( "Reading worldoptions from %s:%d: Option '%s' not found.\n", filename, in->m_lineNum, param );
+                AppDebugOut( "Reading worldoptions from %s:%d: Option '%s' not found.\n", in->GetFilename(), in->m_lineNum, param );
             }
         }
     }
