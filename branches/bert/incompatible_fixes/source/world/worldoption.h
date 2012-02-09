@@ -35,8 +35,8 @@ public:
 
     virtual ~WorldOption(){}
 
-    T const & Get(){ return m_data; }
-    operator const T &() { return m_data; }
+    T const & Get() const { return m_data; }
+    operator const T &() const { return m_data; }
 private:
     virtual void Reset(){ m_data = m_default; }
     virtual bool Set( char const * value );
@@ -62,6 +62,7 @@ public:
     operator char const *() const;
     TempName( int type, char const * stem );
     TempName( int type1, int type2, char const * stem );
+    TempName( int type, char const * stem1, char const * stem2 );
 };
 
 #endif

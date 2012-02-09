@@ -21,12 +21,15 @@
 #include "world/nuke.h"
 #include "world/worldoption.h"
 
+static UnitSettings s_siloSettings( WorldObject::TypeSilo, 25, 10 );
+static StateSettings s_siloICBM( WorldObject::TypeSilo, "ICBM", 120, 120, 10, Fixed::MAX, true, 10, 1 );
+static StateSettings s_siloAA( WorldObject::TypeSilo, "AA", 340, 20, 10, 30, true );
 
 Silo::Silo()
 :   WorldObject(),
     m_numNukesLaunched(0)
 {
-    SetType( TypeSilo );
+    Setup( TypeSilo, s_siloSettings );
 
     strcpy( bmpImageFilename, "graphics/sam.bmp" );
 
@@ -34,12 +37,9 @@ Silo::Silo()
     m_selectable = true;
 
     m_currentState = 1;
-    m_life = 25;
 
-    m_nukeSupply = 10;
-
-    AddState( LANGUAGEPHRASE("state_silonuke"), 120, 120, 10, Fixed::MAX, true, 10, 1 );         
-    AddState( LANGUAGEPHRASE("state_airdefense"), 340, 20, 10, 30, true );
+    AddState( LANGUAGEPHRASE("state_silonuke"), s_siloICBM );
+    AddState( LANGUAGEPHRASE("state_airdefense"), s_siloAA );
 
     InitialiseTimers();
 }

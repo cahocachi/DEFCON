@@ -16,22 +16,21 @@
 #include "world/team.h"
 #include "world/city.h"
 
+static MovingUnitSettings s_saucerSettings( WorldObject::TypeSaucer, 50, 20, 10, 200000 );
+static StateSettings s_saucerFlight( WorldObject::TypeSaucer, "Flight", 0, 0, 10, 180, true );
+static StateSettings s_saucerAttack( WorldObject::TypeSaucer, "Attack", 0, 0, 10, 180, true );
+
 Saucer::Saucer()
 :   MovingObject(),
     m_leavingWorld(false)
 {
-    SetType( TypeSaucer );
+    Setup( TypeSaucer, s_saucerSettings );
 
     strcpy( bmpImageFilename, "graphics/saucer.bmp" );
 
     m_radarRange = 10;
-    m_speed = Fixed::Hundredths(20);
-    m_turnRate = Fixed::Hundredths(10);
     m_selectable = true;
     m_maxHistorySize = 10;
-    m_range = 2000;
-
-    m_life = 50;
 
     m_explosionSize = Fixed::Hundredths(5);
     m_damageTimer = 20;
@@ -39,8 +38,8 @@ Saucer::Saucer()
 
     m_movementType = MovementTypeAir;
 
-    AddState( LANGUAGEPHRASE("state_flight"), 0, 0, 10, 180, true );
-    AddState( LANGUAGEPHRASE("state_attack"), 0, 0, 10, 180, true );
+    AddState( LANGUAGEPHRASE("state_flight"), s_saucerFlight );
+    AddState( LANGUAGEPHRASE("state_attack"), s_saucerAttack );
 
     InitialiseTimers();
 }

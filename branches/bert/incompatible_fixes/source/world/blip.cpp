@@ -16,6 +16,9 @@
 #include "world/blip.h"
 #include "world/fleet.h"
 
+static MovingUnitSettings s_blipSettings( WorldObject::TypeBlip, 1, 400, 4000 );
+static StateSettings s_blipBlip( WorldObject::TypeBlip, "", 0, 0, 0, 0, false, -1, -1 );
+
 
 Blip::Blip()
 :   MovingObject(),
@@ -26,6 +29,8 @@ Blip::Blip()
     m_pathCheckTimer(0),
     m_targetNodeId(-1)
 {
+    Setup( TypeBlip, s_blipSettings );
+
     m_range = Fixed::MAX;
     m_speed = 4;
     m_turnRate = 40;
@@ -36,7 +41,7 @@ Blip::Blip()
     
     strcpy( bmpImageFilename, "graphics/blip.bmp" );
    
-    AddState("Blip", 0, 0, 0, 0, false, -1, -1 );
+    AddState("Blip", s_blipBlip );
 }
 
 bool Blip::Update()

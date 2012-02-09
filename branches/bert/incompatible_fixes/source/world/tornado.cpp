@@ -20,12 +20,15 @@
 #include "world/team.h"
 #include "world/nuke.h"
 
+static MovingUnitSettings s_tornadoSettings( WorldObject::TypeTornado, 1, 10, 4 );
+static StateSettings s_tornadoTornado( WorldObject::TypeTornado, "", 0, 0, 5, Fixed::MAX, false );
+
 
 Tornado::Tornado()
 :   MovingObject(),
     m_targetObjectId(-1)
 {
-    SetType( TypeTornado );
+    Setup( TypeTornado, s_tornadoSettings );
 
     strcpy( bmpImageFilename, "graphics/tornado.bmp" );
 
@@ -37,7 +40,7 @@ Tornado::Tornado()
     m_range = 600;
 	m_angle = 0.0f;
     m_movementType = MovementTypeAir;
-	AddState( "WOOSH", 0, 0, 5, Fixed::MAX, false );
+	AddState( "WOOSH", s_tornadoTornado );
 
     InitialiseTimers();
 }
