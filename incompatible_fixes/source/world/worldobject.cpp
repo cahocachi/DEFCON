@@ -266,7 +266,7 @@ bool WorldObject::Update()
             m_targetObjectId = -1;
         }
 
-        if( !s_impossibleTargetTracking && GetAttackOdds( obj->m_type ) <= 0 )
+        if( !s_impossibleTargetTracking && ( !obj || GetAttackOdds( obj->m_type ) <= 0 ) )
         {
             m_targetObjectId = -1;
         }
