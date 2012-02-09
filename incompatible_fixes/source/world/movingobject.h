@@ -6,6 +6,15 @@
 
 class Blip;
 
+struct MovingUnitSettings: public UnitSettings
+{
+    MovingUnitSettings( int type, int life, Fixed const & speed, Fixed const & turnRate, Fixed const & fuelRange = Fixed::MAX, int nukeSupply = 0 );
+    
+    WorldOption< Fixed > m_speed;
+    WorldOption< Fixed > m_turnRate;
+    WorldOption< Fixed > m_fuelRange;
+};
+
 class MovingObject : public WorldObject
 {
 protected:
@@ -43,6 +52,8 @@ public:
 public:
     MovingObject();
     ~MovingObject();
+
+    void            Setup           ( int type, MovingUnitSettings const & settings );
 
     void            InitialiseTimers();
 

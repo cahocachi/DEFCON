@@ -17,26 +17,24 @@
 #include "world/gunfire.h"
 #include "world/fleet.h"
 
+static MovingUnitSettings s_battleshipSettings( WorldObject::TypeBattleShip, 3, 3, 1 );
+static StateSettings s_battleshipAttack( WorldObject::TypeBattleShip, "", 60, 20, 10, 10, true, -1, 3 );
 
 BattleShip::BattleShip()
 :   MovingObject()
 {
-    SetType( TypeBattleShip );
+    Setup( TypeBattleShip, s_battleshipSettings );
 
     strcpy( bmpImageFilename, "graphics/battleship.bmp" );
     
     m_radarRange = 10;
-    m_speed = Fixed::Hundredths(3);
-    m_turnRate = Fixed::Hundredths(1);
     m_selectable = true;  
     m_maxHistorySize = 10;
-    m_range = Fixed::MAX;
     m_movementType = MovementTypeSea;    
-    m_life = 3;
 
     m_ghostFadeTime = 150;
 
-    AddState( LANGUAGEPHRASE("state_attack"), 60, 20, 10, 10, true, -1, 3 );
+    AddState( LANGUAGEPHRASE("state_attack"), s_battleshipAttack );
 
     InitialiseTimers();
 }

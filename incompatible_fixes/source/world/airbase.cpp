@@ -19,27 +19,29 @@
 #include "world/city.h"
 #include "world/nuke.h"
 
+static UnitSettings s_airBaseSettings( WorldObject::TypeAirBase, 15, 10 );
+static StateSettings s_airBaseFighter( WorldObject::TypeAirBase, "Fighter", 120, 120, 10, 45, true, 5, 3 );
+static StateSettings s_airBaseBomber( WorldObject::TypeAirBase, "Bomber", 120, 120, 10, 140, true, 5, 3 );
 
+static WorldOption< int > s_airBaseMaxFighters( TempName( WorldObject::TypeAirBase, "MaxFighters" ), 10 );
+static WorldOption< int > s_airBaseMaxBombers( TempName( WorldObject::TypeAirBase, "MaxBombers" ), 10 );
 
 AirBase::AirBase()
 :   WorldObject(),
     m_fighterRegenTimer(1024)
 {
-    SetType( TypeAirBase );
+    Setup( TypeAirBase, s_airBaseSettings );
     
     strcpy( bmpImageFilename, "graphics/airbase.bmp" );
 
     m_radarRange = 20;
     m_selectable = false;  
 
-    m_life = 15;
-    m_nukeSupply = 10;
+    m_maxFighters = s_airBaseMaxFighters;
+    m_maxBombers = s_airBaseMaxBombers;
 
-    m_maxFighters = 10;
-    m_maxBombers = 10;
-
-    AddState( LANGUAGEPHRASE("state_fighterlaunch"), 120, 120, 10, 45, true, 5, 3 );
-    AddState( LANGUAGEPHRASE("state_bomberlaunch"), 120, 120, 10, 140, true, 5, 3 );
+    AddState( LANGUAGEPHRASE("state_fighterlaunch"), s_airBaseFighter );
+    AddState( LANGUAGEPHRASE("state_bomberlaunch"), s_airBaseBomber );
 
     InitialiseTimers();
 }

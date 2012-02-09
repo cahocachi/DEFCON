@@ -178,6 +178,8 @@ static char const * TypeName( int type )
     case WorldObject::TypeCarrier:       return "Carrier";
     case WorldObject::TypeTornado:       return "Tornado";
     case WorldObject::TypeSaucer:        return "Saucer";
+    case WorldObject::TypeBlip:          return "Blip";
+    case WorldObject::TypeGunFire:       return "Gunfire";
     default: return "Unknown";
     }
 }
@@ -190,6 +192,11 @@ TempName::TempName( int type, char const * stem )
 TempName::TempName( int type1, int type2, char const * stem )
 {
     snprintf( m_name, Len, "%s%s%s", TypeName( type1 ), TypeName( type2 ), stem );
+}
+
+TempName::TempName( int type, char const * stem1, char const * stem2 )
+{
+    snprintf( m_name, Len, "%s%s%s", TypeName( type ), stem1, stem2 );
 }
 
 #ifdef _DEBUG

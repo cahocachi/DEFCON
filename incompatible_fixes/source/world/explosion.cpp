@@ -9,7 +9,7 @@
 #include "world/team.h"
 #include "world/explosion.h"
 
-
+static UnitSettings s_explosionSettings( WorldObject::TypeExplosion, 1 );
 
 Explosion::Explosion()
 :   WorldObject(),
@@ -18,7 +18,7 @@ Explosion::Explosion()
     m_underWater(false),
     m_targetTeamId(-1)
 {
-    SetType( TypeExplosion );
+    Setup( TypeExplosion, s_explosionSettings );
 
     strcpy( bmpImageFilename, "graphics/explosion.bmp" );
 }

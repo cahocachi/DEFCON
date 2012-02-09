@@ -36,6 +36,23 @@
 #include "world/saucer.h"
 #include "world/fleet.h"
 
+UnitSettings::UnitSettings( int type, int life, int nukeSupply )
+: m_life( TempName( type, "Life" ), life ),
+  m_nukeSupply( TempName( type, "NukeSupply" ), nukeSupply )
+{
+}
+
+StateSettings::StateSettings( int type, char const * state, Fixed prepareTime, Fixed reloadTime, Fixed radarRange, 
+                              Fixed actionRange, bool isActionable, int numTimesPermitted, int defconPermitted )
+  : m_prepareTime( TempName( type, state, "PrepareTime" ), prepareTime ),
+    m_reloadTime( TempName( type, state, "ReloadTime" ), reloadTime ),
+    m_radarRange( TempName( type, state, "RadarRange" ), radarRange ),
+    m_actionRange( TempName( type, state, "ActionRange" ), actionRange ),
+    m_isActionable( TempName( type, state, "IsActionable" ), isActionable ? 1 : 0 ),
+    m_numTimesPermitted( TempName( type, state, "NumTimesPermitted" ), numTimesPermitted ),
+    m_defconPermitted( TempName( type, state, "DefconPermitted" ), defconPermitted )
+{
+}
 
 WorldObject::WorldObject()
 :   m_teamId(-1),
@@ -122,9 +139,19 @@ void WorldObject::InitialiseTimers()
     }
 }
 
+/*
 void WorldObject::SetType( int type )
 {
     m_type = type;
+}
+*/
+
+void WorldObject::Setup( int type, UnitSettings const & settings )
+{
+    m_type = type;
+
+    m_life = settings.m_life;
+    m_nukeSupply = settings.m_nukeSupply;
 }
 
 void WorldObject::SetTeamId( int teamId )
@@ -143,18 +170,17 @@ bool WorldObject::IsHiddenFrom()
     return false;
 }
 
-void WorldObject::AddState( char *stateName, Fixed prepareTime, Fixed reloadTime, Fixed radarRange, 
-                            Fixed actionRange, bool isActionable, int numTimesPermitted, int defconPermitted )
+void WorldObject::AddState( char *stateName, StateSettings const & settings )
 {
     WorldObjectState *state = new WorldObjectState();
     state->m_stateName = strdup( stateName);
-    state->m_timeToPrepare = prepareTime;
-    state->m_timeToReload = reloadTime;
-    state->m_radarRange = radarRange;
-    state->m_actionRange = actionRange;
-    state->m_isActionable = isActionable;
-    state->m_numTimesPermitted = numTimesPermitted;
-    state->m_defconPermitted = defconPermitted;
+    state->m_timeToPrepare = settings.m_prepareTime;
+    state->m_timeToReload = settings.m_reloadTime;
+    state->m_radarRange = settings.m_radarRange;
+    state->m_actionRange = settings.m_actionRange;
+    state->m_isActionable = settings.m_isActionable;
+    state->m_numTimesPermitted = settings.m_numTimesPermitted;
+    state->m_defconPermitted = settings.m_defconPermitted;
 
     Fixed gameScale = World::GetGameScale();
     state->m_radarRange /= gameScale;
