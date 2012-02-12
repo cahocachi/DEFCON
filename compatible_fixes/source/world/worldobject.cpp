@@ -260,6 +260,8 @@ bool WorldObject::Update()
         if( m_actionQueue.Size() > 0 )
         {
             ActionOrder *action = m_actionQueue[0];
+            m_actionQueue.RemoveData(0);
+
             Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );
 
             if( action->m_targetObjectId == -1 )
@@ -288,7 +290,6 @@ bool WorldObject::Update()
                     }
                 }
             }
-            m_actionQueue.RemoveData(0);
             delete action;
         }
     }
