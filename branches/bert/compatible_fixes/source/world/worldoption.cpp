@@ -14,6 +14,8 @@
 WorldOptionBase::WorldOptionBase( char const * name )
 : m_name( newStr( name ) )
 {
+    AppDebugAssert( !GetWorldOptions().GetData( name ) );
+
     GetWorldOptions().PutData( m_name, this );
 }
 
@@ -124,9 +126,17 @@ bool WorldOption<int>::Set( char const * value )
 template<>
 bool WorldOption<Fixed>::Set( char const * value )
 {
-    char * end = NULL;
-    m_data = Fixed::FromDouble( strtod( value, &end ) );
-    return end && *end == 0;
+    if( 0 == strncmp( "MAX", value, 3 ) )
+    {
+        m_data = Fixed::MAX;
+        return true;
+    }
+    else
+    {
+        char * end = NULL;
+        m_data = Fixed::FromDouble( strtod( value, &end ) );
+        return end && *end == 0;
+    }
 }
 
 template<> WorldOption<char const *>::~WorldOption()
