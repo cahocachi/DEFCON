@@ -35,8 +35,8 @@ public:
 
     virtual ~WorldOption(){}
 
-    T const & Get(){ return m_data; }
-    operator const T &() { return m_data; }
+    T const & Get() const { return m_data; }
+    operator const T &() const { return m_data; }
 private:
     virtual void Reset(){ m_data = m_default; }
     virtual bool Set( char const * value );
