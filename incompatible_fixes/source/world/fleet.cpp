@@ -88,7 +88,7 @@ void Fleet::Update()
                 slowestSpeed = s_battleshipSettings.m_speed;
             }
         }
-        slowestSpeed *= speedDropoff;
+        slowestSpeed *= speedDropoff * Fixed::Hundredths(1);
         slowestSpeed /= World::GetGameScale();
         for( int i = 0; i < m_fleetMembers.Size(); ++i )
         {
