@@ -119,24 +119,50 @@ template<>
 bool WorldOption<int>::Set( char const * value )
 {
     char * end = NULL;
-    m_data = strtol( value, &end, 10 );
-    return end && *end == 0;
+    int parsed = strtol( value, &end, 10 );
+    bool ret = end && ( isblank(*end) ||  *end == 0 );
+    if( ret )
+    {
+#ifdef _DEBUG
+        if( m_data != parsed )
+        {
+            AppDebugOut( "Readig worldoptions: changed %s from %d to %d.\n", m_name, m_data, parsed );
+        }
+#endif
+        m_data = parsed;
+    }
+
+    return ret;
 }
 
 template<>
 bool WorldOption<Fixed>::Set( char const * value )
 {
+    Fixed parsed;
+    bool ret = false;
     if( 0 == strncmp( "MAX", value, 3 ) )
     {
-        m_data = Fixed::MAX;
-        return true;
+        parsed = Fixed::MAX;
+        ret = true;
     }
     else
     {
         char * end = NULL;
-        m_data = Fixed::FromDouble( strtod( value, &end ) );
-        return end && *end == 0;
+        parsed = Fixed::FromDouble( strtod( value, &end ) );
+        ret = end && ( isblank(*end) ||  *end == 0 );
     }
+    if( ret )
+    {
+#ifdef _DEBUG
+        if( m_data != parsed )
+        {
+            AppDebugOut( "Readig worldoptions: changed %s from %fL to %fL.\n", m_name, m_data.DoubleValue(), parsed.DoubleValue() );
+        }
+#endif
+        m_data = parsed;
+    }
+
+    return ret;
 }
 
 template<> WorldOption<char const *>::~WorldOption()
