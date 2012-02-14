@@ -34,7 +34,7 @@ AirBase::AirBase()
     
     strcpy( bmpImageFilename, "graphics/airbase.bmp" );
 
-    m_radarRange = 20;
+    // m_radarRange = 20;
     m_selectable = false;  
 
     m_maxFighters = s_airBaseMaxFighters;

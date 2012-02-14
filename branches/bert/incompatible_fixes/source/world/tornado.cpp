@@ -32,7 +32,7 @@ Tornado::Tornado()
 
     strcpy( bmpImageFilename, "graphics/tornado.bmp" );
 
-    m_radarRange = 0;
+    // m_radarRange = 0;
     m_speed = Fixed::Hundredths(10);
     m_turnRate = Fixed::Hundredths(4);
     m_selectable = true;

@@ -33,7 +33,7 @@ Silo::Silo()
 
     strcpy( bmpImageFilename, "graphics/sam.bmp" );
 
-    m_radarRange = 20;
+    // m_radarRange = 20;
     m_selectable = true;
 
     m_currentState = 1;

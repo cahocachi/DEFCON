@@ -38,7 +38,7 @@ Carrier::Carrier()
     strcpy( bmpFighterMarkerFilename, "graphics/fighter.bmp" );
     strcpy( bmpBomberMarkerFilename, "graphics/bomber.bmp" );
 
-    m_radarRange = 15;
+    // m_radarRange = 15;
     m_selectable = false;  
     m_movementType = MovementTypeSea;
     m_maxHistorySize = 10;

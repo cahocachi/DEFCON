@@ -33,7 +33,7 @@ Sub::Sub()
 
     strcpy( bmpImageFilename, "graphics/sub.bmp" );
 
-    m_radarRange = 0;
+    // m_radarRange = 0;
     m_selectable = true;  
     m_maxHistorySize = 10;
     m_movementType = MovementTypeSea;
