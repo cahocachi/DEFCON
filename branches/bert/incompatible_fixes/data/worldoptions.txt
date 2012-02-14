@@ -61,6 +61,26 @@ PlaneLandingInterceptCarriers 1
 ReloadOnSpawn 100
 
 ################
+# Automatisms
+################
+
+# Sometimes, when units are left to their own devices, they will do suboptimal things
+# that need to be correctyed by micromanagement.
+
+# Bombers only fire at targets while landing if this is set to 1.
+
+BomberFireWhileLanding 1
+
+# Fighters always look for targets if this is 1, otherwise only after they reach a waypoint.
+
+FighterAlwaysAutoTarget 1
+
+# If ImpossibleTargetTracking is 1, units will happily fire and follow targets they can't
+# possibly harm.
+
+ImpossibleTargetTracking 0
+
+################
 # Bugs
 ################
 
@@ -95,20 +115,8 @@ ManualTargetShotLoss 0
 
 SiloAllowManualTarget 1
 
-# Bombers only fire at targets while landing if this is set to 1.
-
-BomberFireWhileLanding 1
-
-# Fighters always look for targets if this is 1, otherwise only after they reach a waypoint.
-
-FighterAlwaysAutoTarget 1
-
 # If InvisibleTargetTracking is 1, sometimes invisible objects will be tracked by former
 # attackers and be visible in the orders view.
 
 InvisibleTargetTracking 0
 
-# If ImpossibleTargetTracking is 1, units will happily fire and follow targets they can't
-# possibly harm.
-
-ImpossibleTargetTracking 0
