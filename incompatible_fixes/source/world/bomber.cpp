@@ -36,7 +36,7 @@ Bomber::Bomber()
 
     strcpy( bmpImageFilename, "graphics/bomber.bmp" );
 
-    m_radarRange = 5;
+    // m_radarRange = 5;
     m_selectable = true;
     m_maxHistorySize = 10;
 

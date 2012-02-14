@@ -35,7 +35,7 @@ City::City()
     
     strcpy( bmpImageFilename, "graphics/city.bmp" );
 
-    m_radarRange = 0;
+    // m_radarRange = 0;
     AddState( "City", s_cityCity );
 }
 

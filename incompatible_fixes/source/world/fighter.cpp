@@ -29,7 +29,7 @@ Fighter::Fighter()
 
     strcpy( bmpImageFilename, "graphics/fighter.bmp" );
 
-    m_radarRange = 5;
+    // m_radarRange = 5;
     m_selectable = true;
     m_maxHistorySize = 10;
 

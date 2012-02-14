@@ -138,7 +138,7 @@ public:
 
 protected:
     char    bmpImageFilename[256];
-    Fixed   m_radarRange;
+    // Fixed   m_radarRange;
     Fixed   m_retargetTimer;            // object is allowed to search for a new target when this = 0
     
 public:
@@ -152,7 +152,7 @@ public:
     void                SetTeamId       ( int teamId );
     void                SetPosition     ( Fixed longitude, Fixed latitude );
     
-    void                SetRadarRange   ( Fixed radarRange );
+    // void                SetRadarRange   ( Fixed radarRange );
     virtual Fixed       GetRadarRange   ();
 
     void                AddState        ( char *stateName, StateSettings const & settings );

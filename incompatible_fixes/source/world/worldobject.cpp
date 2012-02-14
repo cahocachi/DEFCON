@@ -60,7 +60,7 @@ WorldObject::WorldObject()
     m_longitude(0),
     m_latitude(0),
     m_type(TypeInvalid),
-    m_radarRange(0),
+    // m_radarRange(0),
     m_life(1),
 	m_lastHitByTeamId( -1 ),
     m_selectable(false),
@@ -127,7 +127,7 @@ void WorldObject::InitialiseTimers()
         m_nukeCountTimer = frand(5.0f);
         m_nukeCountTimer += (double)GetHighResTime();
 
-        m_radarRange /= World::GetGameScale();       
+        // m_radarRange /= World::GetGameScale();       
 
         // don't fire right after launch (the test limits this to those
         // object types that fire guns. No special reason for that.)
@@ -627,11 +627,12 @@ char *WorldObject::GetTypeName (int _type)
     return "?";
 }
 
-
+/*
 void WorldObject::SetRadarRange ( Fixed radarRange )
 {
     m_radarRange = radarRange;
 }
+*/
 
 void WorldObject::RunAI()
 {

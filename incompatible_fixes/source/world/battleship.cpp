@@ -27,7 +27,7 @@ BattleShip::BattleShip()
 
     strcpy( bmpImageFilename, "graphics/battleship.bmp" );
     
-    m_radarRange = 10;
+    // m_radarRange = 10;
     m_selectable = true;  
     m_maxHistorySize = 10;
     m_movementType = MovementTypeSea;    

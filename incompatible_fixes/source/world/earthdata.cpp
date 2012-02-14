@@ -127,7 +127,7 @@ void EarthData::LoadCities()
         city->m_latitude = Fixed::FromDouble(latitude);
         city->m_population = population;
         city->m_capital = capital;         
-        city->SetRadarRange( Fixed::FromDouble(sqrtf( sqrtf(city->m_population) ) / 4.0f) );
+        // city->SetRadarRange( Fixed::FromDouble(sqrtf( sqrtf(city->m_population) ) / 4.0f) );
 
         m_cities.PutData( city );
         ++numCities;

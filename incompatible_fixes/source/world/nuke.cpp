@@ -41,7 +41,7 @@ Nuke::Nuke()
 
     strcpy( bmpImageFilename, "graphics/nuke.bmp" );
 
-    m_radarRange = 0;
+    // m_radarRange = 0;
     m_selectable = true;
     m_maxHistorySize = -1;
     m_movementType = MovementTypeAir;
