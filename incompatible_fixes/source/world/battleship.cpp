@@ -17,7 +17,7 @@
 #include "world/gunfire.h"
 #include "world/fleet.h"
 
-static MovingUnitSettings s_battleshipSettings( WorldObject::TypeBattleShip, 3, 3, 1 );
+MovingUnitSettings s_battleshipSettings( WorldObject::TypeBattleShip, 3, 3, 1 );
 static StateSettings s_battleshipAttack( WorldObject::TypeBattleShip, "", 60, 20, 10, 10, true, -1, 3 );
 
 BattleShip::BattleShip()

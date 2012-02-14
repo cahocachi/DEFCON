@@ -19,7 +19,7 @@
 #include "world/nuke.h"
 #include "world/fleet.h"
 
-static MovingUnitSettings s_subSettings( WorldObject::TypeSub, 1, 2, 1, Fixed::MAX, 5 );
+MovingUnitSettings s_subSettings( WorldObject::TypeSub, 1, 2, 1, Fixed::MAX, 5 );
 static StateSettings s_subPassive( WorldObject::TypeSub, "Passive", 240, 20, 0, 5, true, -1, 3 );
 static StateSettings s_subActive( WorldObject::TypeSub, "Active",  240, 20, 0, 5, false, -1, 3 );
 static StateSettings s_subMRBM( WorldObject::TypeSub, "MRBM",  120, 120, 3, 45, true, 5, 1 );

@@ -31,9 +31,6 @@ Blip::Blip()
 {
     Setup( TypeBlip, s_blipSettings );
 
-    m_range = Fixed::MAX;
-    m_speed = 4;
-    m_turnRate = 40;
     m_maxHistorySize = -1;
     m_movementType = MovementTypeSea;
     m_pathCalcTimer = 0;
@@ -46,8 +43,6 @@ Blip::Blip()
 
 bool Blip::Update()
 {
-    m_speed = 4 / g_app->GetWorld()->GetTimeScaleFactor();
-    m_turnRate = 40 / g_app->GetWorld()->GetTimeScaleFactor();
     if( m_type == BlipTypeSelect &&
         m_origin != g_app->GetMapRenderer()->GetCurrentSelectionId() )
     {

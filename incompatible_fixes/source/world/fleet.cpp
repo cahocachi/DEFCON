@@ -49,6 +49,10 @@ Fleet::Fleet()
 
 static WorldOption< int > s_carrierNoPursuit( "CarrierNoPursuit", 1 );
 
+extern MovingUnitSettings s_battleshipSettings;
+extern MovingUnitSettings s_subSettings;
+extern MovingUnitSettings s_carrierSettings;
+
 void Fleet::Update()
 {   
     if( m_fleetMembers.Size() == 0 )
@@ -64,11 +68,25 @@ void Fleet::Update()
     if( m_speedUpdateTimer <= 0 )
     {
         m_speedUpdateTimer = 5 + syncfrand(10);
-        Fixed slowestSpeed = Fixed::Hundredths(3);
+        Fixed slowestSpeed = Fixed::MAX;
         Fixed speedDropoff = GetSpeedDropoff();
         if( IsInFleet( WorldObject::TypeSub ) )
         {
-            slowestSpeed = Fixed::Hundredths(2);
+            slowestSpeed = s_subSettings.m_speed;
+        }
+        if( IsInFleet( WorldObject::TypeCarrier ) )
+        {
+            if( slowestSpeed > s_carrierSettings.m_speed )
+            {
+                slowestSpeed = s_carrierSettings.m_speed;
+            }
+        }
+        if( IsInFleet( WorldObject::TypeBattleShip ) )
+        {
+            if( slowestSpeed > s_battleshipSettings.m_speed )
+            {
+                slowestSpeed = s_battleshipSettings.m_speed;
+            }
         }
         slowestSpeed *= speedDropoff;
         slowestSpeed /= World::GetGameScale();

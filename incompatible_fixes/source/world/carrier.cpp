@@ -20,7 +20,7 @@
 #include "world/depthcharge.h"
 #include "world/fleet.h"
 
-static MovingUnitSettings s_carrierSettings( WorldObject::TypeCarrier, 3, 3, 1, Fixed::MAX, 6 );
+MovingUnitSettings s_carrierSettings( WorldObject::TypeCarrier, 3, 3, 1, Fixed::MAX, 6 );
 static StateSettings s_carrierFighter( WorldObject::TypeCarrier, "Fighter", 120, 120, 15, 45, true, 5, 3 );
 static StateSettings s_carrierBomber( WorldObject::TypeCarrier, "Bomber", 120, 120, 15, 140, true, 2, 3 );
 static StateSettings s_carrierAntiSub( WorldObject::TypeCarrier, "AntiSub", 240, 60, 15, 5, false, -1, 3 );
