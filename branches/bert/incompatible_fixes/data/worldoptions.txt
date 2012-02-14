@@ -30,8 +30,324 @@ BomberShowNukeTarget 1
 # For plain Defcon feel, disable SubLaunchAnywhere.
 
 SubLaunchAnywhere 1
-BombeLaunchAnywhere 1
+BomberLaunchAnywhere 1
 SiloLaunchAnywhere 1
+
+################
+# Unit and state properties
+################
+
+# All unit types have the following propreties you can customize;
+# replace 'Unit' with the unit's name.
+
+# The number of hit points. Each successful gunshot hit takes 1 away,
+# nuke hits usually take 10.
+# UnitLife 1
+
+# The number of nukes.
+# UnitNukeSupply 0
+
+# Moving units have some more:
+
+# movement speed in degrees (longitude/latitude) per 100 seconds
+# UnitSpeed 1
+
+# Turn rate; acceleration in degrees (longitude/latitude) per 1000 seconds^2;
+# it takes about 15 * UnitSpeed / UnitTurnRate seconds for a 90 degree turn under
+# optimal conditions.
+# UnitTurnRate 1
+
+# operation range; MAX for infinite
+# UnitFuelRange MAX
+
+# States have their own properties. Replace 'Unit' with the unit's name and 'State'
+# with the state name (for units with only one state, that name is empty).
+
+# The time it takes for a state to get activated:
+# UnitStatePrepareTime 120
+
+# The time it takes for the state's action to be repeated:
+# UnitStateReloadTime 30
+
+# Radar range if the unit is in that state:
+# UnitStateRadarRange 10
+
+# The combat/nuke range in that state:
+# UnitStateActionRange 20
+
+# 1 if the state allows actions, 0 if it doesn't.
+# UnitStateIsActionable 0
+
+# 'Ammunition' of that state, how often the state's action can be repeated. 
+# Nuke/plane supply. -1 for infinite ammunition.
+# UnitStateNumTimesPermitted 10
+
+# DEFCON level this state can become active in first.
+# UnitStateDefconPermitted 5
+
+# individual settings: (Those that don't make sense to change, ever, are commented out,
+# but they still exist)
+
+#CityLife 1
+#CityNukeSupply 0
+
+#CityPrepareTime 0
+#CityReloadTime 0
+CityRadarRange 5
+#CityActionRange 0
+#CityIsActionable 0
+#CityNumTimesPermitted -1
+#CityDefconPermitted 5
+
+
+SiloLife 25
+SiloNukeSupply 10 # must be the same as SiloICBMNumTimesPermitted
+
+SiloICBMPrepareTime 120
+SiloICBMReloadTime 120
+SiloICBMRadarRange 10
+SiloICBMActionRange MAX
+SiloICBMIsActionable 1
+SiloICBMNumTimesPermitted 10
+SiloICBMDefconPermitted 1
+
+SiloAAPrepareTime 340
+SiloAAReloadTime 20
+SiloAARadarRange 10
+SiloAAActionRange 30
+SiloAAIsActionable 1
+SiloAANumTimesPermitted -1
+SiloAADefconPermitted 5
+
+
+NukeLife 1
+NukeSpeed 20
+NukeTurnRate 1 
+NukeFuelRange MAX
+#NukeNukeSupply 0
+
+NukeOnTargetPrepareTime 0
+NukeOnTargetReloadTime 0
+NukeOnTargetRadarRange 0
+NukeOnTargetActionRange MAX
+NukeOnTargetIsActionable 0
+NukeOnTargetNumTimesPermitted -1
+NukeOnTargetDefconPermitted 5
+
+NukeDisarmPrepareTime 100
+NukeDisarmReloadTime 0
+NukeDisarmRadarRange 0
+NukeDisarmActionRange 0
+NukeDisarmIsActionable 0
+NukeDisarmNumTimesPermitted -1
+NukeDisarmDefconPermitted 5
+
+
+#ExplosionLife 1
+#ExplosionNukeSupply 0
+
+SubLife 1
+SubSpeed 2
+SubTurnRate 1
+SubFuelRange MAX
+SubNukeSupply 5 # must be the same as SubSRBMNumTimesPermitted
+
+SubPassivePrepareTime 240
+SubPassiveReloadTime 20
+SubPassiveRadarRange 0
+SubPassiveActionRange 5
+SubPassiveIsActionable 1
+SubPassiveNumTimesPermitted -1
+SubPassiveDefconPermitted 3
+
+SubActivePrepareTime 240
+SubActiveReloadTime 20
+SubActiveRadarRange 0
+SubActiveActionRange 5
+SubActiveIsActionable 0
+SubActiveNumTimesPermitted -1
+SubActiveDefconPermitted 3
+
+SubMRBMPrepareTime 120
+SubMRBMReloadTime 120
+SubMRBMRadarRange 3
+SubMRBMActionRange 45
+SubMRBMIsActionable 1
+SubMRBMNumTimesPermitted 5
+SubMRBMDefconPermitted 1
+
+
+RadarLife 1 
+RadarNukeSupply 0
+
+RadarPrepareTime 0
+RadarReloadTime 0
+RadarRadarRange 20
+RadarActionRange 0
+RadarIsActionable 0
+RadarNumTimesPermitted -1
+RadarDefconPermitted 5
+
+
+BattleshipLife 3
+BattleshipSpeed 3
+BattleshipTurnRate 1
+BattleshipFuelRange MAX
+BattleshipNukeSupply 0
+
+BattleshipPrepareTime 60
+BattleshipReloadTime 20
+BattleshipRadarRange 10
+BattleshipActionRange 10
+BattleshipIsActionable 1
+BattleshipNumTimesPermitted -1
+BattleshipDefconPermitted 3
+
+
+AirbaseLife 15
+AirbaseNukeSupply 10
+
+# maximum storage space for planes
+AirbaseMaxFighters 10
+AirbaseMaxBombers 10
+
+AirbaseFighterPrepareTime 120
+AirbaseFighterReloadTime 120
+AirbaseFighterRadarRange 10
+AirbaseFighterActionRange 45
+AirbaseFighterIsActionable 1
+AirbaseFighterNumTimesPermitted 5
+AirbaseFighterDefconPermitted 3
+
+AirbaseBomberPrepareTime 120
+AirbaseBomberReloadTime 120
+AirbaseBomberRadarRange 10
+AirbaseBomberActionRange 140
+AirbaseBomberIsActionable 1
+AirbaseBomberNumTimesPermitted 5
+AirbaseBomberDefconPermitted 3
+
+FighterLife 1
+FighterSpeed 10
+FighterTurnRate 4 
+FighterFuelRange 45
+FighterNukeSupply 0
+
+FighterPrepareTime 60
+FighterReloadTime 20
+FighterRadarRange 5
+FighterActionRange 10
+FighterIsActionable 1
+FighterNumTimesPermitted -1
+FighterDefconPermitted 5
+
+BomberLife 1
+BomberSpeed 5
+BomberTurnRate 1
+BomberFuelRange 140
+BomberNukeSupply 1
+
+BomberNavalPrepareTime 60
+BomberNavalReloadTime 30
+BomberNavalRadarRange 10
+BomberNavalActionRange 20
+BomberNavalIsActionable 1
+BomberNavalNumTimesPermitted -1
+BomberNavalDefconPermitted 3
+
+BomberSRBMPrepareTime 240
+#BomberSRBMReloadTime 120
+BomberSRBMRadarRange 5
+BomberSRBMActionRange 25
+BomberSRBMIsActionable 1
+BomberSRBMNumTimesPermitted 1
+BomberSRBMDefconPermitted 1
+
+CarrierLife 3
+CarrierSpeed 3
+CarrierTurnRate 1
+CarrierFuelRange MAX
+CarrierNukeSupply 6
+
+# maximum storage space for planes
+CarrierMaxFighters 5
+CarrierMaxBombers 2
+
+CarrierFighterPrepareTime 120
+CarrierFighterReloadTime 120
+CarrierFighterRadarRange 15
+CarrierFighterActionRange 45
+CarrierFighterIsActionable 1
+CarrierFighterNumTimesPermitted 5
+CarrierFighterDefconPermitted 3
+
+CarrierBomberPrepareTime 120
+CarrierBomberReloadTime 120
+CarrierBomberRadarRange 15
+CarrierBomberActionRange 140
+CarrierBomberIsActionable 1
+CarrierBomberNumTimesPermitted 2
+CarrierBomberDefconPermitted 3
+
+CarrierAntiSubPrepareTime 240
+CarrierAntiSubReloadTime 60
+CarrierAntiSubRadarRange 15
+CarrierAntiSubActionRange 5
+CarrierAntiSubIsActionable 0
+CarrierAntiSubNumTimesPermitted -1
+CarrierAntiSubDefconPermitted 3
+
+TornadoLife 1
+TornadoSpeed 10
+TornadoTurnRate 4
+TornadoFuelRange 600
+TornadoNukeSupply 0
+
+TornadoPrepareTime 0
+TornadoReloadTime 0
+TornadoRadarRange 5
+TornadoActionRange MAX
+TornadoIsActionable 0
+TornadoNumTimesPermitted -1
+TornadoDefconPermitted 5
+
+
+SaucerLife 50
+SaucerSpeed 20
+SaucerTurnRate 10 
+SaucerFuelRange 200000
+SaucerNukeSupply 0
+
+SaucerFlightPrepareTime 0
+SaucerFlightReloadTime 0
+SaucerFlightRadarRange 10
+SaucerFlightActionRange 180
+SaucerFlightIsActionable 1
+SaucerFlightNumTimesPermitted -1
+SaucerFlightDefconPermitted 5
+
+SaucerAttackPrepareTime 0
+SaucerAttackReloadTime 0
+SaucerAttackRadarRange 10
+SaucerAttackActionRange 180
+SaucerAttackIsActionable 1
+SaucerAttackNumTimesPermitted -1
+SaucerAttackDefconPermitted 5
+
+# blips are the fleet navigation preview things and purely a visual effect
+BlipLife 1
+BlipSpeed 400
+BlipTurnRate 4000
+BlipFuelRange MAX
+BlipNukeSupply 0
+
+BlipPrepareTime 0
+BlipReloadTime 0
+BlipRadarRange 0
+BlipActionRange 0
+BlipIsActionable 0
+BlipNumTimesPermitted -1
+BlipDefconPermitted -1
 
 ################
 # Plane landing
