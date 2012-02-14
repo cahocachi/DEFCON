@@ -658,6 +658,9 @@ void ModSystem::Commit()
         }   
     }
 
+    g_fileSystem->AddSearchPath( App::GetPrefsDirectory() );
+    g_fileSystem->SetWritePath( App::GetPrefsDirectory() );
+
     if( g_languageTable && g_windowManager )
     {
         if( numActivated == 0 )

@@ -7,6 +7,8 @@
 #include "lib/math/vector2.h"
 #include "lib/math/fixed.h"
 
+#include "worldoption.h"
+
 class Image;
 class WorldObjectState;
 class ActionOrder;
@@ -30,6 +32,28 @@ public:
     friend class World;
 };
 
+struct UnitSettings
+{
+    UnitSettings( int type, int life, int nukeSupply = 0 );
+    
+    WorldOption< int >   m_life;
+    WorldOption< int >   m_nukeSupply;
+};
+
+struct StateSettings
+{
+    StateSettings( int type, char const * state, Fixed prepareTime, Fixed reloadTime, Fixed radarRange, 
+                   Fixed actionRange, bool isActionable, int numTimesPermitted = -1, int defconPermitted = 5 );
+    
+    WorldOption< Fixed > m_prepareTime;
+    WorldOption< Fixed > m_reloadTime;
+    WorldOption< Fixed > m_radarRange;
+    WorldOption< Fixed > m_actionRange;
+    WorldOption< int >   m_isActionable;
+    WorldOption< int >   m_numTimesPermitted;
+    WorldOption< int >   m_defconPermitted;
+};
+
 class WorldObject
 {
 public:
@@ -49,6 +73,8 @@ public:
         TypeCarrier,
 		TypeTornado,
         TypeSaucer,
+        TypeBlip,
+        TypeGunFire,
         NumObjectTypes
     };
 
@@ -112,7 +138,7 @@ public:
 
 protected:
     char    bmpImageFilename[256];
-    Fixed   m_radarRange;
+    // Fixed   m_radarRange;
     Fixed   m_retargetTimer;            // object is allowed to search for a new target when this = 0
     
 public:
@@ -121,15 +147,15 @@ public:
 
     virtual void        InitialiseTimers();
 
-    void                SetType         ( int type );
+    void                Setup           ( int type, UnitSettings const & settings );
+    // void                SetType         ( int type );
     void                SetTeamId       ( int teamId );
     void                SetPosition     ( Fixed longitude, Fixed latitude );
     
-    void                SetRadarRange   ( Fixed radarRange );
+    // void                SetRadarRange   ( Fixed radarRange );
     virtual Fixed       GetRadarRange   ();
 
-    void                AddState        ( char *stateName, Fixed prepareTime, Fixed reloadTime, Fixed radarRange, 
-                                          Fixed actionRange, bool isActionable, int numTimesPermitted = -1, int defconPermitted = 5 );
+    void                AddState        ( char *stateName, StateSettings const & settings );
     
     virtual bool        CanSetState     ( int state );
     virtual void        SetState        ( int state );

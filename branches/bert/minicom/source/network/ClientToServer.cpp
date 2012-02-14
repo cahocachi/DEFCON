@@ -1327,7 +1327,7 @@ void ClientToServer::GetDemoLimitations( int &_maxGameSize, int &_maxDemoPlayers
         // We don't have a clear answer from the MetaServer
         // So go with sensible defaults
         _maxGameSize = 2;
-        _maxDemoPlayers = 2;
+        _maxDemoPlayers = 1;
         _allowDemoServers = true;
     }    
 }

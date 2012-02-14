@@ -224,7 +224,7 @@ class SetScreenButton : public InterfaceButton
 #ifdef HAVE_REFRESH_RATES
         parent->m_refreshRate   = g_preferences->GetInt( PREFS_SCREEN_REFRESH, 60 );
 #endif		
-        parent->m_zDepth        = g_preferences->GetInt( PREFS_SCREEN_Z_DEPTH, 24 );
+        parent->m_zDepth        = g_preferences->GetInt( PREFS_SCREEN_Z_DEPTH, 32 );
 		parent->m_antiAlias		= g_preferences->GetInt( PREFS_SCREEN_ANTIALIAS, 0 );
 
         parent->Remove();
@@ -252,7 +252,7 @@ ScreenOptionsWindow::ScreenOptionsWindow()
     m_refreshRate   = g_preferences->GetInt( PREFS_SCREEN_REFRESH, 60 );
 	height += 30;
 #endif
-    m_zDepth        = g_preferences->GetInt( PREFS_SCREEN_Z_DEPTH, 24 );
+    m_zDepth        = g_preferences->GetInt( PREFS_SCREEN_Z_DEPTH, 32 );
 	m_antiAlias		= g_preferences->GetInt( PREFS_SCREEN_ANTIALIAS, 0 );
 	
     SetSize( 390, height );
@@ -316,15 +316,21 @@ void ScreenOptionsWindow::Create()
     zDepth->SetProperties( "Z Buffer Depth", x, y+=h, w, 20, "dialog_zbufferdepth", " ", true, false );
     zDepth->AddOption( "dialog_colourdepth_16", 16, true );
     zDepth->AddOption( "dialog_colourdepth_24", 24, true );
+    zDepth->AddOption( "dialog_colourdepth_32", 32, true );
     zDepth->RegisterInt( &m_zDepth );
     RegisterButton( zDepth );
 
+// Windows build doesn't support antialiasing
+#ifndef TARGET_MSVC
     DropDownMenu *antiAlias = new DropDownMenu();
     antiAlias->SetProperties( LANGUAGEPHRASE("dialog_antialias"), x, y+=h, w, 20 );
-    antiAlias->AddOption( "dialog_yes", 1, true );
+    antiAlias->AddOption( "dialog_yes_8x", 8, true );
+    antiAlias->AddOption( "dialog_yes_4x", 4, true );
+    antiAlias->AddOption( "dialog_yes_2x", 2, true );
     antiAlias->AddOption( "dialog_no", 0, true );
     antiAlias->RegisterInt( &m_antiAlias );
     RegisterButton( antiAlias );
+#endif
 	
 	CloseButton *cancel = new CloseButton();
     cancel->SetProperties( "Close", 10, m_h - 30, m_w / 2 - 15, 20, "dialog_close", " ", true, false );

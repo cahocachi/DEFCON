@@ -25,6 +25,10 @@
 #include "world/bomber.h"
 #include "world/worldoption.h"
 
+static MovingUnitSettings s_nukeSettings( WorldObject::TypeNuke, 1, 20, 1 );
+static StateSettings s_nukeOnTarget( WorldObject::TypeNuke, "OnTarget", 0, 0, 0, Fixed::MAX, false );
+static StateSettings s_nukeDisarm( WorldObject::TypeNuke, "Disarm", 100, 0, 0, 0, false );
+
 
 Nuke::Nuke()
 :   MovingObject(),
@@ -33,20 +37,17 @@ Nuke::Nuke()
     m_newLatitude(0),
     m_targetLocked(false)
 {
-    SetType( TypeNuke );
+    Setup( TypeNuke, s_nukeSettings );
 
     strcpy( bmpImageFilename, "graphics/nuke.bmp" );
 
-    m_radarRange = 0;
-    m_speed = Fixed::Hundredths(20);
+    // m_radarRange = 0;
     m_selectable = true;
     m_maxHistorySize = -1;
-    m_range = Fixed::MAX;
-    m_turnRate = Fixed::Hundredths(1);
     m_movementType = MovementTypeAir;
 
-    AddState( LANGUAGEPHRASE("state_ontarget"), 0, 0, 0, Fixed::MAX, false );
-    AddState( LANGUAGEPHRASE("state_disarm"), 100, 0, 0, 0, false );
+    AddState( LANGUAGEPHRASE("state_ontarget"), s_nukeOnTarget );
+    AddState( LANGUAGEPHRASE("state_disarm"), s_nukeDisarm );
 }
 
 

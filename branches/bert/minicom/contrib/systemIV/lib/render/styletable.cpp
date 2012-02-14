@@ -84,13 +84,16 @@ bool StyleTable::Save( char *_filename )
         return false;
     }
 
-    char fullFilename[512];
-    sprintf( fullFilename, "data/styles/%s", _filename ? _filename : m_filename );    
+    char const * fullPathname = ConcatPaths( g_fileSystem->GetWritePath(), "data/styles", NULL );
+    char const * fullFilename = ConcatPaths( fullPathname, _filename ? _filename : m_filename, NULL );;
 
-    CreateDirectory( "data/" );
-    CreateDirectory( "data/styles/" );
+    CreateDirectoryRecursively( fullPathname );
 
     FILE *file = fopen(fullFilename,"wt");
+
+    delete[] fullPathname;
+    delete[] fullFilename;
+    fullPathname = fullFilename = NULL;
 
     if( !file ) return false;
     

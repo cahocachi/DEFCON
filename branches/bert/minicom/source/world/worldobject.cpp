@@ -36,6 +36,23 @@
 #include "world/saucer.h"
 #include "world/fleet.h"
 
+UnitSettings::UnitSettings( int type, int life, int nukeSupply )
+: m_life( TempName( type, "Life" ), life ),
+  m_nukeSupply( TempName( type, "NukeSupply" ), nukeSupply )
+{
+}
+
+StateSettings::StateSettings( int type, char const * state, Fixed prepareTime, Fixed reloadTime, Fixed radarRange, 
+                              Fixed actionRange, bool isActionable, int numTimesPermitted, int defconPermitted )
+  : m_prepareTime( TempName( type, state, "PrepareTime" ), prepareTime ),
+    m_reloadTime( TempName( type, state, "ReloadTime" ), reloadTime ),
+    m_radarRange( TempName( type, state, "RadarRange" ), radarRange ),
+    m_actionRange( TempName( type, state, "ActionRange" ), actionRange ),
+    m_isActionable( TempName( type, state, "IsActionable" ), isActionable ? 1 : 0 ),
+    m_numTimesPermitted( TempName( type, state, "NumTimesPermitted" ), numTimesPermitted ),
+    m_defconPermitted( TempName( type, state, "DefconPermitted" ), defconPermitted )
+{
+}
 
 WorldObject::WorldObject()
 :   m_teamId(-1),
@@ -43,7 +60,7 @@ WorldObject::WorldObject()
     m_longitude(0),
     m_latitude(0),
     m_type(TypeInvalid),
-    m_radarRange(0),
+    // m_radarRange(0),
     m_life(1),
 	m_lastHitByTeamId( -1 ),
     m_selectable(false),
@@ -110,7 +127,7 @@ void WorldObject::InitialiseTimers()
         m_nukeCountTimer = frand(5.0f);
         m_nukeCountTimer += (double)GetHighResTime();
 
-        m_radarRange /= World::GetGameScale();       
+        // m_radarRange /= World::GetGameScale();       
 
         // don't fire right after launch (the test limits this to those
         // object types that fire guns. No special reason for that.)
@@ -122,9 +139,19 @@ void WorldObject::InitialiseTimers()
     }
 }
 
+/*
 void WorldObject::SetType( int type )
 {
     m_type = type;
+}
+*/
+
+void WorldObject::Setup( int type, UnitSettings const & settings )
+{
+    m_type = type;
+
+    m_life = settings.m_life;
+    m_nukeSupply = settings.m_nukeSupply;
 }
 
 void WorldObject::SetTeamId( int teamId )
@@ -143,18 +170,17 @@ bool WorldObject::IsHiddenFrom()
     return false;
 }
 
-void WorldObject::AddState( char *stateName, Fixed prepareTime, Fixed reloadTime, Fixed radarRange, 
-                            Fixed actionRange, bool isActionable, int numTimesPermitted, int defconPermitted )
+void WorldObject::AddState( char *stateName, StateSettings const & settings )
 {
     WorldObjectState *state = new WorldObjectState();
     state->m_stateName = strdup( stateName);
-    state->m_timeToPrepare = prepareTime;
-    state->m_timeToReload = reloadTime;
-    state->m_radarRange = radarRange;
-    state->m_actionRange = actionRange;
-    state->m_isActionable = isActionable;
-    state->m_numTimesPermitted = numTimesPermitted;
-    state->m_defconPermitted = defconPermitted;
+    state->m_timeToPrepare = settings.m_prepareTime;
+    state->m_timeToReload = settings.m_reloadTime;
+    state->m_radarRange = settings.m_radarRange;
+    state->m_actionRange = settings.m_actionRange;
+    state->m_isActionable = settings.m_isActionable;
+    state->m_numTimesPermitted = settings.m_numTimesPermitted;
+    state->m_defconPermitted = settings.m_defconPermitted;
 
     Fixed gameScale = World::GetGameScale();
     state->m_radarRange /= gameScale;
@@ -266,7 +292,7 @@ bool WorldObject::Update()
             m_targetObjectId = -1;
         }
 
-        if( !s_impossibleTargetTracking && GetAttackOdds( obj->m_type ) <= 0 )
+        if( !s_impossibleTargetTracking && ( !obj || GetAttackOdds( obj->m_type ) <= 0 ) )
         {
             m_targetObjectId = -1;
         }
@@ -292,6 +318,8 @@ bool WorldObject::Update()
         while( ( m_stateTimer <= 0 || ( s_immediateRetarget && !IsActionQueueable() ) ) && m_actionQueue.Size() > 0 )
         {
             ActionOrder *action = m_actionQueue[0];
+            m_actionQueue.RemoveData(0);
+
             Action( action->m_targetObjectId, action->m_longitude, action->m_latitude );
 
             if( action->m_targetObjectId == -1 )
@@ -320,7 +348,6 @@ bool WorldObject::Update()
                     }
                 }
             }
-            m_actionQueue.RemoveData(0);
             delete action;
         }
     }
@@ -601,11 +628,12 @@ char *WorldObject::GetTypeName (int _type)
     return "?";
 }
 
-
+/*
 void WorldObject::SetRadarRange ( Fixed radarRange )
 {
     m_radarRange = radarRange;
 }
+*/
 
 void WorldObject::RunAI()
 {

@@ -19,24 +19,23 @@
 #include "world/city.h"
 #include "world/worldoption.h"
 
+static MovingUnitSettings s_fighterSettings( WorldObject::TypeFighter, 1, 10, 4, 45 );
+static StateSettings s_fighterAttack( WorldObject::TypeFighter, "", 60, 20, 5, 10, true );
 
 Fighter::Fighter()
 :   MovingObject()
 {
-    SetType( TypeFighter );
+    Setup( TypeFighter, s_fighterSettings );
 
     strcpy( bmpImageFilename, "graphics/fighter.bmp" );
 
-    m_radarRange = 5;
-    m_speed = Fixed::Hundredths(10);
-    m_turnRate = Fixed::Hundredths(4);
+    // m_radarRange = 5;
     m_selectable = true;
     m_maxHistorySize = 10;
-    m_range = 45;
 
     m_movementType = MovementTypeAir;
 
-    AddState( LANGUAGEPHRASE("state_attack"), 60, 20, 5, 10, true );
+    AddState( LANGUAGEPHRASE("state_attack"), s_fighterAttack );
 
     InitialiseTimers();
 }
