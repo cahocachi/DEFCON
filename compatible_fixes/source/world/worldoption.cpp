@@ -120,7 +120,7 @@ bool WorldOption<int>::Set( char const * value )
 {
     char * end = NULL;
     int parsed = strtol( value, &end, 10 );
-    bool ret = end && ( isblank(*end) ||  *end == 0 );
+    bool ret = end && ( isspace(*end) ||  *end == 0 );
     if( ret )
     {
 #ifdef _DEBUG
@@ -149,7 +149,7 @@ bool WorldOption<Fixed>::Set( char const * value )
     {
         char * end = NULL;
         parsed = Fixed::FromDouble( strtod( value, &end ) );
-        ret = end && ( isblank(*end) ||  *end == 0 );
+        ret = end && ( isspace(*end) ||  *end == 0 );
     }
     if( ret )
     {
