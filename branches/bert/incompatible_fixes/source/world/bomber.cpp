@@ -132,11 +132,6 @@ static WorldOption< int > s_bomberFireWhileLanding( "BomberFireWhileLanding", 1 
 
 bool Bomber::Update()
 {
-    Fixed gameScale = World::GetGameScale();
-
-    m_speed = Fixed::Hundredths(5) / gameScale;         
-    m_turnRate = Fixed::Hundredths(1) / gameScale;
-
     bool arrived = MoveToWaypoint();
 
 
