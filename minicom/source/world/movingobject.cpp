@@ -28,6 +28,14 @@
 #include "world/worldoption.h"
 
 
+MovingUnitSettings::MovingUnitSettings( int type, int life, Fixed const & speed, Fixed const & turnRate, Fixed const & fuelRange, int nukeSupply )
+  : UnitSettings( type, life, nukeSupply ),
+    m_speed( TempName( type, "Speed" ), speed ),
+    m_turnRate( TempName( type, "TurnRate" ), turnRate ),
+    m_fuelRange( TempName( type, "FuelRange" ), fuelRange )
+{
+}
+
 MovingObject::MovingObject()
 :   WorldObject(),
     m_speed(0),
@@ -54,6 +62,15 @@ MovingObject::~MovingObject()
     //m_movementBlips.EmptyAndDelete();
 }
 
+
+void MovingObject::Setup( int type, MovingUnitSettings const & settings )
+{
+    WorldObject::Setup( type, settings );
+    
+    m_speed     = settings.m_speed*Fixed::Hundredths(1);
+    m_turnRate  = settings.m_turnRate*Fixed::Hundredths(1);
+    m_range     = settings.m_fuelRange;
+}
 
 void MovingObject::InitialiseTimers()
 {

@@ -22,6 +22,9 @@
 #include "world/team.h"
 #include "world/worldoption.h"
 
+static MovingUnitSettings s_bomberSettings( WorldObject::TypeBomber, 1, 5, 1, 140, 1 );
+static StateSettings s_bomberNaval( WorldObject::TypeBomber, "Naval", 60, 30, 10, 20, true, -1, 3 );
+static StateSettings s_bomberSRBM( WorldObject::TypeBomber, "SRBM",  240, 120, 5, 25, true, 1, 1 );
 
 Bomber::Bomber()
 :   MovingObject(),
@@ -29,23 +32,18 @@ Bomber::Bomber()
     m_nukeTargetLatitude(0),
     m_bombingRun(false)
 {
-    SetType( TypeBomber );
+    Setup( TypeBomber, s_bomberSettings );
 
     strcpy( bmpImageFilename, "graphics/bomber.bmp" );
 
-    m_radarRange = 5;
-    m_speed = Fixed::Hundredths(5);
-    m_turnRate = Fixed::Hundredths(1);
+    // m_radarRange = 5;
     m_selectable = true;
     m_maxHistorySize = 10;
-    m_range = 140;
-
-    m_nukeSupply = 1;
 
     m_movementType = MovementTypeAir;
 
-    AddState( LANGUAGEPHRASE("state_airtoseamissile"), 60, 30, 10, 20, true, -1, 3 );
-    AddState( LANGUAGEPHRASE("state_bombernuke"), 240, 120, 5, 25, true, 1, 1 );
+    AddState( LANGUAGEPHRASE("state_airtoseamissile"), s_bomberNaval );
+    AddState( LANGUAGEPHRASE("state_bombernuke"), s_bomberSRBM );
 
     InitialiseTimers();
 }
@@ -134,11 +132,6 @@ static WorldOption< int > s_bomberFireWhileLanding( "BomberFireWhileLanding", 1 
 
 bool Bomber::Update()
 {
-    Fixed gameScale = World::GetGameScale();
-
-    m_speed = Fixed::Hundredths(5) / gameScale;         
-    m_turnRate = Fixed::Hundredths(1) / gameScale;
-
     bool arrived = MoveToWaypoint();
 
 

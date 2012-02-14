@@ -16,6 +16,8 @@
 WorldOptionBase::WorldOptionBase( char const * name )
 : m_name( newStr( name ) )
 {
+    AppDebugAssert( !GetWorldOptions().GetData( name ) );
+
     GetWorldOptions().PutData( m_name, this );
 }
 
@@ -51,23 +53,20 @@ void WorldOptionBase::LoadAll()
     }
 
     // go through search path in reverse order, later changes overide earlier ones
-    LoadFile( s_optionPath );
+    Load( g_fileSystem->GetTextReaderDefault( s_optionPath )  );
     for( int i = g_fileSystem->m_searchPath.Size()-1; i >= 0 ; --i )
     {
         char * fullPath = ConcatPaths( g_fileSystem->m_searchPath[i], s_optionPath, NULL );
-        LoadFile( fullPath );
+        if( !DoesFileExist( fullPath ) )
+        {
+            Load( new TextFileReader( fullPath ) );
+        }
         delete[] fullPath;
     }
 }
 
-void WorldOptionBase::LoadFile( char const * filename )
+void WorldOptionBase::Load( TextReader * in )
 {
-    if ( !DoesFileExist(filename) )
-    {
-        return;
-    }
-
-    TextReader * in = new TextFileReader( filename );
     if( in && in->IsOpen() )
     {
         while( in->ReadLine() )
@@ -91,12 +90,12 @@ void WorldOptionBase::LoadFile( char const * filename )
             {
                 if( !opt->Set( value ) )
                 {
-                    AppDebugOut( "Reading worldoptions from %s:%d: Parsing value '%s' failed.\n", filename, in->m_lineNum, value );
+                    AppDebugOut( "Reading worldoptions from %s:%d: Parsing value '%s' failed.\n", in->GetFilename(), in->m_lineNum, value );
                 }
             }
             else
             {
-                AppDebugOut( "Reading worldoptions from %s:%d: Option '%s' not found.\n", filename, in->m_lineNum, param );
+                AppDebugOut( "Reading worldoptions from %s:%d: Option '%s' not found.\n", in->GetFilename(), in->m_lineNum, param );
             }
         }
     }
@@ -122,16 +121,50 @@ template<>
 bool WorldOption<int>::Set( char const * value )
 {
     char * end = NULL;
-    m_data = strtol( value, &end, 10 );
-    return end && *end == 0;
+    int parsed = strtol( value, &end, 10 );
+    bool ret = end && ( isblank(*end) ||  *end == 0 );
+    if( ret )
+    {
+#ifdef _DEBUG
+        if( m_data != parsed )
+        {
+            AppDebugOut( "Readig worldoptions: changed %s from %d to %d.\n", m_name, m_data, parsed );
+        }
+#endif
+        m_data = parsed;
+    }
+
+    return ret;
 }
 
 template<>
 bool WorldOption<Fixed>::Set( char const * value )
 {
-    char * end = NULL;
-    m_data = Fixed::FromDouble( strtod( value, &end ) );
-    return end && *end == 0;
+    Fixed parsed;
+    bool ret = false;
+    if( 0 == strncmp( "MAX", value, 3 ) )
+    {
+        parsed = Fixed::MAX;
+        ret = true;
+    }
+    else
+    {
+        char * end = NULL;
+        parsed = Fixed::FromDouble( strtod( value, &end ) );
+        ret = end && ( isblank(*end) ||  *end == 0 );
+    }
+    if( ret )
+    {
+#ifdef _DEBUG
+        if( m_data != parsed )
+        {
+            AppDebugOut( "Readig worldoptions: changed %s from %fL to %fL.\n", m_name, m_data.DoubleValue(), parsed.DoubleValue() );
+        }
+#endif
+        m_data = parsed;
+    }
+
+    return ret;
 }
 
 template<> WorldOption<char const *>::~WorldOption()
@@ -181,6 +214,8 @@ static char const * TypeName( int type )
     case WorldObject::TypeCarrier:       return "Carrier";
     case WorldObject::TypeTornado:       return "Tornado";
     case WorldObject::TypeSaucer:        return "Saucer";
+    case WorldObject::TypeBlip:          return "Blip";
+    case WorldObject::TypeGunFire:       return "Gunfire";
     default: return "Unknown";
     }
 }
@@ -193,6 +228,11 @@ TempName::TempName( int type, char const * stem )
 TempName::TempName( int type1, int type2, char const * stem )
 {
     snprintf( m_name, Len, "%s%s%s", TypeName( type1 ), TypeName( type2 ), stem );
+}
+
+TempName::TempName( int type, char const * stem1, char const * stem2 )
+{
+    snprintf( m_name, Len, "%s%s%s", TypeName( type ), stem1, stem2 );
 }
 
 #ifdef _DEBUG

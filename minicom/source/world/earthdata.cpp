@@ -42,6 +42,7 @@ void EarthData::LoadBorders()
     TextReader *international = g_fileSystem->GetTextReader( "data/earth/international.dat" );
     AppAssert( international && international->IsOpen() );
 
+    bool stored = false;
     while( international->ReadLine() )
     {
         char *line = international->GetRestOfLine();        
@@ -49,10 +50,12 @@ void EarthData::LoadBorders()
         {
             if( island )
             {
-                m_borders.PutData( island );                  
+                m_borders.PutData( island );
                 ++numIslands;
+                stored = true;
             }
-            island = new Island();            
+            island = new Island();
+            stored = false;
         }
         else
         {
@@ -61,7 +64,12 @@ void EarthData::LoadBorders()
             island->m_points.PutData( Vector2<float>( longitude, latitude ) );
         }
     }
-    
+    if( island && !stored )
+    {
+        m_borders.PutData( island );                  
+        ++numIslands;
+    }
+
     delete international;
 
     double totalTime = GetHighResTime() - startTime;
@@ -119,7 +127,7 @@ void EarthData::LoadCities()
         city->m_latitude = Fixed::FromDouble(latitude);
         city->m_population = population;
         city->m_capital = capital;         
-        city->SetRadarRange( Fixed::FromDouble(sqrtf( sqrtf(city->m_population) ) / 4.0f) );
+        // city->SetRadarRange( Fixed::FromDouble(sqrtf( sqrtf(city->m_population) ) / 4.0f) );
 
         m_cities.PutData( city );
         ++numCities;
@@ -154,6 +162,7 @@ void EarthData::LoadCoastlines()
     AppAssert( coastlines && coastlines->IsOpen() );
     Island *island = NULL;
     
+    bool stored = false;
     while( coastlines->ReadLine() )
     {        
         char *line = coastlines->GetRestOfLine();
@@ -161,9 +170,11 @@ void EarthData::LoadCoastlines()
         {
             if( island )
             {           
-                m_islands.PutData( island );                  
+                m_islands.PutData( island );
+                stored = true;
             }
             island = new Island();
+            stored = false;
             ++numIslands;
         }
         else
@@ -172,6 +183,10 @@ void EarthData::LoadCoastlines()
             sscanf( line, "%f %f", &longitude, &latitude );
             island->m_points.PutData( Vector2<float>( longitude, latitude ) );            
         }
+    }
+    if( island && !stored )
+    {
+        m_islands.PutData( island );
     }
 
     delete coastlines;

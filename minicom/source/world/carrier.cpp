@@ -20,36 +20,37 @@
 #include "world/depthcharge.h"
 #include "world/fleet.h"
 
+MovingUnitSettings s_carrierSettings( WorldObject::TypeCarrier, 3, 3, 1, Fixed::MAX, 6 );
+static StateSettings s_carrierFighter( WorldObject::TypeCarrier, "Fighter", 120, 120, 15, 45, true, 5, 3 );
+static StateSettings s_carrierBomber( WorldObject::TypeCarrier, "Bomber", 120, 120, 15, 140, true, 2, 3 );
+static StateSettings s_carrierAntiSub( WorldObject::TypeCarrier, "AntiSub", 240, 60, 15, 5, false, -1, 3 );
+
+static WorldOption< int > s_carrierMaxFighters( TempName( WorldObject::TypeCarrier, "MaxFighters" ), 5 );
+static WorldOption< int > s_carrierMaxBombers( TempName( WorldObject::TypeCarrier, "MaxBombers" ), 2 );
 
 
 Carrier::Carrier()
 :   MovingObject()
 {
-    SetType( TypeCarrier );
+    Setup( TypeCarrier, s_carrierSettings );
     
     strcpy( bmpImageFilename, "graphics/carrier.bmp" );
     strcpy( bmpFighterMarkerFilename, "graphics/fighter.bmp" );
     strcpy( bmpBomberMarkerFilename, "graphics/bomber.bmp" );
 
-    m_radarRange = 15;
+    // m_radarRange = 15;
     m_selectable = false;  
-    m_speed = Fixed::Hundredths(3);
-    m_turnRate = Fixed::Hundredths(1);
     m_movementType = MovementTypeSea;
     m_maxHistorySize = 10;
-    m_range = Fixed::MAX;
-    m_life = 3;
     
-    m_nukeSupply = 6;
-
-    m_maxFighters = 5;
-    m_maxBombers = 2;
+    m_maxFighters = s_carrierMaxFighters;
+    m_maxBombers = s_carrierMaxBombers;
     
     m_ghostFadeTime = 150;
     
-    AddState( LANGUAGEPHRASE("state_fighterlaunch"), 120, 120, 15, 45, true, 5, 3 );
-    AddState( LANGUAGEPHRASE("state_bomberlaunch"), 120, 120, 15, 140, true, 2, 3 );
-    AddState( LANGUAGEPHRASE("state_antisub"), 240, 60, 15, 5, false, -1, 3 );
+    AddState( LANGUAGEPHRASE("state_fighterlaunch"), s_carrierFighter );
+    AddState( LANGUAGEPHRASE("state_bomberlaunch"), s_carrierBomber );
+    AddState( LANGUAGEPHRASE("state_antisub"), s_carrierAntiSub );
 
     InitialiseTimers();
 }

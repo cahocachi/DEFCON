@@ -19,30 +19,30 @@
 #include "world/nuke.h"
 #include "world/fleet.h"
 
+MovingUnitSettings s_subSettings( WorldObject::TypeSub, 1, 2, 1, Fixed::MAX, 5 );
+static StateSettings s_subPassive( WorldObject::TypeSub, "Passive", 240, 20, 0, 5, true, -1, 3 );
+static StateSettings s_subActive( WorldObject::TypeSub, "Active",  240, 20, 0, 5, false, -1, 3 );
+static StateSettings s_subMRBM( WorldObject::TypeSub, "MRBM",  120, 120, 3, 45, true, 5, 1 );
+
 
 Sub::Sub()
 :   MovingObject(),
     m_hidden(true)
 {
-    SetType( TypeSub );
+    Setup( TypeSub, s_subSettings );
 
     strcpy( bmpImageFilename, "graphics/sub.bmp" );
 
-    m_radarRange = 0;
-    m_speed = Fixed::Hundredths(2);
-    m_turnRate = Fixed::Hundredths(1);
+    // m_radarRange = 0;
     m_selectable = true;  
     m_maxHistorySize = 10;
-    m_range = Fixed::MAX;
     m_movementType = MovementTypeSea;
-    m_nukeSupply = 5;
-    m_life = 1;
     
     m_ghostFadeTime = 150;
     
-    AddState( LANGUAGEPHRASE("state_passivesonar"), 240, 20, 0, 5, true, -1, 3 );
-    AddState( LANGUAGEPHRASE("state_activesonar"), 240, 20, 0, 5, false, -1, 3 );
-    AddState( LANGUAGEPHRASE("state_subnuke"), 120, 120, 3, 45, true, 5, 1 );
+    AddState( LANGUAGEPHRASE("state_passivesonar"), s_subPassive ); 
+    AddState( LANGUAGEPHRASE("state_activesonar"), s_subActive );
+    AddState( LANGUAGEPHRASE("state_subnuke"), s_subMRBM );
 
     InitialiseTimers();
 }

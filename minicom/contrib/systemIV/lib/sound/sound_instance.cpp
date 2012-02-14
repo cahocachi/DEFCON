@@ -276,7 +276,7 @@ void SoundInstance::Copy( SoundInstance *_copyMe )
     m_minDistance   = _copyMe->m_minDistance;
 
 	AppDebugAssert(_copyMe->m_eventName);
-	m_eventName = strdup(_copyMe->m_eventName);
+	m_eventName = newStr(_copyMe->m_eventName);
 
     m_freq.Copy( &_copyMe->m_freq );
     UpdateParameter( m_freq );

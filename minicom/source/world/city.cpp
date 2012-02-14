@@ -19,6 +19,8 @@
 
 #include "renderer/map_renderer.h"
 
+static UnitSettings s_citySettings( WorldObject::TypeCity, 1 );
+static StateSettings s_cityCity( WorldObject::TypeCity, "", 0, 0, 5, 0, false );
 
 City::City()
 :   WorldObject(),
@@ -29,12 +31,12 @@ City::City()
     m_numStrikes(0),
     m_dead(0)
 {
-    SetType( TypeCity );
+    Setup( TypeCity, s_citySettings );
     
     strcpy( bmpImageFilename, "graphics/city.bmp" );
 
-    m_radarRange = 0;
-    AddState( "City", 0, 0, 5, 0, false );
+    // m_radarRange = 0;
+    AddState( "City", s_cityCity );
 }
 
 City::~City()
