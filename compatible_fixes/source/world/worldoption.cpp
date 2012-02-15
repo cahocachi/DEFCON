@@ -55,7 +55,7 @@ void WorldOptionBase::LoadAll()
     for( int i = g_fileSystem->m_searchPath.Size()-1; i >= 0 ; --i )
     {
         char * fullPath = ConcatPaths( g_fileSystem->m_searchPath[i], s_optionPath, NULL );
-        if( !DoesFileExist( fullPath ) )
+        if( DoesFileExist( fullPath ) )
         {
             Load( new TextFileReader( fullPath ) );
         }
