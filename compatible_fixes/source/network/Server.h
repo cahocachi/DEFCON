@@ -16,7 +16,9 @@ class ServerTeam;
 #define UDP_HEADER_SIZE     32           // 12 bytes for UDP header, 20 bytes for IP header
 
 
-
+// use instead of AppAssert while processing network packets. Doesn't quit the app, just kills
+// the sender if argument is false.
+extern void NetworkAssert( bool mustBeTrue );
 
 class Server
 {
@@ -72,6 +74,8 @@ public:
     void NotifyNetSyncFixed ( int _clientId );
 
     void Advance			();
+    void ProcessFromClient  ( ServerToClientLetter * letter, Directory * incoming );
+    void FinishAdvance		( ServerToClientLetter * letter );
     void AdvanceSender		();
     void Advertise          ();
     void UpdateClients      ();
