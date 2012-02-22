@@ -39,6 +39,22 @@
 static NetSocketListener *s_listener = NULL;
 static bool s_listenerRunning = false;
 
+class NetworkException
+{
+public:
+    NetworkException()
+    {
+    }
+};
+
+extern void NetworkAssert( bool mustBeTrue )
+{
+    if( !mustBeTrue )
+    {
+        throw NetworkException();
+    }
+}
+
 
 // ****************************************************************************
 // Class ServerTeam
@@ -1201,14 +1217,7 @@ void Server::HandleSyncMessage( Directory *incoming )
     int sequenceId      = incoming->GetDataInt( NET_DEFCON_LASTPROCESSEDSEQID );
     unsigned char sync  = incoming->GetDataUChar( NET_DEFCON_SYNCVALUE );
 
-#ifdef TESTBED
-    if( !m_history.ValidIndex(sequenceId) )
-    {
-        return;
-    }
-#else
-    AppAssert( m_history.ValidIndex(sequenceId) );
-#endif
+    NetworkAssert( m_history.ValidIndex(sequenceId) );
 
     ServerToClient *sToc = GetClient( clientId );
 
@@ -1487,6 +1496,16 @@ void Server::Advance()
 
         if( !incoming ) break;
 
+        ProcessFromClient( letter, incoming );
+    }
+
+    FinishAdvance( letter );
+}
+
+void Server::ProcessFromClient( ServerToClientLetter * letter, Directory * incoming )
+{
+    try
+    {
         //
         // Sanity check the message
 
@@ -1495,7 +1514,7 @@ void Server::Advance()
         {
             AppDebugOut( "Server received bogus message, discarded (12)\n" );
             delete incoming;
-            continue;
+            return;
         }
         
         char *cmd       = incoming->GetDataString( NET_DEFCON_COMMAND );
@@ -1628,11 +1647,21 @@ void Server::Advance()
                 }
             }
         }
-
-        delete incoming;
-        incoming = NULL;
+    }
+    catch( NetworkException const & e )
+    {
+        char *fromIp        = incoming->GetDataString(NET_DEFCON_FROMIP);
+        int fromPort        = incoming->GetDataInt(NET_DEFCON_FROMPORT);
+        int clientId        = GetClientId( fromIp, fromPort );
+        RemoveClient( clientId, Disconnect_ClientDrop );
     }
 
+    delete incoming;
+    incoming = NULL;
+}
+
+void Server::FinishAdvance( ServerToClientLetter * letter )
+{
     SendLetter( letter );
 
 

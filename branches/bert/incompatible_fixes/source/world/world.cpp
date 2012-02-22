@@ -3366,7 +3366,10 @@ void World::AddChatMessage( int teamId, int channel, char *_msg, int msgId, bool
     if( spectator )
     {
         Spectator *spec = GetSpectator(teamId);
-        strcpy( msg->m_playerName, spec->m_name );
+        if( spec && spec->m_name )
+        {
+            strcpy( msg->m_playerName, spec->m_name );
+        }
     }
     else
     {
