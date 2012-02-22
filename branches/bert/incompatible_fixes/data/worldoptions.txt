@@ -360,6 +360,53 @@ BlipNumTimesPermitted -1
 BlipDefconPermitted -1
 
 ################
+# Attack odds
+################
+
+# Form: DefenderAttackerAttackOdds <percentage chance of a gunshot hit from attacker doing one point of damage to the defender>
+# All variations of that exist, but only those nonzero by default are listed.
+
+SiloSaucerAttackOdds 50
+
+RadarSaucerAttackOdds 50
+
+NukeSiloAttackOdds 25
+
+SubSubAttackOdds 10
+SubBattleshipAttackOdds 30
+SubFighterAttackOdds 3
+SubBomberAttackOdds 25
+SubCarrierAttackOdds 30
+SubSaucerAttackOdds 50
+
+BattleshipSubAttackOdds 20
+BattleshipBattleshipAttackOdds 10
+BattleshipFighterAttackOdds 10
+BattleshipBomberAttackOdds 25
+BattleshipSaucerAttackOdds 50
+
+AirbaseSaucerAttackOdds 50
+
+FighterSiloAttackOdds 10
+FighterBattleshipAttackOdds 30
+FighterFighterAttackOdds 10
+FighterSaucerAttackOdds 50
+
+BomberSiloAttackOdds 10
+BomberBattleshipAttackOdds 20
+BomberFighterAttackOdds 30
+BomberSaucerAttackOdds 50
+
+CarrierSubAttackOdds 20
+CarrierBattleshipAttackOdds 20
+CarrierFighterAttackOdds 10
+CarrierBomberAttackOdds 25
+CarrierSaucerAttackOdds 50
+
+SaucerSiloAttackOdds 5
+SaucerFighterAttackOdds 50
+
+################
 # Plane landing
 ################
 
