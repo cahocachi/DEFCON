@@ -3649,7 +3649,7 @@ int World::GetAttackOdds( int attackerType, int defenderType, int attackerId )
     return GetAttackOdds( attackerType, defenderType, GetWorldObject( attackerId ) );
 }
 
-int World::GetAttackOdds( int attackerType, int defenderType )
+static int GetDefaultAttackOdds( int attackerType, int defenderType )
 {
     
     AppDebugAssert( attackerType >= 0 && attackerType < WorldObject::NumObjectTypes &&
@@ -3678,12 +3678,52 @@ int World::GetAttackOdds( int attackerType, int defenderType )
                                         0,  0,  0,  0, 99,  0, 20, 20,  0, 10, 25,  0,  0, 50,  0,  0,  // Carrier
                                         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  // Tornado
                                         0,  0,  5,  0,  0,  0,  0, 10,  0, 50,  0,  0,  0,  0,  0,  0,  // Saucer
-                                        0,  0,  5,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  // Blip
-                                        0,  0,  5,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  // Gun
+                                        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  // Blip
+                                        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  // Gun
                                     };
 
 
     return s_attackOdds[ defenderType ][ attackerType ];
+}
+
+class AttackOddSettings
+{
+public:
+    WorldOption< int > * m_attackOdds[ WorldObject::NumObjectTypes ] [ WorldObject::NumObjectTypes ];
+    
+
+    AttackOddSettings()
+    {
+        for( int i = WorldObject::NumObjectTypes-1; i >= 0; --i )
+        {
+            for( int j = WorldObject::NumObjectTypes-1; j >= 0; --j )
+            {
+                m_attackOdds[i][j] = new WorldOption< int >( TempName( i, j, "AttackOdds" ), GetDefaultAttackOdds( j, i ) );
+            }
+        }
+    }
+
+    ~AttackOddSettings()
+    {
+        for( int i = WorldObject::NumObjectTypes-1; i >= 0; --i )
+        {
+            for( int j = WorldObject::NumObjectTypes-1; j >= 0; --j )
+            {
+                delete m_attackOdds[i][j];
+                m_attackOdds[i][j] = NULL;
+            }
+        }
+    }
+};
+
+static AttackOddSettings s_attackOddSettings;
+
+int World::GetAttackOdds( int attackerType, int defenderType )
+{
+    AppDebugAssert( attackerType >= 0 && attackerType < WorldObject::NumObjectTypes &&
+                    defenderType >= 0 && defenderType < WorldObject::NumObjectTypes );
+
+    return *s_attackOddSettings.m_attackOdds[ defenderType ][ attackerType ];
 }
 
 void World::WriteNodeCoverageFile()
