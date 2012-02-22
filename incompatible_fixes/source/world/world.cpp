@@ -51,6 +51,10 @@
 
 #include "renderer/map_renderer.h"
 
+static WorldOption< int > s_defcon1( "Defcon1" , 30 );
+static WorldOption< int > s_defcon2( "Defcon2" , 20 );
+static WorldOption< int > s_defcon3( "Defcon3" , 12 );
+static WorldOption< int > s_defcon4( "Defcon4" , 6 );
 
 World::World()
 :   m_myTeamId(-1),
@@ -68,10 +72,10 @@ World::World()
     
     m_defconTime.Initialise(6);
     m_defconTime[5] = 0;
-    m_defconTime[4] = 6;
-    m_defconTime[3] = 12;
-    m_defconTime[2] = 20;
-    m_defconTime[1] = 30;
+    m_defconTime[4] = s_defcon4;
+    m_defconTime[3] = s_defcon3;
+    m_defconTime[2] = s_defcon2;
+    m_defconTime[1] = s_defcon1;
     m_defconTime[0] = -1;
 
     for( int i = 0; i < NumAchievementCities; ++i )
@@ -114,6 +118,14 @@ void World::Init()
     // load world options
 
     WorldOptionBase::LoadAll();
+
+    m_defconTime.Initialise(6);
+    m_defconTime[5] = 0;
+    m_defconTime[4] = s_defcon4;
+    m_defconTime[3] = s_defcon3;
+    m_defconTime[2] = s_defcon2;
+    m_defconTime[1] = s_defcon1;
+    m_defconTime[0] = -1;
 }
 
 
@@ -2571,27 +2583,59 @@ void World::UpdateRadar()
     }
 }
 
+static bool IsPastDate( Date & date, int minutes )
+{
+    int hours = minutes/60;
+    minutes -= hours*60;
+    int days = hours/24;
+    hours -= days*24;
+    if( date.GetDays() > days )
+    {
+        return true;
+    }
+    if( date.GetDays() < days )
+    {
+        return false;
+    }
+    if( date.GetHours() > hours )
+    {
+        return true;
+    }
+    if( date.GetHours() < hours )
+    {
+        return false;
+    }
+    return date.GetMinutes() >= minutes;
+}
 
 int World::GetDefcon()
 {    
-    //return 1;
-
-    if ( m_theDate.GetDays() > 0 ||
-         m_theDate.GetHours() > 0 || 
-         m_theDate.GetMinutes() >= 30 )
+    if( IsPastDate( m_theDate, s_defcon1 ) )
     {
         return 1;
     }
-    else if(m_theDate.GetDays() > 0 ||
-            m_theDate.GetHours() > 0 || 
-            m_theDate.GetMinutes() > 12 )
+    else if( IsPastDate( m_theDate, s_defcon3 ) )
     {
-        return 4 - m_theDate.GetMinutes() / 10;
+        if( IsPastDate( m_theDate, s_defcon2 ) )
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
     }
     else
     {
-        return 5 - m_theDate.GetMinutes() / 6;
-    }   
+        if( IsPastDate( m_theDate, s_defcon4 ) )
+        {
+            return 4;
+        }
+        else
+        {
+            return 5;
+        }
+    }
 }
 
 void World::SetTimeScaleFactor( Fixed factor )

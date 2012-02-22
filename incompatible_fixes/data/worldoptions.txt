@@ -34,6 +34,16 @@ BomberLaunchAnywhere 1
 SiloLaunchAnywhere 1
 
 ################
+# World
+################
+
+# Time in minutes the various defcon levels are activated at
+Defcon4 6
+Defcon3 12
+Defcon2 20
+Defcon1 30
+
+################
 # Unit and state properties
 ################
 
