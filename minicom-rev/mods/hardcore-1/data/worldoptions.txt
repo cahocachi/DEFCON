@@ -1,0 +1,14 @@
+BomberShowNukeTarget 0
+SubLaunchAnywhere 0
+
+NukeShortestPath 0
+CarrierNoPursuit 0
+ImmediateRetarget 0
+ManualTargetShotLoss 1
+SiloAllowManualTarget 0
+BomberFireWhileLanding 0
+ReloadOnSpawn 0
+PlaneLandingAdvanced 0
+PlaneLandingInterceptCarriers 0
+InvisibleTargetTracking 1
+ImpossibleTargetTracking 1

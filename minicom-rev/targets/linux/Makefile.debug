@@ -1,0 +1,16 @@
+# -*- Makefile -*- for Defcon
+
+#
+# In the parent directory of source/ contrib/ targets/
+#
+# make -f targets/linux/Makefile.debug
+# 
+
+#CXX=g++
+#CC=gcc
+CXXFLAGS_BASE=-w -g -O0
+SUFFIX=-debug
+
+CPPFLAGS_BASE=-D_DEBUG
+
+-include targets/linux/Makefile
