@@ -1,0 +1,438 @@
+# World options that influence little details of how the world works;
+# they're too fine grained to be game options. Instead, put a modified
+# version of this file into a MOD and distribute that.
+# worldoptions.txt is read from ALL active mods, higher priority mods
+# overwrite lower priority ones and those overwrite settings in this file.
+# So if you only want to mod a part of the rules, delete the ones you 
+# do not care about.
+
+################
+# Interface
+################
+
+# Bombers store the coordinates of their nuke target separately, vanilla
+# Defcon does not show it. If BomberShowNukeTarget is set to 1, the following 
+# changes are made to bomber order rendering:
+# - If valid nuke target coordinates are set, they are marked with
+#   a red attack line. The navigation target is shown in blue, then.
+# - Bombers launched before DEFCON 1 with valid nuke targets mark them
+#   red already instead of blue.
+# - if a bomber is in SRBM mode and no nuke target has been set yet, 
+#   its navigation target turns from blue to yellow so you can still 
+#   identify switched bombers. Vanilla Defcon shows the navigation
+#   marker as red in those situations.
+# A value of 0 returns to the bahaviour of vanilla Defcon.
+
+BomberShowNukeTarget 1
+
+# If these settings are 1, the corresponding units can launch their nukes at
+# any spot in range; it they are 0, they can only fire at confirmed targets.
+# For plain Defcon feel, disable SubLaunchAnywhere.
+
+SubLaunchAnywhere 1
+BomberLaunchAnywhere 1
+SiloLaunchAnywhere 1
+
+################
+# Unit and state properties
+################
+
+# All unit types have the following propreties you can customize;
+# replace 'Unit' with the unit's name.
+
+# The number of hit points. Each successful gunshot hit takes 1 away,
+# nuke hits usually take 10.
+# UnitLife 1
+
+# The number of nukes.
+# UnitNukeSupply 0
+
+# Moving units have some more:
+
+# movement speed in degrees (longitude/latitude) per 100 seconds
+# UnitSpeed 1
+
+# Turn rate; acceleration in degrees (longitude/latitude) per 1000 seconds^2;
+# it takes about 15 * UnitSpeed / UnitTurnRate seconds for a 90 degree turn under
+# optimal conditions.
+# UnitTurnRate 1
+
+# operation range; MAX for infinite
+# UnitFuelRange MAX
+
+# States have their own properties. Replace 'Unit' with the unit's name and 'State'
+# with the state name (for units with only one state, that name is empty).
+
+# The time it takes for a state to get activated:
+# UnitStatePrepareTime 120
+
+# The time it takes for the state's action to be repeated:
+# UnitStateReloadTime 30
+
+# Radar range if the unit is in that state:
+# UnitStateRadarRange 10
+
+# The combat/nuke range in that state:
+# UnitStateActionRange 20
+
+# 1 if the state allows actions, 0 if it doesn't.
+# UnitStateIsActionable 0
+
+# 'Ammunition' of that state, how often the state's action can be repeated. 
+# Nuke/plane supply. -1 for infinite ammunition.
+# UnitStateNumTimesPermitted 10
+
+# DEFCON level this state can become active in first.
+# UnitStateDefconPermitted 5
+
+# individual settings: (Those that don't make sense to change, ever, are commented out,
+# but they still exist)
+
+#CityLife 1
+#CityNukeSupply 0
+
+#CityPrepareTime 0
+#CityReloadTime 0
+CityRadarRange 5
+#CityActionRange 0
+#CityIsActionable 0
+#CityNumTimesPermitted -1
+#CityDefconPermitted 5
+
+
+SiloLife 25
+SiloNukeSupply 10 # must be the same as SiloICBMNumTimesPermitted
+
+SiloICBMPrepareTime 120
+SiloICBMReloadTime 120
+SiloICBMRadarRange 10
+SiloICBMActionRange MAX
+SiloICBMIsActionable 1
+SiloICBMNumTimesPermitted 10
+SiloICBMDefconPermitted 1
+
+SiloAAPrepareTime 340
+SiloAAReloadTime 20
+SiloAARadarRange 10
+SiloAAActionRange 30
+SiloAAIsActionable 1
+SiloAANumTimesPermitted -1
+SiloAADefconPermitted 5
+
+
+NukeLife 1
+NukeSpeed 20
+NukeTurnRate 1 
+NukeFuelRange MAX
+#NukeNukeSupply 0
+
+NukeOnTargetPrepareTime 0
+NukeOnTargetReloadTime 0
+NukeOnTargetRadarRange 0
+NukeOnTargetActionRange MAX
+NukeOnTargetIsActionable 0
+NukeOnTargetNumTimesPermitted -1
+NukeOnTargetDefconPermitted 5
+
+NukeDisarmPrepareTime 100
+NukeDisarmReloadTime 0
+NukeDisarmRadarRange 0
+NukeDisarmActionRange 0
+NukeDisarmIsActionable 0
+NukeDisarmNumTimesPermitted -1
+NukeDisarmDefconPermitted 5
+
+
+#ExplosionLife 1
+#ExplosionNukeSupply 0
+
+SubLife 1
+SubSpeed 2
+SubTurnRate 1
+SubFuelRange MAX
+SubNukeSupply 5 # must be the same as SubSRBMNumTimesPermitted
+
+SubPassivePrepareTime 240
+SubPassiveReloadTime 20
+SubPassiveRadarRange 0
+SubPassiveActionRange 5
+SubPassiveIsActionable 1
+SubPassiveNumTimesPermitted -1
+SubPassiveDefconPermitted 3
+
+SubActivePrepareTime 240
+SubActiveReloadTime 20
+SubActiveRadarRange 0
+SubActiveActionRange 5
+SubActiveIsActionable 0
+SubActiveNumTimesPermitted -1
+SubActiveDefconPermitted 3
+
+SubMRBMPrepareTime 120
+SubMRBMReloadTime 120
+SubMRBMRadarRange 3
+SubMRBMActionRange 45
+SubMRBMIsActionable 1
+SubMRBMNumTimesPermitted 5
+SubMRBMDefconPermitted 1
+
+
+RadarLife 1 
+RadarNukeSupply 0
+
+RadarPrepareTime 0
+RadarReloadTime 0
+RadarRadarRange 20
+RadarActionRange 0
+RadarIsActionable 0
+RadarNumTimesPermitted -1
+RadarDefconPermitted 5
+
+
+BattleshipLife 3
+BattleshipSpeed 3
+BattleshipTurnRate 1
+BattleshipFuelRange MAX
+BattleshipNukeSupply 0
+
+BattleshipPrepareTime 60
+BattleshipReloadTime 20
+BattleshipRadarRange 10
+BattleshipActionRange 10
+BattleshipIsActionable 1
+BattleshipNumTimesPermitted -1
+BattleshipDefconPermitted 3
+
+
+AirbaseLife 15
+AirbaseNukeSupply 10
+
+# maximum storage space for planes
+AirbaseMaxFighters 10
+AirbaseMaxBombers 10
+
+AirbaseFighterPrepareTime 120
+AirbaseFighterReloadTime 120
+AirbaseFighterRadarRange 10
+AirbaseFighterActionRange 45
+AirbaseFighterIsActionable 1
+AirbaseFighterNumTimesPermitted 5
+AirbaseFighterDefconPermitted 3
+
+AirbaseBomberPrepareTime 120
+AirbaseBomberReloadTime 120
+AirbaseBomberRadarRange 10
+AirbaseBomberActionRange 140
+AirbaseBomberIsActionable 1
+AirbaseBomberNumTimesPermitted 5
+AirbaseBomberDefconPermitted 3
+
+FighterLife 1
+FighterSpeed 10
+FighterTurnRate 4 
+FighterFuelRange 45
+FighterNukeSupply 0
+
+FighterPrepareTime 60
+FighterReloadTime 20
+FighterRadarRange 5
+FighterActionRange 10
+FighterIsActionable 1
+FighterNumTimesPermitted -1
+FighterDefconPermitted 5
+
+BomberLife 1
+BomberSpeed 5
+BomberTurnRate 1
+BomberFuelRange 140
+BomberNukeSupply 1
+
+BomberNavalPrepareTime 60
+BomberNavalReloadTime 30
+BomberNavalRadarRange 10
+BomberNavalActionRange 20
+BomberNavalIsActionable 1
+BomberNavalNumTimesPermitted -1
+BomberNavalDefconPermitted 3
+
+BomberSRBMPrepareTime 240
+#BomberSRBMReloadTime 120
+BomberSRBMRadarRange 5
+BomberSRBMActionRange 25
+BomberSRBMIsActionable 1
+BomberSRBMNumTimesPermitted 1
+BomberSRBMDefconPermitted 1
+
+CarrierLife 3
+CarrierSpeed 3
+CarrierTurnRate 1
+CarrierFuelRange MAX
+CarrierNukeSupply 6
+
+# maximum storage space for planes
+CarrierMaxFighters 5
+CarrierMaxBombers 2
+
+CarrierFighterPrepareTime 120
+CarrierFighterReloadTime 120
+CarrierFighterRadarRange 15
+CarrierFighterActionRange 45
+CarrierFighterIsActionable 1
+CarrierFighterNumTimesPermitted 5
+CarrierFighterDefconPermitted 3
+
+CarrierBomberPrepareTime 120
+CarrierBomberReloadTime 120
+CarrierBomberRadarRange 15
+CarrierBomberActionRange 140
+CarrierBomberIsActionable 1
+CarrierBomberNumTimesPermitted 2
+CarrierBomberDefconPermitted 3
+
+CarrierAntiSubPrepareTime 240
+CarrierAntiSubReloadTime 60
+CarrierAntiSubRadarRange 15
+CarrierAntiSubActionRange 5
+CarrierAntiSubIsActionable 0
+CarrierAntiSubNumTimesPermitted -1
+CarrierAntiSubDefconPermitted 3
+
+TornadoLife 1
+TornadoSpeed 10
+TornadoTurnRate 4
+TornadoFuelRange 600
+TornadoNukeSupply 0
+
+TornadoPrepareTime 0
+TornadoReloadTime 0
+TornadoRadarRange 5
+TornadoActionRange MAX
+TornadoIsActionable 0
+TornadoNumTimesPermitted -1
+TornadoDefconPermitted 5
+
+
+SaucerLife 50
+SaucerSpeed 20
+SaucerTurnRate 10 
+SaucerFuelRange 200000
+SaucerNukeSupply 0
+
+SaucerFlightPrepareTime 0
+SaucerFlightReloadTime 0
+SaucerFlightRadarRange 10
+SaucerFlightActionRange 180
+SaucerFlightIsActionable 1
+SaucerFlightNumTimesPermitted -1
+SaucerFlightDefconPermitted 5
+
+SaucerAttackPrepareTime 0
+SaucerAttackReloadTime 0
+SaucerAttackRadarRange 10
+SaucerAttackActionRange 180
+SaucerAttackIsActionable 1
+SaucerAttackNumTimesPermitted -1
+SaucerAttackDefconPermitted 5
+
+# blips are the fleet navigation preview things and purely a visual effect
+BlipLife 1
+BlipSpeed 400
+BlipTurnRate 4000
+BlipFuelRange MAX
+BlipNukeSupply 0
+
+BlipPrepareTime 0
+BlipReloadTime 0
+BlipRadarRange 0
+BlipActionRange 0
+BlipIsActionable 0
+BlipNumTimesPermitted -1
+BlipDefconPermitted -1
+
+################
+# Plane landing
+################
+
+# If this is set to 1, advanced plane landingpad selection code is activated,
+# if it is 0, planes greedily go for the closest available pad (bombers without nukes
+# prefer pads with supply, though)
+
+PlaneLandingAdvanced 1
+
+# If PlaneLandingInterceptCarriers is on 1, planes landing on moving carriers will head
+# for a suitable rendezvous point ahead on the carrier's course. If it is 0, they will
+# just fly straight at its current location.
+
+PlaneLandingInterceptCarriers 1
+
+################
+# Combat
+################
+
+# when planes take off (and other units using guns get placed on the map), they need to wait
+# their regular reload time before they can fire their first shot, multiplied by
+# ReloadOnSpawn/100. Vanilla Defcon has no such wait, the appropriate value of
+# ReloadOnSpawn for that would be 0.
+
+ReloadOnSpawn 100
+
+################
+# Automatisms
+################
+
+# Sometimes, when units are left to their own devices, they will do suboptimal things
+# that need to be correctyed by micromanagement.
+
+# Bombers only fire at targets while landing if this is set to 1.
+
+BomberFireWhileLanding 1
+
+# Fighters always look for targets if this is 1, otherwise only after they reach a waypoint.
+
+FighterAlwaysAutoTarget 1
+
+# If ImpossibleTargetTracking is 1, units will happily fire and follow targets they can't
+# possibly harm.
+
+ImpossibleTargetTracking 0
+
+################
+# Bugs
+################
+
+# Some people like some bugs. Here you can re-enable your favourite ones.
+
+# In vanilla Defcon, ICBMs sometimes prefer to take the longer path round the earth;
+# they prefer to cross the map seam. If NukeShortestPath is 0, they still do that. If
+# it is 1, they always take the shortest path.
+
+NukeShortestPath 1
+
+# If CarrierNoPursuit is set to 1, fleets with carriers in them never prusue other fleets.
+# This makes sense as they don't need to get close to attack and it is often triggered
+# involuntarily by sending fighters at enemy ships. If it is 0, carriers don't care.
+
+CarrierNoPursuit 1
+
+# If ImmediateRetarget is set to 1, attack targets and bomber nuke targets can be
+# reset even while the state timer is ticking down. If it is 0, the retarget action
+# is queued up and will be executed as soon as the timer hits zero.
+
+ImmediateRetarget 1
+
+# If ManualTargetShotLoss is set to 1, manually selecting a target for conventional
+# fire will cause one shot that could be fired to be swallowed up like in vanilla Defcon.
+
+ManualTargetShotLoss 0
+
+# If SiloAllowManualTarget is set to 0, silos will override manually set targets
+# like vanilla Defcon. Unless ManualTargetShotLoss is at 1 and ImmediateRetarget at 0, you
+# still can fire single shots at manually selected targets, though, but only individually.
+
+SiloAllowManualTarget 1
+
+# If InvisibleTargetTracking is 1, sometimes invisible objects will be tracked by former
+# attackers and be visible in the orders view.
+
+InvisibleTargetTracking 0
+

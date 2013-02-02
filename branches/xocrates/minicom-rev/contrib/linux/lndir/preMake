@@ -1,0 +1,7 @@
+all: lndir
+
+lndir: Makefile
+	make
+
+Makefile:
+	sh autogen.sh CC=apgcc CXX=apg++

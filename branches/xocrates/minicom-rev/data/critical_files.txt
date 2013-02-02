@@ -1,0 +1,14 @@
+earth/africa.bmp
+earth/ai_markers.bmp
+earth/cities.dat
+earth/coastlines.bmp
+earth/europe.bmp
+earth/northamerica.bmp
+earth/russia.bmp
+earth/sailable.bmp
+earth/southamerica.bmp
+earth/southasia.bmp
+earth/travel_nodes.bmp
+gameoptions.txt
+worldoptions.txt
+critical_files.txt

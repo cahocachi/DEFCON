@@ -1,0 +1,40 @@
+
+#ifndef _included_airbase_h
+#define _included_airbase_h
+
+#include "world/worldobject.h"
+#include "lib/math/fixed.h"
+
+
+class AirBase : public WorldObject
+{
+protected:
+    Fixed m_fighterRegenTimer;
+
+public:
+    AirBase();
+
+    void RequestAction( ActionOrder *_order );
+    void Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
+    void RunAI();
+    bool IsActionQueueable();
+    bool UsingNukes();
+    void NukeStrike();
+    bool Update();
+    void Render( RenderInfo & renderInfo );
+    bool CanLaunchFighter();
+    bool CanLaunchBomber();
+	bool LaunchBomber ( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
+    bool LaunchFighter( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude );
+    
+    int  GetAttackOdds           ( int _defenderType );
+
+    int  IsValidCombatTarget     ( int _objectId );                                      // returns TargetType...
+    int  IsValidMovementTarget   ( Fixed longitude, Fixed latitude );                    //
+
+	int GetNukeCount();
+};
+
+
+
+#endif

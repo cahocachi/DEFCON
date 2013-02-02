@@ -1,0 +1,7 @@
+SubLaunchAnywhere 0
+
+BomberFireWhileLanding 0
+FighterAlwaysAutoTarget 0
+PlaneLandingAdvanced 0
+PlaneLandingInterceptCarriers 0
+ImpossibleTargetTracking 1

@@ -1,0 +1,882 @@
+#include "lib/universal_include.h"
+#include "lib/resource/resource.h"
+#include "lib/resource/image.h"
+#include "lib/language_table.h"
+#include "lib/math/random_number.h"
+#include "lib/sound/soundsystem.h"
+
+#include "app/app.h"
+#include "app/globals.h"
+#include "app/game.h"
+
+#include "renderer/map_renderer.h"
+
+#include "world/world.h"
+#include "world/carrier.h"
+#include "world/bomber.h"
+#include "world/fighter.h"
+#include "world/city.h"
+#include "world/nuke.h"
+#include "world/depthcharge.h"
+#include "world/fleet.h"
+
+MovingUnitSettings s_carrierSettings( WorldObject::TypeCarrier, 3, 3, 1, Fixed::MAX, 6 );
+static StateSettings s_carrierFighter( WorldObject::TypeCarrier, "Fighter", 120, 120, 15, 45, true, 5, 3 );
+static StateSettings s_carrierBomber( WorldObject::TypeCarrier, "Bomber", 120, 120, 15, 140, true, 2, 3 );
+static StateSettings s_carrierAntiSub( WorldObject::TypeCarrier, "AntiSub", 240, 60, 15, 5, false, -1, 3 );
+
+static WorldOption< int > s_carrierMaxFighters( TempName( WorldObject::TypeCarrier, "MaxFighters" ), 5 );
+static WorldOption< int > s_carrierMaxBombers( TempName( WorldObject::TypeCarrier, "MaxBombers" ), 2 );
+
+
+Carrier::Carrier()
+:   NavalUnit()
+{
+    Setup( TypeCarrier, s_carrierSettings );
+    
+    strcpy( bmpImageFilename, "graphics/carrier.bmp" );
+    strcpy( bmpFighterMarkerFilename, "graphics/fighter.bmp" );
+    strcpy( bmpBomberMarkerFilename, "graphics/bomber.bmp" );
+
+    // m_radarRange = 15;
+    m_selectable = false;  
+    //m_movementType = MovementTypeSea;
+    m_maxHistorySize = 10;
+    
+    m_maxFighters = s_carrierMaxFighters;
+    m_maxBombers = s_carrierMaxBombers;
+    
+    m_ghostFadeTime = 150;
+    
+    AddState( LANGUAGEPHRASE("state_fighterlaunch"), s_carrierFighter );
+    AddState( LANGUAGEPHRASE("state_bomberlaunch"), s_carrierBomber );
+    AddState( LANGUAGEPHRASE("state_antisub"), s_carrierAntiSub );
+
+    InitialiseTimers();
+}
+
+
+void Carrier::RequestAction(ActionOrder *_action)
+{
+    if( m_currentState < 2 )
+    {
+        if(g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, _action->m_longitude, _action->m_latitude ) < GetActionRangeSqd() )
+        {
+            WorldObject::RequestAction(_action);
+        }
+        else
+        {
+            delete _action;
+        }
+    }
+    else
+    {
+        WorldObject::RequestAction(_action);
+    }
+}
+
+
+void Carrier::Action( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
+{
+    if( !CheckCurrentState() )
+    {
+        return;
+    }
+
+    WorldObject *obj = g_app->GetWorld()->GetWorldObject( targetObjectId );
+    if( obj )
+    {
+        longitude = obj->m_longitude;
+        latitude = obj->m_latitude;
+    }
+
+    if( m_stateTimer <= 0 )
+    {
+        if( m_currentState == 0 )
+        {        
+            if(!LaunchFighter( targetObjectId, longitude, latitude ))
+            {
+                return;
+            }
+        }
+        else if( m_currentState == 1 )
+        {
+            if(!LaunchBomber( targetObjectId, longitude, latitude ))
+            {
+                return;
+            }
+        }
+        MovingObject::Action( targetObjectId, longitude, latitude );
+    }
+}
+
+bool Carrier::Update()
+{
+    AppDebugAssert( m_type == WorldObject::TypeCarrier );
+    MoveToWaypoint(); 
+    Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+    if( fleet )
+    {
+        bool attackPossible = false;
+
+        if( m_stateTimer <= 0 && m_currentState == 2 )
+        {
+            Ping();
+            m_stateTimer = m_states[2]->m_timeToReload;
+            attackPossible = true;
+        }
+
+        if( attackPossible && fleet->m_currentState != Fleet::FleetStatePassive )
+        {
+            if( m_targetObjectId != -1 && m_currentState == 2 )
+            {
+                WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(m_targetObjectId);
+                if( targetObject )
+                {
+                    if( targetObject->m_visible[m_teamId] ||
+                        targetObject->m_seen[m_teamId] )
+                    {
+                        Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude);
+                        if( distanceSqd <= GetActionRangeSqd() )
+                        {
+                            FireGun( GetActionRange() );
+                        }
+                    }
+                }
+                else
+                {
+                    m_targetObjectId = -1;
+                }
+            }
+        }
+    }
+
+    if( m_currentState != 2 )
+    {
+        int altState = (m_currentState == 0 ? 1 : 0);
+        if( m_states[m_currentState]->m_numTimesPermitted == 0 &&
+            m_states[altState]->m_numTimesPermitted > 0 )
+        {
+            SetState( altState );
+        }
+        if( m_states[0]->m_numTimesPermitted == 0 &&
+            m_states[1]->m_numTimesPermitted == 0 &&
+            m_currentState != 2 )
+        {
+            SetState(2);
+        }
+    }
+
+    return MovingObject::Update();
+}
+
+
+void Carrier::RunAI()
+{    
+    if( m_aiTimer <= 0 )
+    {
+        if( g_app->GetWorld()->GetDefcon() <= 3 )
+        {
+            m_aiTimer = m_aiSpeed;
+            Team *team = g_app->GetWorld()->GetTeam( m_teamId );
+            Fleet *fleet = team->GetFleet( m_fleetId );
+            if( m_states[m_currentState]->m_numTimesPermitted - m_actionQueue.Size() <= 0 &&
+                m_currentState != 2 )
+            {
+                return;
+            }
+        
+            if( m_currentState == 2 )
+            {
+                if( fleet->m_currentState != Fleet::AIStateIntercepting &&
+                    m_targetObjectId == -1 )
+                {
+                    for( int i = 0; i < fleet->m_fleetMembers.Size(); ++i )
+                    {
+                        WorldObject *obj = g_app->GetWorld()->GetWorldObject( fleet->m_fleetMembers[i] );
+                        if( obj )
+                        {
+                            if( obj->m_type == WorldObject::TypeCarrier && 
+                                obj->m_currentState == 2 && 
+                                obj->m_objectId != m_objectId )
+                            {
+                                if( m_states[0]->m_numTimesPermitted > 0 )
+                                {
+                                    SetState(0);
+                                }
+                                else if( m_states[1]->m_numTimesPermitted > 0 )
+                                {
+                                    SetState(1);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if( team->m_targetsVisible >= 4 ||
+                team->m_currentState >= Team::StateAssault )
+            {
+                if( m_states[1]->m_numTimesPermitted > 0 &&
+                    g_app->GetWorld()->GetDefcon() == 1 )
+                {
+                    if( m_currentState != 1 )
+                    {
+                        SetState(1);
+                    }
+                    Fixed longitude = 0;
+                    Fixed latitude = 0;
+                    int objectId = -1;
+                    Fixed maxDistance = 90;
+
+                    Nuke::FindTarget( m_teamId, team->m_targetTeam, m_objectId, maxDistance, &longitude, &latitude, &objectId );
+                    if( ( longitude != 0 && latitude != 0 ) &&
+                        ( objectId != -1 || team->m_currentState >= Team::StateAssault ) )
+                    {
+                        ActionOrder *action = new ActionOrder();
+                        action->m_longitude = longitude;
+                        action->m_latitude = latitude;
+                        action->m_targetObjectId = objectId;
+                        RequestAction( action );
+                    }
+                }
+                else
+                {
+                    LaunchScout();
+                }
+            }
+            else
+            {
+                LList<int> targets;
+                int scanRange = 15.0f;
+                for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+                {
+                    if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+                    {
+                        WorldObject *obj = g_app->GetWorld()->m_objects[i];
+                        bool visible = obj->m_visible[m_teamId];
+                        if( obj->m_type == WorldObject::TypeSub && m_currentState == 1 ) visible = true;                // TODO CHRIS : This looks like a bug to me.  surely current state should be 2?
+
+                        if( !g_app->GetWorld()->IsFriend( m_teamId, obj->m_teamId) &&                            
+                            visible &&
+                            obj->IsMovingObject() &&
+                            team->CountTargettedUnits(i) < 3 &&
+                            g_app->GetWorld()->GetDistance( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude ) < scanRange )
+                        {
+                            targets.PutData(obj->m_objectId );
+                        }
+                    }
+                }
+                int targetIndex = -1;
+                if( targets.Size() > 0 )
+                {
+                    targetIndex = targets[syncrand() % targets.Size()];
+                }
+
+                WorldObject *obj = g_app->GetWorld()->GetWorldObject( targetIndex );
+                if( obj )
+                {                
+                    if( obj->m_type == WorldObject::TypeFighter ||
+                        obj->m_type == WorldObject::TypeBomber )
+                    {
+                        if( m_stateTimer <= 0 ) 
+                        {
+                            SetState(0);
+
+                        }
+                        ActionOrder *action = new ActionOrder();
+                        action->m_targetObjectId = obj->m_objectId;
+                        action->m_longitude = obj->m_longitude;
+                        action->m_latitude = obj->m_latitude;
+                        RequestAction(action);
+                    }
+                    else if( obj->m_type == WorldObject::TypeSub )
+                    {
+                        if( m_stateTimer <= 0 ) 
+                        {
+                            if( obj->m_currentState != 2 )
+                            {
+                                SetState(2);
+                                Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+                                if( fleet )
+                                {
+                                    fleet->AlterWaypoints( obj->m_longitude, obj->m_latitude, true );
+                                }
+                            }
+                            else
+                            {
+                                SetState(1);
+                                ActionOrder *action = new ActionOrder();
+                                action->m_targetObjectId = obj->m_objectId;
+                                action->m_longitude = obj->m_longitude;
+                                action->m_latitude = obj->m_latitude;
+                                RequestAction(action);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if( m_stateTimer <= 0 ) 
+                        {
+                            SetState(1);
+                        }
+                        ActionOrder *action = new ActionOrder();
+                        action->m_targetObjectId = obj->m_objectId;
+                        action->m_longitude = obj->m_longitude;
+                        action->m_latitude = obj->m_latitude;
+                        RequestAction(action);
+                    }
+                }
+                else
+                {
+                    bool redirectingBombers = false;
+                    if( m_nukeSupply == 0 &&
+                        m_states[1]->m_numTimesPermitted > 0 )
+                    {
+                        for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+                        {
+                            if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+                            {
+                                WorldObject *obj = g_app->GetWorld()->m_objects[i];
+                                if( obj->m_teamId == m_teamId &&
+                                    ( obj->m_type == WorldObject::TypeCarrier ||
+                                      obj->m_type == WorldObject::TypeAirBase ) )
+                                {
+                                    if( obj->m_nukeSupply - obj->m_states[1]->m_numTimesPermitted > 0 )
+                                    {
+                                        if( m_currentState != 1 )
+                                        {
+                                            SetState(1);
+                                        }
+
+                                        int nukesSpare = obj->m_nukeSupply - obj->m_states[1]->m_numTimesPermitted;
+                                        for( int j = 0; j < nukesSpare; ++j )
+                                        {
+                                            if( m_states[1]->m_numTimesPermitted - m_actionQueue.Size() > 0 )
+                                            {
+                                                ActionOrder *action = new ActionOrder();
+                                                action->m_targetObjectId = obj->m_objectId;
+                                                action->m_longitude = obj->m_longitude;
+                                                action->m_latitude = obj->m_latitude;
+                                                RequestAction(action);
+                                            }
+                                        }
+                                        redirectingBombers = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if( m_states[0]->m_numTimesPermitted > 2 &&
+                        !redirectingBombers )
+                    {
+                        LaunchScout();
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Carrier::LaunchScout()
+{
+    if( m_states[0]->m_numTimesPermitted > 0 )
+    {
+        if( m_currentState != 0 )
+        {
+            SetState(0);
+        }
+        Team *team = g_app->GetWorld()->GetTeam( m_teamId );
+        
+        int territoryId = -1;
+        for( int i = 0; i < World::NumTerritories; ++i )
+        {
+            int owner = g_app->GetWorld()->GetTerritoryOwner( i );
+            if( owner != -1 &&
+                !g_app->GetWorld()->IsFriend( owner, m_teamId ) )
+            {
+                Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, 
+                                                                g_app->GetWorld()->m_populationCenter[i].x,
+                                                                g_app->GetWorld()->m_populationCenter[i].y );
+                Fixed maxRange = 45 / g_app->GetWorld()->GetGameScale();
+                if( distance < maxRange )
+                {
+                    territoryId = i;
+                    break;
+                }
+            }
+        }
+
+        if( territoryId != -1 )
+        {
+            Fixed longitude = longitude = g_app->GetWorld()->m_populationCenter[territoryId].x + syncsfrand( 60 );
+            Fixed latitude = latitude = g_app->GetWorld()->m_populationCenter[territoryId].y + syncsfrand( 60 );
+                                        
+            ActionOrder *action = new ActionOrder();
+            action->m_longitude = longitude;
+            action->m_latitude = latitude;
+            RequestAction( action );
+        }
+    }
+}
+
+bool Carrier::IsActionQueueable()
+{
+    if( m_currentState != 2 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int Carrier::FindTarget()
+{
+    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+    {
+        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+        {
+            WorldObject *obj = g_app->GetWorld()->m_objects[i];
+
+            if( obj->m_teamId != m_teamId &&                
+                g_app->GetWorld()->GetAttackOdds( WorldObject::TypeFighter, obj->m_type ) > 0 &&
+                obj->m_visible[m_teamId] == true )
+            {
+                Fixed distance = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude);
+
+                if( distance <= 30 )
+                {
+                    return obj->m_objectId;
+                }
+            }
+        }
+    }
+    return -1;
+}
+
+//int Carrier::GetAttackState()
+//{
+//    return -1;
+//}
+
+void Carrier::Retaliate( WorldObjectReference const & attackerId )
+{
+    Fleet *fleet = g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId );
+    if( fleet )
+    {
+        WorldObject *obj = g_app->GetWorld()->GetWorldObject( attackerId );
+        if( obj &&
+            m_teamId != obj->m_teamId &&
+            obj->m_visible[ m_teamId ] && 
+            !g_app->GetWorld()->GetTeam( m_teamId )->m_ceaseFire[ obj->m_teamId ])
+        {
+            if( m_states[m_currentState]->m_numTimesPermitted > 0 )
+            {
+                int launchType = -1;
+                if( m_currentState == 0 ) 
+                {
+                    launchType = WorldObject::TypeFighter;
+                }
+                else 
+                {
+                    launchType = WorldObject::TypeBomber;
+                }
+                if( g_app->GetWorld()->GetAttackOdds( launchType, obj->m_type ) > 0 )
+                {
+                    Action( attackerId, -1, -1 );
+
+                    if( m_fleetId != -1 )
+                    {
+                        fleet->FleetAction( m_targetObjectId );
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool Carrier::UsingNukes()
+{
+    if( m_currentState == 1 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+void Carrier::FireGun( Fixed range)
+{
+    WorldObject *targetObject = g_app->GetWorld()->GetWorldObject(m_targetObjectId);
+    AppAssert( targetObject );
+    DepthCharge *bullet = new DepthCharge( range );
+    bullet->SetPosition( m_longitude, m_latitude );
+    bullet->SetTeamId( m_teamId );
+    bullet->m_origin = m_objectId;
+    bullet->m_attackOdds = g_app->GetWorld()->GetAttackOdds( m_type, targetObject->m_type );
+    bullet->m_distanceToTarget = g_app->GetWorld()->GetDistance( m_longitude, m_latitude, targetObject->m_longitude, targetObject->m_latitude );
+    g_app->GetWorld()->m_gunfire.PutData( bullet );
+}
+
+void Carrier::FleetAction( WorldObjectReference const & targetObjectId )
+{
+    if( m_targetObjectId == -1 )
+    {
+        WorldObject *obj = g_app->GetWorld()->GetWorldObject( targetObjectId );
+        if( obj )
+        {
+            if( m_states[ m_currentState ]->m_numTimesPermitted != 0 )
+            {
+                if( obj->m_type == WorldObject::TypeSub )
+                {
+                    SetState(2);
+                }
+                else if( m_stateTimer <= 0 )
+                {
+                    if( m_currentState == 0 )
+                    {
+                        if( g_app->GetWorld()->GetAttackOdds( WorldObject::TypeFighter, obj->m_type ) > 0 )
+                        {
+                            ActionOrder *action = new ActionOrder();
+                            action->m_targetObjectId = obj->m_objectId;
+                            action->m_longitude = obj->m_longitude;
+                            action->m_latitude = obj->m_latitude;
+                            RequestAction( action );
+                        }
+                    }
+                    else if( m_currentState == 1 )
+                    {
+                        if( g_app->GetWorld()->GetAttackOdds( WorldObject::TypeBomber, obj->m_type ) > 0 )
+                        {
+                            Action( targetObjectId, obj->m_longitude, obj->m_latitude );
+                            ActionOrder *action = new ActionOrder();
+                            action->m_targetObjectId = targetObjectId;
+                            action->m_longitude = obj->m_longitude;
+                            action->m_latitude = obj->m_latitude;
+                            RequestAction( action );
+                        }
+                    }
+                }
+            }
+            MovingObject::Retaliate( targetObjectId );
+        }
+    }
+}
+
+bool Carrier::CanLaunchBomber()
+{
+    if( m_currentState == 1 &&
+        m_states[1]->m_numTimesPermitted > 0 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Carrier::CanLaunchFighter()
+{
+    if( m_currentState == 0 &&
+        m_states[0]->m_numTimesPermitted > 0 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+int Carrier::GetAttackOdds( int _defenderType )
+{
+    if( CanLaunchFighter() )
+    {
+        return g_app->GetWorld()->GetAttackOdds( TypeFighter, _defenderType );
+    }
+
+    if( CanLaunchBomber() )
+    {
+        if( _defenderType == TypeCity ||
+            _defenderType == TypeSilo ||
+            _defenderType == TypeAirBase ||
+            _defenderType == TypeRadarStation )
+        {
+            return g_app->GetWorld()->GetAttackOdds( TypeNuke, _defenderType );
+        }
+        else
+        {
+            return g_app->GetWorld()->GetAttackOdds( TypeBomber, _defenderType );
+        }
+    }
+
+    return MovingObject::GetAttackOdds( _defenderType );
+}
+
+
+int Carrier::IsValidCombatTarget( int _objectId )
+{
+    WorldObject *obj = g_app->GetWorld()->GetWorldObject( _objectId );
+    if( !obj ) return TargetTypeInvalid;
+
+    int basicCheck = WorldObject::IsValidCombatTarget( _objectId );
+    if( basicCheck < TargetTypeInvalid ) return basicCheck;
+
+    bool isFriend = g_app->GetWorld()->IsFriend( m_teamId, obj->m_teamId );    
+    if( !isFriend )
+    {       
+        Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, obj->m_longitude, obj->m_latitude );
+
+        if( distanceSqd < GetActionRangeSqd() )
+        {
+            if( m_currentState == 0  )
+            {
+                int attackOdds = g_app->GetWorld()->GetAttackOdds( TypeFighter, obj->m_type );
+                if( attackOdds > 0)
+                {
+                    return TargetTypeLaunchFighter;
+                }
+            }
+
+            if( m_currentState == 1 )
+            {
+                int attackOdds = g_app->GetWorld()->GetAttackOdds( TypeBomber, obj->m_type );
+                if( attackOdds > 0 || !obj->IsMovingObject() )
+                {
+                    return TargetTypeLaunchBomber;
+                }
+            }
+        }
+        else
+        {
+            return TargetTypeOutOfRange;
+        }
+    }
+
+    return TargetTypeInvalid;
+}
+
+
+int Carrier::IsValidMovementTarget( Fixed longitude, Fixed latitude )
+{
+    Fixed distanceSqd = g_app->GetWorld()->GetDistanceSqd( m_longitude, m_latitude, 
+                                                            longitude, latitude );
+
+    if( distanceSqd < GetActionRangeSqd() )
+    {
+        if( m_currentState == 0 )
+        {
+            return TargetTypeLaunchFighter;
+        }
+
+        if( m_currentState == 1 )
+        {
+            return TargetTypeLaunchBomber;
+        }
+    }
+
+    if( m_currentState == 2 )
+    {
+        return g_app->GetWorld()->GetTeam( m_teamId )->GetFleet( m_fleetId )->IsValidFleetPosition( longitude, latitude );
+    }
+
+    if( m_states[m_currentState]->m_numTimesPermitted - m_actionQueue.Size() <= 0 )
+    {
+        return TargetTypeOutOfStock;
+    }
+
+    if( m_states[m_currentState]->m_defconPermitted < g_app->GetWorld()->GetDefcon() )
+    {
+        return TargetTypeDefconRequired;
+    }
+
+    return TargetTypeInvalid;
+}
+
+
+//int Carrier::CountIncomingFighters()
+//{
+//    int num = 0;
+//    for( int i = 0; i < g_app->GetWorld()->m_objects.Size(); ++i )
+//    {
+//        if( g_app->GetWorld()->m_objects.ValidIndex(i) )
+//        {
+//            MovingObject *obj = (MovingObject *)g_app->GetWorld()->m_objects[i];
+//            if( obj->m_type == WorldObject::TypeFighter &&
+//                obj->m_teamId == m_teamId &&
+//                obj->m_isLanding == m_objectId )
+//            {
+//                num++;
+//            }
+//        }
+//    }
+//    return num;
+//}
+
+
+void Carrier::Render( RenderInfo & renderInfo )
+{
+    MovingObject::Render(renderInfo);
+
+
+    //
+    // Render count
+
+    if( m_teamId == g_app->GetWorld()->m_myTeamId ||
+        g_app->GetWorld()->m_myTeamId == -1 ||
+        g_app->GetGame()->m_winner != -1 )
+    {   
+        int numInStore = m_states[m_currentState]->m_numTimesPermitted;
+        int numInQueue = m_actionQueue.Size();
+
+        Team *team = g_app->GetWorld()->GetTeam(m_teamId);
+        Colour colour = team->GetTeamColour();            
+        colour.m_a = 150;
+
+        Image *bmpImage = g_resource->GetImage("graphics/smallbomber.bmp");
+        if( m_currentState == 0 ) bmpImage = g_resource->GetImage("graphics/smallfighter.bmp" );
+
+
+        if( bmpImage )
+        {
+            float x = renderInfo.m_position.x - GetSize().DoubleValue() * 0.85f;
+            float y = renderInfo.m_position.y - GetSize().DoubleValue() * 0.25f; 
+            float size = GetSize().DoubleValue() * 0.35f;
+            
+            float dx = size*0.9f;
+
+            if( team->m_territories[0] >= 3 )
+            {
+                x += GetSize().DoubleValue()*1.4f;                                
+                dx *= -1;
+            }       
+
+            for( int i = 0; i < numInStore; ++i )
+            {
+                if( i >= (numInStore-numInQueue) )
+                {
+                    colour.Set( 128,128,128,100 );
+                }
+                
+                g_renderer->Blit( bmpImage, x, y, size*0.9f, -size, colour );
+                x += dx;
+            }
+        }
+    }        
+}
+
+int Carrier::GetNukeCount()
+{
+	if( m_nukeSupply > 0 )
+    {
+		return (m_states[1]->m_numTimesPermitted);
+    }
+
+	return 0;
+}
+
+
+bool Carrier::LaunchBomber( WorldObjectReference const & targetObjectId, Fixed longitude, Fixed latitude )
+{
+    Bomber *bomber = new Bomber();
+    bomber->SetTeamId( m_teamId );
+    bomber->SetPosition( m_longitude, m_latitude );
+    bomber->SetWaypoint( longitude, latitude );
+
+    WorldObject *target = g_app->GetWorld()->GetWorldObject( targetObjectId );
+    if( target )
+    {
+        if( g_app->GetWorld()->GetAttackOdds( WorldObject::TypeBomber, target->m_type ) > 0 )
+        {
+            bomber->SetState(0);
+            bomber->m_targetObjectId = target->m_objectId;
+        }
+        else
+        {
+            if( !target->IsMovingObject() )
+            {
+                bomber->SetState(1);
+                bomber->SetNukeTarget( longitude, latitude );
+                bomber->m_bombingRun = true;
+            }
+        }
+    }
+    else if( targetObjectId != -1 )
+    {
+        // target has already been destroyed, launch ready for attack
+        bomber->SetState(0);
+    }
+
+    if( bomber->m_currentState == 0 )
+    {
+        for( int i = 0; i < g_app->GetWorld()->m_cities.Size(); ++i )
+        {
+            if( g_app->GetWorld()->m_cities.ValidIndex(i) )
+            {
+                City *city = g_app->GetWorld()->m_cities[i];
+                if( city->m_longitude == longitude &&
+                    city->m_latitude == latitude )
+                {
+                    bomber->SetState(1);
+                    bomber->SetNukeTarget( longitude, latitude );
+                    bomber->m_bombingRun = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    g_app->GetWorld()->AddWorldObject( bomber );
+
+    if( m_nukeSupply <= 0 )
+    {
+        bomber->m_bombingRun = false;
+        bomber->m_nukeTargetLongitude = 0;
+        bomber->m_nukeTargetLatitude = 0;
+        bomber->m_states[1]->m_numTimesPermitted = 0;
+    }
+
+    return true;
+}
+
+bool Carrier::LaunchFighter( WorldObjectReference const & _targetObjectId, Fixed longitude, Fixed latitude )
+{
+    WorldObjectReference targetObjectId = _targetObjectId;
+    if( targetObjectId >= OBJECTID_CITYS )
+    {
+        targetObjectId = -1;
+    }
+
+    Fighter *fighter = new Fighter();
+    if( fighter->IsValidPosition( longitude, latitude ) )
+    {
+        fighter->SetTeamId( m_teamId );
+        fighter->SetPosition( m_longitude, m_latitude );
+	    WorldObject *target = g_app->GetWorld()->GetWorldObject(targetObjectId);
+        if( target && target->IsMovingObject() )
+        {
+            fighter->SetTargetObjectId(targetObjectId);
+		    fighter->SetWaypoint(target->m_longitude, target->m_latitude);
+        }
+	    else
+	    {
+		    fighter->SetWaypoint( longitude, latitude );
+            fighter->m_playerSetWaypoint = true;
+	    }
+        g_app->GetWorld()->AddWorldObject( fighter );
+        return true;
+    }
+    else
+    {
+        delete fighter;
+        return false;
+    }
+}
