@@ -1,0 +1,8 @@
+all: Makefile
+
+Makefile:
+	aclocal
+	automake
+	autoconf
+	libtoolize --copy --force
+	sh configure --prefix=`pwd`/../bin CC=apgcc CXX=apg++
